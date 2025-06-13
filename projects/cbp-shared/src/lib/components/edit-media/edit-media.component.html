@@ -1,0 +1,12 @@
+<div class="modal-content">
+  <lib-modal-popup  [title]="'Edit Media'" (closeEvent)="closeModal()"
+   [footerList]="[{type: 'Ok'}, {type:'Cancel'}]"
+   (submitButtons)="eventSubmit($event)">
+  <div class="modal-body"  style="padding: 0 !important;">
+    <div class="col-md-12 col-lg-12"  style="padding: 0 !important;">
+        <div id="tui-image-editor-container"></div>
+    </div>
+  </div>
+</lib-modal-popup>
+</div>
+

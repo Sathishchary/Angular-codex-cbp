@@ -1,0 +1,14 @@
+<table class="table">
+    <thead>
+        <tr *ngFor="let item of tableCols">
+            <th scope="col" [style.width.px]="item.width">{{item?.name}}</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let rowItem of tableRows" (click)="rowEventChecked(rowItem)">
+            <ng-container *ngFor="let item of rowItem">
+                <td scope="col">{{item?.data}}</td>
+            </ng-container>
+        </tr>
+    </tbody>
+</table>

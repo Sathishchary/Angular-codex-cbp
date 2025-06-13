@@ -1,0 +1,17 @@
+.role-set-boolean{
+    position: absolute;
+    right: 17px;
+    text-align: center;
+    top: 6px;
+    font-size: 12px;
+}
+.role-set-table{
+    position: absolute;
+    right: 0;
+    text-align: center;
+    top: 6px;
+    font-size: 12px;
+}
+.disableCheck{
+  accent-color: #ccc !important;
+}

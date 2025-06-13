@@ -1,0 +1,14 @@
+ <!-- Role Icon -->
+ <i class="fa fa-lock role-set-build" *ngIf="selectedElement?.Security?.Role?.length>0 || 
+    selectedElement?.Security?.Qualification?.length>0 || 
+    selectedElement?.Security?.QualificationGroup?.length>0"
+     [ngClass]="{'initalname': type == 'InitialName', 'initialsign': type == 'InitialSign', 
+     'signature-date': type == 'SignatureDate', 'signaturename': type == 'SignatureName', 
+     'signature-sign': type == 'SignatureSign', 'signature-initial': type == 'SignatureIntial',
+    'role-required': selectedElement?.required && !dataTypeItem.includes(selectedElement.dgType)}" aria-hidden="true"></i>
+ <!-- Role Icon -->
+ 
+ 
+ 
+ 
+ 

@@ -1,0 +1,90 @@
+<!-- Basic Tab -->
+<ng-container *ngIf="executionService.messageCondition(stepObject)">
+  <app-alert-view [isDetailTabEnabled]="isDetailTabEnabled" [stepObject]="stepObject" [obj]="obj"
+    [usageType]="usageType" (dataJsonEntryEvent)="dataEntryJsonEvent($event)" (closeEvent)="alertViewOutput($event)">
+  </app-alert-view>
+</ng-container>
+<ng-container *ngIf="stepObject.dgType === dgType.LabelDataEntry || stepObject.dgType === dgType.Para">
+  <app-para-label-view [stepObject]="stepObject" [obj]="obj"
+  [isCoverPage]="isCoverPage"
+  ></app-para-label-view>
+</ng-container>
+<ng-container *ngIf="stepObject?.dgType === dgType.FormulaDataEntry">
+  <app-formula-view [stepObject]="stepObject" [obj]="obj"></app-formula-view>
+</ng-container>
+
+<!-- Dataentry Tab -->
+<ng-container *ngIf="stepObject?.dgType === dgType.TextDataEntry">
+  <app-textbox-view [stepObject]="stepObject" [obj]="obj"
+    (pasteDataJson)="pasteDataJsonEvent()" (focusEvent)="focusEventCheck($event)"
+    (closeEvent)="checkValidation($event.event, $event.stepObj, $event.value)"
+    ></app-textbox-view>
+</ng-container>
+<ng-container *ngIf="stepObject?.dgType === dgType.TextAreaDataEntry">
+  <app-textarea-view [stepObject]="stepObject" [obj]="obj"
+    (closeEvent)="checkValidation($event.event, $event.stepObj, $event.value)"
+    (focusEvent)="focusEventCheck($event)"
+    (pasteDataJson)="pasteDataJsonEvent()"></app-textarea-view>
+</ng-container>
+<ng-container *ngIf="stepObject?.dgType === dgType.NumericDataEntry">
+  <app-numeric-view [stepObject]="stepObject" [obj]="obj" (focusEvent)="focusEventCheck($event)"
+    (closeEvent)="checkValidation($event.event, $event.stepObj, $event.value)"></app-numeric-view>
+</ng-container>
+<ng-container *ngIf="stepObject?.dgType === dgType.DateDataEntry">
+  <app-date-view [stepObject]="stepObject" [obj]="obj"
+    (closeEvent)="checkValidation($event.event, $event.stepObj, $event.value)"></app-date-view>
+</ng-container>
+<ng-container *ngIf="stepObject?.dgType === dgType.BooleanDataEntry">
+  <app-boolean-view [stepObject]="stepObject" [obj]="obj" [headerwidth]="headerwidth"
+    (closeEvent)="checkValidation($event.event, $event.stepObj, $event.value)"></app-boolean-view>
+</ng-container>
+<ng-container *ngIf="stepObject?.dgType === dgType.CheckboxDataEntry">
+  <app-checkbox-view [stepObject]="stepObject" [obj]="obj"
+    (closeEvent)="checkValidation($event.event, $event.stepObj, $event.value)"></app-checkbox-view>
+</ng-container>
+<ng-container *ngIf="stepObject.dgType === dgType.Form">
+  <app-table-view [stepObject]="stepObject" [obj]="obj"
+  (setEntryDataJson)="dataEntryJsonEvent($event)"
+  (isHeaderFooterTable)="tableHeaderEmit()" 
+  (dynamicFormRefEvent)="openReferenceInLinkTab($event)"
+  (closeEvent)="checkValidation($event.event, $event.stepObj, $event.value)">
+  </app-table-view>
+</ng-container>
+
+<!-- Reference Tab -->
+<ng-container *ngIf="stepObject.dgType === dgType.Figures && stepObject?.images?.length>0">
+  <app-media-view [stepObject]="stepObject" [obj]="obj" (setDataEntryJson)="dataEntryJsonEvent($event)"
+  (deleteSingleMedia)="deleteSingle($event)"
+  (deleteImageEvent)="deleteImage($event)"
+  (updateFiles)="updateFilesEvent($event)">
+  </app-media-view>
+</ng-container>
+<ng-container *ngIf="stepObject?.dgType === dgType.Link">
+  <app-link-view [stepObject]="stepObject" [obj]="obj" (closeEvent)="openReferenceInLinkTab($event)"></app-link-view>
+</ng-container>
+
+<!-- Verification Tab -->
+<ng-container *ngIf="stepObject?.dgType === dgType.VerificationDataEntry">
+  <app-verification-view [stepObject]="stepObject" [obj]="obj" (closeEvent)="openVerification($event)">
+  </app-verification-view>
+</ng-container>
+<ng-container *ngIf="stepObject?.dgType === dgType.SignatureDataEntry">
+  <app-signature-view (setDataEntryJson)="dataEntryJsonEvent($event)"
+  [stepObject]="stepObject" [obj]="obj"
+  (closeEvent)="checkValidation($event.event, $event.stepObj, $event.value)">
+  </app-signature-view>
+</ng-container>
+<ng-container *ngIf="stepObject?.dgType === dgType.InitialDataEntry">
+  <app-initial-sign-view (setDataEntryJson)="dataEntryJsonEvent($event)"
+  [stepObject]="stepObject" [obj]="obj"
+  (closeEvent)="checkValidation($event.event, $event.stepObj, $event.value)">
+  </app-initial-sign-view>
+</ng-container>
+<ng-container *ngIf="stepObject.coverType == true && !stepObject.dataType && !(stepObject.attributeType == 'Time Stamp' || stepObject.attributeType == 'Date')" >
+  <lib-attribute-view [stepObject]="stepObject"
+  (tableEvent)="selectCell()"></lib-attribute-view>
+</ng-container>
+<ng-container *ngIf="stepObject.coverType == true && stepObject.attributeType == 'Time Stamp' || stepObject.attributeType == 'Date'">
+  <app-date-view [stepObject]="stepObject" [obj]="obj"  
+  (closeEvent)="checkValidation($event.event, $event.stepObj, $event.value)"></app-date-view>
+</ng-container>

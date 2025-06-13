@@ -1,0 +1,128 @@
+<div class="row">
+  <div class="col-lg-8 col-md-8 pr-0 text-left" style="display: inline-flex;">
+      <button *ngIf="styleObject.name !== dgType.WaterMark" class=" {{btnclass}} ml-1"
+       type="button" [class.selected]="styleObject.fontWeight" (click)="clearColor();styleObject.fontWeight = !styleObject.fontWeight">
+        <i class="fa fa-bold font_size"></i>
+      </button>
+      <button *ngIf="styleObject.name !== dgType.WaterMark" class="{{btnclass}}"
+       type="button " [class.selected]="styleObject.italic" (click)="clearColor();styleObject.italic = !styleObject.italic"><i class="fa fa-italic font_size"></i>
+      </button>
+      <button *ngIf="styleObject.name !== dgType.WaterMark" class="{{btnclass}} tdc"
+       type="button " [class.selected]="styleObject.underline"
+      (click)="clearColor();styleObject.underline = !styleObject.underline; setTextFormat('underline')"><i class="fa fa-underline font_size"></i>
+      </button>
+      <button *ngIf="!(styleObject.name == dgType.WaterMark)" class="{{btnclass}} ml-1"
+      type="button" [class.selected]="styleObject.strikthrough"
+      (click)="clearColor();styleObject.strikthrough = !styleObject.strikthrough; setTextFormat('strike')">
+      <i class="fa fa-strikethrough font_size"></i>
+      </button>
+      <button *ngIf="!(styleObject.name == dgType.WaterMark)" class="{{btnclass}} ml-1"
+      type="button" [class.selected]="styleObject.leftalign" (click)="clearColor();setAlign(true, false, false)">
+      <i class="fa fa-align-left"></i>
+      </button>
+      <button *ngIf="!(styleObject.name == dgType.WaterMark)" class="{{btnclass}}"
+       type="button" [class.selected]="styleObject.justify" (click)="clearColor();setAlign(false, true, false)"><i class="fa fa-align-center"></i>
+      </button>
+      <button *ngIf="!(styleObject.name == dgType.WaterMark)" class="{{btnclass}} tdc"
+        type="button " [class.selected]="styleObject.rightalign" (click)="clearColor();setAlign(false, false, true)">
+       <i class="fa fa-align-right"></i>
+      </button>
+      <div class="dropdown">
+        <button class="{{btnclass}} ml-1 tdc" type="button" (click)="clearColor();changecolor();">
+          <i class="fa fa-font"></i>
+          <span class="colorline" [style.border-bottom]="'4px solid ' + styleObject.color"></span>
+        </button>
+        <div class="dropdown-content show" id="styleFontColor">
+          <div class="container">
+            <div  class="row">
+              <div class="col-md-12">
+                <label >Section Font Color</label>
+                <div class="Picker">
+                  <div class="Picker">
+                    <ng-container *ngFor="let item of colors;">
+                      <div class="sample drag-handle" [style.background-color]="item"
+                      (click)="insertColor(item, 'textColor', '')"></div>
+                    </ng-container>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <label>Custom Font Color</label>
+                <br>
+                <input  style="padding: 1px; width: 100%;" type="color" #bgInput
+                (change)="styleObject.color = bgInput.value;updateWaterColor()">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+       <div class="dropdown">
+      <button [hidden]="styleObject.name === dgType.WaterMark || styleObject.name === dgType.Header || styleObject.name === dgType.Footer"
+       class="{{btnclass}} ml-1 tdc"
+       type="button"  #ignoredInputButtonCheck (click)="clearColor();changebgcolor();">
+       <img src="assets/cbp/images/color-fill.svg" class="font-back-color">
+       <span class="colorline"  [style.border-bottom]="'4px solid ' + styleObject.backgroundColor"></span>
+      </button>
+      <div class="dropdown-content show" id="styleBackColor">
+        <div class="container">
+          <div  class="row">
+            <div class="col-md-12">
+              <label >Section Font Color</label>
+              <div class="Picker">
+                <div class="Picker">
+                  <ng-container *ngFor="let item of bgColors;">
+                    <div class="sample drag-handle" [style.background-color]="item"
+                    (click)="insertColor(item, 'backgroundColor', '')"></div>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <label>Custom Font Back Color</label>
+              <br>
+              <input  style="padding: 1px; width: 100%;" type="color"
+              [hidden]="styleObject.name === dgType.WaterMark || styleObject.name === dgType.Header ||
+              styleObject.name === dgType.Footer"
+              #bgColorInput
+              (change)="styleObject.backgroundColor = bgColorInput.value;updateWaterColor()">
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+  </div>
+  <div class="col-md-2 col-lg-2 pad-le pl-0 pr-0"
+  [ngClass]="{'col-sm-5': styleObject.name === 'WarningTitle' || styleObject.name === 'NoteTitle' ||
+  styleObject.name === 'CautionTitle' || styleObject.name === 'AlaraTitle', 'col-sm-6':!(styleObject.name === 'WarningTitle' || styleObject.name === 'NoteTitle' ||
+  styleObject.name === 'CautionTitle' || styleObject.name === 'AlaraTitle')}">
+     <select class="form-control font-names" [(ngModel)]="styleObject.fontName" name="fontName"
+     (ngModelChange)="optionsFontChange()">
+      <option [value]="item" *ngFor="let item of fontNames">{{item === 'TimeNewRoman'? 'Times New Roman' : item}}</option>
+    </select>
+  </div>
+  <div class="col-md-1  pad-ri pl-1 pr-0"
+  [ngClass]="{'col-sm-5': styleObject.name === 'WarningTitle' || styleObject.name === 'NoteTitle' ||
+  styleObject.name === 'CautionTitle' || styleObject.name === 'AlaraTitle', 'col-sm-6':!(styleObject.name === 'WarningTitle' || styleObject.name === 'NoteTitle' ||
+  styleObject.name === 'CautionTitle' || styleObject.name === 'AlaraTitle')}">
+      <select class="form-control" [(ngModel)]="styleObject.fontSize" name="fontSize"
+        (ngModelChange)="optionsFontSizeChange()">
+        <ng-container *ngFor="let value of fontsizes; let i = index ">
+          <option [value]="value" *ngIf="styleObject.name !== dgType.WaterMark ? i > 1 : i>-1"> {{value}}</option>
+        </ng-container>
+      </select>
+  </div>
+  <input hidden name="Select File" type="file" #fileupload  (change)="changeRequestFiles($event)"
+   accept=".jpeg,.gif,.png,.jpg,.pipeg,.tiff,.jfif,.zip" title=" " />
+   <div class="col-md-1 col-sm-2 pl-1 pt-1" *ngIf="styleObject.name === 'WarningTitle' || styleObject.name === 'NoteTitle' ||
+    styleObject.name === 'CautionTitle' || styleObject.name === 'AlaraTitle'">
+      <button class="btn btn-icon btn-outline-secondary btn-outline-secondary btn-sm buttns" title="Upload Note Image"
+      (click)="fileupload.click()">
+      <span class="btn-icon-wrap">
+       <img class="ib" *ngIf="styleObject.name === 'NoteTitle'" alt="img" [src]="cbpService.styleImageJson?.noteImage" width="34px" height= "30px">
+       <img class="ib" *ngIf="styleObject.name === 'WarningTitle'" alt="img" [src]="cbpService.styleImageJson?.warningImage" width="34px" height= "30px">
+       <img class="ib" *ngIf="styleObject.name === 'CautionTitle'" alt="img" [src]="cbpService.styleImageJson?.cautionImage" width="34px" height= "30px">
+       <img class="ib" *ngIf="styleObject.name === 'AlaraTitle'" alt="img" [src]="cbpService.styleImageJson?.alaraImage" width="34px" height= "30px">
+      </span>
+     </button>
+  </div>
+</div>

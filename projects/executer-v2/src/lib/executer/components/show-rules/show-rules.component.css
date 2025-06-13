@@ -1,0 +1,3 @@
+.table tbody th td.whiteSpace, .table tbody tr td.whiteSpace {
+    white-space: initial !important;
+}

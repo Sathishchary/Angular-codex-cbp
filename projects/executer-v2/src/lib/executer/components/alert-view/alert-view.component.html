@@ -1,0 +1,68 @@
+<div class="row mb-2 pl-0 pr-3">
+  <div class="col-md-12">
+    <div class="row pt-0">
+      <lib-track-ui [field]="stepObject"></lib-track-ui>
+      <div class="{{sharedviewService.col12}} notecss">
+        <div class="alert-view alertViewTopPadding" [style.justify-content]="textAlign" [style.margin-right.px]="textAlign=== 'right'? 25:0 ">
+            <img [src]="defaultImage" width="32px" alt=""
+            [ngClass]="{'left-img':!stepObject.dualStep, 'left-img-dual': stepObject.dualStep}">
+            <h4 class="text-transcss center" [class.margincs]="levelTitle?.marginTop"
+             [ngStyle]="levelStyleTitle" [innerHTML]="stepObject.title"
+             (click)="cbpService.handleSelection( $event, stepObject,  'disable' );$event.stopPropagation()"
+             ></h4>
+            <img [src]="defaultImage" width="32px" alt=""
+            [ngClass]="{'right-img':!stepObject.dualStep, 'right-img-dual': stepObject.dualStep}">
+          <div class="checkboxPositions" [class.disabled]="cbpService.isBackGroundDocument">
+            <ng-container *ngIf="!obj?.options?.notApplicable">
+              <ng-container *ngIf="stepObject.isChecked && isDetailTabEnabled">
+                {{ stepObject.createdDate | date: 'short'}} {{stepObject.createdBy}}
+              </ng-container>
+              <label *ngIf="!(stepObject.isChecked && isDetailTabEnabled) && !obj?.options?.notApplicable"
+              [class.disable]="stepObject.isChecked || obj?.stepRoleQualRequired || stepObject?.options?.skip"
+                class="fancy-checkbox plc form-group">
+                <input  name="checkbox"  type="checkbox"
+                  (change)="sendEventToFormview($event, stepObject, obj)"
+                  [checked]="stepObject?.isChecked || stepObject?.options?.complete || stepObject?.isTapped ==2"
+                  id="valueCheck3e{{stepObject.dgUniqueID}}"><span></span>
+              </label>
+            </ng-container>
+            <ng-container *ngIf="obj?.options?.notApplicable && !isDetailTabEnabled">N/A</ng-container>
+            <ng-container *ngIf="(obj?.options?.notApplicable && isDetailTabEnabled)">
+              {{ stepObject.createdDate | date: 'short'}} {{stepObject.createdBy}}
+            </ng-container>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-9">
+        </div>
+          <div class="pr-0 col-md-{{alignNo}} col-lg-{{alignNo}} col-{{alignNo}}">
+            <div class="{{sharedviewService.col12}} pt-3 pr-0 text-right zindex"></div>
+          </div>
+          <ng-container *ngIf="stepObject.dgType === dgType.Warning || stepObject.dgType === dgType.Caution">
+            <div class="{{sharedviewService.col12}} titleDatabreak" [ngStyle]="levelTitle"
+            id="stepAnoCause{{stepObject.dgUniqueID}}"
+             (click)="cbpService.handleSelection( $event, stepObject,  'cause' );$event.stopPropagation()"
+             [innerHTML]="stepObject?.cause | innerhtml">
+            </div>
+            <div class="{{sharedviewService.col12}} titleDatabreak" [ngStyle]="levelTitle"
+            id="stepAnoEffect{{stepObject.dgUniqueID}}"
+              (click)="cbpService.handleSelection( $event, stepObject,  'effect' );$event.stopPropagation()"
+              [innerHTML]="stepObject?.effect | innerhtml">
+            </div>
+          </ng-container>
+          <ng-container *ngIf="stepObject.dgType === dgType.Note || stepObject.dgType === dgType.Alara">
+            <div class="{{sharedviewService.col12}}" style="padding:2px;" [ngStyle]="levelTitle"
+            (click)="setHandle(stepObject.dgType, stepObject, $event); $event.stopPropagation()">
+              <ng-container *ngFor="let obj of notes">
+                <span class="breakline">
+                  <p id="stepAno{{stepObject.dgUniqueID}}" [ngStyle]="levelTitle" class="titleDatabreak" [innerHTML]="obj | innerhtml"></p>
+                </span>
+              </ng-container>
+            </div>
+          </ng-container>
+        </div>
+        <div class="{{sharedviewService.col2}}"></div>
+      </div>
+    </div>
+  </div>
+</div>

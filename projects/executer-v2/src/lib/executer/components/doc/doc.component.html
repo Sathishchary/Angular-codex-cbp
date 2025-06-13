@@ -1,0 +1,226 @@
+<div *ngIf="propertyDocument?.newCoverPageeEnabled" class="fixed_footer_builder mb-2 header-border pl-2 pr-2 pt-2 paddingLeftCu">
+    <div class="col-md-12">
+      <ng-container [ngTemplateOutlet]="viewTemp"
+        [ngTemplateOutletContext]="{ $implicit: propertyDocument['coverPageData'] }">
+      </ng-container>
+    </div>
+    <ng-template #viewTemp let-stepObject>
+      <div class="row pr-0 pl-0">
+        <div class="col-md-12">
+          <app-table-view  [stepObject]="stepObject" [isCoverPage]="true"
+          (closeEvent)="dataEntryJsonEvent($event)"
+          (setEntryDataJson)="dataEntryJsonEvent($event)"></app-table-view>
+       </div>
+      </div>
+    </ng-template>
+  </div>
+  <div *ngIf="!propertyDocument?.newCoverPageeEnabled" class="row doc-ui">
+    <section class="jumbotron" [ngxWatermark]="cbpJson.documentInfo[0]['waterMarkOptions']">
+  
+      <ng-container *ngIf="propertyDocument['templateId'] =='1'">
+        <div class="col-md-12 col-lg-12">
+            <!-- <app-exe-headerfooter [hide]="'footer'"></app-exe-headerfooter> -->
+            <img [src]="ImagePath.dgImg"  (dragstart)="false" alt="Cinque Terre" class="imgalign">
+            <!-- style="width: 250px;height: auto;margin-top: 15px;" -->
+            <h5 class="text-center" style="padding-top: 40px;">{{propertyDocument.type}} {{propertyDocument.subType}}</h5>
+            <h6 class="text-center pt-3">{{propertyDocument.title}}</h6>
+            <P class="text-center pt-3">{{propertyDocument.number}}</P>
+            <P class="text-center pt-3">{{propertyDocument.revision}}</P>
+            <P class="text-center pt-3">{{propertyDocument.objective}}</P>
+            <P class="text-center pt-3">Usage: {{propertyDocument.usage}}</P>
+            <p class="text-center pt-3">Unit(s):{{propertyDocument.units}}</p>
+        </div>
+        <div class="col-md-12 col-lg-12 px-0">
+            <div class="row text-center" style="padding-bottom: 75px;">
+                <div class="col-md-4 col-lg-4">
+                    <div class="col-md-12 col-lg-12">
+                        <label>Approver</label>
+                    </div>
+                    <div class="col-md-12 col-lg-12">
+                        <label>{{propertyDocument.approver}}</label>
+                    </div>
+  
+                </div>
+                <div class="col-md-4 col-lg-4">
+                    <div class="col-md-12 col-lg-12">
+                        <label>Reviewer</label>
+                    </div>
+                    <div class="col-md-12 col-lg-12">
+                        <label>{{propertyDocument.reviewer}}</label>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-4">
+                    <div class="col-md-12 col-lg-12">
+                        <label>Effective Date</label>
+                    </div>
+                    <div class="col-md-12 col-lg-12">
+                        <label>{{propertyDocument.effectiveDate}}</label>
+                    </div>
+                </div>
+            </div>
+            <!-- <app-exe-headerfooter [hide]="'header'" [isDocPage]="true"></app-exe-headerfooter> -->
+        </div>
+        </ng-container>
+  
+  
+       <!-- template id 2 -->
+       <ng-container *ngIf="propertyDocument['templateId'] =='2'">
+        <div class="center-bg">
+            <div class="row">
+                <div class="col-md-12 col-lg-12">
+                    <!-- <app-exe-headerfooter [hide]="'footer'" ></app-exe-headerfooter> -->
+                    <div class="image-center">
+                        <img class="logo-img-right" [src]="ImagePath.dgImg" alt="logo" />
+                    </div>
+                    <div class="text-cent">
+                        <h4 class="procedure-text-bg">{{propertyDocument.type}} {{propertyDocument.subType}}</h4>
+                        <p class="title-text-bg">{{propertyDocument.title}}</p>
+                        <p class="title-text-bg">{{propertyDocument.number}}</p>
+                        <p class="title-text-bg">{{propertyDocument.revision}}</p>
+                        <p class="title-text-bg">{{propertyDocument.objective}}</p>
+                        <p class="title-text-bg">Usage: {{propertyDocument.usage}}</p>
+                        <p class="title-text-bg">Unit(s):{{propertyDocument.units}}</p>
+                    </div>
+                    <div class="row row-footer-bg">
+                        <div class="col-md-3">
+                            <h4>Approver</h4>
+                            <p>{{propertyDocument.approver}}</p>
+                        </div>
+                        <div class="col-md-3">
+                            <h4>Reviewer</h4>
+                            <p>{{propertyDocument.reviewer}}</p>
+                        </div>
+                        <div class="col-md-3">
+                            <h4>Effective Date</h4>
+                            <p>{{propertyDocument.effectiveDate}}</p>
+                        </div>
+                    </div>
+                    <!-- <app-exe-headerfooter [hide]="'header'" [isDocPage]="true"></app-exe-headerfooter> -->
+                </div>
+            </div>
+        </div>
+        </ng-container>
+  
+  
+       <!-- template id 3 -->
+       <ng-container  *ngIf="propertyDocument['templateId'] =='3'">
+        <div class="center-bg-th">
+            <div class="row">
+                <div class="col-md-12 col-lg-12">
+                    <!-- <app-exe-headerfooter [hide]="'footer'"></app-exe-headerfooter> -->
+                    <div class="image-left">
+                        <img class="logo-img-left" [src]="ImagePath.dgImg"alt="logo" />
+                    </div>
+                    <div class="row align-item ml-0 mr-0">
+                        <div class="col-md-8">
+                            <div class="text-cent">
+                                <h4 class="procedure-text-bg-th">{{propertyDocument.type}} {{propertyDocument.subType}}</h4>
+                                <div class="span-border"></div>
+                                <p class="title-text-bg-th">{{propertyDocument.title}}</p>
+                                <div class="span-border"></div>
+                                <p class="title-text-bg-th">{{propertyDocument.number}}</p>
+                                <div class="span-border"></div>
+                                <p class="title-text-bg-th">{{propertyDocument.revision}}</p>
+                                <div class="span-border"></div>
+                                <p class="title-text-bg-th">{{propertyDocument.objective}}</p>
+                                <div class="span-border"></div>
+                                <p class="title-text-bg-th">{{propertyDocument.usage}}</p>
+                                <div class="span-border"></div>
+                                <p class="title-text-bg-th">{{propertyDocument.units}}</p>
+                                <div class="span-border"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="row row-footer-bg">
+                                <div class="col-md-12">
+                                    <h4>Approver</h4>
+                                    <p>{{propertyDocument.approver}}</p>
+                                    <div class="span-border"></div>
+                                </div>
+                                <div class="col-md-12">
+                                    <h4>Reviewer</h4>
+                                    <p>{{propertyDocument.reviewer}}</p>
+                                    <div class="span-border"></div>
+                                </div>
+                                <div class="col-md-12">
+                                    <h4>Effective Date</h4>
+                                    <p>{{propertyDocument.effectiveDate}}</p>
+                                    <div class="span-border"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+  
+  
+                    <div class="row ">
+  
+                    </div>
+                    <!-- <app-exe-headerfooter [hide]="'header'" [isDocPage]="true"></app-exe-headerfooter> -->
+                </div>
+            </div>
+        </div>
+    </ng-container>
+  
+       <!-- template id 4 -->
+  
+       <ng-container *ngIf="propertyDocument['templateId'] =='4'">
+        <div class="center-bg-fr">
+            <div class="row">
+                <div class="col-md-12 col-lg-12">
+                    <!-- <app-exe-headerfooter [hide]="'footer'"></app-exe-headerfooter> -->
+                    <div class="image-right">
+                        <img class="logo-img-right" [src]="ImagePath.dgImg"  alt="logo" />
+                    </div>
+                    <div class="row align-item">
+                        <div class="col-md-12">
+                            <div class="text-cent">
+  
+                                <h4 class="procedure-text-bg-fr">{{propertyDocument.type}} {{propertyDocument.subType}}</h4>
+                                <div class="span-border"></div>
+                                <p class="title-text-bg-fr">{{propertyDocument.title}}</p>
+                                <div class="span-border"></div>
+                                <p class="title-text-bg-fr">{{propertyDocument.number}}</p>
+                                <div class="span-border"></div>
+                                <p class="title-text-bg-fr">{{propertyDocument.revision}}</p>
+                                <div class="span-border"></div>
+                                <p class="title-text-bg-fr">{{propertyDocument.objective}}</p>
+                                <div class="span-border"></div>
+                                <p class="title-text-bg-fr">{{propertyDocument.usage}}</p>
+                                <div class="span-border"></div>
+                                <p class="title-text-bg-fr">{{propertyDocument.units}}</p>
+                                <div class="span-border"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row row-footer-bg-fr">
+                                <div class="col-md-3">
+                                    <h4>Approver</h4>
+                                    <p>{{propertyDocument.approver}}</p>
+                                    <div class="span-border-fr"></div>
+                                </div>
+                                <div class="col-md-3">
+                                    <h4>Reviewer</h4>
+                                    <p>{{propertyDocument.reviewer}}</p>
+                                    <div class="span-border-fr"></div>
+                                </div>
+                                <div class="col-md-3">
+                                    <h4>Effective Date</h4>
+                                    <p>{{propertyDocument.effectiveDate}}</p>
+                                    <div class="span-border-fr"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+  
+  
+                    <div class="row ">
+  
+                    </div>
+                    <!-- <app-exe-headerfooter [hide]="'header'" [isDocPage]="true"></app-exe-headerfooter> -->
+                </div>
+            </div>
+        </div>
+    </ng-container>
+  
+     </section>
+   </div>

@@ -1,0 +1,33 @@
+ <div class="modal" id="colorUpdate" tabindex="-1" role="dialog " data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-md size" role="document">
+    <div class="modal-content">
+      <lib-modal-popup [title]="title" (closeEvent)="cancel()"
+      [footerList]="[{type:'Ok'}, {type:'Cancel'}]"
+       (submitButtons)="$event.type === 'Ok' && update(setColor); $event.type === 'Cancel' && cancel();">
+        <div class="modal-body">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12">
+                <label>Section Font Color</label>
+                 <div class="Picker">
+                   <div class="sample" [class.selected]="setColor === '#000000'"  (click)="setColor= '#000000'" sample-id="0" draggable="true" style="background-color:#000000;"></div>
+                   <div class="sample" [class.selected]="setColor === '#00FF00'" (click)="setColor= '#00FF00'" sample-id="1" draggable="true" style="background-color:#00FF00;"></div>
+                   <div class="sample" [class.selected]="setColor === '#ff0000'" (click)="setColor= '#ff0000'" sample-id="2" draggable="true" style="background-color:#ff0000;"></div>
+                   <div class="sample" [class.selected]="setColor === '#0000ff'" (click)="setColor= '#0000ff'" sample-id="3" draggable="true" style="background-color:#0000ff;"></div>
+                  </div>
+              </div>
+              <div class="col-md-12">
+                <label>Custom Font Color</label><br>
+                 <input class="form-control" style="padding: 1px; width:32%"
+                 [class.selected]="setColor !== '#000000' && setColor !== '#00FF00' && setColor !== '#ff0000' &&
+                 setColor !== '#0000ff'"
+                 [(colorPicker)]="defaultColor" (colorPickerChange)="setColor= $event; setCustom($event)"
+                 [style.background]="defaultColor"/>
+              </div>
+           </div>
+        </div>
+       </div>
+       </lib-modal-popup>
+     </div>
+  </div>
+  </div>

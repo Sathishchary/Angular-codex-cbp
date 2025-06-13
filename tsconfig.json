@@ -1,0 +1,65 @@
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+  
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "forceConsistentCasingInFileNames": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "paths": {
+      "builder": [
+        "dist/builder/builder",
+        "dist/builder"       
+      ],
+      "cbp-shared": [
+        "dist/cbp-shared/cbp-shared",
+        "dist/cbp-shared"
+      ],
+      "components": [
+        "dist/components/components",
+        "dist/components"
+      ],
+      "dg-shared": [
+        "dist/dg-shared/dg-shared",
+        "dist/dg-shared"
+      ],
+      "ework": [
+        "dist/ework/ework",
+        "dist/ework"
+      ],
+      "executer-v2": [
+        "dist/executer-v2/executer-v2",
+        "dist/executer-v2"
+      ],
+      "validation-routien": [
+        "dist/validation-routien/validation-routien",
+        "dist/validation-routien"
+      ]
+    },
+    "strict": true,
+    "noImplicitReturns": false,
+    "noFallthroughCasesInSwitch": true,
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "importHelpers": true,
+    "target": "es5",
+    "module": "es2020",
+    "lib": [
+      "es2018",
+      "dom"
+    ]
+  },
+  "angularCompilerOptions": {
+    "enableIvy": true,
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true,
+  }
+}

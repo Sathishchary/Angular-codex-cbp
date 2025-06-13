@@ -1,0 +1,1437 @@
+<notifier-container></notifier-container>
+<ngx-loading [show]="cbpService.loading" [config]="{ backdropBorderRadius: '3px', fullScreenBackdrop:true}">
+</ngx-loading>
+<div class="col-lg-12 col-md-12 pl-0 pr-0">
+    <div class="mail-right pt-0 px-0">
+        <div class="mail-action clearfix">
+            <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12 px-0 cbpmb">
+                <div class="button-list" 
+                 [ngClass]="{'fixed-btn-list' : stickyUiCss}">
+                    <div class="col-md-12 col-xs-12 col-lg-12 col-sm-12">
+                        <input *ngIf="cbpService.isBackGroundDocument" [hidden]="true" id="fileUploadMediaBg" type="file" [accept]="sharedService.singleMediaAccept"
+                        (click)="onInputBGClick($event)"
+                        (change)="backgroundSingleMedia($event)">
+                        <div class="row" *ngIf="editorType?.viewMode">
+                            <div class="col-md-4 col-lg-4"><!-- [class.disableReadOnly]="!editorType.editorMode"-->
+                                <div class="btn-group">
+                                    <ng-container *ngTemplateOutlet="documentViewTemplate"></ng-container>
+                                   </div>
+                                <div class="btn-group" >
+                                    <ng-container *ngTemplateOutlet="docTemplate"></ng-container>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-lg-8 text-right">
+                                <ng-container *ngTemplateOutlet="previewTemplate"></ng-container>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="!editorType?.viewMode && editorType?.editorMode">
+                            <div class="col-md-5 col-lg-4 px-0 pl-1 col-5 documentcss"
+                            [ngClass]="{'col-5 col-sm-4': cbpService.selectedElement?.dgType === DgTypes.Table,
+                            'col-5 col-sm-5': cbpService.selectedElement?.dgType !== DgTypes.Table}">
+                            <ng-container *ngTemplateOutlet="documentViewTemplate"></ng-container>
+                                <div  *ngIf="cbpService.selectedElement?.dgType !== DgTypes.Table
+                                && !cbpService.selectedElement?.isTableDataEntry" class="btn-group" [class.disabled]="cbpService.isSearchTemplate">
+                                    <div class="dropdown">
+                                        <button class="dropbtn mr-2 dpf" title="Edit" [disabled]="cbpService.selectedUniqueId ===0" 
+                                        [hidden]="cbpService.isBackGroundDocument">
+                                            <ng-container  *ngIf="windowWidth <650">E</ng-container><ng-container *ngIf="windowWidth >650"> Edit</ng-container>
+                                             <span class="fa fa-caret-down mg-l"></span>
+                                        </button>
+                                        <div class="dropdown-content top29">
+                                            <a  [ngClass]="[controlService.dropdownClass]" (click)="cbpService.copyElement()" [class.disabled]="(cbpService.selectedElement?.isEmbededObject && cbpService.selectedElement?.property?.type == 'Dynamic') || cbpService.selectedElement?.dataType=== DgTypes.Attachment">Copy</a>
+                                            <a  [ngClass]="[controlService.dropdownClass]" (click)="cbpService.cutElement()" [class.disabled]="(cbpService.selectedElement?.isEmbededObject && cbpService.selectedElement?.property?.type == 'Dynamic') || cbpService.selectedElement?.dataType=== DgTypes.Attachment">Cut</a>
+                                            <a  [ngClass]="[controlService.dropdownClass]" (click)="editorView.pasteElement()" [class.disabled]="!cbpService.elementForCopyOrCut || (cbpService.selectedElement?.isEmbededObject && cbpService.selectedElement?.property?.type == 'Dynamic')">Paste</a>
+                                            <a  [ngClass]="[controlService.dropdownClass]" (click)="findMethod()" >Find-Replace</a>
+                                            <a  [ngClass]="[controlService.dropdownClass]" (click)="deleteElement()" [class.disabled]="deleteFirstElement || (cbpService.selectedElement?.isEmbededObject && cbpService.selectedElement?.property?.type == 'Dynamic')">Delete</a>
+                                            <a  [ngClass]="[controlService.dropdownClass]" (click)="cbpService.isStylesOpen = true">Style</a>
+                                            <a  [ngClass]="[controlService.dropdownClass]" (click)="cbpService.islayoutOpen = true">Layout</a>
+                                            <!-- <a  [ngClass]="[controlService.dropdownClass]" (click)="validateCBP()">validateCBP</a> -->
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="btn-group" *ngIf="windowWidth >400">
+                                    <ng-container *ngTemplateOutlet="docTemplate"></ng-container>
+                                </div>
+                                <ng-container *ngIf="cbpService.selectedElement?.dgType !== DgTypes.Table
+                                && !cbpService.selectedElement?.isTableDataEntry">
+                                    <div class="btn-group" [hidden]="cbpService.isSearchTemplate || cbpService.isBackGroundDocument">
+                                        <div class="dropdown"
+                                        [class.disabled]="cbpService.selectedUniqueId == 0 || (cbpService.selectedElement?.isEmbededObject && cbpService.selectedElement?.property?.type == 'Dynamic') || cbpService.selectedElement?.type==='embedded'"
+                                            *ngIf="cbpService.selectedElement">
+                                            <button class="dropbtn mr-2 dpf" [disabled]="cbpService.selectedUniqueId === 0">
+                                                <ng-container  *ngIf="windowWidth <650">A</ng-container><ng-container *ngIf="windowWidth >650"> Add</ng-container>
+                                                <span class="fa fa-caret-down mg-l"></span>
+                                            </button>
+                                            <div class="dropdown-content top29" [class.dataentry-height]="showDataEntry && selectedCurrentElement?.dgType !== DgTypes.Section">
+                                                <ng-container *ngFor="let item of controlService.basicEntries">
+                                                    <a *ngIf="item?.showDropDown" [ngClass]="[controlService.dropdownClass]" (click)="selectEntries(item, 'dropDown')"
+                                                        [class.disabled]="
+                                                        (item.name === 'Section'&& (cbpService.selectedElement?.dataType=== DgTypes.Attachment ||
+                                                         cbpService.selectedElement?.dgType=== DgTypes.Timed ||
+                                                        cbpService.selectedElement?.dgType=== DgTypes.Repeat || cbpService.selectedElement?.dgType=== DgTypes.StepInfo ||
+                                                        cbpService.selectedElement?.dgType=== DgTypes.DelayStep)) ||
+                                                        (item.name === 'Sub Section' &&  (!(cbpService.selectedElement?.dgType=== DgTypes.Section) || cbpService.selectedElement?.dgType === DgTypes.StepAction)) ||
+                                                        (item.name === 'Step Action' && (!(cbpService.selectedElement?.dgType=== DgTypes.Section ||
+                                                        cbpService.selectedElement?.dgType=== DgTypes.StepAction || cbpService.selectedElement?.dgType=== DgTypes.Timed
+                                                        || cbpService.selectedElement?.dgType=== DgTypes.Repeat) || cbpService.selectedElement?.dgType=== DgTypes.StepInfo)) ||
+                                                        (item.name === 'StepInfo' &&
+                                                        (!(cbpService.selectedElement?.dgType=== DgTypes.Section || cbpService.selectedElement?.dgType=== DgTypes.StepAction ||
+                                                        cbpService.selectedElement?.dgType=== DgTypes.Timed || cbpService.selectedElement?.dgType=== DgTypes.Repeat) ||
+                                                        cbpService.selectedElement?.dgType=== DgTypes.StepInfo)) ||
+                                                        (item.name === 'Dual Step' && (
+                                                        cbpService.selectedElement?.firstDualStep || cbpService.selectedElement?.leftdualchild ||
+                                                        cbpService.selectedElement?.rightdualchild ||
+                                                        selectedCurrentElement?.firstDualStep || selectedCurrentElement?.leftdualchild ||
+                                                        selectedCurrentElement?.rightdualchild ||
+                                                         cbpService.selectedElement?.dgType === DgTypes.StepInfo ||
+                                                         selectedCurrentElement?.dgType === DgTypes.StepInfo ||
+                                                          selectedCurrentElement?.dgType === DgTypes.DelayStep || cbpService.selectedElement?.dgType === DgTypes.DelayStep))">
+                                                        {{item.name}}
+                                                    </a>
+                                                </ng-container>
+                                                <ng-container *ngFor="let item of controlService.basicDataEntries">
+                                                    <a *ngIf="item.name !== 'Formula'" [ngClass]="[controlService.dropdownClass]"  (click)="addElement(item.type)"
+                                                    [class.disabled]="(item.name === 'Warning'&& (
+                                                     selectedCurrentElement?.dgType === DgTypes.StepInfo || selectedCurrentElement?.dgType=== DgTypes.DelayStep)) ||
+                                                    (item.name === 'Caution'&& (selectedCurrentElement?.dgType=== DgTypes.StepInfo || selectedCurrentElement?.dgType=== DgTypes.DelayStep)) ||
+                                                    (item.name === 'Note'&& (selectedCurrentElement?.dgType=== DgTypes.StepInfo || selectedCurrentElement?.dgType=== DgTypes.DelayStep)) ||
+                                                    (item.name === 'Alara'&& (selectedCurrentElement?.dgType=== DgTypes.StepInfo || selectedCurrentElement?.dgType=== DgTypes.DelayStep))">{{item.name}}</a>
+                                                </ng-container>
+                                                <a  [ngClass]="[controlService.dropdownClass]" class="dis-fl"  [ngClass]="[controlService.dropdownClass]"
+                                                [class.disabled]="selectedCurrentElement?.dgType === DgTypes.DelayStep"
+                                                (click)="showDataEntry = !showDataEntry">Data Entry <span
+                                                        class="fa fa-caret-down ml-2"></span></a>
+                                                <div [@fadeInOut] *ngIf="showDataEntry">
+                                                    <div class="card card-body">
+                                                        <ul class="dataentrydrop">
+                                                            <ng-container *ngFor="let item of controlService.dataEntries; let i=index">
+                                                                <li *ngIf="(i==7 && (cbpService.selectedElement?.dgType === DgTypes.Section ||
+                                                                selectedCurrentElement?.dgType === DgTypes.Section)) ||
+                                                                (selectedCurrentElement?.dgType !== DgTypes.Section)">
+                                                                    <a (click)="onChangeDataEntry(item.type)"
+                                                                    [class.disabled]=" cbpService.selectedUniqueId == 0 || (cbpService.selectedElement?.isEmbededObject && cbpService.selectedElement?.property?.type == 'Dynamic') ||
+                                                                    (item.name !== 'Table'&& (cbpService.selectedElement?.dgType=== DgTypes.StepInfo ||
+                                                                     cbpService.selectedElement?.dgType=== DgTypes.DelayStep || selectedCurrentElement?.dgType === DgTypes.Header|| selectedCurrentElement?.dgType === DgTypes.Footer))"                                                                  
+                                                                    class="dataentry" [ngClass]="[controlService.dropdownClass]"  [hidden]="(item.name !== 'Table'&& ((selectedCurrentElement?.dgType=== DgTypes.StepInfo ) || (selectedCurrentElement?.dgType === DgTypes.Header ) || (selectedCurrentElement?.dgType === DgTypes.Footer ) ||
+                                                                    (selectedCurrentElement?.dgType === DgTypes.Footer )|| 
+                                                                   (selectedCurrentElement?.dgType === DgTypes.Caution )||
+                                                                   (selectedCurrentElement?.dgType === DgTypes.Alara) ||
+                                                                   (selectedCurrentElement?.dgType === DgTypes.Note) ||
+                                                                   (selectedCurrentElement?.dgType === DgTypes.Warning) ||
+                                                                   (cbpService.selectedElement?.dgType === DgTypes.Caution )||
+                                                                   (cbpService.selectedElement?.dgType === DgTypes.Alara) ||
+                                                                   (cbpService.selectedElement?.dgType === DgTypes.Note) ||
+                                                                   (cbpService.selectedElement?.dgType === DgTypes.Warning) ||
+                                                                   (cbpService.selectedElement?.dgType === DgTypes.Para && !isParentStepDAT) ||
+                                                                   (cbpService.selectedElement?.dgType === DgTypes.LabelDataEntry && !isParentStepDAT) || 
+                                                                   (cbpService.selectedElement?.dgType === DgTypes.FormulaDataEntry && !isParentStepDAT) ||
+                                                                   (cbpService.selectedElement?.dgType === DgTypes.Para) ||
+                                                                    (cbpService.selectedElement?.dgType === DgTypes.LabelDataEntry) || 
+                                                                   (cbpService.selectedElement?.dgType === DgTypes.FormulaDataEntry) ||
+                                                                   (selectedCurrentElement?.dgType === DgTypes.Para) ||
+                                                                   (selectedCurrentElement?.dgType === DgTypes.LabelDataEntry) || 
+                                                                   (selectedCurrentElement?.dgType === DgTypes.FormulaDataEntry))) || (selectedCurrentElement?.dgType === DgTypes.DelayStep)">{{item.name}} </a>
+                                                                </li>
+                                                            </ng-container>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <ng-container *ngFor="let item of controlService.treeNavigationEntries">
+                                                    <a [ngClass]="[controlService.dropdownClass]" [class.disabled]="(item.name === 'Header' &&(cbpService.selectedElement?.dgType=== DgTypes.StepInfo || cbpService.selectedElement?.dgType=== DgTypes.DelayStep))
+                                                    || (item.name === 'Footer' &&(cbpService.selectedElement?.dgType=== DgTypes.StepInfo || cbpService.selectedElement?.dgType=== DgTypes.DelayStep))
+                                                    || (item.name === 'WaterMark' &&(cbpService.selectedElement?.dgType=== DgTypes.StepInfo || cbpService.selectedElement?.dgType=== DgTypes.DelayStep))" (click)="changeHeaders(item.type)">{{item.name}}
+                                                    <span *ngIf="item.name === 'Header' && cbpService.cbpJson.documentInfo[0]['header']['isHeaderEnabled']" class="check-mark"><i class="fa fa-check" aria-hidden="true"></i></span>
+                                                    <span *ngIf="item.name === 'Footer' && cbpService.cbpJson.documentInfo[0]['footer']['isFooterEnabled']" class="check-mark"><i class="fa fa-check" aria-hidden="true"></i></span>
+                                                    <span *ngIf="item.name === 'WaterMark' && cbpService.cbpJson.documentInfo[0]['waterMarkOptions']['isWaterMarkEnabled']" class="check-mark"><i class="fa fa-check" aria-hidden="true"></i></span>
+                                                </a>
+                                                </ng-container>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="btn-group"  [hidden]="windowWidth<1350 || cbpService.isSearchTemplate ||cbpService.selectedElement?.number < '1.1'|| cbpService.isBackGroundDocument">
+                                        <div class="dropdown"
+                                        [class.disabled]="cbpService.selectedUniqueId == 0 || (cbpService.selectedElement?.isEmbededObject && cbpService.selectedElement?.property?.type == 'Dynamic') || cbpService.selectedElement?.type==='embedded'"
+                                            *ngIf="cbpService.selectedElement &&
+                                            (cbpService.selectedElement?.dgType !== DgTypes.StepInfo &&
+                                            cbpService.selectedElement?.dgType !== DgTypes.Caution &&
+                                            cbpService.selectedElement?.dgType !== DgTypes.Alara &&
+                                            cbpService.selectedElement?.dgType !== DgTypes.Note &&
+                                            cbpService.selectedElement?.dgType !== DgTypes.Warning &&
+                                            cbpService.selectedElement?.dgType !== DgTypes.Para &&
+                                            cbpService.selectedElement?.dgType !== DgTypes.FormulaDataEntry &&
+                                            cbpService.selectedElement?.dgType !== DgTypes.LabelDataEntry &&
+                                            cbpService.selectedElement?.dgType !== DgTypes.Form)">
+                                            <button class="dropbtn mr-2 dpf">Rule <span class="fa fa-caret-down mg-l"></span></button>
+                                            <div [ngSwitch]="cbpService.selectedElement?.dgType">
+                                                <div class="dropdown-content" *ngSwitchDefault>
+                                                    <ng-container *ngFor="let item of controlService.rules">
+                                                      <a [ngClass]="[controlService.dropdownClass]"
+                                                      [hidden]="(item.name === 'Alarm' &&
+                                                      (cbpService.selectedElement?.dgType !== DgTypes.TextDataEntry &&
+                                                      cbpService.selectedElement?.dgType !== DgTypes.TextAreaDataEntry  &&
+                                                      cbpService.selectedElement?.dgType !== DgTypes.DateDataEntry &&
+                                                      cbpService.selectedElement?.dgType !== DgTypes.CheckboxDataEntry &&
+                                                      cbpService.selectedElement?.dgType !== DgTypes.DropDownDataEntry &&
+                                                      cbpService.selectedElement?.dgType !== DgTypes.NumericDataEntry &&
+                                                      cbpService.selectedElement?.dgType !== DgTypes.BooleanDataEntry)) ||
+
+                                                      ((item.name === 'Applicability' || item.name === 'Conditional') &&
+                                                      (cbpService.selectedElement?.dgType == DgTypes.TextDataEntry ||
+                                                      cbpService.selectedElement?.dgType == DgTypes.TextAreaDataEntry ||
+                                                      cbpService.selectedElement?.dgType == DgTypes.DateDataEntry ||
+                                                      cbpService.selectedElement?.dgType == DgTypes.CheckboxDataEntry ||
+                                                      cbpService.selectedElement?.dgType == DgTypes.DropDownDataEntry ||
+                                                      cbpService.selectedElement?.dgType == DgTypes.NumericDataEntry ||
+                                                      cbpService.selectedElement?.dgType == DgTypes.BooleanDataEntry))"
+                                                      (click)="cbpService[item.type] = true">{{item.name}}</a>
+                                                    </ng-container>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                                <div class="btn-group">
+                                    <span class="custom-control custom-switch">
+                                        <input type="checkbox" [(ngModel)]="isAutoSaveEnable"
+                                        (ngModelChange)="changeIsAutoSaveEnable($event)" class="custom-control-input"
+                                        id="isAutoSaveEnable">
+                                        <label class="custom-control-label pt-1" for="isAutoSaveEnable" >{{isAutoSaveMessage.msg}}</label>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-7 col-lg-8 displayAlignmnts col-7 ZindexForIcons text-right px-0 ruledrop;"
+                            [ngClass]="{'col-7 col-sm-8': cbpService.selectedElement?.dgType === DgTypes.Table,
+                            'col-7 col-sm-7': cbpService.selectedElement?.dgType !== DgTypes.Table}">
+                            
+                          <ng-container *ngIf="!cbpService.isBackGroundDocument && !cbpService.documentSelected">
+                            <button class="dropbtn buttns stickybutton" title="Open Background"
+                            *ngIf="editorType?.showBackgroundIcon"
+                            [ngClass]="{'mr-2': windowWidth> 650, 'mr-1':  windowWidth< 650}"
+                            (click)="openBgDoc()">
+                                <img [src]="ImagePath.background" width="34px" class="imageblue" alt="img">
+                            <!-- <i class="fa fa-sticky-note-o"></i> -->
+                            </button>
+                          </ng-container>
+
+                            <ng-container *ngIf="!editorType?.viewMode && editorType?.editorMode &&
+                             cbpService.isBackGroundDocument">
+                                 <ng-container *ngTemplateOutlet="coverPageStyles"></ng-container>
+                                 <app-table-toolbar *ngIf="cbpService.selectedElement?.dgType == DgTypes.Table"
+                                 [class.disabled]="!cbpService.editCoverPage && cbpService.documentSelected"
+                                 class="table-toolheight"></app-table-toolbar>
+                               
+                               <button class="ToolbarBtn" [ngClass]="[controlService.navigationCss]">
+                                    <span class="btn-icon-wrap mr-1 pointer BgOverflowControl" [title]="'Add Para'" (click)="addStepActionElement(DgTypes.Para,'')">
+                                        <img [src]="ImagePath.topIconPara" width="34px" class="imageblue" alt="img">
+                                    </span>
+                                </button>
+                                <button  class="ToolbarBtn" *ngIf="cbpService.isBackGroundDocument" [ngClass]="[controlService.navigationCss]" (click)="deleteElement()"
+                                [disabled]="(cbpService.selectedElement?.dgType !== DgTypes.Para && 
+                                    cbpService.selectedElement?.dgType !== DgTypes.LabelDataEntry && 
+                                    cbpService.selectedElement?.dgType !== DgTypes.Table &&
+                                    cbpService.selectedElement?.dgType !== DgTypes.Figures && 
+                                    cbpService.selectedElement?.dgType !== DgTypes.SingleFigure &&
+                                    cbpService.selectedElement?.dgType !== DgTypes.Figure )">
+                                    <span class="btn-icon-wrap" title="Delete">
+                                        <img [src]="ImagePath.topDelete" width="34px" class="imageDanger" alt="img">
+                                    </span>
+                                </button>
+                                <button  class="ToolbarBtn" *ngIf="!cbpService.isBackGroundDocument" [ngClass]="[controlService.navigationCss]" (click)="deleteElement()"
+                                [disabled]="(cbpService.selectedElement?.dgType !== DgTypes.Para && 
+                                    cbpService.selectedElement?.dgType !== DgTypes.LabelDataEntry && 
+                                    cbpService.selectedElement?.dgType !== DgTypes.Table &&
+                                    cbpService.selectedElement?.dgType !== DgTypes.Figures && 
+                                    cbpService.selectedElement?.dgType !== DgTypes.SingleFigure &&
+                                    cbpService.selectedElement?.dgType !== DgTypes.Figure )">
+                                    <span class="btn-icon-wrap" title="Delete">
+                                        <img [src]="ImagePath.topDelete" width="34px" class="imageDanger" alt="img">
+                                    </span>
+                                </button>
+                                 <ng-container *ngTemplateOutlet="previewTemplate"></ng-container>
+                             </ng-container>
+
+                            <ng-container *ngIf="!cbpService.isBackGroundDocument && (cbpService.selectedElement?.dgType === DgTypes.Table || cbpService.selectedElement?.isTableDataEntry)">
+                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pr-2">
+                                <div class="d-flex justify-content-end">
+                                    <button class="dropbtn buttns stickybutton" title="Open Background"
+                                    *ngIf="editorType?.showBackgroundIcon"
+                                    [ngClass]="{'mr-2': windowWidth> 650, 'mr-1':  windowWidth< 650}"
+                                    (click)="openBgDoc()">
+                                        <img [src]="ImagePath.background" width="34px" class="imageblue" alt="img">
+                                    <!-- <i class="fa fa-sticky-note-o"></i> -->
+                                    </button>
+                                 
+                                  <ng-container *ngIf="cbpService.tableDataEntrySelected">
+                                    <ng-container *ngTemplateOutlet="coverPageStyles"></ng-container>
+                                  </ng-container>
+
+                                    <div *ngIf="cbpService.selectedElement?.dgType == DgTypes.Table">
+                                        <div class="dropdown">
+                                          <ng-container *ngTemplateOutlet="coverPageIcon"></ng-container>
+                                      </div>
+                                    </div>
+                                    <app-table-toolbar [class.disabled]="!cbpService.editCoverPage && cbpService.documentSelected"
+                                     class="table-toolheight"></app-table-toolbar>
+                                    <ng-container *ngTemplateOutlet="mediaTemplate"></ng-container>
+                                    <ng-container *ngIf="windowWidth < 1350">
+                                        <div *ngIf="cbpService.selectedElement" (click)="validateSearchAlert()" [class.disabled]="((cbpService.selectedElement?.isEmbededObject && cbpService.selectedElement?.property?.type == 'Dynamic') || cbpService.selectedElement?.type==='embedded')">
+                                        <ng-container *ngTemplateOutlet="previewTemplate"></ng-container>
+                                        </div>
+                                    </ng-container>
+                                    <ng-container *ngIf="(windowWidth > 1350)">
+                                        <ng-container *ngTemplateOutlet="saveTemplate"></ng-container>
+
+                                    </ng-container>
+                                    <ng-container *ngIf="windowWidth < 1350">
+                                        <div *ngIf="cbpService.selectedElement" class="dropdown" (click)="validateSearchAlert()" [class.disabled]="(cbpService.selectedUniqueId == 0 || (cbpService.selectedElement?.isEmbededObject && cbpService.selectedElement?.property?.type == 'Dynamic') || cbpService.selectedElement?.type==='embedded'|| (!cbpService.editCoverPage && cbpService.documentSelected))">
+                                            <button class="dropbtn buttns" [ngClass]="{'mr-2':windowWidth > 650, 'mr-1' :windowWidth < 650 }">
+                                                <img [src]="ImagePath.topDelete" width="34px" class="imageDanger" alt="img">
+                                           </button>
+                                            <ng-container [ngTemplateOutlet]="TemplateDropdown" [ngTemplateOutletContext]="{$implicit: 'undoDeleteTemplate'}"> </ng-container>
+                                        </div>
+                                    </ng-container>
+                                    <ng-container *ngIf="(windowWidth > 1350)">
+                                        <ng-container [ngTemplateOutlet]="undoDeleteTemplate"  [ngTemplateOutletContext]="{ $implicit: false }"></ng-container>
+                                    </ng-container>
+                               </div>
+                             </div>
+                            </ng-container>
+                             <ng-container *ngIf="!cbpService.isBackGroundDocument && cbpService.selectedElement?.dgType !== DgTypes.Table &&
+                              !cbpService.selectedElement?.isTableDataEntry">
+                                <div *ngIf="cbpService.selectedElement && cbpService.selectedUniqueId === 0 &&
+                                !cbpService.cbpJson.documentInfo[0].newCoverPageeEnabled"
+                                class="dropdown"[class.disabled]="((cbpService.selectedElement?.isEmbededObject && cbpService.selectedElement?.property?.type == 'Dynamic') ||
+                                cbpService.selectedElement?.type==='embedded')">
+                                <button class="dropbtn buttns stickybutton" title="Open Background"
+                                *ngIf="editorType?.showBackgroundIcon"
+                                [ngClass]="{'mr-2': windowWidth> 650, 'mr-1':  windowWidth< 650}"
+                                (click)="openBgDoc()">
+                                    <img [src]="ImagePath.background" width="34px" class="imageblue" alt="img">
+                                <!-- <i class="fa fa-sticky-note-o"></i> -->
+                                </button>
+                               
+                                 <button  class="dropbtn buttns" [hidden]="cbpService.isBackGroundDocument"
+                                  [ngClass]="{'mr-2': windowWidth> 650, 'mr-1':  windowWidth< 650}">
+                                      <img [src]="ImagePath.coverPageIcon" width="34px" class="imageblue" alt="img">
+                                  </button>
+                                  <div *ngIf="!cbpService.isSearchTemplate" class="dropdown-content numberdropdown pr-0 top29">
+                                      <div class="col-md-12 col-lg-12 currentnew">
+                                          <div class="row">
+                                            <ng-container [ngTemplateOutlet]="coverPageTemplate" [ngTemplateOutletContext]="{ $implicit: 'List' }"></ng-container>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                              <!-- stickyNote Button -->
+                                    <button class="dropbtn buttns stickybutton ToolbarBtn" title="Sticky Note"
+                                    [class.disabled]="(cbpService.selectedUniqueId == 0 ||
+                                    (cbpService.selectedElement?.isEmbededObject && cbpService.selectedElement?.property?.type == 'Dynamic')
+                                     || cbpService.selectedElement?.type==='embedded')
+                                     || cbpService.selectedElement?.stickyNote?.isAdded"
+                                    *ngIf="cbpService.selectedElement.dgType === DgTypes.Section ||
+                                    cbpService.selectedElement.dgType === DgTypes.StepAction ||
+                                    cbpService.selectedElement.dgType === DgTypes.StepInfo ||
+                                    cbpService.selectedElement.dgType === DgTypes.DelayStep ||
+                                    cbpService.selectedElement.dgType === DgTypes.Timed ||
+                                    cbpService.selectedElement.dgType === DgTypes.Repeat"
+                                    [hidden]="cbpService.isBackGroundDocument"
+                                    [ngClass]="{'mr-2': windowWidth> 650, 'mr-1':  windowWidth< 650}"
+                                    (click)="enableSticky()">
+                                        <img [src]="ImagePath.stickyNote" width="34px" class="imageblue" alt="img">
+                                    <!-- <i class="fa fa-sticky-note-o"></i> -->
+                                    </button>
+                              <!-- stickyNote End-->
+                              <div class="dropdown" >
+                                <ng-container *ngTemplateOutlet="coverPageIcon"></ng-container>
+                            </div>
+                                <div *ngIf="cbpService.selectedElement" class="dropdown" (click)="validateSearchAlert()"
+                                [class.disabled]="(cbpService.selectedUniqueId == 0 || (cbpService.selectedElement?.isEmbededObject && cbpService.selectedElement?.property?.type == 'Dynamic') || cbpService.selectedElement?.type==='embedded' || cbpService.selectedElement?.dgType == DgTypes.StepInfo)">
+                                    <button class="dropbtn buttns ToolbarBtn" [hidden]="cbpService.isBackGroundDocument ||  cbpService.documentSelected" [ngClass]="{'mr-2': windowWidth> 650, 'mr-1':  windowWidth< 650}">
+                                        <img [src]="ImagePath.numberImg" width="34px" class="imageblue" alt="img">
+                                    </button>
+                                    <div *ngIf="!cbpService.isSearchTemplate" class="dropdown-content numberdropdown pr-0 top29">
+                                        <div class="col-md-12 col-lg-12 currentnew">
+                                            <div class="row">
+                                               <!-- <ng-container [ngTemplateOutlet]="currentListTemplate" [ngTemplateOutletContext]="{ $implicit: 'currentList' }"></ng-container> -->
+                                               <ng-container [ngTemplateOutlet]="currentListTemplate" [ngTemplateOutletContext]="{ $implicit: 'List' }"></ng-container>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- For SM Device -->
+                                <ng-container *ngIf="windowWidth < 1350">
+                                <div *ngIf="cbpService.selectedElement" class="dropdown"  [class.disabled]="((cbpService.selectedElement?.isEmbededObject && cbpService.selectedElement?.property?.type == 'Dynamic') || cbpService.selectedElement?.type==='embedded')">
+                                    <button class="dropbtn buttns" [ngClass]="{'mr-2': windowWidth> 650, 'mr-1':  windowWidth< 650}">
+                                        <img [src]="ImagePath.bulletsList" width="34px" class="imageblue" alt="img">
+                                   </button>
+
+                                    <ng-container [ngTemplateOutlet]="TemplateDropdown" [ngTemplateOutletContext]="{$implicit: 'indentTemplate'}"> </ng-container>
+
+                                </div>
+                                </ng-container>
+                                <!-- Sm end -->
+
+                                <ng-container *ngIf="(windowWidth  > 1350)">
+                                  <ng-container *ngTemplateOutlet="indentTemplate"></ng-container><span class="pipeLineCenter" [hidden]="true"> | </span>
+                               </ng-container>
+                                <ng-container *ngIf="windowWidth < 1350">
+                                <div *ngIf="cbpService.selectedElement" class="dropdown"  [class.disabled]="((cbpService.selectedElement?.isEmbededObject && cbpService.selectedElement?.property?.type == 'Dynamic') || cbpService.selectedElement?.type==='embedded')">
+                                    <button class="dropbtn buttns" [ngClass]="{'mr-2': windowWidth> 650, 'mr-1':  windowWidth< 650}">
+                                        <img [src]="ImagePath.topIconSection" width="34px" class="imageButtons" alt="img">
+                                   </button>
+                                    <ng-container [ngTemplateOutlet]="TemplateDropdown" [ngTemplateOutletContext]="{$implicit: 'subSectionTemplate'}"> </ng-container>
+                                </div>
+                                </ng-container>
+                                <ng-container *ngIf="(windowWidth > 1350)">
+                                   <ng-container *ngTemplateOutlet="subSectionTemplate"></ng-container>
+                                </ng-container>
+                                <ng-container *ngIf="windowWidth < 1350 && windowWidth > 500">
+                                    <div *ngIf="cbpService.selectedElement" class="dropdown" (click)="validateSearchAlert()" [class.disabled]="(cbpService.selectedUniqueId == 0 || (cbpService.selectedElement?.isEmbededObject && cbpService.selectedElement?.property?.type == 'Dynamic') || cbpService.selectedElement?.type==='embedded')">
+                                        <!-- <button class="dropbtn mr-2 buttns">
+                                            <img [src]="ImagePath.alertIcon" width="34px" class="imageButtons" alt="img">
+                                    </button> -->
+                                    <ng-container *ngTemplateOutlet="alertTemplate"></ng-container><span class="pipeLineCenter"> | </span>
+                                        <!-- <ng-container [ngTemplateOutlet]="TemplateDropdown" [ngTemplateOutletContext]="{$implicit: 'alertTemplate'}"> </ng-container> -->
+                                    </div>
+                                </ng-container>
+                                <ng-container *ngIf="(windowWidth > 1350)">
+                                  <ng-container *ngTemplateOutlet="alertTemplate"></ng-container><span class="pipeLineCenter"> | </span>
+                               </ng-container>
+                               <ng-container *ngIf="windowWidth < 1350 && windowWidth > 500">
+                                <div *ngIf="cbpService.selectedElement" class="dropdown" (click)="validateSearchAlert()" [class.disabled]="(cbpService.selectedUniqueId == 0 || (cbpService.selectedElement?.isEmbededObject && cbpService.selectedElement?.property?.type == 'Dynamic') || cbpService.selectedElement?.type==='embedded')">
+                                    <button class="dropbtn mr-1 buttns">
+                                      <img [src]="ImagePath.topIconPara" width="34px" class="imageblue"  alt="img">
+                                   </button>
+                                    <ng-container [ngTemplateOutlet]="TemplateDropdown" [ngTemplateOutletContext]="{$implicit: 'TextIconTemplate'}"> </ng-container>
+                                </div>
+                                </ng-container>
+                                <ng-container *ngIf="(windowWidth > 1350)">
+                                 <ng-container *ngTemplateOutlet="TextIconTemplate"></ng-container>
+                                </ng-container><span class="pipeLineCenter"> | </span>
+                              </ng-container>
+                              <ng-container *ngIf="cbpService.selectedElement?.dgType !== DgTypes.Table && !cbpService.selectedElement?.isTableDataEntry">
+                                <ng-container *ngIf="!cbpService.isBackGroundDocument">
+                                    <ng-container *ngTemplateOutlet="mediaTemplate"></ng-container>
+                                </ng-container>
+                               
+                                <ng-container *ngIf="windowWidth < 1350">
+                                    <div *ngIf="cbpService.selectedElement" class="dropdown" (click)="validateSearchAlert()" [class.disabled]="((cbpService.selectedElement?.isEmbededObject && cbpService.selectedElement?.property?.type == 'Dynamic') || cbpService.selectedElement?.type==='embedded')">
+                                    <ng-container *ngTemplateOutlet="previewTemplate"></ng-container>
+                                    </div>
+                                    </ng-container>
+                                    <ng-container *ngIf="(windowWidth > 1350) && !cbpService.isBackGroundDocument">
+                                        <ng-container *ngTemplateOutlet="saveTemplate"></ng-container>
+                                   </ng-container>
+
+                                   <ng-container *ngIf="windowWidth < 1350 && !cbpService.isBackGroundDocument">
+                                    <div *ngIf="cbpService.selectedElement" class="dropdown" (click)="validateSearchAlert()" [class.disabled]="(cbpService.selectedUniqueId == 0 || (cbpService.selectedElement?.isEmbededObject && cbpService.selectedElement?.property?.type == 'Dynamic') || cbpService.selectedElement?.type==='embedded')">
+                                        <button class="dropbtn mr-2 buttns">
+                                            <img [src]="ImagePath.topDelete" width="34px" class="imageDanger" alt="img">
+                                    </button>
+
+                                    <ng-container [ngTemplateOutlet]="TemplateDropdown" [ngTemplateOutletContext]="{$implicit: 'undoDelete'}"> </ng-container>
+
+                                    </div>
+                                    </ng-container>
+                                    <ng-container *ngIf="(windowWidth > 1350) && !cbpService.isBackGroundDocument">
+                                        <ng-container [ngTemplateOutlet]="undoDeleteTemplate"  [ngTemplateOutletContext]="{ $implicit: true }"></ng-container>
+                                   </ng-container>
+                            </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 pt-1 px-1" [ngClass]="{'my-sticky' : stickyUiCss }">
+                <div class="formio builder row formbuilder pt-1 px-3">
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3-viewProp formcomponents pl-0 pr-2"
+                    [hidden]="!cbpService.showNavigation"
+                    *ngIf="(windowWidth > 1000) || (!cbpService.showProperty &&  windowWidth < 1000 )">
+                      <div [hidden]="control != 0 || isIndexConctrolClosed">
+                            <div class="card p-2 w-sticky indexborder">
+                                <ng-container *ngTemplateOutlet="IndexControlTemplate"></ng-container>
+                                <!-- <div class="documentnbrscroll contentFit"> -->
+                                    <div class="contentFit"
+                                        [ngClass] = "{ 'documentnbrscrollEdoc' : !editorType.cbpStandalone ,'documentnbrscroll' : editorType.cbpStandalone}">
+                                    <div class="col-xs-12 col-md-12 col-lg-12 doc-info coverpage-width" 
+                                    *ngIf="cbpService.coverPage"
+                                         (click)="documentShow(); cbpService.coverPageViewEnable = true" [class.activeNode]="cbpService.documentSelected">
+                                        <span class="hdf-font">Cover Page</span>
+                                    </div>
+                                    <ng-container *ngFor="let item of controlService.treeNavigationEntries">
+                                        <div class="col-xs-12 col-md-12 col-lg-12 doc-info coverpage-width"
+                                        *ngIf="(item.type === DgTypes.Header && cbpService.cbpJson.documentInfo[0]?.header?.isHeaderEnabled) ||
+                                        (item.type === DgTypes.Footer && cbpService.cbpJson.documentInfo[0]?.footer?.isFooterEnabled) ||
+                                        (item.type === DgTypes.WaterMark && cbpService.cbpJson.documentInfo[0]?.waterMarkOptions?.isWaterMarkEnabled)"
+                                        (click)="changeNavigation(item.type);cbpService.coverPageViewEnable = false;"
+                                        [class.activeNode]="cbpService.selectedElement.dgType === item.type">
+                                        <span class="hdf-font">{{item.name}}</span>
+                                    </div>
+                                    </ng-container>
+                                    <span (click)="cbpService.propertyType = 'section'; defaultDoc = false">
+                                        <div class="bodychanges treeindex" [hidden]="control">
+                                          <lib-tree-structure [isbuild]="true" *ngIf="isTree && cbpService.cbpJson" id="tree"
+                                           (nodeTreeClicked) ="handleTreeClicked($event)" [windowWidthChanged] =windowWidthChanged
+                                            [cbpJson]="cbpService.cbpJson" [headerItem]="cbpService.headerItem" [createNode]="createNode"
+                                            [renameNode]="renameNode" (selectedNode)="selectStepNode($event, !cbpService.isSearchTemplate)" [previousHeaderItem]="cbpService.previousHeaderItem"
+                                            [updatedNode]="selectedCurrentElement ? selectedCurrentElement : cbpService.selectedElement"
+                                            [(documentSelected)]="cbpService.documentSelected"   (loadedTree)="treeLoaded()"
+                                            (createdNode)="createStepNode($event)" [refreshTreeNav]="cbpService.refreshTreeNav">
+                                         </lib-tree-structure>
+                                        </div>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div [hidden]="control != 1 ||isIndexConctrolClosed" >
+                            <div class="card p-2 w-sticky indexborder">
+                                <ng-container *ngTemplateOutlet="IndexControlTemplate"></ng-container>
+                                <div class="card controltab" [class.disabled] = "cbpService.isDisabledControl">
+                                    <div ref="sidebar" class="accordion builder-sidebar builder-sidebar_scroll scrollcntl"
+                                        >
+                                        <div  class="card form-builder-panel">
+                                            <div  [ngClass]="[controlService.controlCss]">
+                                                <ng-container [ngTemplateOutlet]="cardTitleTemp" [ngTemplateOutletContext]="{ '$implicit': 'Basic', id:'group-basic'+activeTab}"></ng-container>
+                                            </div>
+                                            <div [@fadeInOut] *ngIf="controlTabs.basic"  class="collapse" [ngClass]="{'show' : controlTabs.basic}">
+                                                <div class="card-body no-drop p-2"
+                                                    [ngClass]="{'bgscroll': cbpService.isBackGroundDocument, 
+                                                     'sunCardScrool':!cbpService.isBackGroundDocument}"
+                                                   [class.disabled]="cbpService.selectedElement?.type==='embedded'">
+
+                                                    <ng-container *ngIf="!cbpService.isBackGroundDocument">
+                                                    <ng-container *ngFor="let item of controlService.basicEntries">
+                                                        <span [ngClass]="[controlService.dragCss]"
+                                                        data-type="textfield" data-key="textfield" data-group="basic"
+                                                        (click)="selectEntries(item, 'normal')"
+                                                        [class.disabled]="
+                                                        (cbpService.selectedElement?.isEmbededObject && cbpService.selectedElement?.property?.type == 'Dynamic') ||
+                                                           (item.name === 'Section' && (cbpService.selectedElement?.dataType=== DgTypes.Attachment ||
+                                                            cbpService.selectedElement?.dgType=== DgTypes.Timed ||
+                                                           cbpService.selectedElement?.dgType=== DgTypes.Repeat || cbpService.selectedElement?.dgType=== DgTypes.StepInfo ||
+                                                           cbpService.selectedElement?.dgType=== DgTypes.DelayStep || cbpService.selectedElement?.referenceOnly)) ||
+
+                                                           (item.name === 'Sub Section' && !(cbpService.selectedElement?.dgType=== DgTypes.Section )) ||
+
+                                                           (item.name === 'Step Action' && (!(cbpService.selectedElement?.dgType=== DgTypes.Section ||
+                                                            cbpService.selectedElement?.dgType=== DgTypes.StepAction || cbpService.selectedElement?.dgType=== DgTypes.Timed
+                                                            || cbpService.selectedElement?.dgType=== DgTypes.Repeat) || cbpService.selectedElement?.dgType=== DgTypes.StepInfo )) ||
+
+                                                           (item.name === 'StepInfo' &&
+                                                            (!(cbpService.selectedElement?.dgType=== DgTypes.Section || cbpService.selectedElement?.dgType=== DgTypes.StepAction ||
+                                                            cbpService.selectedElement?.dgType=== DgTypes.Timed || cbpService.selectedElement?.dgType=== DgTypes.Repeat) ||
+                                                            cbpService.selectedElement?.dgType=== DgTypes.StepInfo )) ||
+
+                                                           (item.name === 'Delay Step' || item.name === 'Repeat Step' || item.name === 'Timed Step') &&
+                                                           (!(cbpService.selectedElement?.dgType=== DgTypes.Section || cbpService.selectedElement?.dgType=== DgTypes.StepAction) ||
+                                                            cbpService.selectedElement?.dgType=== DgTypes.StepInfo || cbpService.selectedElement.isTimedChildren 
+                                                            || cbpService.selectedElement?.isParentTimedStep || cbpService.selectedElement?.isParentRepeatStep) ||
+
+                                                            (item.name === 'Dual Step' && (
+                                                            cbpService.selectedElement?.firstDualStep || cbpService.selectedElement?.leftdualchild ||
+                                                            cbpService.selectedElement?.rightdualchild ||
+                                                            selectedCurrentElement?.firstDualStep || selectedCurrentElement?.leftdualchild ||
+                                                            selectedCurrentElement?.rightdualchild || cbpService.selectedElement?.dgType === DgTypes.TextDataEntry ||
+                                                            cbpService.selectedElement?.dgType === DgTypes.TextAreaDataEntry || cbpService.selectedElement?.dgType === DgTypes.NumericDataEntry ||
+                                                            cbpService.selectedElement?.dgType === DgTypes.BooleanDataEntry || cbpService.selectedElement?.dgType === DgTypes.CheckboxDataEntry || 
+                                                            cbpService.selectedElement?.dgType === DgTypes.StepInfo || cbpService.selectedElement?.dgType === DgTypes.DropDataEntry  || 
+                                                            selectedCurrentElement?.dgType === DgTypes.StepInfo || cbpService.selectedElement?.dgType === DgTypes.DateDataEntry  ||
+                                                            selectedCurrentElement?.dgType === DgTypes.DelayStep || cbpService.selectedElement?.dgType === DgTypes.DelayStep)) ||
+
+                                                           (item.name === 'Procedure Snippet' && !(cbpService.selectedElement?.dgType === DgTypes.Section)) ||
+                                                           cbpService.selectedElement?.dgType === DgTypes.Header|| cbpService.selectedElement?.dgType === DgTypes.Footer
+                                                           ||!(item.name === 'para' || item.name === 'Label') && (cbpService.selectedElement?.dgType === DgTypes.Table)"
+                                                           [hidden]="cbpService.isBackGroundDocument">
+                                                        <img *ngIf="item.name === 'Section' || item.name === 'Sub Section'"
+                                                         [src]="item.name === 'Section' ? ImagePath.basicSection : ImagePath.basicSubSection " width="14" class="basictab" alt="">
+                                                        <i  *ngIf="item.name !== 'Section' && item.name !== 'Sub Section'" class="fa fa-{{item.icon}} actionstep"></i>
+                                                        {{item.name}}
+                                                    </span>
+                                                    </ng-container>
+                                                    <ng-container *ngFor="let item of controlService.basicDataEntries">
+                                                        <span [ngClass]="[controlService.dragCss]"  [class.disabled]="
+                                                        (cbpService.selectedElement?.isEmbededObject && cbpService.selectedElement?.property?.type == 'Dynamic') ||
+                                                        (item.name === 'Warning' &&(cbpService.selectedElement?.dgType=== DgTypes.StepInfo || selectedCurrentElement?.dgType=== DgTypes.DelayStep ||
+                                                         cbpService.selectedElement?.dgType=== DgTypes.DelayStep || cbpService.selectedElement?.referenceOnly))
+                                                         ||(item.name === 'Caution' &&(cbpService.selectedElement?.dgType=== DgTypes.StepInfo || selectedCurrentElement?.dgType=== DgTypes.DelayStep ||
+                                                         cbpService.selectedElement?.dgType=== DgTypes.DelayStep || cbpService.selectedElement?.referenceOnly))
+                                                         || (item.name === 'Note' &&(cbpService.selectedElement?.dgType=== DgTypes.StepInfo || selectedCurrentElement?.dgType=== DgTypes.DelayStep ||
+                                                         cbpService.selectedElement?.dgType=== DgTypes.DelayStep || cbpService.selectedElement?.referenceOnly))
+                                                         ||(item.name === 'Alara' &&(cbpService.selectedElement?.dgType=== DgTypes.StepInfo || selectedCurrentElement?.dgType=== DgTypes.DelayStep ||
+                                                         cbpService.selectedElement?.dgType=== DgTypes.DelayStep || cbpService.selectedElement?.referenceOnly))
+                                                         ||(item.name === 'Formula' &&(cbpService.selectedElement?.dgType=== DgTypes.StepInfo || selectedCurrentElement?.dgType=== DgTypes.DelayStep ||
+                                                         cbpService.selectedElement?.dgType=== DgTypes.DelayStep || cbpService.selectedElement?.referenceOnly))
+                                                        || cbpService.selectedElement?.dgType === DgTypes.Header || cbpService.selectedElement?.dgType === DgTypes.Footer
+                                                        || !(item.name === 'Paragraph' || item.name === 'Label') && (cbpService.selectedElement?.dgType === DgTypes.Table)"
+                                                         data-type="textarea" data-key="textarea" data-group="basic" [draggable] [dragData]="item.type" [dragScope]="item.type">
+                                                            <ng-container *ngIf="item.icon ==='alert'">
+                                                                <img *ngIf="item.name === 'Warning'" [src]="ImagePath.basicWarning" class="warningsize" alt="">
+                                                                <img *ngIf="item.name === 'Caution'" [src]="cbpService.defaultStyleImageStyle.cautionImage"
+                                                                 width="14px" alt="Caution" class="warningsize">
+                                                                <img *ngIf="item.name === 'Note'" [src]="cbpService.defaultStyleImageStyle.noteImage"
+                                                                 width="14px" alt="Note" class="notetab">
+                                                                <img *ngIf="item.name === 'Alara'" [src]="ImagePath.topIconAlara" width="15px" alt="Alara" class="alaratab">
+                                                            </ng-container>
+                                                            <ng-container *ngIf="item.icon !=='alert'">
+                                                                <i class="fa fa-{{item.icon}} actionstep"></i>
+                                                            </ng-container>
+                                                            {{item.name}}<span class="drag"><i [ngClass]="controlService.iconClass"></i></span>
+                                                        </span>
+                                                    </ng-container>
+                                                   </ng-container>
+                                                    <ng-container *ngIf="cbpService.isBackGroundDocument">
+                                                      <span [ngClass]="[controlService.dragCss]"
+                                                        data-type="textarea" data-key="textarea" data-group="basic"
+                                                        [draggable] [dragData]="DgTypes.LabelDataEntry" [dragScope]="DgTypes.LabelDataEntry">
+                                                        <i class="fa fa-tag actionstep"></i>
+                                                        Label
+                                                      <span class="drag"><i [ngClass]="controlService.iconClass"></i></span>
+                                                       </span>
+                                                      <span [ngClass]="[controlService.dragCss]"
+                                                        data-type="textarea"   data-key="textarea" data-group="basic"
+                                                        [draggable] [dragData]="DgTypes.Para" [dragScope]="DgTypes.Para">
+                                                        <i class="fa fa-paragraph actionstep"></i>
+                                                         Paragraph
+                                                        <span class="drag"><i [ngClass]="controlService.iconClass"></i></span>
+                                                    </span>
+                                                  
+                                                </ng-container>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- DataEntry---start -->
+                                        <div class="card form-builder-panel">
+                                            <div  [ngClass]="[controlService.controlCss]">
+                                                <ng-container [ngTemplateOutlet]="cardTitleTemp" [ngTemplateOutletContext]="{ '$implicit': 'Data Entry', id:'group-dataentry'+activeTab}"></ng-container>
+                                            </div>
+                                            <div [@fadeInOut] *ngIf="controlTabs.dataEntry"
+                                                class="collapse"  [ngClass]="{'show' : controlTabs.dataEntry}">
+                                                <div class="card-body no-drop p-2"
+                                                   [class.disabled]="cbpService.selectedElement?.type==='embedded'">
+                                                    <ng-container *ngFor="let item of controlService.dataEntries">
+                                                        <span [ngClass]="[controlService.dragCss]"
+                                                         [class.disabled]="
+                                                         (cbpService.selectedElement?.isEmbededObject && cbpService.selectedElement?.property?.type == 'Dynamic') ||
+                                                         selectedCurrentElement?.dgType=== DgTypes.DelayStep ||
+                                                        (item.name !== 'Table'&& (
+                                                        (selectedCurrentElement?.dgType=== DgTypes.Form && (selectedCurrentElement?.dgType=== DgTypes.StepInfo
+                                                         || selectedCurrentElement?.dgType=== DgTypes.DelayStep ||
+                                                         selectedCurrentElement?.referenceOnly ||
+                                                        selectedCurrentElement?.dgType=== DgTypes.Section ||
+                                                        cbpService.selectedDgType === DgTypes.Section 
+                                                         || selectedCurrentElement?.dgType === DgTypes.Header ||
+                                                         selectedCurrentElement?.dgType === DgTypes.Footer)) ||
+                                                        cbpService.selectedElement?.dgType=== DgTypes.StepInfo
+                                                        || cbpService.selectedElement?.dgType=== DgTypes.DelayStep ||
+                                                          cbpService.selectedElement?.referenceOnly ||
+                                                         cbpService.selectedElement?.dgType=== DgTypes.Section
+                                                         || cbpService.selectedElement?.dgType === DgTypes.Header ||
+                                                         cbpService.selectedElement?.dgType === DgTypes.Footer||
+                                                         cbpService.selectedElement?.dgType === DgTypes.Caution ||
+                                                         cbpService.selectedElement?.dgType === DgTypes.Alara ||
+                                                         cbpService.selectedElement?.dgType === DgTypes.Note ||
+                                                         cbpService.selectedElement?.dgType === DgTypes.Warning ||
+                                                         cbpService.selectedElement?.dgType === DgTypes.Para ||
+                                                         cbpService.selectedElement?.dgType === DgTypes.LabelDataEntry || 
+                                                         cbpService.selectedElement?.dgType === DgTypes.FormulaDataEntry||
+                                                         (cbpService.selectedElement?.dgType === DgTypes.Para  && !isParentStepDAT) ||
+                                                         (cbpService.selectedElement?.dgType === DgTypes.LabelDataEntry  && !isParentStepDAT)  || 
+                                                         (cbpService.selectedElement?.dgType === DgTypes.FormulaDataEntry && !isParentStepDAT)
+                                                         || (cbpService.selectedElement?.dgType === DgTypes.Link && !isParentStepAction) 
+                                                         || (cbpService.selectedElement?.dgType === DgTypes.Figures && !isParentStepAction) 
+                                                         || (cbpService.selectedElement?.dgType === DgTypes.SingleFigure && !isParentStepAction)))"
+                                                         data-type="textarea"   data-key="textarea" data-group="basic"
+                                                        [draggable] [dragData]="item.type" [dragScope]="item.type">
+                                                        <i class="fa fa-{{item.icon}} actionstep"></i>
+                                                        {{item.name}}<span class="drag"><i [ngClass]="controlService.iconClass"></i></span>
+                                                    </span>
+                                                   </ng-container>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Dataentry---end -->
+                                        <!-- Reference--start -->
+                                        <div  class="card form-builder-panel">
+                                            <div [ngClass]="[controlService.controlCss]" >
+                                                <ng-container [ngTemplateOutlet]="cardTitleTemp" [ngTemplateOutletContext]="{ '$implicit': 'Reference/Link', id:'group-reference'+activeTab}"></ng-container>
+                                            </div>
+                                            <div class="collapse" [@fadeInOut] *ngIf="controlTabs.reference"
+                                             [ngClass]="{'show' : controlTabs.reference}">
+                                                <div  class="card-body no-drop p-2"
+                                                   [class.disabled]="cbpService.selectedElement?.type==='embedded'">
+                                                   <ng-container *ngFor="let item of controlService.referenceList">
+                                                    <span [ngClass]="[controlService.dragCss]" 
+                                                    [class.disabled]="
+                                                    (cbpService.selectedElement?.isEmbededObject && cbpService.selectedElement?.property?.type == 'Dynamic') ||
+                                                    selectedCurrentElement?.dgType=== DgTypes.DelayStep ||
+                                                    (item.name === 'Media Gallery' && (cbpService.selectedElement?.referenceOnly || cbpService.documentSelected)) ||
+                                                    (item.name === 'Media Gallery' && (cbpService.selectedElement?.dgType=== DgTypes.StepInfo || cbpService.selectedElement?.dgType=== DgTypes.DelayStep)) ||
+                                                    (item.name === 'Media Single'&& (cbpService.selectedElement?.dgType=== DgTypes.StepInfo || cbpService.selectedElement?.dgType=== DgTypes.DelayStep)) ||
+                                                    (item.name === 'Link'&& (cbpService.selectedElement?.dgType=== DgTypes.StepInfo || cbpService.selectedElement?.dgType=== DgTypes.DelayStep)) ||
+                                                     cbpService.selectedElement?.dgType === DgTypes.Header|| cbpService.selectedElement?.dgType === DgTypes.Footer||
+                                                     !(item.name === 'Media Single')  && (cbpService.selectedElement?.dgType === DgTypes.Table)"
+                                                     data-type="textarea" data-key="textarea" data-group="basic"
+                                                        [draggable] [dragData]="item.type" [dragScope]="item.type">
+                                                        <i class="fa fa-{{item.icon}} actionstep"></i>
+                                                        {{item.name}}<span class="drag"><i [ngClass]="controlService.iconClass"></i></span>
+                                                    </span>
+                                                  </ng-container>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- reference--end -->
+                                        <!-- verfication--start -->
+                                        <div class="card form-builder-panel" *ngIf="!cbpService.isBackGroundDocument">
+                                            <div  [ngClass]="[controlService.controlCss]" >
+                                                <ng-container [ngTemplateOutlet]="cardTitleTemp" [ngTemplateOutletContext]="{ '$implicit': 'Verification', id:'group-verification'+activeTab}"></ng-container>
+                                            </div>
+                                            <div [@fadeInOut] *ngIf="controlTabs.verification"
+                                                class="collapse" [ngClass]="{'show' : controlTabs.verification}">
+                                                <div  class="card-body no-drop p-2"
+                                                     [class.disabled]="cbpService.selectedElement?.type==='embedded'">
+                                                   <ng-container *ngFor="let item of controlService.verificationList">
+                                                    <span [ngClass]="[controlService.dragCss]" [class.disabled]="
+                                                    (cbpService.selectedElement?.isEmbededObject && cbpService.selectedElement?.property?.type == 'Dynamic') ||
+                                                    (cbpService.selectedElement?.dgType=== DgTypes.StepInfo
+                                                     || selectedCurrentElement?.dgType=== DgTypes.DelayStep
+                                                     || cbpService.selectedElement?.dgType=== DgTypes.DelayStep
+                                                     || cbpService.selectedElement?.referenceOnly || cbpService.selectedElement?.dgType=== DgTypes.Section)
+                                                     || cbpService.selectedElement?.dgType === DgTypes.Header|| cbpService.selectedElement?.dgType === DgTypes.Footer
+                                                     || !(item.name === 'Signature' || item.name === 'Initial')   && (cbpService.selectedElement?.dgType === DgTypes.Table)"
+                                                        data-type="textarea"   data-key="textarea" data-group="basic"
+                                                        [draggable] [dragData]="item.type" [dragScope]="item.type">
+                                                        <i class="fa fa-{{item.icon}} actionstep"></i>
+                                                        {{item.name}}<span class="drag"><i [ngClass]="controlService.iconClass"></i></span>
+                                                    </span>
+                                                  </ng-container>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- verfication--end -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div [hidden]="control != 2 ||isIndexConctrolClosed">
+                          <div class="card p-2 w-sticky indexborder pad-bt-152imp" >
+                              <ng-container *ngTemplateOutlet="IndexControlTemplate"></ng-container>
+                              <ng-container [ngTemplateOutlet]="ngTempalteReferenceLoop"
+                                    [ngTemplateOutletContext]="{ $implicit: referenceListItems }"></ng-container>
+                          </div>
+                      </div>
+                      <div [hidden]="control != 3 ||isIndexConctrolClosed">
+                        <div class="card p-2 w-sticky indexborder attributeBorder pad-bt-152imp">
+                          <ng-container *ngTemplateOutlet="IndexControlTemplate"></ng-container>
+                          <div class="cardattributeScroll">
+                          <div [class.disabled]="tableService.isPropertyDisable"   class="card controltab attributeScroll">
+                            <div ref="sidebar"  class="accordion builder-sidebar builder-sidebar_scroll attributeScrollHeight scrollcntl"
+                              id="builder-sidebar-ecp63te">
+                              <!-- Attribute---Start -->
+                                <ng-container *ngFor="let item of cbpService.listAttributes">
+                                  <span [ngClass]="[controlService.dragCss]"
+                                    [class.disabled]="tableService.isAttributeDisable.indexOf(item.property) > -1"
+                                    data-type="textarea" data-key="textarea" data-group="basic" [draggable]
+                                    [dragData]="item.property" [dragScope]="item.property">
+                                    {{item.display}}<span class="drag"><i [ngClass]="controlService.iconClass"></i></span>
+                                  </span>
+                                </ng-container>
+                               <!-- Attribute---End -->
+                            </div>
+                          </div>
+                        </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="scrollableElement" ref="form" class="col-xs-12  col-lg-9-viewProp formarea w-sticky editor-main"
+                        [ngClass]="{'col-lg-9-viewProp' :(cbpService.showNavigation && !cbpService.showProperty)
+                         || (!cbpService.showNavigation && cbpService.showProperty) || (windowWidth > 980 && windowWidth < 1000),
+                        'col-lg-6-viewProp':cbpService.showNavigation && (cbpService.showProperty) && !(windowWidth > 980 && windowWidth < 1000), 'col-lg-12': !cbpService.showNavigation && ( !cbpService.showProperty),
+                        'col-sm-12': windowWidth < 768, 'col-sm-9': (windowWidth > 768 && windowWidth < 1000)
+                        }" *ngIf="!cbpService.documentSelected"  detect-scroll
+                        (onScroll)="!treeUpdated && onScroll($event)" [bottomOffset]="100" [topOffset]="5">
+                        <section class="jumbotron" 
+                        *ngIf="!cbpService.reloadTheWaterMark" [@fadeInOut]
+                            [ngxWatermark]="cbpService.cbpJson.documentInfo[0]['waterMarkOptions']">
+                            <app-headerfooter [cbpJson]="cbpService.cbpJson" [isBuilder]="true"  [hide]="'footer'" (headerEvent)="changeHeader()"></app-headerfooter>
+                            <app-editor *ngIf="cbpService.showEditor && cbpService?.cbpJson?.section?.length > 0 && !cbpService.documentSelected"
+                                #editor [section]="cbpService.cbpJson.section" [isMaster]="true"
+                                [media]="cbpService.media" [windowWidth]="windowWidth"
+                                [styleLevelObj]="styleLevelObj"  (getResponse)="getResponseFromLink($event)"
+                                (singleFigure)="openMedia()" (parentUpdate)="setItem($event)"
+                                (dataAdded)="dataUpdate($event)" (refreshTree)="refreshTreeUpdate()" [class.disableReadOnly]="!editorType.editorMode"
+                                (deleteStep)="deleteElement()">
+                            </app-editor>
+                            <app-headerfooter [cbpJson]="cbpService.cbpJson" [isBuilder]="true" [hide]="'header'" (footerEvent)="changeFooter()"></app-headerfooter>
+
+                            <div class="btn-group float my-float" role="group">
+                              <button type="button" class="btn btn-secondary" data-toggle="tooltip"
+                              data-placement="top" title="Top" (click)="goToTop()"
+                              [disabled]="cbpService.startIndex ==1">
+                              <i class="fa fa-angle-double-up whitecolor" aria-hidden="true"></i>
+                            </button>
+                            <button type="button" class="btn btn-secondary" data-toggle="tooltip"
+                                data-placement="top" title="Previous" (click)="moveToPreviousButton()"
+                                [disabled]="cbpService.startIndex ==1">
+                                <i class="fa fa-arrow-up whitecolor" aria-hidden="true"></i>
+                            </button>
+                            <button type="button" class="btn btn-secondary" data-toggle="tooltip"
+                                data-placement="top" title="Next" (click)="moveToNextButton()"
+                                [disabled]="((_buildUtil.paginateIndex - cbpService.startIndex ) < cbpService.pageSize) || bottomDisable">
+                                <i class="fa fa-arrow-down whitecolor" aria-hidden="true"></i>
+                            </button>
+                            <button type="button" class="btn btn-secondary" data-toggle="tooltip"
+                                data-placement="top" title="Bottom" (click)="goToBottom()"
+                                [disabled]="((_buildUtil.paginateIndex - cbpService.startIndex ) < cbpService.pageSize) || bottomDisable">
+                                <i class="fa fa-angle-double-down whitecolor" aria-hidden="true"></i>
+                            </button>
+                            </div>
+                        </section>
+                    </div>
+                    <div ref="form" class="col-xs-12 col-sm-12 col-lg-9-viewProp formarea w-sticky propertyscrl"
+                    [ngClass]="{'col-lg-9-viewProp' :(cbpService.showNavigation && !cbpService.showProperty)
+                    || (!cbpService.showNavigation && cbpService.showProperty) || (windowWidth > 980 && windowWidth < 1350),
+                   'col-lg-6-viewProp':cbpService.showNavigation && (cbpService.showProperty) && !(windowWidth > 980 && windowWidth < 1000), 'col-lg-12': !cbpService.showNavigation && ( !cbpService.showProperty),
+                   'col-sm-12': windowWidth < 768, 'col-sm-9': (windowWidth > 768 && windowWidth < 1000)}"
+                         *ngIf="cbpService.documentSelected || showCoverPage"
+                         id="property-doc">
+                        <app-doc *ngIf="cbpService.cbpJson" 
+                        [coverpageData]="propertyDocument['coverPageData']" 
+                        [cbpJson]="cbpService.cbpJson"
+                        [windowWidth]="windowWidth" [editorType] ="editorType"
+                        [propertyDocument]="cbpService.cbpJson.documentInfo[0]"
+                        (selectField)="setField($event)"
+                        ></app-doc>
+                    </div>
+                    <div class="col-md-3 col-lg-3-viewProp property-form pl-2 pr-0" *ngIf="(!cbpService.showNavigation && cbpService.showProperty && cbpService.documentSelected && windowWidth < 1000) || (cbpService.showProperty && windowWidth > 768)"
+                        id="property-section">
+                        <app-property *ngIf="cbpService.cbpJson && isPropertyUpdated" 
+                           [class.disableReadOnly]="!editorType.editorMode" [editorType] ="editorType"
+                            (embededProcedure)="addEmbededProcedure($event)"
+                            [section]="cbpService.cbpJson.section" (setOrUnSetNodeIcon)="setOrUnSetNodeIcon($event)"
+                            [propertyDocument]="cbpService.cbpJson.documentInfo[0]">
+                        </app-property>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+  <!-- <component modal pop-up> -->
+
+  <div *ngIf="cbpService.iscomponentInfo">
+    <app-component-info [selectedElement]="cbpService.selectedElement"
+    (saveComponentEvent)="cbpService.selectedElement = $event"
+    ></app-component-info>
+  </div>
+  <div *ngIf="cbpService.isStylesOpen">
+      <app-styles (notifyBuilder)="setWaterMarkChange($event)"></app-styles>
+  </div>
+  <!-- <component modal pop-up> -->
+  <div *ngIf="cbpService.isAlaramOpen">
+      <app-alarm [currentSelectedDataEntry]= "true" [selectedElement]="cbpService.selectedElement"
+       [currentNodeSelected]="selectedTreeNode"
+       (closeEvent)="closeRules($event, 'alaram')"
+       (updateAlarmEmit)="updateRules($event, 'alaram')"></app-alarm>
+  </div>
+  <div *ngIf="cbpService.isRulesOpen">
+      <app-rules [selectedElement]="cbpService.selectedElement"
+      (closeEvent)="closeRules($event, 'rules')"
+       (updateConditional)="updateRules($event, 'rules')"></app-rules>
+  </div>
+  <div *ngIf="cbpService.isApplicabiltyOpen">
+      <app-applicability [selectedElement]="cbpService.selectedElement"
+      (closeEvent)="closeRules($event, 'applicablity')"
+      (updateApplicablity)="updateRules($event, 'applicability')"></app-applicability>
+  </div>
+  <div *ngIf="cbpService.istemplateOpen || cbpService.isEmbedOpen || cbpService.isEdocLink">
+      <app-select-template (embededProcedure)="addEmbededProcedure($event)" (fileOpen)="onOpenFileChange($event)"></app-select-template>
+  </div>
+  <!-- fOR lINK aSSETS -->
+  <div *ngIf="cbpService.isLinkAssetsOpen">
+      <app-link-assets></app-link-assets>
+  </div>
+  <div *ngIf="cbpService.isActionOpen">
+      <app-action [selectedElement]="cbpService.selectedElement"
+      (saveActionEvent)="cbpService.selectedElement = $event"></app-action>
+  </div>
+  <div *ngIf="cbpService.dropItems">
+      <app-dropdown-items></app-dropdown-items>
+  </div>
+  <div *ngIf="cbpService.isSetup">
+      <app-setup [currentSelectedDataEntry]= "true"></app-setup>
+  </div>
+  <div *ngIf="cbpService.issetupURLOpen">
+      <app-setup-url></app-setup-url>
+  </div>
+  <div *ngIf="cbpService.isRoleQualOpen">
+    <app-role-qual (closeEvent)="closeRoleQual($event)"></app-role-qual>
+  </div>
+  <div *ngIf="tableService.isTableAdded || tableService.splitCell">
+      <app-tableadd></app-tableadd>
+  </div>
+  <div *ngIf="tableService.isTableProperties">
+      <app-tableproperties></app-tableproperties>
+  </div>
+  <div *ngIf="cbpService.configureDependency">
+      <app-exe-section-dependency
+      [selectedStepFromExecution]="cbpService.selectedElement"
+      [isExecutor]="false" [cbpJson]="cbpService.cbpJson"
+      (closeEvent)="getSectionDependency($event)"
+      ></app-exe-section-dependency>
+  </div>
+  <div class="float-lg-left col-md-4" *ngIf="cbpService.isSearchTemplate" [ngClass] = "{ 'documentFindReplace' : !editorType.cbpStandalone ,'search-template' : editorType.cbpStandalone}">
+    <app-find-and-replace (closeEvent)="closeSearch()" (triggerReplaceAll)="replaceAll($event)"
+    (selectedNode)="selectElemenetForSearch($event)" ></app-find-and-replace>
+  </div>
+  <div  *ngIf="cbpService.islayoutOpen">
+    <app-layout (saveInfo)="updateLayoutInfo()"></app-layout>
+  </div>
+
+<ng-template #mediaTemplate>
+    <div *ngIf="cbpService.selectedElement && windowWidth >500" class="dropdown" (click)="validateSearchAlert()"
+    [class.disabled]="((cbpService.selectedElement?.isEmbededObject && cbpService.selectedElement?.property?.type == 'Dynamic') ||
+    cbpService.selectedElement?.type==='embedded' || (!cbpService.editCoverPage && cbpService.documentSelected))">
+    <button class="ToolbarBtn" [disabled]="(cbpService.selectedElement?.isEmbededObject && cbpService.selectedElement?.property?.type == 'Dynamic') ||
+    selectedCurrentElement?.dgType === DgTypes.DelayStep ||
+    cbpService.selectedElement?.dgType === DgTypes.DelayStep || cbpService.selectedElement?.dgType === DgTypes.StepInfo ||
+    cbpService.selectedElement?.type==='embedded'"
+    [ngClass]="[controlService.navigationCss]" [hidden]="cbpService.isBackGroundDocument">
+    <span class="btn-icon-wrap" title="Add Media">
+      <img [src]="ImagePath.topMedia" width="34px" class="imageblue" alt="img">
+    </span>
+    </button>
+    <div class="dropdown-content currentImgdropdown img-widthdrop" [ngClass]="{'multiImg': cbpService.selectedElement?.dgType === DgTypes.Table, 'multiImgdrop':cbpService.selectedElement?.dgType === DgTypes.Table}">
+        <div class="row">
+            <!-- padding-row -->
+            <button class="ToolbarBtn" *ngIf="cbpService.selectedElement?.dgType!== DgTypes.Table"
+             [disabled]="cbpService.documentSelected ||cbpService.selectedUniqueId == 0 || cbpService.selectedElement?.dgType=== DgTypes.DelayStep ||
+            cbpService.selectedElement?.dgType === DgTypes.StepInfo || (cbpService.selectedElement?.isEmbededObject && cbpService.selectedElement?.property?.type == 'Dynamic')  ||cbpService.selectedElement?.dgType === DgTypes.Table||
+            cbpService.selectedElement?.type ==='embedded'"
+            [ngClass]="[controlService.navigationCss]">
+            <span class="btn-icon-wrap" title="Media Gallery" (click)="cbpService.selectedElement?.dgType!== DgTypes.Table && addStepActionElement(DgTypes.Figures,'multiple')">
+                <img [src]="ImagePath.uploadImg" width="34px" class="imageblue" alt="img">
+            </span>
+            </button>
+            <input *ngIf="!cbpService?.isBackGroundDocument" [hidden]="true" id="fileUploadMedia" type="file" [accept]="sharedService.singleMediaAccept"
+            (click)="onInputClick($event)"
+            (change)="singleMedia($event)">
+            <button [disabled]="cbpService.selectedElement?.dgType=== DgTypes.DelayStep ||
+             cbpService.selectedElement?.dgType === DgTypes.StepInfo || (cbpService.selectedElement?.isEmbededObject && cbpService.selectedElement?.property?.type == 'Dynamic')  || cbpService.selectedElement?.type==='embedded'"
+            [ngClass]="[controlService.navigationCss]"  [hidden]="cbpService.isBackGroundDocument">
+            <span class="btn-icon-wrap" title="Media Single" (click)="openMedia()">
+                <img [src]="ImagePath.uploadVideo" width="34px" class="imageblue" alt="img">
+            </span>
+            </button>
+        </div>
+    </div>
+    </div>
+</ng-template>
+
+<ng-template #alertTemplate>
+    <div class="dropdown-alert">
+        <button class="dropbtn buttns btn btn-icon btn-outline-secondary btn-sm buttns ToolbarBtn" title="Alert Button" [hidden]="cbpService.isBackGroundDocument"
+        >
+            <img [src]="ImagePath.alertIcon" width="34px" class="imageButtons" alt="img">
+        </button>
+        <div class="dropdown-alert-show top29">
+            <ng-container *ngFor="let alert of controlService.basicDataEntries; let i = index">
+                <button [ngClass]="[controlService.navigationCss]" [hidden]="cbpService.isBackGroundDocument" *ngIf="i<4"
+                    title="Add {{alert.name}}" (click)="addElement(alert.type)"
+                    [disabled]="cbpService.selectedUniqueId == 0  || (cbpService.selectedElement?.isEmbededObject && cbpService.selectedElement?.property?.type == 'Dynamic')  || cbpService.selectedElement?.type==='embedded' ||
+                     cbpService.selectedElement?.dgType=== DgTypes.StepInfo
+                    ||cbpService.selectedElement?.dgType=== DgTypes.DelayStep ||
+                     selectedCurrentElement?.dgType=== DgTypes.StepInfo
+                    || selectedCurrentElement?.dgType=== DgTypes.DelayStep">
+                    <span class="btn-icon-wrap">
+                    <img [src]="alert.image" width="34px" class="imageButtons" alt="img">
+                    </span>
+                </button>
+            </ng-container>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #TextIconTemplate>
+    <ng-container *ngFor="let item of controlService.topIconsList;">
+        <button class="ToolbarBtn" [ngClass]="[controlService.navigationCss]" [hidden]="cbpService.isBackGroundDocument && item.type !== DgTypes.Para "
+        [class.disabled]="cbpService.selectedUniqueId == 0 || (cbpService.selectedElement?.isEmbededObject && cbpService.selectedElement?.property?.type == 'Dynamic')  || cbpService.selectedElement?.type==='embedded' || cbpService.selectedElement?.type==='embedded'
+        || (item.name === 'Text'&& (
+            selectedCurrentElement?.dgType=== DgTypes.Section || cbpService.selectedElement?.dgType=== DgTypes.Section ||
+            selectedCurrentElement?.dgType=== DgTypes.StepInfo || selectedCurrentElement?.dgType=== DgTypes.DelayStep ||
+            cbpService.selectedElement?.dgType=== DgTypes.StepInfo || cbpService.selectedElement?.dgType=== DgTypes.DelayStep ||
+            cbpService.selectedElement?.dgType=== DgTypes.Warning || cbpService.selectedElement?.dgType=== DgTypes.Caution ||
+            cbpService.selectedElement?.dgType=== DgTypes.Note || cbpService.selectedElement?.dgType=== DgTypes.Alara)) ||
+         (item.name === 'Number'&& (
+            selectedCurrentElement?.dgType=== DgTypes.Section || cbpService.selectedElement?.dgType=== DgTypes.Section ||
+            selectedCurrentElement?.dgType=== DgTypes.StepInfo || selectedCurrentElement?.dgType=== DgTypes.DelayStep ||
+            cbpService.selectedElement?.dgType=== DgTypes.StepInfo || cbpService.selectedElement?.dgType=== DgTypes.DelayStep ||
+            cbpService.selectedElement?.dgType=== DgTypes.Warning || cbpService.selectedElement?.dgType=== DgTypes.Caution ||
+            cbpService.selectedElement?.dgType=== DgTypes.Note || cbpService.selectedElement?.dgType=== DgTypes.Alara )) ||
+         (item.name === 'Date'&& (
+            selectedCurrentElement?.dgType=== DgTypes.Section || cbpService.selectedElement?.dgType=== DgTypes.Section ||
+            selectedCurrentElement?.dgType=== DgTypes.StepInfo || selectedCurrentElement?.dgType=== DgTypes.DelayStep ||
+            cbpService.selectedElement?.dgType=== DgTypes.StepInfo || cbpService.selectedElement?.dgType=== DgTypes.DelayStep ||
+            cbpService.selectedElement?.dgType=== DgTypes.Warning || cbpService.selectedElement?.dgType=== DgTypes.Caution ||
+            cbpService.selectedElement?.dgType=== DgTypes.Note || cbpService.selectedElement?.dgType=== DgTypes.Alara))">
+         <span class="btn-icon-wrap" [title]="item.type === DgTypes.Para ? 'Add Para' : item.name" (click)="addStepActionElement(item.type,'')">
+            <img [src]="item.image" width="34px" class="imageblue" alt="img">
+        </span>
+    </button>
+    </ng-container>
+</ng-template>
+<ng-template #indentTemplate >
+    <div class="dropdowninside" *ngIf= "!cbpService.documentSelected"
+    [class.disabled]="cbpService.selectedUniqueId == 0 || (cbpService.selectedElement?.isEmbededObject && cbpService.selectedElement?.property?.type == 'Dynamic') || cbpService.selectedElement?.dgType == DgTypes.StepInfo">
+         <button class="dropbtn mr-2 ToolbarBtn"  [ngClass]="[controlService.navigationCss]"
+           [hidden]="cbpService.isBackGroundDocument || cbpService.documentSelected"
+            title="Bullets" >
+            <span class="btn-icon-wrap">
+                <img [src]="ImagePath.bulletsList" width="34px" class="imageblue" alt="img">
+            </span>
+        </button>
+        <div   class="dropdown-content-inside currentdropdown pad-r top29">
+            <div class="col-md-12 mt-2 mb-2 pl-2 pr-2"  >
+                <h6 class="currentlist text-left"> Bullets Library</h6>
+                <div class="row bulets">
+                    <ng-container *ngFor="let item of controlService.bulletLists;">
+                        <div class="col-2 col-sm-2 col-md-2 col-lg-2" (click)="converToOther(item.type)" 
+                        [class.selected-item]="cbpService.selectedElement?.childSequenceType == item.type">
+                            <div class="others">
+                                <p class="charaling" [class.square]="item.name === 'SQUARE'" [innerHTML]="item.icon"></p>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<button class="ToolbarBtn"  [ngClass]="[controlService.navigationCss]"  [hidden]="cbpService.isBackGroundDocument || cbpService.documentSelected"
+    [disabled]="
+     (cbpService.selectedElement?.firstDualStep) ||
+     ((cbpService.selectedElement?.leftdualchild ||
+     cbpService.selectedElement?.rightdualchild) &&
+     cbpService.selectedElement?.dgSequenceNumber?.length <3)
+     || cbpService.selectedUniqueId == 0 ||
+     (cbpService.selectedElement?.isEmbededObject && cbpService.selectedElement?.property?.type == 'Dynamic') ||
+     !cbpService.selectedElement?.number||
+      cbpService.selectedElement?.dgSequenceNumber?.indexOf('1.0') > -1 ||
+      setStateForRightIndent(cbpService.selectedElement)"
+    title="Indent Right" (click)="indentRight()">
+    <span class="btn-icon-wrap">
+        <img [src]="ImagePath.indentRight" width="34px" class="imageblue" alt="img">
+    </span>
+</button>
+<button class="ToolbarBtn"  [ngClass]="[controlService.navigationCss]"  [hidden]="cbpService.isBackGroundDocument || cbpService.documentSelected"
+[disabled]="(cbpService.selectedElement?.firstDualStep)|| ((cbpService.selectedElement?.leftdualchild || cbpService.selectedElement?.rightdualchild) && cbpService.selectedElement?.level <3) ||
+cbpService.selectedUniqueId == 0 || (cbpService.selectedElement?.isEmbededObject && cbpService.selectedElement?.property?.type == 'Dynamic') || cbpService.selectedElement?.dgSequenceNumber?.indexOf('1.0') > -1 || !cbpService.selectedElement?.number || setStateForLeftIndent(cbpService.selectedElement)"
+    title="Indent Left" (click)="indentLeft()">
+    <span class="btn-icon-wrap">
+        <img [src]="ImagePath.indentLeft" width="34px" class="imageblue" alt="img">
+    </span>
+</button>
+</ng-template>
+
+<ng-template #undoDeleteTemplate let-value>
+    <button  class="ToolbarBtn" *ngIf="value" [ngClass]="[controlService.navigationCss]" [hidden]="cbpService.isBackGroundDocument" (click)="deleteElement()"
+    [disabled]="(cbpService.selectedElement?.isEmbededObject && cbpService.selectedElement?.property?.type == 'Dynamic') || checkCount(cbpService.selectedElement) || deleteFirstElement || cbpService.selectedElement?.dgType === DgTypes.Table ||  cbpService.selectedElement?.dgType === DgTypes.Header || cbpService.selectedElement?.dgType === DgTypes.Footer">
+    <span class="btn-icon-wrap" title="Delete">
+        <img [src]="ImagePath.topDelete" width="34px" class="imageDanger" alt="img">
+    </span>
+    </button>
+    <button class="ToolbarBtn" [ngClass]="[controlService.navigationCss]" [hidden]="cbpService.isBackGroundDocument" class="undobutton"
+    [class.disabled]=" (this.cbpService.cbpJson.documentInfo[0].newCoverPageeEnabled && cbpService.documentSelected) || (auditService.auditJson.length <= 1)"
+     (click)="UndoElement()">
+        <span class="btn-icon-wrap" title="Undo">
+            <img [src]="ImagePath.topUndo" width="34px"  class="imageblue" alt="img"></span>
+    </button>
+    <button class="ToolbarBtn" [ngClass]="[controlService.navigationCss]" *ngIf="editorType?.cbpStandalone || isBuilderRouter" (click)="userConformationEvents('Close');cbpService.selectedType = 'docClose'">
+        <span class="btn-icon-wrap" title="Close">
+            <img [src]="ImagePath.topClose" width="34px" class="imageDanger" alt="img">
+        </span>
+    </button>
+</ng-template>
+
+<ng-template #subSectionTemplate>
+
+    <button class="ToolbarBtn" [ngClass]="[controlService.navigationCss]" [hidden]="cbpService.isBackGroundDocument"  title="Add Section"
+    [disabled]="(cbpService.selectedElement?.isEmbededObject && cbpService.selectedElement?.property?.type == 'Dynamic') || cbpService.selectedElement?.type==='embedded' ||
+    selectedCurrentElement?.dataType=== DgTypes.Attachment ||
+    selectedCurrentElement?.dgType=== DgTypes.Timed || selectedCurrentElement?.dgType=== DgTypes.Repeat || selectedCurrentElement?.dgType=== DgTypes.StepInfo ||
+    cbpService.selectedElement?.dataType=== DgTypes.Attachment || 
+     cbpService.selectedElement?.dgType=== DgTypes.Timed || cbpService.selectedElement?.dgType=== DgTypes.Repeat || cbpService.selectedElement?.dgType=== DgTypes.StepInfo"
+    (click)="addStepContainer()">
+    <span class="btn-icon-wrap">
+        <img [src]="ImagePath.topIconSection" width="34px" class="imageButtons" alt="img">
+    </span>
+    </button>
+    <button class="ToolbarBtn" [ngClass]="[controlService.navigationCss]"  [hidden]="cbpService.isBackGroundDocument"   title="Add Sub Section"
+    [disabled]="!(cbpService.selectedElement?.dgType=== DgTypes.Section) || cbpService.selectedElement?.type==='embedded' || (cbpService.selectedElement?.isEmbededObject && cbpService.selectedElement?.property?.type == 'Dynamic')"
+        (click)="createStepNode(cbpService.selectedElement)">
+        <span class="btn-icon-wrap">
+            <img [src]="ImagePath.topIconSubSection" width="34px"  class="imageButtons" alt="img">
+        </span>
+    </button>
+    <button class="ToolbarBtn" [ngClass]="[controlService.navigationCss]"  [hidden]="cbpService.isBackGroundDocument"  title="Add StepAction"
+        [disabled]="cbpService.selectedUniqueId == 0  || (cbpService.selectedElement?.isEmbededObject && cbpService.selectedElement?.property?.type == 'Dynamic') || cbpService.selectedElement?.type==='embedded' ||
+        (!(cbpService.selectedElement?.dgType=== DgTypes.Section || cbpService.selectedElement?.dgType=== DgTypes.StepAction ||
+         cbpService.selectedElement?.dgType=== DgTypes.Timed ||
+         cbpService.selectedElement?.dgType=== DgTypes.Repeat) || cbpService.selectedElement?.dgType=== DgTypes.StepInfo)"
+        (click)="addStepNew(cbpService.selectedElement,DgTypes.StepAction)">
+        <span class="btn-icon-wrap">
+            <img [src]="ImagePath.topIconStepAction" width="34px" class="imageButtons" alt="img">
+        </span>
+    </button>
+    <button class="ToolbarBtn" [ngClass]="[controlService.navigationCss]"  [hidden]="cbpService.isBackGroundDocument"
+        title="Attachment"
+        [disabled]="(cbpService.selectedElement?.isEmbededObject && cbpService.selectedElement?.property?.type == 'Dynamic') ||
+        selectedCurrentElement?.dgType=== DgTypes.Timed || selectedCurrentElement?.dgType=== DgTypes.Repeat ||
+        cbpService.selectedElement?.type==='embedded' || 
+        cbpService.selectedElement?.dgType=== DgTypes.Timed || cbpService.selectedElement?.dgType=== DgTypes.Repeat ||
+        cbpService.selectedElement?.dgType=== DgTypes.StepInfo"
+        (click)="addAttachment()">
+        <span class="btn-icon-wrap">
+            <img [src]="ImagePath.topIconAttachment" width="34px" class="imageButtons" alt="img">
+        </span>
+    </button>
+</ng-template>
+
+<ng-template #saveTemplate>
+    <ng-container *ngTemplateOutlet="previewTemplate"></ng-container>
+</ng-template>
+
+<ng-template #previewTemplate>
+    <button class="ToolbarBtn" [ngClass]="[controlService.navigationCss]" 
+     (click)="!isPreviewClicked && buildJsonCreate(false);">
+        <span class="btn-icon-wrap"  title="Preview">
+            <img [src]="ImagePath.topPreview" width="34px" [class.mr-2]="cbpService.isBackGroundDocument"
+            class="imageblue BgOverflowControl" alt="img">
+        </span>
+    </button>
+</ng-template>
+
+
+<ng-template #TemplateDropdown let-type>
+    <div  class="dropdown-content currentdropdown current-drop-height">
+        <div class="col-md-12 col-lg-12 current">
+            <div class="row">
+                <div class="col-md-12 col-lg-12">
+                    <div class="col-md-12 col-lg-12 pt-2 pb-2 ">
+                        <div class="row" *ngIf="type === 'undoDelete'">
+                            <ng-container [ngTemplateOutlet]="undoDeleteTemplate"  [ngTemplateOutletContext]="{ $implicit: true }"></ng-container>
+                        </div>
+                        <div class="row" *ngIf="type === 'TextIconTemplate'">
+                            <ng-container *ngTemplateOutlet="TextIconTemplate"></ng-container>
+                        </div>
+                        <div class="row" *ngIf="type === 'alertTemplate'">
+                            <ng-container *ngTemplateOutlet="alertTemplate"></ng-container>
+                        </div>
+                        <div class="row" *ngIf="type === 'subSectionTemplate'">
+                            <ng-container *ngTemplateOutlet="subSectionTemplate"></ng-container>
+                        </div>
+                        <div class="row" *ngIf="type === 'indentTemplate'">
+                            <ng-container *ngTemplateOutlet="indentTemplate"></ng-container>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #docTemplate>
+    <div class="dropdown">
+        <button class="dropbtn mr-2 dpf" title="View">
+            <ng-container  *ngIf="windowWidth <650">V</ng-container><ng-container *ngIf="windowWidth >650"> View</ng-container>
+            <span class="fa fa-caret-down mg-l"></span>
+        </button>
+        <div class="dropdown-content pad-10 top29">
+            <ng-container *ngFor="let item of controlService.docProperties">
+              <div class="row" [hidden]="item.type == 'showUpdates' && !cbp_track_change">
+                <div class="col-md-12 col-lg-12 pb-0">
+                    <label class="pointerCheckbox"> <input type="checkbox" [(ngModel)]="cbpService[item.type]"
+                        (click)="onPropertyChange($event, item.name)"  [disabled]="item.name === 'Navigation' && cbpService.showProperty && (windowWidth < 1350)">
+                         <span class="viewdrop"[class.disabled]="item.name === 'Navigation' && cbpService.showProperty && (windowWidth < 1350)">{{item.name}}</span>
+                     </label>
+                </div>
+              </div>
+            </ng-container>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #currentListTemplate  let-type>
+    <div class="col-md-12 col-lg-12">
+        <h6 class="currentlist">
+            <ng-container  *ngIf="type !== 'currentList'"> List Library</ng-container>
+        </h6>
+        <div class="col-md-12 col-lg-12">
+            <div class="row" *ngIf="type !== 'currentList'">
+                <ng-container [ngTemplateOutlet]="numeberListTemplate"  [class.selected-item]="cbpService.selectedElement?.childSequenceType == sequenceTypesNew.ALPHABETICAL" [ngTemplateOutletContext]="{ $implicit: sequenceTypesNew.ALPHABETICAL, image: ImagePath.alphabetListImg }"></ng-container>
+                <ng-container [ngTemplateOutlet]="numeberListTemplate" [class.selected-item]="cbpService.selectedElement?.childSequenceType == sequenceTypesNew.NUMERIC"[ngTemplateOutletContext]="{ $implicit: sequenceTypesNew.NUMERIC, image: ImagePath.numberListImg  }"></ng-container>
+                <div class="col-4 col-sm-4 col-md-4 col-lg-4 pr-pl-0"></div>
+                <ng-container [ngTemplateOutlet]="numeberListTemplate" [class.selected-item]="cbpService.selectedElement?.childSequenceType == sequenceTypesNew.CAPITALALPHABETICAL" [ngTemplateOutletContext]="{ $implicit: sequenceTypesNew.CAPITALALPHABETICAL, image: ImagePath.capitalAlpha }"></ng-container>
+                <ng-container [ngTemplateOutlet]="numeberListTemplate" [ngTemplateOutletContext]="{ $implicit: sequenceTypesNew.CAPITALROMAN, image: ImagePath.romanCapital }"></ng-container>
+                <ng-container [ngTemplateOutlet]="numeberListTemplate" [ngTemplateOutletContext]="{ $implicit: sequenceTypesNew.ROMAN, image: ImagePath.romanSmall }"></ng-container>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #coverPageTemplate  let-type>
+    <div class="col-md-12 col-lg-12">
+        <h6 class="currentlist">
+           Cover Page Templates
+        </h6>
+        <div class="col-md-12 col-lg-12">
+            <div class="row" *ngIf="type !== 'currentList'">
+                <ng-container [ngTemplateOutlet]="coverTemplate"
+                 [ngTemplateOutletContext]="{ $implicit: sequenceTypesNew.ALPHABETICAL, image: ImagePath.coverpage1, temp:'1' }"></ng-container>
+                <ng-container [ngTemplateOutlet]="coverTemplate"
+                 [ngTemplateOutletContext]="{ $implicit: sequenceTypesNew.NUMERIC, image: ImagePath.coverpage2, temp:'2'  }"></ng-container>
+                <ng-container [ngTemplateOutlet]="coverTemplate"
+                 [ngTemplateOutletContext]="{ $implicit: sequenceTypesNew.CAPITALALPHABETICAL, image: ImagePath.coverpage3, temp:'3' }"></ng-container>
+                <ng-container [ngTemplateOutlet]="coverTemplate"
+                [ngTemplateOutletContext]="{ $implicit: sequenceTypesNew.CAPITALROMAN, image: ImagePath.coverpage4, temp:'4' }"></ng-container>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #coverTemplate let-name let-image="image" let-temp = "temp">
+    <div class="col-4 col-sm-6 col-md-4 col-lg-4 pr-pl-0">
+        <div class="listlibrary" [class.select-cover]="cbpService.cbpJson.documentInfo[0]['templateId'] === temp">
+            <span class="circlelist">
+                <img alt="" (click)="cbpService.cbpJson.documentInfo[0]['templateId']=temp" class="rounded-circle" [src]="image" width="80" height="80">
+            </span>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #numeberListTemplate let-name let-image="image">
+    <div class="col-4 col-sm-4 col-md-4 col-lg-4 pr-pl-0 mt-2">
+        <div 
+        [class.selectedLibList]="cbpService.selectedElement?.childSequenceType == name"
+        class="listlibrary" (click)="numberListMethods(name)">
+            <span class="circlelist">
+                <img alt="" class="rounded-circle" [src]="image" width="80" height="80">
+            </span>
+        </div>
+    </div>
+</ng-template>
+
+<ng-container *ngIf="cbpService.showErrorPopup">
+    <lib-error-modal [errorDgType]="cbpService.errorDgType" [displayMsg]="cbpService.displayMsg" (closeEvent)="closeModal()" class="popUpPosition"></lib-error-modal>
+</ng-container>
+
+
+
+<ng-template #IndexControlTemplate>
+    <div class="row">
+        <div class="col-xs-6 col-sm-6 col-md-12 col-lg-12 aligncss pr-0 pb-1 indexalign">
+            <ul class="nav nav-tabs padding-topIcon">
+                <li class="active">
+                  <a class="pointer fontSize-Index responsiveFont" [ngClass]="{'checkactive': control ==0 }"
+                        (click)="changeControl(0) ;  cbpService.coverPageViewEnable ? cbpService.coverPageViewEnable = true : cbpService.coverPageViewEnable = false ">Index</a>
+                </li>
+                <li class="active" >
+                  <a class="pointer fontSize-Index responsiveFont" [ngClass]="{'checkactive': control == 1 }"
+                  [class.disabled]="((!cbpService.editCoverPage) && cbpService.documentSelected)
+                  || !editorType.editorMode"
+                  (click)="changeControl(1)">Control</a>
+                </li>
+                <li class="active" *ngIf="showRefferenceObject &&
+                (!cbpService.documentSelected || cbpService.selectedElement.dgType=== DgTypes.Header ||  cbpService.selectedElement.dgType=== DgTypes.Footer)"
+                [class.disabled]="cbpService.selectedUniqueId == 0"><a class="pointer responsiveFont"
+                  [ngClass]="{'checkactive': control == 2 }" (click)="changeControl(2)">
+                  <span class="indexfontsize">Reference</span></a>
+               </li>
+               <li class="active" *ngIf="cbpService.documentSelected &&
+                cbpService.cbpJson.documentInfo[0].newCoverPageeEnabled">
+                <a class="pointer fontSize-Index responsiveFont" [ngClass]="{'checkactive': control == 3 }"
+                  (click)="changeControl(3);getpropcheck()">Attributes</a>
+               </li>
+            </ul>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template  #IndexReferenceTemplate let-item let-index>
+   <div  class="doc-info pad-2"  [style.padding-left.px]="(item.level+1)*15">
+     <i [style.margin-right.px]="5" class="fa fa-caret-right" *ngIf="(item.DGC_HAS_CHILD != 0 || item.DGC_REFERENCE_OBJECT_DETAIL) && !item.show" (click)="callRefMethod(item,index);"></i>
+     <i [style.margin-right.px]="5" class="fa fa-caret-down" *ngIf="(item.DGC_HAS_CHILD != 0 || item.DGC_REFERENCE_OBJECT_DETAIL) &&  item.show" (click)="collapse(item)"></i>
+
+     <ng-container >
+     <ng-container *ngIf="item.level == 0" >
+        <span (click)="dragReferenceObj(item)"
+        data-toggle="tooltip" data-placement="top" [title]="item?.DGC_REFERENCE_OBJECT_NAME">{{item?.DGC_REFERENCE_OBJECT_NAME | slice:0:50}}{{item?.DGC_DESCRIPTION?.length > 50 ? '...' : ''}}</span></ng-container>
+     <ng-container *ngIf="item.level > 0">
+         <span  data-toggle="tooltip" data-placement="top" [title]="item?.DGC_DESCRIPTION">{{item?.DGC_DESCRIPTION | slice:0:50}}{{item?.DGC_DESCRIPTION?.length > 50 ? '...' : ''}}</span></ng-container>
+     <ng-container *ngIf="item.DGC_REFERENCE_OBJECT_DETAIL && item.show && item.DGC_REFERENCE_DISPLAY_OPTION">
+       <ng-container *ngFor="let str of item.dragLinks">
+        <div  [style.padding-left.px]="5" [style.margin-left.px]="15" class="doc-info" data-toggle="tooltip" data-placement="top" [title]="str"
+        [draggable] [dragData]="{link : str, title : str, data:item }" [dragScope]="DgTypes.Hyperlink"> {{str | slice:0:50}}{{str.length > 50 ? '...' : ''}}</div>
+        </ng-container>
+     </ng-container>
+     <ng-container *ngIf="item.DGC_REFERENCE_OBJECT_DETAIL && item.show && !item.DGC_REFERENCE_DISPLAY_OPTION">
+        <div  [style.padding-left.px]="5" [style.margin-left.px]="15" class="doc-info" data-toggle="tooltip" data-placement="top" [title]="item?.DGC_REFERENCE_OBJECT_DETAIL?.menuTitle"
+        [draggable] [dragData]="{link : item?.DGC_REFERENCE_OBJECT_DETAIL?.menuTitle, title : item?.DGC_REFERENCE_OBJECT_DETAIL?.menuTitle, data:item }" [dragScope]="DgTypes.Hyperlink"> {{item?.DGC_REFERENCE_OBJECT_DETAIL?.menuTitle | slice:0:50}}{{item?.DGC_REFERENCE_OBJECT_DETAIL?.menuTitle?.length > 50 ? '...' : ''}}</div>
+        </ng-container>
+    </ng-container>
+   </div>
+</ng-template>
+<ng-template #ngTempalteReferenceLoop let-list>
+    <div class=" ref-controltab ">
+    <div *ngFor="let item of list; let i = index">
+       <div>
+         <ng-container [ngTemplateOutlet]="IndexReferenceTemplate" [ngTemplateOutletContext]="{ $implicit: item, index: i }"></ng-container>
+       </div>
+        <div *ngIf="item.children?.length>0 && item?.show">
+            <ng-container [ngTemplateOutlet]="ngTempalteReferenceLoop"
+            [ngTemplateOutletContext]="{ $implicit: item.children }">
+          </ng-container>
+        </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #documentViewTemplate>
+    <div class="btn-group" [class.disabled]="cbpService.isSearchTemplate">
+        <div class="dropdown">
+            <button class="dropbtn mr-2 dpf" ><ng-container  *ngIf="windowWidth <650">Doc</ng-container><ng-container *ngIf="windowWidth >650"> Document</ng-container> <span
+                    class="fa fa-caret-down mg-l" ></span>
+            </button>
+            <div class="dropdown-content top29">
+                <a  [ngClass]="[controlService.dropdownClass]"  *ngIf="docConfig.isNew"
+                    (click)="userConformationEvents('User');cbpService.selectedType ='New'">New</a>
+                <input [hidden]="true" #fileUploadDemo id="fileUpload" type="file" accept=".cbp"
+                    (change)="onOpenFileChange($event); onCbpFileChange($event)">
+                <a  [ngClass]="[controlService.dropdownClass]" *ngIf="docConfig.isOpen"
+                    (click)="fileUploadDemo.value = ''; userConformationEvents('Open');cbpService.selectedType ='Open'">Open</a>
+                <a  [ngClass]="[controlService.dropdownClass]"  *ngIf="docConfig.isClose" (click)="userConformationEvents('Close');cbpService.selectedType ='Close'">Close</a>
+                <a  [ngClass]="[controlService.dropdownClass]"  *ngIf="docConfig.isSaveAs" (click)="buildJsonCreate(true,true);cbpService.selectedType = ''">Save as</a>
+                <a  *ngIf="docConfig.isExport" class="dis-fl" [ngClass]="[controlService.dropdownClass, docFileStatusNum == '10000' ? 'disabled' : '']" data-toggle="collapse"
+                data-target="#docExample" aria-expanded="false"
+                aria-controls="docExample" (click)="showExportdrop = !showExportdrop">Export <span class="fa fa-caret-down ml-2"></span>
+                </a>
+                <div class="collapse" id="docExample" *ngIf="showExportdrop">
+                    <div class="card card-body" [ngClass]="[controlService.dropdownClass]">
+                        <ul class="documentexport">
+                            <li><a (click)="exportDOc('pdf')"  class="dataentry">PDF </a></li>
+                            <!-- <li><a (click)="exportDOc('docx')" class="dataentry">DOCX </a></li> -->
+                        </ul>
+                    </div>
+                </div>
+                <a  *ngIf="docConfig.isExit" [ngClass]="[controlService.dropdownClass]" (click)="userConformationEvents('Close');cbpService.selectedType ='docClose'">Exit</a>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #cardTitleTemp let-name let-id="id">
+    <h5 class="mb-0 mt-0">
+        <button (click)="tabClick(name)" type="button" [ngClass]="[controlService.collapseCss]">
+           {{name}}
+        </button>
+    </h5>
+</ng-template>
+
+
+
+<ng-template  #coverPageIcon>
+    <ng-container *ngIf="cbpService.documentSelected && !cbpService.cbpJson.documentInfo[0]?.newCoverPageeEnabled && !(cbpService.editCoverPage || cbpService.coverPageDataAfterSave) && !cbpService.hideCoverPageButton">
+    <button class="dropbtn buttns"  [ngClass]="{'mr-2': windowWidth> 650, 'mr-1':  windowWidth< 650}"
+    (click)="setShowOrHideCover()" id="idValue">
+      <img [src]="cbpService.cbpJson.documentInfo[0].newCoverPageeEnabled  ? ImagePath.coverPageNew: ImagePath.coverPageOld"
+       width="34px" class="imageblue" title="coverPage" alt="img">
+    </button>
+</ng-container>
+  </ng-template>
+
+  <ng-template #coverPageStyles>
+    <ng-container *ngIf="cbpService.documentSelected && cbpService.tableDataEntrySelected && 
+    (cbpService.tableDataEntrySelected.dgType !== DgTypes.Para && 
+    cbpService.tableDataEntrySelected.dgType !== DgTypes.LabelDataEntry)">
+        <!-- font-family Icon -->
+        <div [hidden]="(!cbpService.editCoverPage && cbpService.documentSelected) || 
+        hideStyleIcons" 
+        [class.disabled]="!cbpService.tableDataEntrySelected?.coverType && cbpService.documentSelected"
+        class="dropdown-font-family">
+            <button class="btn btn-icon btn-outline-secondary btn-sm buttns bg-t btnspace ToolbarBtn" >
+              <span class="btn-icon-wrap btn-icon-width" title="Font Family">
+               <img [src]="ImagePath.fontFamilyIcon" class="imageblue iconWHSize" alt="img">
+            </span>
+            </button>
+            <div class="font-family-align top29">
+              <form>
+                <select
+                  #selectFamily [(ngModel)]="defaultFontFamily"
+                  (change)="fontSizeFamily($event)" class="form-control font-names"
+                  name="fontName">
+                  <option [value]="item" *ngFor="let item of fontNames">
+                    {{item === 'TimeNewRoman'? 'Times New Roman' : item}}</option>
+                </select>
+              </form>
+            </div>
+          </div>
+        <!-- font-family Icon End-->
+
+        <!-- font Icon -->
+        <div [hidden]="(!cbpService.editCoverPage && cbpService.documentSelected) || hideStyleIcons"
+         [class.disabled]="!cbpService.tableDataEntrySelected?.coverType && cbpService.documentSelected"
+          class="dropdown-font">
+            <button  class="bg-t ToolbarBtn">
+              <span class="btn-icon-wrap btn-icon-width" title="Font Size">
+               <img [src]="ImagePath.textIcon" class="img-navbar-width image-pad tab-img" alt="img"> 
+              <!-- <img src="assets/cbp/images/text-icon.svg" class="img-navbar-width image-pad tab-img" alt="img"> -->
+            </span>
+            </button>
+            <div class="font-size-align t29_l5">
+            <select #select (change)="fontSizeChange($event)" name="fontsize" [(ngModel)]="defaultFontSize">
+                <option [value]="item" *ngFor="let item of fontSizes">{{item}}</option>
+            </select>
+            </div>
+          </div>
+        <!-- font Icon End-->
+
+        <!-- font-color -->
+        <div [hidden]="(!cbpService.editCoverPage && cbpService.documentSelected) || hideStyleIcons" 
+        [class.disabled]="!cbpService.tableDataEntrySelected?.coverType && cbpService.documentSelected"
+         class="dropdown-font-color">
+            <button type="button"  class="bg-t mrfive ToolbarBtn" title="Text Color">
+              <span class="btn-icon-wrap btn-icon-width" title="Font Color">
+                 <img [src]="ImagePath.fontColor" class="img-navbar-width image-pad tab-img" alt="img">
+                <span class="color-picker" ></span>
+              </span>
+            </button>
+              <div class="font-family-color t29_l5">
+                <div class="container">
+                  <div  class="row">
+                    <div class="col-md-12 pl-0 pr-0">
+                      <label >Section Font Color</label>
+                      <div class="Picker">
+                        <ng-container *ngFor="let item of colors;">
+                          <div class="sample drag-handle" 
+                          [class.selected-color]="selectedColor == item"
+                          [style.background-color]="item"
+                          (click)="insertColor(item, 'color', '');"></div>
+                        </ng-container>
+                      </div>
+                    </div>
+                    <div class="col-md-12 pl-0 pr-0">
+                      <label>Custom Font Color</label>
+                      <br>
+                      <input type="color" style="width:100%" class="backcss" 
+                      [value]="selectedColor"
+                      #bgInput
+                      (change)="insertColor(bgInput.value, 'color', '')">
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+        <!-- font-color End-->
+      </ng-container>
+  </ng-template>

@@ -1,0 +1,190 @@
+<ng-template #numericTemplate>
+  <div class="row" [ngClass]="{'pdlf': !stepObject.isTableDataEntry }"
+    id="TestNumeric{{stepObject.dgUniqueID}}">
+   <div class="col-md-12 mb-1" [ngClass]="{'pl-0': !stepObject.isTableDataEntry, 'pl-2': obj?.dualStep }">
+   <div  [ngClass]="{'row': !stepObject.isTableDataEntry}">
+    <lib-track-ui [field]="stepObject" *ngIf="!stepObject.isTableDataEntry"></lib-track-ui>
+     <div *ngIf="!stepObject.isTableDataEntry" class="pl-1 pt-1" style="word-wrap: break-word;"
+     [ngClass]="{'col-12 col-lg-12 col-md-12': obj?.dualStep && !cbpService.tabletCheck,
+     'col-md-9 col-lg-9 col-9': !obj?.dualStep && !cbpService.tabletCheck,
+     'col-lg-12': cbpService.tabletCheck}"
+     id="stepAno{{stepObject.dgUniqueID}}"
+     (click)="cbpService.handleSelection( $event, stepObject,  'prompt' )"
+     [ngStyle]="styleObject" [innerHtml]="stepObject.prompt | innerhtml">
+     </div>
+     <div [ngClass]="{'pt-1': !stepObject.isTableDataEntry,
+       'col-12 col-lg-12 col-md-12 pl-0 pr-0': stepObject.isTableDataEntry && !cbpService.tabletCheck,
+       'col-12 col-lg-12 col-md-12 pl-1': obj?.dualStep && !cbpService.tabletCheck,
+       'col-md-3 col-lg-3 col-3': !obj?.dualStep && !stepObject.isTableDataEntry && !cbpService.tabletCheck,
+       'col-lg-12': cbpService.tabletCheck,'pl-1': obj?.dualStep || cbpService.tabletCheck}"
+        [class.disabled]="stepObject?.protect || stepObject?.disableField || cbpService.isDisabledAllInputEntries" [style.width.%]="stepObject?.dataEntrySize">
+         <div class="row" (click)="setDerviedRule()" [ngClass]="{'alignContent' : !stepObject.isTableDataEntry}" style="flex-wrap: nowrap;"><!-- justify-content: flex-end; -->
+         <div [class.disabled]="stepObject?.valueType === dgType.Derived || stepObject?.disableField" style="display: flex;"
+          [ngClass]="{'col-md-12 col-lg-12': !stepObject.unitsRequired,'pl-2': stepObject?.showLabel,
+          'col-md-7 col-lg-7 pr-0': stepObject.unitsRequired }">
+          
+         <input *ngIf="!stepObject?.innerHtmlView && stepObject?.negative === 0" type="text"
+             class="form-control form-control-height"
+             [class.disabled]="cbpService.isDisabledAllInputEntries"
+             [readonly]="stepObject?.valueType === 'Derived' || stepObject?.protect || stepObject?.showLockIcon"
+             [class.protect-col]="stepObject?.valueType === 'Derived' || stepObject?.protect || stepObject?.showLockIcon"
+             name="numericDataEntry{{stepObject.dgUniqueID}}" [(ngModel)]="stepObject.storeValue"
+             disable [isDisable]="stepObject?.valueType === 'Derived' || stepObject?.showLockIcon" (click)="setObject($event, 'normal')"
+             id="testNumericInput{{stepObject.dgUniqueID}}"  numericneg  decimals = {{stepObject.decimal}}
+             negative="{{stepObject.negative}}"
+             (keydown)="isValidNum(stepObject, $event, false)"
+             (blur)="isValid(stepObject, $event, false);clearError()"  (focus)="checkElement('focus')"
+             [ngStyle]="{ color: stepObject['color']}"
+             [style.text-align]="stepObject?.styleSet?.textalign"
+             [ngClass]="{'errorCss': stepObject?.isError}"
+             (focusout)="!stepObject?.disableField && checkValidation(obj, stepObject ,stepObject.storeValue);"
+          />
+          <input *ngIf="!stepObject?.innerHtmlView && stepObject?.negative ===1" type="text"
+            class="form-control form-control-height"
+            name="numericDataEntry{{stepObject.dgUniqueID}}" [(ngModel)]="stepObject.storeValue"
+            [class.disabled]="cbpService.isDisabledAllInputEntries"
+            disable [isDisable]="stepObject?.valueType === 'Derived' || stepObject?.showLockIcon || 
+            stepObject?.disableField"
+            (click)="setObject($event, 'normal')"
+            [readonly]="stepObject?.valueType === 'Derived' || stepObject?.protect || stepObject?.showLockIcon"
+            [class.protect-col]="stepObject?.valueType === 'Derived' || stepObject?.protect || stepObject?.showLockIcon"
+            id="testNumericInput{{stepObject.dgUniqueID}}" numericneg
+            (keydown)="isValidNum(stepObject, $event, false)"
+            (blur)="isValid(stepObject, $event, false);clearError()"  (focus)="checkElement('focus')"
+            decimals = {{stepObject.decimal}} negative="{{stepObject.negative}}"
+            [ngStyle]="{ color: stepObject['color']}"
+            [ngClass]="{'errorCss': stepObject?.isError}"
+            (focusout)="!stepObject?.disableField &&checkValidation(obj, stepObject ,stepObject.storeValue);"
+          />
+          
+          
+          <ng-container *ngIf="stepObject?.innerHtmlView">
+            <div *ngIf="(!executionService.isPopupOpened && stepObject.editorOpened) && !stepObject.protect; else textview" name="TextArea"
+            [ngClass]="{'black':stepObject.isTableDataEntry}" style="margin-top:-6px; width: 100%;" [class.disabled]="cbpService.isDisabledAllInputEntries"
+            (click)="setObject($event, 'normal')">
+              <lib-text-editor  [hidePopup]="true" [input]="validNumb(stepObject)" [stepObject]="stepObject"
+                [foreColor]="stepObject.color"  [config]="config"
+                [style.text-align]="stepObject?.styleSet?.textalign"
+                [isDisabled]="cbpService.isDisabledAllInputEntries"
+                (focusout)="!stepObject?.disableField &&checkValidation(obj, stepObject ,stepObject.storeValue)"
+                (blur)="stepObject['editorOpened'] = false;"
+                (updateTitle)="stepObject.storeValue = $event;isValid(stepObject, '', true);"
+                (close)="stepObject.storeValue = $event; !stepObject?.disableField && coreEventMethod(stepObject, 'checkValidation',$event)">
+              </lib-text-editor>
+            </div>
+            <ng-template #textview>
+              <div class="form-control hiddens numberfontSizeHeight" style="padding-top: 5px !important;"
+                [class.protect-col]="stepObject?.valueType === 'Derived' || stepObject?.protect || stepObject?.showLockIcon"
+                [style.text-align]="stepObject?.styleSet?.textalign"
+                [class.selected]="stepObject.protect && stepObject.dgUniqueID=== executionService.selectedFieldEntry?.dgUniqueID"
+                [innerHtml]="validNumb(stepObject) | innerhtml"
+                (focus)="stepObject.editorOpened = true;  this.setFieldItem();"
+                [class.isSelectProtectColor]="stepObject?.protect && (stepObject?.isCommentUpdated) &&
+                stepObject.dgUniqueID === executionService.selectedFieldEntry?.dgUniqueID"
+                (click)="setObject($event, 'normal');stepObject.editorOpened = stepObject?.valueType === 'Derived' ? false: true;"
+                [contentEditable]="(!stepObject?.isParentRepeatStep && !stepObject?.isParentTimedStep )
+                ? (stepObject?.isReferenceObject || !stepObject?.protect) && !stepObject?.disableField && !cbpService.isDisabledAllInputEntries  
+                : (stepObject?.isReferenceObject || !stepObject?.protect) && !stepObject?.disableField && !cbpService.isDisabledAllInputEntries && stepObject?.isContentEditable ? true: false"
+                (keydown)="stepObject.editorOpened = stepObject?.valueType === 'Derived' ? false: true;checkElement($event)">
+              </div>
+            </ng-template>
+          </ng-container>
+          <i *ngIf="stepObject?.protect && (stepObject?.isCommentUpdated)"
+            (click)="showProtectApproval(stepObject)"
+            [ngStyle]="{'color': stepObject?.protectColor}"
+            class="fa fa-cog protectIcon"
+            aria-hidden="true">
+          </i>
+          <ng-container *ngIf="stepObject?.protect && stepObject?.commentsEnabled && stepObject?.comments?.length>0">
+           <div class="popupPos">
+           <lib-track-user [stepObject]="stepObject" (closePopupEvent)="closePopup()"></lib-track-user>
+          </div>
+          </ng-container>
+          <ng-container *ngIf="!stepObject.unitsRequired">
+            <span class="required req" *ngIf="stepObject.required">*</span>
+          </ng-container>
+          <lib-lockicon-exe [selectedElement]="stepObject" [type]="'nummericTemp'" [dataType]="stepObject.unitsRequired" ></lib-lockicon-exe>
+        </div>
+         <div class="col-md-4 col-lg-4 pl-2 pr-1" *ngIf="stepObject.unitsRequired" style="display: flex;"
+         [ngClass]="{'pl-2': !stepObject?.showLabel && stepObject.unitsRequired && stepObject.required,
+         'pr-1': stepObject?.showLabel && stepObject.unitsRequired && stepObject.required,
+         'pr-3 pl-1': !stepObject?.showLabel && stepObject.unitsRequired,
+         'pr-3 pl-1': stepObject?.showLabel && stepObject.unitsRequired }">
+             <span class ="setUnit setUnit-new"  [title]="stepObject?.units" [ngStyle]="styleObject" 
+               *ngIf="stepObject.unitsRequired && stepObject?.units"
+               [class.protect-col]="stepObject?.valueType === 'Derived' ||
+                stepObject?.protect || stepObject?.showLockIcon"><!--[style.height]="'auto !important'"-->
+               {{stepObject?.units.length<3?stepObject?.units:stepObject?.units}}
+              </span>
+              <lib-lockicon-exe [selectedElement]="stepObject" [type]="'requiredUnits'"></lib-lockicon-exe>
+               <span class="required req "  [ngClass]="{'unitesCal' : stepObject.unitsRequired && stepObject?.units,
+               'rquiedClas': !(stepObject.unitsRequired && stepObject?.units),
+               'requiretable' : stepObject.isTableDataEntry}"
+               *ngIf="stepObject.required" >*</span>
+         </div>
+         <!-- <ng-container *ngIf="stepObject.minimum && stepObject.maximum">
+         <div class="col-md-12 red" *ngIf="stepObject.isError">
+                 Entered value should be >= {{stepObject.minimum}} and <= {{stepObject.maximum}}.</div>
+         </ng-container>
+         <ng-container *ngIf="stepObject.minimum!=='' && stepObject.maximum =='' ||stepObject.maximum == null ">
+         <div class="col-md-12 red" *ngIf="stepObject.isError" >
+                 Entered value should be >= {{stepObject.minimum}}.</div>
+         </ng-container>
+         <ng-container *ngIf="stepObject.minimum ==='' || stepObject.minimum == null  && stepObject.maximum !==''">
+         <div class="col-md-12 red" *ngIf="stepObject.isError" >
+                 Entered value should be <= {{stepObject.maximum}}.</div>
+         </ng-container>
+         <ng-container *ngIf="stepObject?.isNotNumberError">
+         <div class="col-md-12 red"> Only numbers are allowed.</div>
+         </ng-container> -->
+         </div>
+          <ng-container *ngTemplateOutlet="errorTemplate"></ng-container>
+     </div>
+   </div>
+  </div>
+</div>
+<ng-template #errorTemplate>
+<div class="ErrorMsg">
+                     <ng-container *ngIf="stepObject.minimum && stepObject.maximum">
+         <div class="col-md-12 red errorMessage" *ngIf="stepObject.isError" [ngClass]="{'errorWidth': !stepObject.isTableDataEntry}">
+                 Entered value should be >= {{stepObject.minimum}} and <= {{stepObject.maximum}}.</div>
+         </ng-container>
+         <ng-container *ngIf="stepObject.minimum!=='' && stepObject.maximum =='' ||stepObject.maximum == null ">
+         <div class="col-md-12 red errorMessage" *ngIf="stepObject.isError" [ngClass]="{'errorWidth': !stepObject.isTableDataEntry}">
+                 Entered value should be >= {{stepObject.minimum}}.</div>
+         </ng-container>
+         <ng-container *ngIf="stepObject.minimum ==='' || stepObject.minimum == null  && stepObject.maximum !==''">
+         <div class="col-md-12 red errorMessage" *ngIf="stepObject.isError" [ngClass]="{'errorWidth': !stepObject.isTableDataEntry}">
+                 Entered value should be <= {{stepObject.maximum}}.</div>
+         </ng-container>
+         <ng-container *ngIf="stepObject?.isNotNumberError">
+         <div class="col-md-12 red errorMessage" [ngClass]="{'errorWidth': !stepObject.isTableDataEntry}"> Only numbers are allowed.</div>
+         </ng-container>
+          </div>
+          </ng-template>
+</ng-template>
+
+<ng-container *ngIf="!stepObject?.isTableDataEntry">
+  <ng-container *ngTemplateOutlet="numericTemplate"></ng-container>
+</ng-container>
+
+<ng-container *ngIf="stepObject?.isTableDataEntry">
+  <div  class="col-md-12 col-lg-12 pl-0 pr-0" [class.disabled]="stepObject?.disableField">
+    <div class="row">
+      <div *ngIf="stepObject?.showLabel  && stepObject?.labelSide === 'left'" [ngClass]="{'pr-0 col-xs-6 col-sm-6' :stepObject?.showLabel }">
+        <p [ngStyle]="styleObject" id="stepAno{{stepObject.dgUniqueID}}"
+        (click)="cbpService.handleSelection( $event, stepObject,  'showLablePrompt' )"
+        class="align-text"  [innerHTML]="stepObject.showLablePrompt | innerhtml"></p>
+      </div>
+      <div
+      [ngClass]="{'col-xs-12 col-sm-12' :!stepObject?.showLabel, 'col-xs-6 col-sm-6' :stepObject?.showLabel }">
+      <ng-container *ngTemplateOutlet="numericTemplate"></ng-container>
+    </div>
+     <div *ngIf="stepObject?.showLabel && stepObject?.labelSide === 'right'" [ngClass]="{'pl-0 col-xs-6 col-sm-6' :stepObject?.showLabel }">
+      <p [ngStyle]="styleObject" class="align-text" id="stepAno{{stepObject.dgUniqueID}}"
+      (click)="cbpService.handleSelection( $event, stepObject,  'showLablePrompt' )"
+      [innerHTML]="stepObject.showLablePrompt | innerhtml"></p>
+     </div>
+    </div>
+  </div>
+</ng-container>

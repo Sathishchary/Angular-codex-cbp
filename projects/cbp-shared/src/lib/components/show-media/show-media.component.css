@@ -1,0 +1,234 @@
+.file{
+  position: relative;
+  display: inline-block;
+}
+.file .hover {
+  transition: .3s ease-in-out;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  display: none;
+  z-index: 1!important;
+  background: transparent !important;
+}
+.file1{
+  height: auto;
+  overflow-y: hidden;
+  overflow-x: auto;
+  /* display: flex !important; */
+}
+.mar-rg{
+  margin-right: 5px;
+}
+.mar-tp{
+  margin-top: 5px;
+}
+
+.file:hover .hover {
+  transition: .3s ease-in-out;
+  display: block;
+  opacity: 1;
+}
+.overflow-text{
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  /* width: min-content !important;
+  min-width: 100%; */
+}
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.selected-media {
+  border-color: #8eaacc !important;
+}
+
+:host ::ng-deep.lg-outer {
+  background: aliceblue !important;
+}
+
+.card-css {
+  margin-bottom: 10px !important;
+  border-radius: 5px !important;
+}
+
+.thumbnail-wrapper {
+  float: left;
+  width: 144px;
+  height: 132px;
+  background-color: #f1f1f1;
+  text-align: center;
+  position: relative;
+}
+
+.textcenter {
+  text-align: center;
+}
+
+.marginfix {
+  margin: 0!important;
+}
+.form-control{
+  font-size: 12px !important;
+}
+.center{
+  text-align: center !important;
+}
+.left{
+  text-align: left !important;
+  border: none !important;
+}
+.right{
+  text-align: right !important;
+}
+.upload-items-container {
+  margin-left: 0;
+  margin-right: 0;
+  margin-bottom: 0;
+}
+.upload-items {
+  display: flex;
+  height: auto;
+  overflow-y: hidden;
+  overflow-x: auto;
+  margin-bottom: 0px;
+  max-width: 100%;
+}
+.file-name {
+  padding: 0px !important;
+  font-size: 13px;
+   color: #4d4d4f
+}
+.item-close-hover:hover .item-close {
+   display: block;
+   cursor: pointer;
+}
+.upload-item-plus {
+   position: relative;
+   background: #FFF;
+   width: 144px;
+   height: 132px;
+   display: block;
+   border: 3px dashed #989898;
+   text-align: center;
+   color: #6a6a6a;
+   padding: 25px;
+   margin-bottom: 5px;
+}
+.upload-btn-text{
+   font-size: 13px;
+}
+.input-upload {
+  font-size:14px;
+  font-weight: bold;
+  opacity: 0.0;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  filter: alpha(opacity=0);
+  -moz-opacity: 0.0;
+  -khtml-opacity: 0.0;
+  top: 0;
+  left: 0;
+  width: 90px;
+  height: 90px;
+  cursor: pointer;
+}
+#scrollbarStyle::-webkit-scrollbar-track {
+   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+   border-radius: 10px;
+   background-color: #F5F5F5;
+}
+#scrollbarStyle::-webkit-scrollbar {
+   width: 8px !important;
+   background-color: #F5F5F5;
+}
+#scrollbarStyle::-webkit-scrollbar-thumb {
+   border-radius: 10px;
+   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+   background-color: #555;
+}
+.card {
+   border: 1px solid rgba(0, 0, 0, 0.125);
+   margin-bottom: 0px !important;
+   border-radius:0px !important;
+}
+.card-body {
+   padding:0px 0px 0px 0px !important;
+}
+.btn {
+   font-size: 12px!important;
+   padding: 5px 8px!important;
+}
+.cursor{
+  cursor: pointer;
+}
+.white-col{
+  color: #fff;
+}
+.img-width{
+  max-width: 100% !important;
+}
+.btn-green{
+  background-color: rgb(40, 167, 69);
+  border-color: rgb(40, 167, 69);
+}
+.btn-green:hover {
+  color: #fff;
+  background-color: #218838;
+  border-color: #1e7e34;
+}
+.btn-dngr{
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+.btn-dngr:hover {
+  color: #fff;
+  background-color: #c82333;
+  border-color: #bd2130;
+}
+.btn-trans{
+  background-color: transparent;
+  border: 1px solid transparent;
+}
+.img-width{
+  max-height: 100%!important;
+}
+.wt{
+  color:#fff!important
+}
+.img-h{
+  height: 108px; padding: 10px 0;
+}
+
+/* PRODFIX-954 */
+/* img.Fullwidthimage {
+  width: 100% !important;
+  height: 100% !important;
+  padding: 5px;
+} */
+
+/* PRODFIX-954 End */
+
+@media (min-width: 768px) and (max-width: 1700px){
+  .tab-img{
+      width: 250px !important;
+      height: 90px !important;
+      border-radius: 4px;
+    }
+  }
+
+  /* PRODFIX-1513 */
+  img.ImageSizeControl {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: fill;
+}
+
+img.ImageResizeControl {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: fill;
+}
+ /* PRODFIX-1513 End*/

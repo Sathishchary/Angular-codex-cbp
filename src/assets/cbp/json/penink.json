@@ -1,0 +1,12 @@
+{
+    "DEFAULT_QUESTIONS": [
+        {
+             "question": "1. Is this issue stopping work ?"
+        },
+        {
+            "question": "2. Do you have concurrence to make this change ?"
+        }
+    ],
+    "DEFAULT_RESPONSE": "NO",
+    "DEFAULT_MESSAGE" : "Field Change not allowed. Please initiate Document Revision Request."
+ } 

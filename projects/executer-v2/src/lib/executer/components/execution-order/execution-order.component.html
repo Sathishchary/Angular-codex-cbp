@@ -1,0 +1,32 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px', fullScreenBackdrop:false}"> </ngx-loading>
+<div class="modal" id="executionOrder" tabindex="-1" role="dialog " data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content" style="min-height: 400px;">
+        <lib-modal-popup [title]="'Execution Order'" (closeEvent)="closeModal()"
+         [footerList]="[{type:'Cancel'}, {type:'Ok'},{type:'Up'}, {type:'Down'}]"
+         (submitButtons)="$event.type === 'Cancel' && closeModal(); $event.type === 'Ok' && updateExecutionOrder();
+         $event.type === 'Up' && upArrowData(); $event.type === 'Down' && downArrowData();" >
+        <div class="modal-body" >
+          <div class="col-md-12 col-lg-12 pl-0 pt-0">
+              <div class="row">
+                  <div class="col-lg-12 col-md-12 pr-0">
+                      <label>Section</label>
+                      <input type="text" name="section" disable class="form-control ft13" [value]="sectionTitle">
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-12 col-lg-12 pl-3 pt-2 scrollOn" *ngIf="isTree && treeObject.section?.length>0">
+              <div class="row">
+                <div class="col-md-12 col-lg-12 py-1 pr-0 px-0 index-list">
+                  <lib-tree-structure  [isbuild]="true"
+                  [updatedNode]="currentNodeSelected"
+                  (selectedNode)="selectStepNode($event)" [cbpJson]="{'section':stepChildren}">
+                 </lib-tree-structure>
+               </div>
+              </div>
+          </div>
+       </div>
+       </lib-modal-popup>
+      </div>
+  </div>
+</div>

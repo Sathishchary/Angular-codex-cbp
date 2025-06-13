@@ -1,0 +1,16 @@
+export enum SequenceTypes {
+    ALPHABETICAL = 'ALPHABETICAL',
+    CAPITALALPHABETICAL = 'CAPITALALPHABETICAL',
+    ROMAN = 'ROMAN',
+    CAPITALROMAN = 'CAPITALROMAN',
+    NUMERIC = 'NUMERIC',
+    BULLETS = 'BULLETS',
+    DGSEQUENCES = 'DGSEQUENCES',
+    Attachment = "Attachment",
+    STAR = "STAR",
+    SQUARE = "SQUARE",
+    CIRCLE = "CIRCLE",
+    CHECKMARK = "CHECKMARK",
+    ARROW = "ARROW"
+  }
+  

@@ -1,0 +1,15 @@
+<div id="wrapper">
+    <span id="youtube-hading">
+        <dt-header
+            [cbp]="true"
+            [topBarInfo]="topBarObj" 
+            [propertyDocument]="propertyDocument"
+            [documentType]="documentType"
+            (logoutEvent)="logout()"
+            (myProfileEvent)="openMyProfile()"
+            (ewpExitEvent) = ewpExitEventTop()>
+        </dt-header>
+    </span>
+    <router-outlet></router-outlet>
+  </div>
+  

@@ -1,0 +1,131 @@
+.card {
+  margin-bottom: 0px !important;
+  border-radius: 0px !important;
+}
+.appliindex {
+  padding: 7px 5px 0px 21px !important;
+  height: 505px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.indextop {
+  margin-top: -1px;
+}
+.indexscroll {
+  height: 460px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.rulestitle {
+  border: 1px solid #fff !important;
+  margin-top: -1px;
+}
+.rulestop {
+  margin-top: -1px;
+}
+/* .rulesscroll {
+  height: 118px;
+  overflow-x: hidden;
+  overflow-y: auto;
+} */
+.ruleslabel {
+  width: 100%;
+  font-size: 13px !important;
+}
+.rulesapplibg {
+  background: #f7f7f7;
+}
+.conditionlabel {
+  width: 70%;
+}
+.actionlabel {
+  width: 30%;
+  text-align: center;
+}
+.arrowsalign {
+  text-align: center;
+}
+.addrulehigt {
+  /* height: 303px; */
+  height: 265px;
+}
+.valuerule {
+  margin-top: 10px;
+  margin-left: 15px;
+}
+.ruleboolean {
+  padding: 5px;
+}
+.addbutton {
+  border: 1px solid #eaeaea !important;
+}
+.addandbutton {
+  border: 2px solid #eaeaea !important;
+}
+.addorbutton {
+  border: 2px solid #eaeaea !important;
+}
+.resetbutton {
+  border: 1px solid #eaeaea !important;
+}
+.datafeild {
+  margin-top: -1px;
+}
+.datafieldscroll {
+  height: 457px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+a.tableIconEdit{
+  color: #26c6da !important;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 3px 6px;
+  margin: 2px;
+  background: #717c7d;
+  border: 1px solid #8CE1EB;
+  background-color: #e2f7f9;
+}
+a.tableIconEdit span i {font-size: 14px;}
+a.tableIconDelete span i {font-size: 14px;}
+a.tableIconDelete{
+  color: #fc573b !important;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 3px 7px;
+  margin: 2px;
+  background: #717c7d;
+  border: 1px solid #FD907E;
+  background-color: #ffe6e2;
+}
+a.tableIconArrow{
+  color: #26c6da !important;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 3px 6px;
+  margin: 2px;
+  background: #717c7d;
+  border: 1px solid #8CE1EB;
+  background-color: #e2f7f9;
+}
+.isEdit{
+  background-color: lightblue;
+}
+a.tableIconArrow span i {font-size: 14px;}
+
+.customePaddings{padding: 4px 9px;}
+
+td.tableDataPadding{padding: 9px 10px;}
+
+.table-height-auto {
+  height: 142px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding-bottom: 2px !important;
+}
+
+.table-height-fixed {
+  height: 75px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}

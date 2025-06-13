@@ -1,0 +1,18 @@
+<div [ngClass]="{'dropdown-menu user-profile profile-drop': isFormView, 'row': !isFormView }">
+  <ng-container *ngFor="let item of customUsers; let i = index;">
+    <div class="col-md-12 col-lg-12">
+      <div class="row">
+        <div class="col-md-12 col-lg-12 newuser-menu" [class.ar-disabled]="i === 0"
+          (click)="existingSecurityUser(item, 'exist')">
+          <span class="user-name">{{item.userName}}
+            <i class="fa fa-play playcss" *ngIf="item.userName === 'New User'"
+              (click)="existingSecurityUser(item, 'new')"></i>
+            <i class="fa fa-times timecss"
+              *ngIf="item.userName !=='New User' && item.userId !== executionService.loggedInUserId"
+              (click)="existingSecurityUser(item, 'close')"></i>
+          </span>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>

@@ -1,0 +1,69 @@
+<ng-template #checkboxTemplate>
+  <input data-parsley-errors-container="#error-checkbox" name="checkDataEntry{{stepObject?.dgUniqueID}}"
+    [(ngModel)]="stepObject.storeValue" class="checktop"
+    [class.dis-col]="stepObject?.protect || stepObject?.showLockIcon || stepObject?.disableField"
+    [ngClass]="{'rightcheck': stepObject?.checkboxSide  === 'right',
+    'leftCheck': stepObject?.checkboxSide  === 'left',
+    'disableCheck': stepObject?.protect || stepObject?.showLockIcon}"
+    (click)="executionService.selectedFieldEntry = stepObject;checkValidation(stepObject, stepObject, stepObject.storeValue, $event.target?.checked)"
+    [disabled]="stepObject?.protect || stepObject?.disableField || stepObject?.showLockIcon"
+    type="checkbox" id="checkIdleftDataEntry{{stepObject?.dgUniqueID}}">
+  <span></span>
+   <lib-lockicon-exe [selectedElement]="stepObject"></lib-lockicon-exe>
+</ng-template>
+
+<ng-container *ngIf="!stepObject?.isTableDataEntry">
+  <div class="row" style="padding-left: 11px;">
+    <div class="col-md-12 pl-0 pt-1 mb-2" [ngClass]="{'pl-2': obj?.dualStep}">
+      <div class="row" style="margin-bottom: 5px;">
+        <lib-track-ui [field]="stepObject" ></lib-track-ui>
+        <div class="pl-1 pt-1" [ngStyle]="styleObject" id="stepAno{{stepObject.dgUniqueID}}"
+          (click)="cbpService.handleSelection( $event, stepObject,  'prompt' )"
+          [innerHtml]="stepObject.prompt| innerhtml" style="word-wrap: break-word;"
+          [ngClass]="{'col-md-10 col-lg-11 col-11 pr-0': obj?.dualStep && !cbpService.tabletCheck,
+          'col-md-8 col-lg-9 col-8': !obj?.dualStep && !cbpService.tabletCheck,
+          'col-lg-8': cbpService.tabletCheck}">
+        </div>
+        <div class="pt-1 pr-1"
+        [ngClass]="{'col-md-2 col-lg-1 col-1 pl-0':obj?.dualStep &&
+        !cbpService.tabletCheck,
+        'col-md-4 col-lg-3 col-2': !obj?.dualStep && !cbpService.tabletCheck,
+        'col-lg-4': cbpService.tabletCheck}"
+         [class.disabled]="stepObject?.protect || stepObject?.disableField" style="height: 30px;">
+          <label class="plc form-group">
+            <ng-container *ngTemplateOutlet="checkboxTemplate"></ng-container>
+          </label>
+          <ng-container *ngTemplateOutlet="require"></ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+<ng-container *ngIf="stepObject?.isTableDataEntry">
+  <div class="inputcheck col-lg-12 col-md-12 pl-0 pb-1"
+  [class.disabled]="stepObject?.protect && stepObject.storeValue === true || stepObject?.disableField"
+  [ngClass]="{'pr-2': stepObject?.required, 'pr-0': !stepObject?.required}">
+    <ng-container *ngIf="stepObject?.checkboxSide  === 'left'">
+      <ng-container [ngTemplateOutlet]="checkboxNew" [ngTemplateOutletContext]="{$implicit: 'left'}"></ng-container>
+      <ng-container *ngTemplateOutlet="checkboxTemplate"></ng-container>
+      <ng-container *ngTemplateOutlet="require"></ng-container>
+    </ng-container>
+    <ng-container *ngIf="stepObject?.checkboxSide  === 'right'">
+      <div class="inputcheck">
+        <ng-container *ngTemplateOutlet="checkboxTemplate"></ng-container>
+        <ng-container [ngTemplateOutlet]="checkboxNew" [ngTemplateOutletContext]="{$implicit: 'right'}"></ng-container>
+        <ng-container *ngTemplateOutlet="require"></ng-container>
+      </div>
+    </ng-container>
+  </div>
+</ng-container>
+<ng-template #require>
+  <span *ngIf="stepObject.required" class="required req ng-star-inserted">*</span>
+</ng-template>
+
+<ng-template #checkboxNew let-type>
+  <label *ngIf="stepObject?.showLabel" class="align-text" id="stepAno{{stepObject.dgUniqueID}}"
+    (click)="cbpService.handleSelection( $event, stepObject,  'prompt' )"
+    [innerHTML]="stepObject?.prompt | innerhtml" [ngStyle]="styleObject"[style.width.%]="stepObject?.dataEntrySize"
+    class="titleDatabreak mr5" [ngClass]="{'mr5' : type === 'left', 'pt-1' : type === 'right'}"></label>
+</ng-template>

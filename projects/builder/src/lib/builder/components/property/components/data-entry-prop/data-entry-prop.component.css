@@ -1,0 +1,8 @@
+/* PRODFIX-1669 */
+label.flexAlign {display: flex;align-items: center;}
+/* PRODFIX-1669 End*/
+.btnWidth{width: 100%;}
+
+@media ( 992px <= width <= 1280px) {
+    .responsiveSides1 button.btn {padding: 5px 0px !important;}
+}

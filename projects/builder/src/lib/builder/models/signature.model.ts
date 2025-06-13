@@ -1,0 +1,35 @@
+import { DgTypes } from "cbp-shared";
+import { Security } from "./security";
+export class Signature {
+  choice: any[] = [];
+  alarm = [];
+  data: any[] = [];
+  allowOther: any;
+  dgUniqueID: any;
+  unnumbered: any;
+  number: any;
+  prompt: any;
+  varname: any;
+  type = 'datasign';
+  dataType = 'sign';
+  valueType = 'Entered';
+  autoPopulate = 'CurrentSignature';
+  dgType: DgTypes = DgTypes.SignatureDataEntry;
+  namePrompt = '';
+  initialPrompt = '';
+  dateTimePrompt: any;
+  userIdPrompt = '';
+  notesPrompt = '';
+  promptDisplay = false;
+  namePromptDisplay = false;
+  required = false;
+  datePromptDispaly = true;
+  timePromptDisplay = true;
+  initialPromptDispaly = false;
+  isDataEntry = true;
+  Security = new Security();
+  userId: any;
+  notes: string = '';
+  userIdPromptDisplay = false;
+  notesPromptDispaly = false;
+}

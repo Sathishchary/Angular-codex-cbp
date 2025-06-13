@@ -1,0 +1,26 @@
+<div class="modal-content">
+    <lib-modal-popup [title]="'Dynamic Section Selection'" (closeEvent)="closeModal()"
+    [footerList]="[{type:'Apply'}, {type:'Cancel'}]"
+    (submitButtons)="$event.type === 'Apply' && setDynamicChange(); $event.type === 'Cancel' && closeModal();">
+    <div class="modal-body scroll">
+        <div class="col-md-12 col-lg-12 pl-0 pt-0"> Enter number next to section to add the section. Any section left empty or zero is not shown in the document</div>
+        <div class="col-md-12 col-lg-12 pl-0 pt-0">
+            <div class="row pt-2" *ngFor="let item of sectionInfo; let i = index;">
+                <ng-container *ngIf="item?.dynamic_section">
+                    <div class="col-lg-2 col-md-2">
+                        <input min="0" type="number" max="10"
+                         name="typsetiname" class="form-control" (blur)="keyPressEvent($event)"
+                        [(ngModel)]="item.dynamic_number" (ngModelChange)="setSectionObj(item, i)">
+                    </div>
+                    <div class="col-lg-10 col-md-10 pr-0">
+                        <span class="mr-1">{{item?.number}}</span>
+                        <span>{{item?.title | removehtml}}</span>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+    </lib-modal-popup>
+</div>
+
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px', fullScreenBackdrop:true}"> </ngx-loading>

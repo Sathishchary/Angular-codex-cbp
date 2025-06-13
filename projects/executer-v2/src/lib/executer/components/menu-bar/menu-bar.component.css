@@ -1,0 +1,27 @@
+.h6-pro{
+    font-size: 1rem !important;
+}
+.menu-border{
+    border-right: 1px solid #c9c9cc;
+}
+@media only screen  and (max-width: 768px)  {
+    .pad-ri{
+      padding-right: 0rem !important;
+    }
+    .menu-border{
+        border-right: none !important;
+    }
+    .rowpad-ri{
+        padding-right: 1rem !important;
+      }
+  }
+  
+@media only screen and (max-width: 991px)  {
+    .rowpad-ri{
+      padding-right: 1rem !important;
+    }
+    /* .menu-border{
+        border-right: 1px solid #c9c9cc;
+    } */
+  }
+  

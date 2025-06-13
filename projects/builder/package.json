@@ -1,0 +1,17 @@
+{
+    "name": "builder",
+    "version": "0.0.1",
+    "peerDependencies": {
+        "@angular/common": "^12.1.0",
+        "@angular/core": "^12.1.0",
+        "angular-gridster2": "^11.2.1"
+    },
+    "dependencies": {
+        "tslib": "^2.2.0"
+    },
+    "scripts": {
+        "build:sass": "sass assets/styles/styles.scss",
+        "build:schematics": "tsc -p tsconfig.schematics.json",
+        "postbuild:schematics": "copyfiles schematics/collection.json ../../../dist/builder"
+    }
+}

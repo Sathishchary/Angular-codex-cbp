@@ -1,0 +1,59 @@
+<div class="modal fade " id="Component-info" tabindex="-1 " role="dialog " data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg " role="document ">
+        <div class="modal-content componentinfo">
+          <lib-modal-popup [title]="'Component'" [footerList]="footerList"
+          (submitButtons)="$event.type === 'Save' && componentInformationData(); $event.type === 'Undo' && undoComponent(); $event.type === 'Close' && hide();" (closeEvent)="hide()">
+  
+          <div class="modal-body compoinfotop">
+  
+                <div class="col-md-12 col-lg-12 pl-0 pt-0">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 pr-0">
+                            <label>Step</label>
+                            <input class="form-control" placeholder="" *ngIf="selectedElement?.number" [disabled]="true" [(ngModel)]="selectedElement.number" required="" type="text">
+                        </div>
+                        <div class="col-lg-12 col-md-12 pr-0 pt-1">
+                            <div class="row">
+                                <div class="col-lg-4 col-md-4 pr-0">
+                                    <label>Component Id</label>
+                                    <input class="form-control" placeholder="" [(ngModel)]="componentInfo.componenetId" required="" type="text">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 pr-0 pt-1">
+                            <label>Description</label>
+                            <textarea class="form-control" cols="30" [(ngModel)]="componentInfo.description" name="www.dataglance.com" required="" rows="2"></textarea>
+                        </div>
+                        <div class="col-lg-12 col-md-12 pr-0 pt-1">
+                            <div class="row">
+                                <div class="col-md-4 col-lg-4 pr-0">
+                                    <label>Building</label>
+                                    <input class="form-control" [(ngModel)]="componentInfo.building" placeholder="" required="" type="text">
+                                </div>
+                                <div class="col-md-4 col-lg-4 pr-0">
+                                    <label>Elevation</label>
+                                    <input class="form-control" [(ngModel)]="componentInfo.elevation" placeholder="" required="" type="text">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 pr-0 pt-1">
+                            <div class="row">
+                                <div class="col-md-4 col-lg-4 pr-0">
+                                    <label>Room</label>
+                                    <input class="form-control" placeholder="" [(ngModel)]="componentInfo.room" required="" type="text">
+                                </div>
+  
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 pr-0 pt-1">
+                            <label>Location</label>
+                            <input class="form-control" placeholder="" [(ngModel)]="componentInfo.location" required="" type="text">
+                        </div>
+                    </div>
+                </div>
+  
+            </div>
+        </lib-modal-popup>
+        </div>
+    </div>
+  </div>

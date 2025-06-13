@@ -1,0 +1,23 @@
+.role-p{
+  /* background: #e9ecef; */
+  pointer-events: none;
+}
+.showicon-bg{
+  background: #e9ecef;
+  height: 30px;
+  width: 100%;
+  border: 1px solid #d4d4d4 !important;
+}
+.required{
+  color: red;
+  position: relative;
+  right: 0;
+}
+.withoutbg{
+  height: 30px;
+  width: 100%;
+}
+.verification-pading{
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+}

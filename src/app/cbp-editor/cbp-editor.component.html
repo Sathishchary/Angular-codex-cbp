@@ -1,0 +1,42 @@
+<ng-container *ngIf="!cbpZip">
+    <button (click)="newCBp()" class="mr-2">CBP Editor</button>
+    <button (click)="callServerEvent()" class="mr-2">DataJson</button>
+    <button (click)="refreshToken()" class="mr-2">New Token</button>
+    <button (click)="openExecuter('executer')" class="mr-2">Executer</button>
+    <button (click)="openExecuter('tablet')" class="mr-2">Tablet</button>
+    <button (click)="ewpExecuter()" class="mr-2">EWP Executer</button>
+    <button (click)="changeToBG()" class="mr-2">backgroundCBP</button>
+    <button [style.background]="isChangeBarThere ? 'lightblue' : ''" (click)="setChangebar()" class="mr-2">setChangeBar</button>
+    <!-- <button (click)="isBackground = !isBackground">isBackgroundEnable: {{isBackground}}</button> -->
+</ng-container>
+<ng-container *ngIf="showEditor">
+
+    <lib-app-formbuild [cbpFileTabInfo]="cbpFileTabInfo"
+    *ngIf="cbpZip && !individual" [envFiles]="envFilesObj" [cbp_track_change]="cbpTrackChange" [cbpJsonZip]="cbpZip" 
+    [stickyUiCss]="true" [docConfig]="docConfig" [userConfigInfo]="userConfigInfo" [editorType]="editorTypes" (closeBuilder)="closeBuilder()"
+    (showExecuterPage)="showExecuter($event)" [cbpBackJsonZip]="backZip"></lib-app-formbuild>
+
+    <lib-app-formbuild *ngIf="individual && !cbpZip" [envFiles]="envFilesObj" 
+    [cbpFileTabInfo]="cbpFileTabInfo"
+    [userConfigInfo]="userConfigInfo" [docConfig]="docConfig" [cbp_track_change]="cbpTrackChange" 
+    [editorType]="editorTypes" [stickyUiCss]="true" [cbp_Indv_File]="cbp_Individual_Files"
+        (closeBuilder)="closeBuilder()" (showExecuterPage)="showExecuter($event)" [cbpBackJsonZip]="backZip"></lib-app-formbuild>
+
+</ng-container>
+
+<ng-container *ngIf="!showEditor">
+    <div class="top">
+        <lib-executer-wrapper [isDynamicSection]="isDynamicSection" [fileType]="inputFile" [executionType]="executeType" *ngIf="!individual" [cbpJsonZip]="fileObj" [stickyUiCss]="true" [menuConfig]="menuConfig" (exitExecutorChange)="closeExecutor()" [userApiConfig]="userConfigInfo" (propertyDoc)="getProperty($event)"
+            (dataJsonChange)="dataJsonUpdate($event)" (pdfBlobFile)="linkBlob($event)"
+            (refObj)="setRefObj($event)" [penInkJson]="penInkJson" [authenticatorConfig]="authenticatorConfig"
+            (linkObj)="setLinkObj($event)">
+        </lib-executer-wrapper>
+    </div>
+    <div>
+        <lib-executer-wrapper [isDynamicSection]="isDynamicSection" [fileType]="inputFile" [executionType]="executeType" *ngIf="individual" [cbp_Indv_File]="cbp_Individual_Files" [stickyUiCss]="true" [menuConfig]="menuConfig" (exitExecutorChange)="closeExecutor()" [userApiConfig]="userConfigInfo"
+            (propertyDoc)="getProperty($event)" (dataJsonChange)="dataJsonUpdate($event)" (pdfBlobFile)="linkBlob($event)"
+            (refObj)="setRefObj($event)" [penInkJson]="penInkJson" [authenticatorConfig]="authenticatorConfig"
+            (linkObj)="setLinkObj($event)">
+        </lib-executer-wrapper>
+    </div>
+</ng-container>

@@ -1,0 +1,91 @@
+<div class="mt-0" [ngClass]="{'mb-0': field?.subTabe, 'mb-2 pt-2': !field.subTabe}" 
+id="table-container-{{field.dgUniqueID}}">
+  <div class="col-md-12 pr-0 pl-0 stop_draging"
+    *ngIf="cbpService.selectedElement && field && field?.calstable[0]?.table?.tgroup?.tbody[0]?.row?.length>0"
+    (click)="selectedElement();$event.stopPropagation();"
+    [ngClass]="{'section-border': cbpService.selectedElement?.dgUniqueID == field.dgUniqueID && !field.subTabe && !tableService.isBorderRemove,
+    'select-inner': cbpService.selectedElement?.dgUniqueID == field.dgUniqueID && field.subTabe,
+    'selectedTable' : field?.selectTable }">
+    <div  [ngClass]="{'hover': cbpService.selectedElement?.dgUniqueID  == field.dgUniqueID}"  
+    *ngIf="cbpService.sectionHover && cbpService.selectedElement?.dataType == 'table' && 
+    !cbpService.documentSelected ">
+     <app-step-option [field]="field"></app-step-option>
+   </div>
+    <!-- 'tablelayout': stepObject?.dualStep, -->
+    <div id="table-{{field.dgUniqueID}}" class="OF-A" >
+      <dg-track-ui *ngIf="!field?.subTabe && !isCoverPage" [field]="field" (fieldChange)="setField($event);"></dg-track-ui>
+      <table *inView class="table-unbordered"
+      [ngClass]="{
+        'table': !field.subTabe, 'subtableClass': field.subTabe}">
+        <caption *ngIf="field?.captionText" [ngClass]="{'topCap': field?.captionPosition === 'top', 'bottomCap': field?.captionPosition === 'bottom' }">{{field?.captionText}}</caption>
+        <!-- {{field.withoutHeaders}} -->
+        <thead *ngIf="!field.withoutHeaders">
+           <tr *ngIf="field.calstable?.length>0" class="trcss">
+            <ng-container *ngFor="let header of tableHeads | async;let i=index">
+             <th class="thhead" [attr.colspan]="header?.colspan" resizable
+              contenteditable="false" id="th-{{field.dgUniqueID}}-{{i}}"
+              (click)="selectCol(header)"
+              [ngClass]="{'vertical' :header?.cellTextType === 'verticalTB', 'varictsss' : header?.cellTextType === 'verticalBT' }"
+              [class.selectedCol]="field === cbpService.selectedElement && tableService.selectTableCol  === header"
+              [style.width.%]="header?.columnSize"
+              droppable [dragOverClass]="'drag-target-border'"
+              [ngStyle]="{
+                'width': header.columnSize,
+                'font-size': header?.styleSet?.fontSize,
+                'font-family': header?.styleSet?.fontName,
+                'font-weight': header?.styleSet?.fontWeight,
+                'text-align': header?.styleSet?.textalign,
+                'color': header?.styleSet?.color,
+                'border': !field.withoutLines ? '1px solid ' + field?.colorhead : 'none'}"
+              [dropScope]="builderService.dragElements" [dragHintClass]="'drag-hint'"
+              (onDrop)="unableToDrop($event)"
+              >{{header.title}}</th>
+            </ng-container>
+          </tr>
+         </thead>
+        <tbody *ngIf="field.calstable?.length>0"
+          [class.selectedField]="field?.dgUniqueID == cbpService.selectedUniqueId || field?.parentID == cbpService.selectedElement?.dgSequenceNumber"
+          [class.notSelectedField]="field?.dgUniqueID != cbpService.selectedUniqueId && field?.parentID != cbpService.selectedElement?.dgSequenceNumber"
+          >
+          <ng-container *ngFor="let rowObj of field?.calstable[0]?.table.tgroup.tbody[0].row;let i=index">
+           <!-- <dg-track-ui *ngIf="controlService?.cbp_track_changes?.DGC_CREATED_DATE" [field]="rowObj" [index]="i+1"></dg-track-ui> -->
+           <tr id=row{{i+1}}>
+           <ng-container *ngFor="let cellEntry of rowObj.entry;let j=index">
+            <td *ngIf="!cellEntry?.deleted"  [attr.colspan]="cellEntry?.colspan"
+              [attr.rowspan]="cellEntry?.rowspan"
+              [style.width.%]=" field?.calstable[0].table?.tgroup?.thead[j]?.columnSize"
+              [ngStyle]="{'border': !field.withoutLines ? '1px solid' + field?.colorhead : 'none'}"
+              (click)="cellProperty(cellEntry,i,j, $event, rowObj?.entry);" id="tdIdrowcol{{i+1}}{{j+1}}"
+              [class.selectedCol]="field.dgUniqueID === cbpService.selectedElement?.dgUniqueID &&  isRowOrColSelected(cellEntry, i, j)"
+              [ngClass]="{ 'borderRightHide': cellEntry?.hideRightBorder === true,
+                'borderLeftHide' :cellEntry?.hideLeftBorder === true,
+                'borderTopHide' :cellEntry?.hideTopBorder === true || (rowObj?.updatedDate && cbpService.isChangeUpdates),
+                'borderBottomHide': cellEntry?.hideBottomBorder === true
+              }"
+              [class.selectedField]="cellEntry?.dgUniqueID == cbpService.selectedUniqueId"
+              [class.notSelectedField]="cellEntry?.dgUniqueID != cbpService.selectedUniqueId"
+              droppable [dragOverClass]="'drag-target-border'"
+              [dropScope]="builderService.dragElements" [dragHintClass]="'drag-hint'"
+              (onDrop)="tableDrop(cellEntry,$event , i, j, field);" >
+              <div  class="alignment" [class.custompadding]="cellEntry?.children[0]?.subTabe"
+                [class.padTable]=" field === cbpService.selectedElement  && isRowOrColSelected(cellEntry, i, j)"
+                [style.min-height.px]="cellEntry?.rowspan ? cellEntry?.rowspan*40 : 35">
+                  <ng-container *ngFor="let entry of cellEntry?.children;let k=index" >
+                     <app-table-form-builder [stepObject]="stepObject" [isCoverPage]="isCoverPage" [media]="media" [field]="entry"
+                     [headerWidth]="field?.calstable[0].table?.tgroup?.thead[j]?.columnSize"
+                     [rowcolInfo]="{'row':i+1,'col':j+1,'columndata':field?.calstable[0]?.table.tgroup.thead[j+1],'table':field }"
+                     (tableInfo) ="eventfromField($event, entry, i, j, rowObj.entry);"
+                     (getNotifyParent)="setuserInfo($event)"
+                     (selectedField)="fieldSelect($event)"
+                     ></app-table-form-builder>
+                    </ng-container>
+              </div>
+            </td>
+          </ng-container>
+          </tr>
+        </ng-container>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,41 @@
+{
+  "signature": {
+    "authenticator": "yubikey",
+    "userid_iseditable": "0",
+    "username_iseditable": "1",
+    "userid_is_required": "1",
+    "username_is_required": "1",
+    "show_user_info": true
+  },
+  "initial": {
+    "authenticator": "yubikey",
+    "userid_iseditable": "0",
+    "username_iseditable": "1",
+    "userid_is_required": "1",
+    "username_is_required": "1",
+    "show_user_info": true
+  },
+  "verification": {
+    "authenticator": "yubikey",
+    "userid_iseditable": "0",
+    "username_iseditable": "1",
+    "userid_is_required": "1",
+    "username_is_required": "1",
+    "show_user_info": true
+  },
+  "identityConfig": [
+    {
+      "username_identity": "",
+      "username_identity_split": "",
+      "username_identity_index": ""
+    },
+    {
+      "userid_identity": "Principal Name",
+      "userid_identity_split": "@",
+      "userid_identity_index": "0"
+    }
+  ],
+  "timeout": 30,
+  "timeoutMessage": "",
+  "certificates": ""
+}

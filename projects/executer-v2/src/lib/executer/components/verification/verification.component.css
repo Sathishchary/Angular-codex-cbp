@@ -1,0 +1,49 @@
+.dp-flex {
+    display: flex;
+    align-items: center;
+}
+
+.fieldset_styles {
+    border: 1px solid #ced4da;
+    min-height: 64px;
+    background-color: #e9ecef
+}
+
+@media only screen and (max-width: 992px) {
+    label {
+        font-size: 12px !important;
+    }
+}
+
+/* PRODFIX-1669 */
+label.flexAlign {
+    display: flex;
+    align-items: center;
+}
+
+/* PRODFIX-1669 End*/
+
+.req {
+    font-size: 8px;
+    position: absolute;
+    color: red;
+    margin-left: 2px;
+}
+
+.dis-cols {
+    background: #cbcdce !important;
+}
+
+.hide {
+    display: none !important;
+}
+
+.textOverflowControl.notes-height {
+    height: 70px !important;
+}
+
+.form-control.textOverflowControl {
+    height: 32px;
+    padding: 3px 5px !important;
+    overflow-y: auto;
+}

@@ -1,0 +1,179 @@
+
+<lib-modal-popup [title]="'Track Changes'"  [footerList]="[{type: 'Apply'}, {type:'Cancel'}]"
+(submitButtons)=" $event.type === 'Apply'&& submit(); $event.type === 'Cancel' && hide();" (closeEvent)="hide()">
+<div class="modal-body" >
+    <div class="col-lg-12 col-md-12 col-sm-12 px-2 pb-2 pt-0 border" >
+       <ng-container *ngIf="(field.dgType == DgTypes.Section || field.dgType == DgTypes.StepAction || field.dgType == DgTypes.StepInfo || field.dgType == DgTypes.DelayStep || field.dgType == DgTypes.Timed || field.dgType == DgTypes.Repeat); else dataEntires">
+        <div  id="stop_draging_id" class="stop_draging row pad-7" >
+            <div  class="col-1 col-sm-1 col-md-1 pt-1 text-center pr-0 pl-3 " >
+              <label  id="step1_id" >
+                <ng-container *ngIf="field.dgType === DgTypes.Section && field.dataType !== 'Attachment'">
+                   <ng-container *ngIf="layoutService.layoutIcons && layoutService.layoutIcons[0].showIcons"> 
+                    <img *ngIf="field.number.indexOf('.0') > -1" [src]="ImagePath.sectionImg" class="dgicon-{{field.iconStyle}}" alt="">
+                    <img *ngIf="field.number.indexOf('.0') < 0" [src]="ImagePath.subSectionImg" class="dgicon-{{field.iconStyle}}" alt="">
+                  </ng-container>
+                  </ng-container>
+                  <ng-container *ngIf="layoutService.layoutIcons && layoutService.layoutIcons[0].showIcons">
+                  <i *ngIf="field.dgType === DgTypes.StepAction" class="dgfont-{{field.iconStyle}} fa fa-hand-o-down mr-1"></i>
+                  <i *ngIf="field.dgType === DgTypes.StepInfo" class="dgfont-{{field.iconStyle}} fa fa-info mr-1"></i>
+                  <i *ngIf="field.dgType === DgTypes.DelayStep" class="dgfont-{{field.iconStyle}} fa fa-clock-o mr-1"></i>
+                  <i *ngIf="field.dgType === DgTypes.Timed" class="dgfont-{{field.iconStyle}} fa fa-hourglass-o mr-1"></i>
+                  <i *ngIf="field.dgType === DgTypes.Repeat" class="dgfont-{{field.iconStyle}} fa fa-repeat  mr-1"></i>
+                  </ng-container>
+
+                <span class="nonebackground"> {{field?.number}} </span>
+             </label>
+                <br>
+            </div>
+            <div  class="pl-3 file col-11 col-sm-11 col-md-11"  >
+            <div  class="textareacont">
+                <!-- <textarea  readonly type="text" name="header" rows="1" col="50" autosize="" 
+                data-id="1_s_stephead" class="form-control stepSectionStyle bordernone"
+                 [ngModel]="(field.dgType == DgTypes.Section || field.dgType == DgTypes.DelayStep || field.dgType == DgTypes.StepInfo) ? field.title : field.action" 
+                 rows="1" col="50" (ngModelChange)="(field.dgType == DgTypes.Section || field.dgType == DgTypes.DelayStep || field.dgType == DgTypes.StepInfo) ? field.title = $event : field.action = $event;"
+                >
+                </textarea> -->
+                <div class="content-editable"
+                     autosize contenteditable=true 
+                     [innerHtml]="((field.dgType == DgTypes.Section || field.dgType == DgTypes.DelayStep || field.dgType == DgTypes.StepInfo) ? field.title : field.action) | innerhtml"></div>
+            <div class="clearfix "></div>
+        </div>
+        </div>
+        </div>
+      </ng-container>
+       <ng-template #dataEntires >
+        <div class="form-group disableView">
+            <div class="col-md-12 px-0 pt-0" [ngSwitch]="field?.dgType" 
+             [class.alert-css]="field?.dgType === DgTypes.Warning || field?.dgType === DgTypes.Caution || field?.dgType === DgTypes.Note">
+               <ng-container *ngIf="field.dgType === DgTypes.Warning || field.dgType === DgTypes.Caution || field.dgType === DgTypes.Note || field.dgType === DgTypes.Alara">
+               <app-alerts [cbpServiceNew]="cbpServiceNew" [hideTrackUi]="hideTrackUi" [field]="field"></app-alerts>
+              </ng-container>
+               <app-label  [hideTrackUi]="hideTrackUi" *ngSwitchCase="DgTypes.LabelDataEntry" [field]="field"
+                ></app-label>
+               <app-paragraph  [hideTrackUi]="hideTrackUi" *ngSwitchCase="DgTypes.Para" [field]="field"
+                ></app-paragraph>
+               <app-formula *ngSwitchCase="DgTypes.FormulaDataEntry" [field]="field"></app-formula>
+               <app-textbox  [hideTrackUi]="hideTrackUi" *ngSwitchCase="DgTypes.TextDataEntry" [field]="field"
+                ></app-textbox>
+                <app-textarea  [hideTrackUi]="hideTrackUi" *ngSwitchCase="DgTypes.TextAreaDataEntry" [field]="field"
+                ></app-textarea>
+                <app-number  [hideTrackUi]="hideTrackUi" *ngSwitchCase="DgTypes.NumericDataEntry" [field]="field"
+                ></app-number>
+                <app-date   [hideTrackUi]="hideTrackUi" *ngSwitchCase="DgTypes.DateDataEntry"  [field]="field"
+                ></app-date>
+                <app-boolean [hideTrackUi]="hideTrackUi" *ngSwitchCase="DgTypes.BooleanDataEntry" [field]="field"
+                ></app-boolean> 
+                <app-checkbox  [hideTrackUi]="hideTrackUi" *ngSwitchCase="DgTypes.CheckboxDataEntry" [field]="field"
+                ></app-checkbox>
+                <app-link  [hideTrackUi]="hideTrackUi" *ngSwitchCase="DgTypes.Link" [field]="field" ></app-link>
+                <app-verification  [hideTrackUi]="hideTrackUi" *ngSwitchCase="DgTypes.VerificationDataEntry" [field]="field"></app-verification>
+                <app-initial [hideTrackUi]="hideTrackUi"   *ngSwitchCase="DgTypes.InitialDataEntry" [field]="field"></app-initial>
+            </div>
+          </div>
+       </ng-template>
+    </div>
+        <div class="col-lg-5 col-md-5 col-sm-12 px-2 pt-2 mb-2" 
+        *ngIf="field.dgType == DgTypes.Section || field.dgType == DgTypes.StepAction || field.dgType == DgTypes.StepInfo || field.dgType == DgTypes.DelayStep || field.dgType == DgTypes.Timed || field.dgType == DgTypes.Repeat">
+            <div class="form-group d-flex" *ngIf="field?.rule?.length>0">
+                <label class="mr-2 mt-2">Rules:</label>
+                <select class="form-control" [(ngModel)]="selectedValue" (ngModelChange)="updateValue($event)">
+                    <option value="applicability">Applicability</option>
+                    <option value="conditinal">Conditinal</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 px-2 pb-2" *ngIf="field?.rule?.length>0 && selectedValue === 'conditinal'">
+            <fieldset class="field">
+                <ng-container *ngFor="let item of field?.rule;">
+                    <p>{{field.DisplayValue}}</p>
+                </ng-container>
+            </fieldset>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 px-2 pb-2" *ngIf="field?.applicabilityRule?.length>0 && selectedValue === 'applicability'">
+            <fieldset class="field">
+                <ng-container *ngFor="let item of field?.applicabilityRule;">
+                    <p>{{field.DisplayValue}}</p>
+                </ng-container>
+            </fieldset>
+        </div>
+    <div class="col-md-12 col-lg-12 pl-0 pt-2 pb-2">
+        <div class="row pl-3 pr-0">
+            <div class="card mg-bt" >
+                <div class="header selected-asset clr-blue-bd-bt" >
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 pl-2">
+                            <div class="pull-left pl-2">
+                                <h2 class="clr-white-ft" >Previous Value</h2>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 pl-2 text-right">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 px-3" >
+        <div class="row">
+        <div class="col-lg-5 col-md-5 col-sm-6 px-2 pt-2 ">
+            <div class="form-group d-flex">
+            <label class="mr-2 mt-2">Version:</label>
+                <select class="form-control" [(ngModel)]="selectedVersionId" (change)="updateVersion(selectedVersionId)">
+                <option [value]="version.dgcID" *ngFor="let version of trackChanges?.versions"
+                [selected]="selectedVersionId == version.dgcID" >{{version?.createdDocVersion}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-12 px-2 pt-2"></div>
+        <div class="col-lg-4 col-md-4 px-2 pt-2 pr-2 text-right">
+            <button type="button" class="btn btn-outline btn-sm  button-border bd-solid" 
+            (click)="setIndicator()"
+            [ngStyle]="{'background-color': updateIndicator == 1 ? 'blue':'none'}">Update Current Value</button>
+        </div>
+    </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 px-2 pb-2 textareacont disableView" >
+        <ng-container *ngIf="field?.dgType === DgTypes.Warning || field?.dgType === DgTypes.Caution">
+            <div class="content-editable" 
+            autosize contenteditable=true 
+            [innerHtml]="selectedVersion?.cause | innerhtml" ></div>
+            <div class="clearfix "></div>
+            <div class="content-editable" 
+            autosize contenteditable=true 
+            [innerHtml]="selectedVersion?.effect | innerhtml" ></div>
+            <div class="clearfix "></div>
+        </ng-container>
+        <ng-container *ngIf="field?.dgType === DgTypes.Note">
+            <div class="content-editable"  *ngFor="let note of selectedVersion.notes"
+            autosize contenteditable=true 
+            [innerHtml]="note | innerhtml" ></div>
+            <div class="clearfix "></div>
+        </ng-container>
+        <ng-container *ngIf="field?.dgType != DgTypes.Warning && field?.dgType != DgTypes.Caution && field?.dgType != DgTypes.Note">
+            <div class="content-editable" 
+            autosize contenteditable=true 
+            [innerHtml]="selectedVersion?.dynamicObjCompleteText | innerhtml" ></div>
+            <div class="clearfix "></div>
+        </ng-container>
+
+       
+    <!-- <textarea class="form-control" placeholder="" rows="3" autosize> {{selectedVersion.title}}</textarea> -->
+    </div>
+<!-- <div class="col-lg-5 col-md-5 col-sm-12 px-2 pt-2 mb-2" 
+*ngIf="field.dgType == DgTypes.Section || field.dgType == DgTypes.StepAction || field.dgType == DgTypes.StepInfo || field.dgType == DgTypes.DelayStep || field.dgType == DgTypes.Timed || field.dgType == DgTypes.Repeat">
+    <div class="form-group d-flex">
+        <label class="mr-2 mt-2">Rules:</label>
+        <select class="form-control">
+            <option value="0">Applicability</option>
+            <option value="1">Conditinal</option>
+        </select>
+    </div>
+</div>
+<div class="col-lg-12 col-md-12 col-sm-12 px-2 pb-2">
+    <textarea class="form-control" placeholder="" rows="3" col="50" autosize>
+       
+    </textarea>
+</div> -->
+
+</div>
+</lib-modal-popup>

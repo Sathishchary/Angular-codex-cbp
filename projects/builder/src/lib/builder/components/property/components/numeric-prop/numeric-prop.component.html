@@ -1,0 +1,124 @@
+<div class="col-lg-12 col-md-12 px-2 propertyHeight property-border-height">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 pt-2">
+            <label>Field Name</label>
+            <input (blur)="checkNameExistOrnot()" (focus)="onFocusEvent()"
+             class="form-control" placeholder="" [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType"
+              (keypress)="builderService.checkNameEvent($event)" (paste)="builderService.checkPasteEvent($event)" [(ngModel)]="selectedElement.fieldName"  (ngModelChange)="viewUpdateTrack()"
+              required="" type="text">
+        </div>
+        <div class="col-lg-12 col-md-12 pt-2">
+            <div class="row">
+                <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                  <label> Data Type</label>
+                  <app-show-dg-type [dgType]="dgType.NumericDataEntry" [disabled]="true"></app-show-dg-type>
+                </div>
+                <div class="col-lg-6 col-md-6 pl-0">
+                    <label>Decimal</label>
+                    <input class="form-control property-decimal-height" numeric
+                      (blur)="keyPressEvent($event)" [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType"
+                     (focus)="onFocusEvent()" (focusout)="createAuditEntry(AuditTypes.PROPERTY_DECIMAL,{propName: 'decimal'})"
+                     [(ngModel)]="selectedElement.decimal"  (ngModelChange)="viewUpdateTrack()"
+                     (input)="decimalValid(selectedElement)" type="text">
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 col-md-12 pt-2">
+            <app-dg-unique-idproperty [(dgUniqueID)]="selectedElement.dgUniqueID"></app-dg-unique-idproperty>
+        </div>
+       <div class="col-lg-12 col-md-12 pt-2">
+            <div class="row dp-end">
+                <div class="col-md-9 col-lg-9 col-sm-12 col-xs-12">
+                    <label>Value</label>
+                    <select class="form-control" [(ngModel)]="selectedElement.valueType"
+                        (ngModelChange)="changeDerivedType()" 
+                        [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType" (focus)="onFocusEvent()"
+                        (focusout)="createAuditEntry(AuditTypes.PROPERTY_VALUE_TYPE,{propName: 'valueType'})">
+                        <option value="Entered" selected>Entered</option>
+                        <option value="Derived" >Derived</option>
+                    </select>
+                </div>
+                <div class="col-lg-3 col-md-3 pl-0" *ngIf="selectedElement.valueType === 'Derived'">
+                    <button class="btn mb-0 btn-icon btn-outline-secondary btn-outline-secondary btn-sm"
+                     (click)="cbpService.isSetup = true" title="Setup" [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType" >
+                     Setup
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 col-md-12 pt-2" *ngIf="selectedElement.valueType === 'Derived'">
+            <textarea class="form-control" rows="5"
+            readonly [(ngModel)]="selectedElement.DisplayValue"></textarea>
+        </div>
+        <div class="col-lg-6 col-md-6 pt-2 dp-flex" *ngIf="selectedElement.valueType !== 'Derived'">
+            <label class="checkbox-inline flexAlign">
+        <input type="checkbox" value=""   [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType"
+            [(ngModel)]="selectedElement.required" (ngModelChange)="viewUpdateTrack()" 
+            [checked]="selectedElement.required" (focus)="onFocusEvent()"
+            (click)="checkBoxAudit($event, AuditTypes.PROPERTY_REQ,{propName: 'required'})"> &nbsp;&nbsp;<span  >Required</span>
+        </label>
+        </div>
+        <div class="col-lg-8 col-md-8 pt-2 pr-0">
+            <div class="row">
+                <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 dp-flex">
+                <label class="checkbox-inline flexAlign">
+                 <input type="checkbox" value=""   [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType"
+                  [(ngModel)]="selectedElement.unitsRequired"
+                  (change)="selectUnitValue($event.target.checked);viewUpdateTrack()"
+                  [checked]="selectedElement.unitsRequired" (focus)="onFocusEvent()" 
+                  (click)="checkBoxAudit($event, AuditTypes.PROPERTY_REQ_UNIT,{propName: 'unitsRequired'})"> &nbsp;&nbsp;<span
+                  >Requires Unit?</span>
+                </label>
+                </div>
+            </div>
+        </div>
+            <div class="col-lg-12 col-md-12 pt-1" *ngIf="selectedElement.unitsRequired">
+                <label>Unit</label>
+                <input class="form-control"  [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType"
+                 (focusout)="createAuditEntry(AuditTypes.PROPERTY_UNIT,{propName: 'units'});unitValue(selectedElement)"
+                 placeholder="" [(ngModel)]="selectedElement.units" (ngModelChange)="checkUnit(selectedElement.units);viewUpdateTrack()" (focus)="onFocusEvent()"
+                 required="" type="text">
+            </div>
+
+        <div class="col-lg-12 col-md-12 pt-2" *ngIf="selectedElement.valueType !== 'Derived'">
+            <div class="row">
+                <div class="col-lg-12 col-md-12">
+                    <label>Default Value</label>
+                    <input class="form-control"  numericneg decimals = "{{selectedElement.decimal}}"
+                      [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType"  (ngModelChange)="viewUpdateTrack()"
+                      placeholder="" [(ngModel)]="selectedElement.defaultValue" required="" type="text"
+                      (mouseleave)="checkMaxValue(selectedElement)" (focus)="onFocusEvent()"
+                      (focusout)="createAuditEntry(AuditTypes.PROPERTY_DEFAULT_VALUE,{propName: 'defaultValue'})">
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 col-md-12 pt-2" *ngIf="selectedElement.valueType !== 'Derived'">
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    <label>Minimum</label>
+                    <input (mouseleave)="checkMaxValue(selectedElement)" numericneg decimals = "{{selectedElement.decimal}}"
+                    class="form-control" [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType"
+                     placeholder="" [(ngModel)]="selectedElement.minimum" required="" type="text"
+                     (ngModelChange)="viewUpdateTrack()"
+                     (focus)="onFocusEvent()" (focusout)="createAuditEntry(AuditTypes.PROPERTY_MIN,{propName: 'minimum'})">
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <label>Maximum</label>
+                    <input (mouseleave)="checkMaxValue(selectedElement)" numericneg decimals = "{{selectedElement.decimal}}"
+                      class="form-control"  (ngModelChange)="viewUpdateTrack()"
+                     [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType"
+                     placeholder="" [(ngModel)]="selectedElement.maximum" required="" type="text"
+                     (focus)="onFocusEvent()" (focusout)="createAuditEntry(AuditTypes.PROPERTY_MAX,{propName: 'maximum'})">
+                </div>
+            </div>
+        </div>
+          <app-rule-info
+          [selectedElement]="selectedElement"
+          [showAlarm]="true"
+          [hideComponent]="true"
+          [hideApplicablityRule]="true"
+          [hideConditionalRule] ="true"
+          [hideRoleQual]="false"
+          [hideRamaining]="false"></app-rule-info>
+    </div>
+</div>

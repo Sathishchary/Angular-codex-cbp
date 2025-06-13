@@ -1,0 +1,19 @@
+<div class="modal fade " id="Setup-Url" tabindex="-1 " role="dialog " data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-lg " role="document ">
+    <div class="modal-content" style="width: 52% !important;margin-top: 93px;">
+      <lib-modal-popup [title]="'Setup URL'" [footerList]="[{type: 'Ok'}, {type:'Cancel'}]"
+        (submitButtons)=" $event.type === 'Ok' && saveURL(); $event.type === 'Cancel' && hide();" (closeEvent)="hide()">
+        <div class="modal-body pb-0 pt-2">
+          <div class="col-md-12 col-lg-12 pt-0 pl-0 pr-0">
+            <div class="row">
+              <div class="col-lg-12 col-md-12">
+                <label>URL Name</label>
+                <textarea autosize class="form-control" rows="2" [(ngModel)]="filedURL" required></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+      </lib-modal-popup>
+    </div>
+  </div>
+</div>

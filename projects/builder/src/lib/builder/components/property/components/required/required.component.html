@@ -1,0 +1,6 @@
+<label class="checkbox-inline dp-flex">
+    <input type="checkbox" [(ngModel)]="selected"
+     (ngModelChange)="modalChange()" (focus)="onFocusEventTable()" 
+     (click)="checkBoxTableAudit($event, AuditTypes.PROPERTY_TABLE_REQ,{propName: title})"
+     [checked]="selected"> &nbsp;&nbsp;<span class="checkbox_lbleposition">{{title}}</span>
+</label>

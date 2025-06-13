@@ -1,0 +1,19 @@
+  <span id="youtube-hading">
+     <div id="leftsidebar" class="sidebar pdtop1">
+      <div class="sidebar-scroll">
+          <nav id="leftsidebar-nav" class="sidebar-nav">
+              <ul id="main-menu" class="metismenu">
+                <ng-container *ngFor="let routerobj of routerList;let i =index;">
+                  <li [class.disabled]="routerobj?.disabled" [ngClass]="{'active':location.path() === routerobj.url || routerobj?.isSelected}">
+                      <a [routerLink]="routerobj.url">
+                        <i *ngIf="!routerobj?.image" [class]="routerobj.icon"></i>
+                        <img *ngIf="routerobj?.image" class="leftsidebarIconCustomization" [src]="routerobj.icon">
+                    <span>{{routerobj.displayUrl}}</span>
+                  </a>
+                  </li>
+                </ng-container> 
+              </ul>
+          </nav>
+      </div>
+    </div>
+</span>

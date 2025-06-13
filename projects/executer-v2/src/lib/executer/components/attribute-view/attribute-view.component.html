@@ -1,0 +1,32 @@
+<div>
+    <ng-container  *ngIf="stepObject?.dynamic == 0">
+      <p class="plainText"
+      [innerHTML]="stepObject[stepObject['property']]"
+      [ngStyle]="styleObject"
+      [style.font-size]="stepObject?.styleSet?.fontSize"
+      [style.font-family]="stepObject?.styleSet?.fontName"
+      (mouseenter)="selectObject()"
+      [style.color]="stepObject?.styleSet?.color"
+      [style.text-align]="stepObject?.styleSet?.textalign"
+      ></p>
+    </ng-container>
+    <ng-container *ngIf="stepObject?.dynamic == 1">
+        <input type="text" [ngStyle]="styleObject"
+            [style.font-size]="stepObject?.styleSet?.fontSize"
+            [style.font-family]="stepObject?.styleSet?.fontName"
+            [style.color]="stepObject?.styleSet?.color"
+            [style.text-align]="stepObject?.styleSet?.textalign"
+            (click)="selectObject()"
+            [class.selected]="stepObject.protect && stepObject.dgUniqueID === executionService.selectedFieldEntry?.dgUniqueID"
+            class="form-control form-control-height"
+            [readonly]="stepObject?.valueType === 'Derived' || stepObject?.protect || stepObject?.showLockIcon"
+            [class.protect-col]="stepObject?.valueType === 'Derived' || stepObject?.protect || stepObject?.showLockIcon"
+            name="textDataEntry{{stepObject.dgUniqueID}}"  [maxlength]="stepObject.Maxsize ? stepObject.Maxsize : stepObject.MaxSize "
+            [(ngModel)]="stepObject[stepObject['property']]" id="TestTextInputDemo{{stepObject.dgUniqueID}}"
+            (focusout)="stepObject[stepObject['property']] = $any($event.target).value;
+            !stepObject?.disableField && coreEventMethod('checkValidation', stepObject, $any($event.target).value);
+            saveCoverPageDynmEntriesData(stepObject)"
+            [style.text-align]="stepObject?.styleSet?.textalign"
+        />
+      </ng-container>
+</div>

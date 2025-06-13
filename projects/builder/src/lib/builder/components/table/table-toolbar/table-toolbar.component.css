@@ -1,0 +1,54 @@
+.dropdown-content{
+  min-width: 140px !important;
+  text-align: left !important;
+}
+.selectbtn{
+  background-color: #fff !important;
+}
+.selectbtn:hover {
+  background-color: #eaf6ff !important;
+}
+.table-iconsHeight{
+  height:75px; 
+  width:200px!important;
+}
+
+/* PRODFIX-1241  */
+@media ( 300px <= width <= 1349px) {
+.dropdown-content.tableDropdownCu {
+  width: 200px !important;
+  min-width: 200px !important;
+  height: auto !important;
+}
+.paddingsZero {
+  padding-left: 10px;
+}
+.dropdowninside{
+  top: 2px;
+}
+.marginfive{margin-right: 5px;}
+}
+/* PRODFIX-1241  End*/
+
+/* PRODFIX-1303 */
+span.marginRightandLeft{
+  margin-right: 6px;
+  margin-left: 6px;
+}
+/* PRODFIX-1303 End*/
+
+/* PRODFIX-1515 */
+.dropdownEvenSpaces button {
+  margin-bottom: 0px !important;
+}
+.dropdownEvenSpaces button.btn {
+  padding: 8px 7px !important;
+}
+/* PRODFIX-1515 End */
+.top29{top: 29px;}
+.top26{top: 26px;}
+
+.ToolbarBtn {
+  background: none !important;
+  border-radius: 8px !important;
+}

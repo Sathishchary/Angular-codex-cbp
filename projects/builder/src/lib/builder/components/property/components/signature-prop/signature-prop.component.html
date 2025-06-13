@@ -1,0 +1,175 @@
+<div class="col-lg-12 col-md-12 px-2 propertyDataHeight scroll-rs">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 pt-2">
+            <app-dg-unique-idproperty [(dgUniqueID)]="cbpService.selectedElement.dgUniqueID"></app-dg-unique-idproperty>
+        </div>
+        <div class="col-lg-12 col-md-12 pt-2">
+            <label>Signature Prompt</label>
+            <input class="form-control" placeholder="" (focus)="onFocusEvent()"
+                (focusout)="createAuditEntry(AuditTypes.PROPERTY_SIG_PROMPT ,{propName:'prompt'})"
+                [disabled]="cbpService.selectedElement.isEmbededObject && cbpService.embeddedType"
+                (ngModelChange)="updateLink()" [(ngModel)]="cbpService.selectedElement.prompt" required=""
+                type="text">
+        </div>
+        <div class="col-lg-12 col-md-12 pt-2 dp-flex">
+            <label class="checkbox-inline flexAlign">
+                <input type="checkbox" value="" [(ngModel)]="cbpService.selectedElement.promptDisplay"
+                    (focus)="onFocusEvent()"  (change)="validateFields('promptDisplay', $event, false)"
+                    (click)="checkBoxAudit($event, AuditTypes.PROPERTY_SIG_PROMPT_DO_NOT_DISPLAY ,{propName:'promptDisplay'})"
+                    [checked]="cbpService.selectedElement.promptDisplay"
+                    [disabled]="cbpService.selectedElement.isEmbededObject && cbpService.embeddedType">
+                &nbsp;&nbsp;<span>Do not display signature?</span>
+            </label>
+        </div>
+        <div class="col-lg-12 col-md-12 pt-2">
+            <label>Name Prompt</label>
+            <input class="form-control" placeholder=""
+                [disabled]="cbpService.selectedElement.isEmbededObject && cbpService.embeddedType"
+                required="" (ngModelChange)="updateLink()"
+                [(ngModel)]="cbpService.selectedElement.namePrompt" type="text" (focus)="onFocusEvent()"
+                (focusout)="createAuditEntry(AuditTypes.PROPERTY_SIG_NAME_PROMPT ,{propName:'namePrompt'})">
+        </div>
+        <div class="col-lg-12 col-md-12 pt-2 dp-flex">
+            <label class="checkbox-inline flexAlign">
+                <input type="checkbox" value=""
+                    [(ngModel)]="cbpService.selectedElement.namePromptDisplay"
+                    [checked]="cbpService.selectedElement.namePromptDisplay"
+                    [disabled]="cbpService.selectedElement.isEmbededObject && cbpService.embeddedType"
+                    (focus)="onFocusEvent()" (change)="validateFields('namePromptDisplay', $event, false)"
+                    (click)="checkBoxAudit($event, AuditTypes.PROPERTY_SIG_NAME_DO_NOT_DISPLAY ,{propName:'namePromptDisplay'})">
+                &nbsp;&nbsp; <span >Do not display name?</span>
+            </label>
+        </div>
+        <div class="col-lg-12 col-md-12 pt-2">
+            <label>Date/Time Prompt</label>
+            <input class="form-control" placeholder=""
+                [disabled]="cbpService.selectedElement.isEmbededObject && cbpService.embeddedType"
+                (ngModelChange)="updateLink()" [(ngModel)]="cbpService.selectedElement.dateTimePrompt"
+                required="" type="text" (focus)="onFocusEvent()"
+                (focusout)="createAuditEntry(AuditTypes.PROPERTY_SIG_DATE ,{propName:'dateTimePrompt'})">
+        </div>
+        <div class="col-lg-12 col-md-12 pt-2">
+            <div class="row">
+                <div class="col-lg-5 col-md-5 pt-1 pr-0 dp-flex">
+                    <label class="checkbox-inline flexAlign">
+                        <input type="checkbox" value="" (change)="validateFields('datePromptDispaly', $event, true)"
+                            [(ngModel)]="cbpService.selectedElement.datePromptDispaly"
+                            [checked]="cbpService.selectedElement.datePromptDispaly"
+                            [disabled]="cbpService.selectedElement.isEmbededObject && cbpService.embeddedType"
+                            (focus)="onFocusEvent()"
+                            (click)="checkBoxAudit($event, AuditTypes.PROPERTY_SIG_DATE_DISPLAY ,{propName:'datePromptDispaly'})">
+                        &nbsp;&nbsp;
+                        <span >Date?</span>
+                    </label>
+                </div>
+                <div class="col-lg-5 col-md-5 pt-1 pr-0 dp-flex">
+                    <label class="checkbox-inline flexAlign">
+                        <input type="checkbox" value=""  (change)="validateFields('timePromptDisplay', $event, true)"
+                            [(ngModel)]="cbpService.selectedElement.timePromptDisplay"
+                            [checked]="cbpService.selectedElement.timePromptDisplay"
+                            [disabled]="cbpService.selectedElement.isEmbededObject && cbpService.embeddedType"
+                            (focus)="onFocusEvent()"
+                            (click)="checkBoxAudit($event, AuditTypes.PROPERTY_SIG_TIME_DISPLAY ,{propName:'timePromptDisplay'})">
+                        &nbsp;&nbsp;
+                        <span >Time?</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 col-md-12 pt-2">
+            <label>Initial Prompt</label>
+            <input class="form-control" placeholder="Initial"
+                [disabled]="cbpService.selectedElement.isEmbededObject && cbpService.embeddedType"
+                (ngModelChange)="updateLink()" [(ngModel)]="cbpService.selectedElement.initialPrompt"
+                required="" type="text" (focus)="onFocusEvent()"
+                (focusout)="createAuditEntry(AuditTypes.PROPERTY_SIG_INITIAL ,{propName:'initialPrompt'})">
+        </div>
+
+        <div class="col-lg-12 col-md-12 pt-2 dp-flex">
+            <label class="checkbox-inline flexAlign">
+                <input type="checkbox" value="" (change)="validateFields('initialPromptDispaly', $event, false)"
+                    [(ngModel)]="cbpService.selectedElement.initialPromptDispaly"
+                    [checked]="cbpService.selectedElement.initialPromptDispaly"
+                    [disabled]="cbpService.selectedElement.isEmbededObject && cbpService.embeddedType"
+                    (click)="checkBoxAudit($event, AuditTypes.PROPERTY_SIG_INITIAL_DISPLAY ,{propName:'initialPromptDispaly'})">
+                &nbsp;&nbsp;<span >Do not display intial?</span>
+            </label>
+        </div>
+        <div class="col-lg-12 col-md-12 pt-2">
+            <label>User ID Prompt</label>
+            <input class="form-control" placeholder="" 
+            [disabled]="cbpService.selectedElement.isEmbededObject && cbpService.embeddedType"
+            (ngModelChange)="updateLink()" [(ngModel)]="cbpService.selectedElement.userIdPrompt"
+            required="" type="text" (focus)="onFocusEvent()"
+            (focusout)="createAuditEntry(AuditTypes.PROPERTY_SIG_INITIAL ,{propName:'userIdPrompt'})"
+             >
+        </div>
+        <div class="col-lg-12 col-md-12 pt-2 dp-flex">
+            <label class="checkbox-inline flexAlign">
+                <input type="checkbox" value="" (change)="validateFields('userIdPromptDisplay', $event, false)"
+                    [(ngModel)]="cbpService.selectedElement.userIdPromptDisplay"
+                    [checked]="cbpService.selectedElement.userIdPromptDisplay"
+                    [disabled]="cbpService.selectedElement.isEmbededObject && cbpService.embeddedType"
+                    (click)="checkBoxAudit($event, AuditTypes.PROPERTY_SIG_INITIAL_DISPLAY ,{propName:'userIdPromptDisplay'})">
+                &nbsp;&nbsp;<span >Do not display User ID?</span>
+            </label>
+        </div>
+        <div class="col-lg-12 col-md-12 pt-2">
+            <label>Notes Prompt</label>
+            <input class="form-control" placeholder="" 
+            [disabled]="cbpService.selectedElement.isEmbededObject && cbpService.embeddedType"
+            (ngModelChange)="updateLink()" [(ngModel)]="cbpService.selectedElement.notesPrompt"
+            required="" type="text" (focus)="onFocusEvent()"
+            (focusout)="createAuditEntry(AuditTypes.PROPERTY_SIG_INITIAL ,{propName:'notesPrompt'})">
+        </div>
+        <div class="col-lg-12 col-md-12 pt-2 dp-flex">
+            <label class="checkbox-inline flexAlign">
+                <input type="checkbox" value="" (change)="validateFields('notesPromptDispaly', $event, false)"
+                [(ngModel)]="cbpService.selectedElement.notesPromptDispaly"
+                [checked]="cbpService.selectedElement.notesPromptDispaly"
+                [disabled]="cbpService.selectedElement.isEmbededObject && cbpService.embeddedType"
+                (click)="checkBoxAudit($event, AuditTypes.PROPERTY_SIG_INITIAL_DISPLAY ,{propName:'notesPromptDispaly'})">
+                &nbsp;&nbsp;<span >Do not display Notes?</span>
+            </label>
+        </div>
+        <div class="col-lg-12 col-md-12 pt-1 mt-2">
+            <label>Value</label>
+            <select class="form-control" [(ngModel)]="cbpService.selectedElement.valueType"
+                [disabled]="cbpService.selectedElement.isEmbededObject && cbpService.embeddedType"
+                (focus)="onFocusEvent()"
+                (ngModelChange)="createAuditEntry(AuditTypes.PROPERTY_VALUE,{propName: 'valueType'})">
+                <option value="Entered" selected>Entered</option>
+                <option value="AutoPopulate">AutoPopulate</option>
+            </select>
+        </div>
+        <div class="col-lg-12 col-md-12 pt-2 mt-2"
+            *ngIf="cbpService.selectedElement.valueType === 'AutoPopulate'">
+            <label>Value Option</label>
+            <select class="form-control" [(ngModel)]="cbpService.selectedElement.autoPopulate"
+                [disabled]="cbpService.selectedElement.isEmbededObject && cbpService.embeddedType">
+                <option value="CurrentSignature" selected>Current Signature</option>
+            </select>
+        </div>
+        <div class="col-lg-12 col-md-12 pt-2 pl-0 ml-3 dp-flex">
+            <label class="checkbox-inline flexAlign">
+                <input type="checkbox" value=""
+                    [disabled]="cbpService.selectedElement.isEmbededObject && cbpService.embeddedType"
+                    [(ngModel)]="cbpService.selectedElement.required"
+                    [checked]="cbpService.selectedElement.required" (focus)="onFocusEvent()"
+                    (click)="checkBoxAudit($event, AuditTypes.PROPERTY_REQ,{propName: 'required'})">
+                &nbsp;&nbsp;<span class="checkbox_lbleposition">Required</span>
+            </label>
+        </div>
+
+        <div >
+          <app-rule-info
+          [selectedElement]="cbpService.selectedElement"
+          [showAlarm]="false"
+          [hideComponent]="true"
+          [hideApplicablityRule]="true"
+          [hideConditionalRule] ="true"
+          [hideRoleQual]="false"
+          [hideRamaining]="false"></app-rule-info>
+        </div>
+    </div>
+</div>

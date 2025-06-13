@@ -1,0 +1,23 @@
+<div class="modal fade" id="delayTimer" tabindex="-1 " role="dialog " data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-md" role="document ">
+    <div class="modal-content delaystep">
+      <lib-modal-popup [title]="message" [hideClose]="true" [hideFooter]="true">
+        <div class="modal-body pb-2 pt-2">
+          <div class="col-md-12 col-lg-12 pt-0 pl-0 pr-0 pb-2">
+            <div class="col-md-12 col-lg-12 mt-2">
+              <div class="timer-css">
+                <span>
+                  <countdown #cd class="text-lg" (event)="timerFinished($event)" [config]="{leftTime: stepTime}">
+                    $!h!:$!m!:$!s!</countdown>
+                </span>&nbsp; Minutes
+              </div>
+            </div>
+            <div class="col-md-12 col-lg-12 mt-2 text-center" *ngIf="selectedStepSectionInfo.allowedtoStop">
+              <button class="btn btn-icon btn-outline-secondary btn-sm" (click)="closeTimer()">Stop</button>
+            </div>
+          </div>
+        </div>
+      </lib-modal-popup>
+    </div>
+  </div>
+</div>

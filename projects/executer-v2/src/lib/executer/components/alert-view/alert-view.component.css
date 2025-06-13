@@ -1,0 +1,5 @@
+.checkboxPositions {position: absolute; right: 0;}
+
+@media ( 300px <= width <= 992px) {
+    .alertViewTopPadding {padding-top: 30px;} .checkboxPositions {top: 11px; }
+}

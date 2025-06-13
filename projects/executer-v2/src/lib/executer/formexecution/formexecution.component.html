@@ -1,0 +1,456 @@
+<ng-container *ngIf="showNotifications">
+  <notifier-container></notifier-container>
+</ng-container>
+
+<ngx-loading [show]="loading || cbpService.loading"
+[config]="{ backdropBorderRadius: '3px', fullScreenBackdrop:true}">
+</ngx-loading>
+
+<div class="{{sharedviewService.col12}} pl-0 pr-0" [ngClass]="{'execution-scroll-hide': !standalone} ">
+  <div class="mail-right pt-0 px-0" [class.m-4px]="!showNotifications">
+    <div class="mail-action clearfix px-0">
+      <div class="{{sharedviewService.col12}} px-0">
+        <div class="button-list"
+         [class.fixed-btn-list-tab]="standalone"
+         [class.fixed-btn-list]="!multipleCbpTab && stickyUiCss && !standalone">
+          <app-execution-menu-bar
+            [menuConfig]="menuConfig"
+            [documentSelected]="documentSelected"
+            [(isDetailTabEnabled)]="isDetailTabEnabled"
+            [customUsers]="customUsers"
+            [freezePage]="freezePage"
+            [entirePageFreeze]="entirePageFreeze"
+            [isTimerOnStep]="isTimerOnStep"
+            [isRepeatStep]="isRepeatStep"
+            [disableStep]="disableStep"
+            [isEdocument]="isEdocument"
+            [propertyDocument]="propertyDocument"
+            [terminatedExecution]="terminatedExecution"
+            [completedExecution]="completedExecution"
+            [isDetailsTabOpen]="isDetailsTabOpen"
+            [selectedStepSectionInfo]="selectedStepSectionInfo"
+            [disableMedia]="disableMedia"
+            [isReadOnlyExecution]="isReadOnlyExecution"
+            [dataJson]="cbpService.dataJson"
+            [headerFooterSelected]="headerFooterSelected"
+            [stepCompleteCount]="stepCompleteCount"
+            [stopCbpExecution]="stopCbpExecution"
+            [stepTime]="stepTime"
+            [executerModes]="executerModes"
+            [stepObject]="executionService.selectedFieldEntry"
+            (stopExecution)="stopExecution()"
+            (completeExecute)="completeExecution()"
+            (terminateExecute)="terminateExecution()"
+            (saveCbpFile)="saveCbpFile($event.type, false, 'mainSave')"
+            (refreshCbpFile)="refreshCbpFile()"
+            (goToStep)="goToStep()"
+            (showUserEvent)="existingSecurityUserFromParent($event)"
+            (singleMedia)="singleMediaUpdate($event.files)"
+            (timerFinishEvent)="timerFinished($event)"
+            (emailOpn)="openEmailRequest()"
+            (openCR)="openCr(false)"
+            (openComment)="openComment()"
+            (editStepModal)="editStepTitleModal()"
+            (undoModal)="openUndoComment()"
+            (dynamicSection)="openDynamic()"
+            (saveCBPModal)="saveLocalCBP()"
+            (isMenuBarChange)="menuBarChange($event)"
+            (isNavigationOpenChange)="updateNavigation($event)"
+            (uploadMediaOpen)="openUploadMedia()"
+            (updateViewText)="updateViewTextMethod($event)"
+            (tableAddRow)="selectedRowTable($event)"
+            (colorUpdateSet)="updateColorOpen()"
+            (exit)="exitExecutor()"
+            (referenceEventObj)="referenceEvent()"
+            (linkEventObj)="linkEvent($event)"
+            (hideDocSize)="showMaxMinButtons = $event"
+            (annotate)="annotateEvent($event)"
+            (executerType)="$event.type == 'stickyNote' && stickyNoteExecuter($event);
+            ($event.type !== 'stickyNote') && tableEntryStyle($event);"
+            (excuterMenuBar)="$event?.executerType == 'selectCell' && setTableCell($event);
+             $event?.executerType == 'formatPainter' && formatPainter($event)"
+             (styleFontType)="fontFamilyForCBP($event)"
+             (parentEvent)="refreshEvent()"
+             (updateColor)="updateColor($event)"
+             (copyFromWordEvent)="copyFromWord($event)"
+             (notifyEventToExecuter)="eventFromExecuterMenuBar($event)"
+             >
+          </app-execution-menu-bar>
+        </div>
+      </div>
+      <div class="{{sharedviewService.col12}} pt-0"
+       [class.my-sticky-tab]="standalone"
+       [class.my-sticky]="!multipleCbpTab  && stickyUiCss && !standalone">
+        <div class="formio builder row formbuilder pt-1 px-2">
+          <div class=" col-xs-12 col-sm-12 col-md-3 col-lg-3 pl-0 pr-2 padding-right hidden-sm"
+            [hidden]="!menuConfig.isNavigation">
+            <div class="card p-2 tree-detail" [class.w-sticky]="!multipleCbpTab && stickyUiCss">
+              <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-12 col-lg-12 aligncss pr-0 pb-1"
+                  style="padding: 0px 10px 0px 34px;">
+                  <ul class="nav nav-tabs" style="padding-top: 0px !important">
+                    <li class="active" [class.e-point]="!(completedExecution || terminatedExecution)">
+                      <a class="font14" 
+                       [class.activeheader]="isTreeTabOpen && !isDetailsTabOpen && !isRefTabOpen"
+                        (click)="changeControl('index');detailPage = false; setDetailPageValues(true, false, false, false)">Index</a>
+                    </li>
+                    <li class="active e-point">
+                      <a class="e-point font14" [class.activeheader]="isDetailsTabOpen"
+                      [class.e-point]="!(completedExecution || terminatedExecution)"
+                      [class.disabled]="completedExecution || terminatedExecution"
+                      [class.tab_disable]="tabEnable"
+                        (click)="changeControl('detailsTab');detailPage =true; setDetailPageValues(true,false,false,false)">Details</a>
+                    </li>
+                    <li *ngIf="showComponent" class="active e-point">
+                      <a class="e-point font14" [class.activeheader]="isComponentOpen"
+                        (click)="changeControl('component');setDetailPageValues(true, false, false, false)">Component</a>
+                    </li>
+                    <!-- <li *ngIf="showRefTab && refTabDisplay" class="active e-point">
+                      <a class="e-point font14" [class.activeheader]="isRefTabOpen"
+                      [class.tab_disable]="tabEnable"
+                        (click)="changeControl('refTab');setDetailPageValues(true, false, false, false)">Reference</a>
+                    </li> -->
+                  </ul>
+                </div>
+              </div>
+              <div id="jstree" *ngIf="isComponentOpen && componentInfo" class="form-execution-scroll">
+                <ul class="left-nav">
+                  <ng-container *ngFor="let item of executionService.componentInfoList">
+                    <li class="li-index">{{item.name}}: {{componentInfo[item?.type]}}</li>
+                  </ng-container>
+                </ul>
+              </div>
+              <div id="jstree" *ngIf="isDetailsTabOpen || !isTreeTabOpen && !isRefTabOpen ">
+                <ul class="left-nav cardSideBorders">
+                  <li class="li-index" [class.activeInde]="sideNavVariables.commentNavigation"
+                    (click)="executionService.detailPageNumber = 1; setDetailPageValues(true, false, false, false)">
+                    Comment</li>
+                  <li class="li-index" [class.activeInde]="sideNavVariables.mediaLink"
+                    (click)="executionService.detailPageNumber = 1; setDetailPageValues(false, true, false, false)">
+                    Media</li>
+                  <li class="li-index" [class.activeInde]="sideNavVariables.crNavigation"
+                    (click)="executionService.detailPageNumber = 1; setDetailPageValues(false, false, true, false)">CR
+                  </li>
+                  <li class="li-index" [class.activeInde]="sideNavVariables.otspView"
+                    (click)="executionService.detailPageNumber = 1; setDetailPageValues(false, false, false, true)">Pen/Ink
+                  </li>
+                </ul>
+              </div>
+              <!-- <div class="left-main" [ngClass]="{'contentFit': isMobile && standalone , 'contentFitEdoc' : !standalone ,'contentFitTab' : isMobile }"
+              [hidden]="isDetailsTabOpen || isComponentOpen || isRefTabOpen"   > -->
+              <div class="left-main" [ngClass]="{'contentFit': standalone , 'contentFitEdoc' : !standalone ,'contentFitTab' : isMobile }"
+              [hidden]="isDetailsTabOpen || isComponentOpen || isRefTabOpen"   >
+                <div class="col-xs-12 col-md-12 col-lg-12 doc-infoTes" (click)="documentShow()"
+                  [class.activeNode]="documentSelected" *ngIf="coverPageSet">
+                  <span class="hdf-font">Cover Page</span>
+                </div>
+                <span>
+                  <!-- <div class="bodychanges" style="height:74vh !important;"> -->
+                    <div class="bodychanges">
+                    <lib-tree-structure *ngIf="isTree && treeObj.section" [isbuild]="true" [cbpJson]="treeObj"
+                      [headerFooterSelected]="headerFooterSelected" [isExecution]="true"
+                      (loadedTree)="treeLoaded()"
+                      [(documentSelected)]="documentSelected" [updatedNode]=" !documentSelected && cbpService.selectedElement?.dgUniqueID"
+                      (selectedNode)="selectStepNode($event)">
+                    </lib-tree-structure>
+                  </div>
+                </span>
+              </div>
+              <div [hidden]="!isRefTabOpen" class="left-main" >
+                <div class="card p-2 w-sticky indexborder pad-bt-152imp">
+                    <ng-container [ngTemplateOutlet]="ngTempalteReferenceLoop"
+                          [ngTemplateOutletContext]="{ $implicit: referenceListItems }">
+                     </ng-container>
+                </div>
+            </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-12 show-button readformdisable readableview w-sticky ht"
+           #postion [ngClass]="{'col-md-12 col-lg-9': menuConfig.isNavigation, 'col-md-12 col-lg-12': !menuConfig.isNavigation,
+            'disabledValue': freezeCompletePage}"
+            [class.whitecolor]="detailPage" [class.disabled]="freezePageEntire" (scroll)="scroll()">
+            <div class="row" [hidden]="detailPage" (mouseenter)="showMaxMinButtons = true"
+              (mouseleave)="showMaxMinButtons = false">
+              <div class="col-xs-12 col-sm-12 px-0 mar-auto"
+                [ngClass]="{ 'col-sm-8 col-lg-8 col-md-8': (cbpService.checkedFirst || cbpService.tabletCheck),
+                            'col-12 col-sm-12 col-md-10 col-lg-10 ': cbpService.checkedDefault,
+                            'col-sm-12 col-lg-12 col-md-12' : cbpService.checkedLast }">
+                <div class="tablet mar-top" *ngIf="cbpService.tabletCheck">
+                 <div class="content">
+                  <ng-container *ngTemplateOutlet="executionViewTemplate"></ng-container>
+                 </div>
+                </div>
+               <ng-container *ngIf="!cbpService.tabletCheck">
+                <ng-container *ngTemplateOutlet="executionViewTemplate"></ng-container>
+               </ng-container>
+              </div>
+              <section  class="section-tab hidden-xs">
+                <!--  *ngIf="showMaxMinButtons" -->
+                <app-doc-size-change
+                  [tabletCheck]="cbpService.tabletCheck"
+                  [checkedFirst]="cbpService.checkedFirst"
+                  [checkedDefault]="cbpService.checkedDefault"
+                  [checkedLast]="cbpService.checkedLast"
+                  (changeSize)="changeSize($event)"
+                  [executionType]="executionType"
+                  [multipleCbpTab]="multipleCbpTab">
+                </app-doc-size-change>
+              </section>
+            </div>
+            <div [hidden]="!detailPage">
+              <app-detail-execution *ngIf="detailPage" [dataJson]="cbpService.dataJson"
+                [freezePage]="freezePage"
+                [tempCrData]="crArrayData"
+                [comments]="comments"
+                [tempComments]="comments"
+                [crArrayData]="crArrayData"
+                [otspData]="otspData"
+                [codeValues]="cbpService.codeValues"
+                [typeValues]="typeValues"
+                (notifyDetailFormExectution)="callDetailPage($event)">
+              </app-detail-execution>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-container *ngIf="!detailPage ">
+  <div class="btn-grp btn-group float my-float btn-pagination" role="group"
+  [class.disabled]="loading">
+    <button type="button" class="btn btn-secondary" data-toggle="tooltip"
+    data-placement="top" title="Top"  (click)="goToTop()"
+    [disabled]="cbpService.startIndex <= 1">
+    <i class="fa fa-angle-double-up " aria-hidden="true"></i>
+  </button>
+  <button type="button" class="btn btn-secondary" data-toggle="tooltip"
+      data-placement="top" title="Previous" (click)="moveToPreviousButton()"
+      [disabled]="cbpService.startIndex <=1 ">
+      <i class="fa fa-arrow-up " aria-hidden="true"></i>
+  </button>
+  <button type="button" class="btn btn-secondary" data-toggle="tooltip"
+      data-placement="top" title="Next" (click)="moveToNextButton()"
+      [disabled]="cbpService.startIndex > (cbpService.paginateIndex - cbpService.pageSize)">
+      <i class="fa fa-arrow-down " aria-hidden="true"></i>
+  </button>
+  <button type="button" class="btn btn-secondary" data-toggle="tooltip"
+      data-placement="top" title="Bottom" (click)="goToBottom()"
+      [disabled]="cbpService.startIndex > (cbpService.paginateIndex - cbpService.pageSize)">
+      <i class="fa fa-angle-double-down " aria-hidden="true"></i>
+  </button>
+  </div>
+
+  </ng-container>
+
+<ng-template #executionViewTemplate>
+  <div  [class.pageBorder]="cbpService.checkedLast || cbpService.tabletCheck"
+  detect-scroll (onScroll)="handleScroll($event)" (scroll)="onScroll($event)"
+          [bottomOffset]="0" [topOffset]="5"
+          class="scroll-view"
+          >
+    <ng-container *ngIf="menuConfig.isPageHeader && !this.cbpService.coverPageSelected">
+      <ng-container [ngTemplateOutlet]="headerFooterTemp"
+        [ngTemplateOutletContext]="{$implicit: 'header'}"></ng-container>
+    </ng-container>
+    <div class="e-pointer formViewStyle mr-bot ZindexZero "
+      [class.opacity7]="cbpService.currentStep === '-1' || cbpService.currentStep === '-2'"
+      [class.disabled]="stopCbpExecution || (completedExecution || terminatedExecution || isDetailsTabOpen)"
+      [class.formHeight]="documentSelected" [class.topPadding]="!documentSelected"
+      [class.disabled-page]="freezePage"
+      [class.removeWhiteColor]="documentSelected"
+      [style.padding-top]="menuConfig.marginTop+'px'"
+      [style.padding-bottom]="( menuConfig.marginBottom ?  marginBottom+'px' : 150+'px' )">
+      <app-exe-doc [hidden]="!documentSelected" [cbpJson]="cbpJson"
+        *ngIf="propertyDocument && documentSelected" [propertyDocument]="propertyDocument"></app-exe-doc>
+      <section class="jumbotron" [hidden]="documentSelected"
+        [ngxWatermark]="cbpJson?.documentInfo[0] ? cbpJson?.documentInfo[0]['waterMarkOptions'] : propertyDocument.waterMarkOptions">
+        <div [ngStyle]="layoutMarginValue"  >
+          <app-formview #formview *ngIf="cbpJson?.section?.length>0 && isviewUpdated && isOnitLoaded"
+            [section]="cbpJson?.section" [documentObj]="cbpService.documentInfo"
+            [isDetailTabEnabled]="isDetailTabEnabled" [(freezePage)]="freezePage"
+            [(repeatTimes)]="repeatTimes" [(isRepeatStep)]="isRepeatStep"
+            [isTimerOnStep]="isTimerOnStep" (isTimerOnStepChange)="timedStepStop($event)"
+            (isRepeatStepChange)="repeatStepStop($event)" (linkViewEmit)="getLinkPdfEvent($event)"
+            (notifyFormExectution)="getFormViewEvent($event)"
+            [menuConfig]="menuConfig" (errorMessageEvent)="errorMessage($event)"
+            (refObj)="fetchRefObj($event)" (stickyNoteChange)="stickyNoteChangeEvent($event)"
+            (protectSection)="protectSection($event)" (setDataJson)="dataEntryJsonEvent($event)"
+            (deleteImageEvent)="deleteMediaObject($event)"
+            [showPaginationButtons]="showPaginationButtons"
+            >
+            <!-- (updateMedia)="mediaUpdate($event)" -->
+          </app-formview>
+        </div>
+      </section>
+    </div>
+    <ng-container *ngIf="menuConfig.isPageFooter && !this.cbpService.coverPageSelected">
+      <ng-container [ngTemplateOutlet]="headerFooterTemp"
+        [ngTemplateOutletContext]="{$implicit: 'footer'}"></ng-container>
+    </ng-container>
+  </div>
+
+</ng-template>
+
+<div *ngIf="emailOpen">
+  <app-email (sendDataEntryJson)="dataEntryJsonEvent($event)"
+  (closeEvent)="sendEmailEvent($event);getEventFromModalChild()"></app-email>
+</div>
+
+<div *ngIf="commentModalOpen">
+  <app-comments  [isCommentUpdate]="isCommentUpdate"
+    [currentSelectedNumber]="cbpService.selectedElement?.number"
+    [comments]="comments" [cbpJson]="cbpJson" [media]="isCommentUpdate ? commentCrMediaFiles : []"
+    (sendDataJson)="dataEntryJsonEvent($event)" [menuConfig]="menuConfig"
+    (mediaChange)="mediaFileObjects($event)"
+    [selectedCommentIndex]="selectedCommentIndex" [commentObject]="commentObj"
+    (closeEvent)="getCommentResponse($event);getEventFromModalChild()"></app-comments>
+    <!-- (updateMediaFiles)="mediaFiles($event)" -->
+</div>
+
+<div *ngIf="commentCrModalOpen">
+  <lib-showcrcomment [number]="cbpService.selectedElement?.dgUniqueID"
+    [typeOfModal]="typeOfModal"
+    [comments]="comments"  [crArrayData]="crArrayData"
+    (closeEvent)="getEventFromModalChild()"></lib-showcrcomment>
+</div>
+
+<div *ngIf="changeRequestModalOpen">
+  <app-change-request [cbpJson]="cbpJson"
+    [isChangeUpdate]="isChangeRequestUpdate"
+    [currentSelectedNumber]="cbpService.selectedElement?.number"
+    [crArrayData]="crArrayData"
+    (sendDataJson)="dataEntryJsonEvent($event)"
+    [media]="isChangeRequestUpdate ? commentCrMediaFiles : []"
+    (mediaChange)="mediaFileObjects($event)" [typeValues]="typeValues"
+    [reasonValues]="reasonValues" [listOfFacilities]="listOfFacilities" [listOfUnits]="listOfUnits"
+    [listOfDecipline]="listOfDecipline" [changeRequest]="changeRquestObj"
+    [selectedCRIndex]="selectedCRIndex" [selectedStepSectionInfo]="cbpService.selectedElement"
+    (closeEvent)="getChangeRequestEvent($event);getEventFromModalChild()">
+  </app-change-request>
+</div>
+
+<div *ngIf="editStepTitle">
+  <app-editsection [otspData]="otspData" [dataJson]="cbpService.dataJson" (sendDataJson)="dataEntryJsonEvent($event)"
+    *ngIf="!isEditStepUpdated" [selectedStepSectionInfo]="cbpService.selectedElement" [isUpdated]="isEditStepUpdated"
+    [docFileInfo]="cbpFileTabInfo" [penInkJson]="penInkJson"  [authenticatorEvent]= "authenticatorEvent"
+    [editStepmodal]="modalEditStep" (closeEvent)="updateEditStepInfo($event);getEventFromModalChild()"></app-editsection>
+</div>
+
+<div *ngIf="undoComment">
+  <app-undo-comment [selectedStepSectionInfo]="cbpService.selectedElement" (sendDataEntryJson)="dataEntryJsonEvent($event)"
+    (closeEvent)="undoCommentStore($event);getEventFromModalChild()"></app-undo-comment>
+</div>
+
+<div *ngIf="verificationModalOpen">
+  <app-verification [verifyDataJson]="verifyDataJson" [dataJson]="cbpService.dataJson"
+  [authenticatorEvent]= "authenticatorEvent" [selectedStepSectionInfo]="cbpService.selectedElement"
+    (sendDataEntryJson)="dataEntryJsonEvent($event)" [verificationType]="verifyCationType"
+    [verification]="verificationObj" [(verificationUsers)]="verificationUsers" [isMonitorExecution]="monitorExecution"
+    (closeEvent)="updateVerification($event);getEventFromModalChild()"></app-verification>
+</div>
+
+<div *ngIf="uploadMediaOpen">
+  <app-upload-media [currentStep]="cbpService.currentStep"
+    [selectedStep]="cbpService.selectedElement"
+    (closeEvent)="setMediaNewExecution($event);getEventFromModalChild()"></app-upload-media>
+</div>
+
+<div *ngIf="delayTimerShow">
+  <app-delaytimer [selectedStepSectionInfo]="selectedDelayStep" [stepTime]="timeValue"
+    (closeEvent)="getTimerEvent($event);getEventFromModalChild()"></app-delaytimer>
+</div>
+
+<div *ngIf="showSecurityVerifyUser">
+  <app-security-verify-user [customUsers]="customUsers" (sendDataEntryJson)="dataEntryJsonEvent($event)"
+    [userCbpInfo]="sharedviewService.userCbpInfo" [isVerifyUser]="upadateVerifyUser" [userInfo]="securityUpdatedUser"
+    (closeEvent)="setSwitchUser($event);getEventFromModalChild()"></app-security-verify-user>
+</div>
+
+<div *ngIf="showUsageOption">
+  <app-usage-option (sendDataEntryJson)="dataEntryJsonEvent($event)" [cbpJson]="cbpJson"
+    [executionOrderJson]="executionOrderJson" [selectedStep]="cbpService.selectedElement"
+    (closeEvent)="closeUsageOption($event);getEventFromModalChild()"></app-usage-option>
+</div>
+
+<div *ngIf="saveModalopenLocal">
+  <download-cbp [cbpJson]="downloadCBPJson" [styleJson]="styleJson" [styleImageJson]="cbpService.styleImageJson"
+    [layoutJson]="layOutJson" [orderJson]="executionOrderJson" [dynamicSectionJson]="cbpService.dynamicSectionInfo"
+    [dataJson]="cbpService.dataJson" [attachment]="attachment" [media]="cbpService.media" [annotateJson]="annotateJson"
+    [signatureJson]="executionService.signatureJson"
+    [protectJson]="cbpService.protectJson"
+    
+    (closeEvent)="closeDownload($event);"></download-cbp>
+</div>
+<div *ngIf="colorUpdateOpen">
+  <app-colorupdate [documentInfo]="cbpService.documentInfo" (closeColor)="updateColor($event);getEventFromModalChild()"></app-colorupdate>
+</div>
+
+<ng-template #headerFooterTemp let-type>
+  <app-exe-headerfooter [stopCbpExecution]="stopCbpExecution" [documentSelected]="documentSelected" [cbpJson]="cbpJson"
+    [freezePage] = "freezePage || completedExecution || terminatedExecution"
+    [hide]="type === 'header'? 'footer' : 'header'" (click)="headerfooterSelect(type)"
+    (validationEvent)="tableEvent($event)" (headerOrFooter)="headerFooterEvent($event)"
+    (setEntryDataJson)="dataEntryJsonEvent($event)">
+  </app-exe-headerfooter>
+</ng-template>
+
+
+<ng-template  #IndexReferenceTemplate let-item let-index>
+  <div  class="doc-info pad-2"  [style.padding-left.px]="(item.level+1)*15">
+    <i [style.margin-right.px]="5" class="fa fa-caret-right" *ngIf="(item.DGC_HAS_CHILD != 0 || item.DGC_REFERENCE_OBJECT_DETAIL) && !item.show" (click)="callRefMethod(item,index);"></i>
+    <i [style.margin-right.px]="5" class="fa fa-caret-down" *ngIf="(item.DGC_HAS_CHILD != 0 || item.DGC_REFERENCE_OBJECT_DETAIL) &&  item.show" (click)="collapse(item)"></i>
+
+    <ng-container >
+    <ng-container *ngIf="item.level == 0" >
+       <span (click)="dragReferenceObj(item)"
+       data-toggle="tooltip" data-placement="top" [title]="item?.DGC_REFERENCE_OBJECT_NAME">{{item?.DGC_REFERENCE_OBJECT_NAME | slice:0:50}}{{item?.DGC_DESCRIPTION?.length > 50 ? '...' : ''}}</span></ng-container>
+    <ng-container *ngIf="item.level > 0">
+        <span  data-toggle="tooltip" data-placement="top" [title]="item?.DGC_DESCRIPTION">{{item?.DGC_DESCRIPTION | slice:0:50}}{{item?.DGC_DESCRIPTION?.length > 50 ? '...' : ''}}</span></ng-container>
+    <ng-container *ngIf="item.DGC_REFERENCE_OBJECT_DETAIL && item.show && item.DGC_REFERENCE_DISPLAY_OPTION">
+      <ng-container *ngFor="let str of item.dragLinks">
+       <div  [style.padding-left.px]="5" [style.margin-left.px]="15" class="doc-info" data-toggle="tooltip" data-placement="top" [title]="str"
+       [draggable] [dragData]="{link : str, title : str, data:item }" [dragScope]="dgType.Hyperlink"> {{str | slice:0:50}}{{str.length > 50 ? '...' : ''}}</div>
+       </ng-container>
+    </ng-container>
+    <ng-container *ngIf="item.DGC_REFERENCE_OBJECT_DETAIL && item.show && !item.DGC_REFERENCE_DISPLAY_OPTION">
+       <div  [style.padding-left.px]="5" [style.margin-left.px]="15" class="doc-info" data-toggle="tooltip" data-placement="top" [title]="item?.DGC_REFERENCE_OBJECT_DETAIL?.menuTitle"
+       [draggable] [dragData]="{link : item?.DGC_REFERENCE_OBJECT_DETAIL?.menuTitle, title : item?.DGC_REFERENCE_OBJECT_DETAIL?.menuTitle, data:item }" [dragScope]="dgType.Hyperlink"> {{item?.DGC_REFERENCE_OBJECT_DETAIL?.menuTitle | slice:0:50}}{{item?.DGC_REFERENCE_OBJECT_DETAIL?.menuTitle?.length > 50 ? '...' : ''}}</div>
+       </ng-container>
+   </ng-container>
+  </div>
+</ng-template>
+<ng-template #ngTempalteReferenceLoop let-list>
+   <div class=" ref-controltab ">
+   <div *ngFor="let item of list; let i = index">
+      <div>
+        <ng-container [ngTemplateOutlet]="IndexReferenceTemplate" [ngTemplateOutletContext]="{ $implicit: item, index: i }"></ng-container>
+      </div>
+       <div *ngIf="item.children?.length>0 && item?.show">
+          <ng-container [ngTemplateOutlet]="ngTempalteReferenceLoop"
+           [ngTemplateOutletContext]="{ $implicit: item.children }">
+         </ng-container>
+       </div>
+   </div>
+ </div>
+</ng-template>
+
+
+<div class="modal" id="imageEditTab" tabindex="-1"  
+  data-backdrop="static" data-backdropClass="customBackdrop">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <!-- [ngClass]="{'modal-content': !isMobile, 'tablet-model-content': isMobile}" -->
+      <lib-modal-popup  [title]="'Edit Media'" (closeEvent)="closeModal()"
+      [footerList]="[{type: 'Ok'}, {type:'Cancel'}]"
+      (submitButtons)="eventSubmit($event)">
+      <div class="modal-body"  style="padding: 0 !important;">
+        <div class="col-md-12 col-lg-12"  style="padding: 0 !important;">
+            <div id="tablet-tui-image-editor-container"></div>
+        </div>
+      </div>
+      </lib-modal-popup>
+    </div>
+  </div>
+</div>

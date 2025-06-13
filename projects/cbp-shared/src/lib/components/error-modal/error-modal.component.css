@@ -1,0 +1,43 @@
+
+.header-popup{
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    padding: 7px 10px 5px;
+    position: relative;
+    top: 0px;
+    font-size: 18px;
+    color: #000000 !important;
+}
+.head{
+    font-size: 16px !important;
+    color: #000000 !important;
+    position: relative !important;
+    top: 1px !important;
+}
+
+/* PRODFIX-926 */
+.modalContentCustomization {
+    border-radius:5px !important;
+    width: 280px;
+}
+.boxShadow{
+    box-shadow: 0 1px 2px 0 rgb(60 64 67 / 30%), 0 2px 6px 2px rgb(60 64 67 / 15%);
+    border-radius: 6px !important;
+}
+.popupPosition{
+     position: fixed;
+     z-index: 999;
+     right: 40%;
+     bottom: 40%;
+}
+.modalHeaderCustomization {
+    padding: 12px 10px 12px 11px !important;
+}
+.modalFooterCustomization {
+    padding: 5px 10px !important;
+}
+/* PRODFIX-926 End*/
+
+.popupAbsolute{
+    position: absolute;
+}

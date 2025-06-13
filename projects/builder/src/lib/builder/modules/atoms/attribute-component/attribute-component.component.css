@@ -1,0 +1,55 @@
+.text-area-border {
+    display: block;
+    width: 100%;
+    padding: 4px 4px !important;
+    /* font-size: 16px !important; */
+    line-height: 1.5 !important;
+    /* border-bottom: 1px solid #eaeaea !important; */
+    border-radius: 0px !important;
+    /* height: 30px !important; */
+    border: none;
+    background-color: white !important;
+  }
+  ::ng-deep .angular-editor-textarea{
+    color: #000;
+  }
+  .editor-button-style{
+    bottom: 0px !important;
+  }
+  .property-bd{
+    border: 1px solid #ced4da;
+  }
+  .property-bg{
+    background: #e9ecef;
+  
+  }
+  .dp-flex{
+    display: flex;
+    align-items: center;
+  }
+  .feedback__btn {
+    position: inherit;
+    /* bottom: -4px; */
+    right: 6px;
+    padding: 4px;
+    color: #000;
+    cursor: pointer;
+    border-radius: 20px;
+    font-size: 15px;
+  
+  }
+  .form-control{
+    border: none !important;
+    height: auto;
+  }
+  /* DGV9DOT4-157 */
+  .tableColSize p{
+    text-wrap: auto;
+    line-break: anywhere;
+  }
+  .tableColSizeDate{
+    text-wrap: auto;
+    line-break: anywhere;
+  }
+   /* DGV9DOT4-157 */
+  

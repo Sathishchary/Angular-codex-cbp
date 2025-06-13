@@ -1,0 +1,35 @@
+.field{
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+.modal-new{
+    max-width: 1024px !important
+}
+.textareacont{
+    border: 1px solid #ccc;
+}
+.border{
+    border: 1px solid #cfcfcf;
+    pointer-events: none;
+}
+.disableView {
+    pointer-events: none;
+    /* opacity: 0.5; */
+}
+.pad-7{
+    padding:7px;
+}
+.mg-bt{
+    margin-bottom: 0px !important;
+}
+.clr-blue-bd-bt{
+    background-color:#5480c2!important;
+    border-bottom:none!important;
+}
+.clr-white-ft{
+    color: #fff;
+    font-size: 14px;
+}
+.bd-solid{
+    border: 1px solid #eaeaea!important;
+}

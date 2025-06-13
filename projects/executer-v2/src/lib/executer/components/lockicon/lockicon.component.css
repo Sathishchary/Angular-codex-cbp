@@ -1,0 +1,58 @@
+.role{
+  position: absolute;
+  right: 20px;
+  text-align: center;
+  top: 12px;
+  font-size: 12px;
+  color:black;
+}
+.dateicon{
+  top: 9px !important;
+  right: 32px !important;
+}
+.role-set-sign{
+  right: 18px !important;
+  top: 27px !important;
+  z-index: 9;
+}
+.role-set-intial{
+  right: 10px !important;
+  top: 19px !important;
+}
+.role-signature-sign{
+  right: 4px !important;
+  top: 19px !important;
+}
+.role-signature-initial{
+  right: 28px !important;
+  top: 19px !important;
+}
+.nummeric-temp{
+  right: 5px !important;
+  top: 9px !important;
+}
+.req-units{
+  top: 9px !important;
+}
+.nummeric20{
+  right: 20px !important;
+  top: 9px !important;
+}
+.signature-sign{
+  right: 19px !important;
+  top: 29px !important;
+}
+.signature-date{
+  right: 50px;
+  top: 29px;
+}
+.rt25{
+    right: 25px !important;
+}
+  .tp9{
+    top:9px !important;
+}
+.boolean-role{
+  right: 5px;
+  top: 9px;
+}

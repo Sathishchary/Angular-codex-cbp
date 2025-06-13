@@ -1,0 +1,278 @@
+<ng-container *ngFor="let item of section; let i = index;let last= last; trackBy:trackDgUniqueID">
+  <ng-container *ngIf="!cbpService.loading">
+    <div class="alignment bd-r5 positionRelative" [ngStyle]="layoutService.layoutMarginValue" droppable [dragOverClass]="'drag-target-border'"
+    [dropScope]="(item.isEmbededObject && item?.property?.type == 'Dynamic')?[]:_buildUtil.dragElements"
+    [class.disabled]="(item?.isEmbededObject && item?.property?.type == 'Dynamic')"
+    [class.dis-col]="(item?.isEmbededObject && item?.property?.type == 'Dynamic')"
+      *ngIf="item.paginateIndex >= cbpService.startIndex && item.paginateIndex <= (cbpService.startIndex + cbpService.pageSize)"
+      [@inOutAnimation] [dragHintClass]="'drag-hint'" (onDrop)="onAnyDrop($event, item, i, section)"
+      [ngClass]="{'activeStepElement':item.paginateIndex == (cbpService.startIndex+6) }">
+
+      <div id="scrollSection{{item.dgUniqueID}}"  class="stepsstyle ui-droppable active-step pointer"
+        [ngClass]="{ 'copyStep': cbpService.elementForCopyOrCut?.action == 'cut' && cbpService.elementForCopyOrCut?.element?.dgUniqueID == item.dgUniqueID,
+          'selectedStep': cbpService.selectedUniqueId == item.dgUniqueID && cbpService.elementForCopyOrCut?.element?.dgUniqueID !== item.dgUniqueID, 'attachheaderLeft': item?.dataType === 'Attachment'}">
+        <div class="stop_draging" id="stop_draging_id"
+          (click)="validateEvent(item,$event); !item?.stickyNote?.isAdded ? cbpService.selectedDgType = item?.dgType : ''"
+          (copy)="cbpService.copyElement()"  (cut)="cbpService.cutElement()"  (paste)="pasteElement()">
+          <div class="d-flex flex-row ali-flx">
+            <div class="alignIconsEqually"  [ngStyle]="(item?.layoutStyle | layout: item)">
+            <dg-track-ui [ngClass]="{'layout1':!(layoutService.isDisableNumber && item.originalSequenceType === sequenceTypes.DGSEQUENCES),
+          'layout2':(layoutService.isDisableNumber && item.originalSequenceType === sequenceTypes.DGSEQUENCES)}" [field]="item" (fieldChange)="setField($event);"></dg-track-ui>
+                <!-- *ngIf="!item?.rightdual"  -->
+              <ng-container *ngIf="item?.dgType === DgTypes.Section && item.dataType !== 'Attachment'">
+                <ng-container *ngIf="layoutService.layoutIcons && layoutService.layoutIcons[0].showIcons">
+                  <mat-icon *ngIf="item?.number?.indexOf('.0') > -1" [ngClass]="'dgicon-'+item.iconStyle" class="iconLayout4"
+                     [ngStyle]="{'color': item?.styleNumber, 'fill': item?.styleNumber  }" svgIcon="section-icon"></mat-icon>
+                  <mat-icon *ngIf="item?.number?.indexOf('.0') < 0"  [ngClass]="'dgicon-'+item.iconStyle" class="iconLayout4"
+                  [ngStyle]="{'color': item?.styleNumber, 'fill': item?.styleNumber }" svgIcon="sub-section-icon"></mat-icon>
+                </ng-container>
+              </ng-container>
+           
+              <ng-container *ngIf="layoutService.layoutIcons && layoutService.layoutIcons[0].showIcons">
+                <ng-container *ngFor="let icon of controlService.icons;">
+                  <i *ngIf="icon?.dgType === item?.dgType"
+                  [ngStyle]="{'color': item?.styleNumber, 'fill': item?.styleNumber }"
+                  class="dgfont-{{item.iconStyle}} {{icon.style}} mr-1 iconLayout4"></i>
+                  <!-- <mat-icon *ngIf="icon?.dgType === item?.dgType" [ngClass]="'dgicon-'+item.iconStyle"
+                  [ngStyle]="{'color': item?.styleNumber, 'fill': item?.styleNumber }"
+                  svgIcon="pointer-icon"></mat-icon> -->
+                </ng-container>
+              </ng-container>
+              <div class="ali-mg-ds"
+              [ngClass]="{'dualPad': item?.dualStep}" [hidden]="item?.dataType === 'Attachment'"
+              *ngIf="!(layoutService?.isDisableNumber && item.originalSequenceType === sequenceTypes.DGSEQUENCES)"
+              >
+  
+                <label id="step1_id" (click)="selectedItem(item)" class="ds-ali"
+                 [ngClass]="{'dscenter': item?.dualStep, 'dis-b': item?.rightdual}">
+              <span
+                [ngClass]="{ 'pd3': item.iconStyle===3, 'pd4': item.iconStyle===4, 'pd5': item.iconStyle===5,
+                'pid6': item.iconStyle===6 && layoutService.layoutIcons && layoutService.layoutIcons[0].showIcons,
+                'pid7': item.iconStyle===7 && layoutService.layoutIcons && layoutService.layoutIcons[0].showIcons,
+                'pwd6': item.iconStyle===6 && (layoutService.layoutIcons && !layoutService.layoutIcons[0].showIcons),
+                'pwd7': item.iconStyle===7 && (layoutService.layoutIcons && !layoutService.layoutIcons[0].showIcons)
+                }"
+                [ngStyle]="(item.level === 0 ? styleLevelObj.level1 :
+                (item.level === 1 ? (item?.dgType == DgTypes.Section ? styleLevelObj.level2Section : styleLevelObj.level2Step ):
+                (item.level === 2 ? (item?.dgType == DgTypes.Section ? styleLevelObj.level3Section : styleLevelObj.level3Step):
+                ((item.level === 3 ? (item?.dgType == DgTypes.Section ? styleLevelObj.level4Section : styleLevelObj.level4Step):
+                ( item.level >= 4 ? (item?.dgType == DgTypes.Section ? styleLevelObj.level5Section : styleLevelObj.level5Step) :
+                styleLevelObj.levelNormal))))))"
+                class="nonebackground">
+                <span [innerHTML]="item.number"></span>
+              </span>
+               <!-- <span [ngStyle]="styleLevelObj.levelNormal" class="nonebackground"
+                *ngIf="item.originalSequenceType === 'BULLETS'">
+                  <i class="fa fa-solid fa-circle"></i>
+              </span> -->
+              </label>
+            </div>
+          </div>
+            <div class="p-1 flex-fill" [ngClass]="{'attachLeft': item?.dataType === 'Attachment','wid-90': item.level===0 || item?.level===1,
+              'wid-85': item?.level===2, 'wid-79': item?.level===3, 'wid-72': item?.level===4, 'wid-65': item?.level===5,
+              'wid-56': item?.level===6, 'wid-48': item?.level===7, 'wid-38': item?.level===8}">
+              <!-- style="overflow: hidden;" sticky note issue -->
+              <div class="hover" *ngIf="cbpService.selectedElement.dgUniqueID == item.dgUniqueID && cbpService.sectionHover && !item['editorOpened'] && !cbpService.selectedElement?.firstDualStep">
+                <button type="button"  [hidden]="!(isVisible && item?.position !==1)"
+                  class="btn-width mar-0 mar-2 btn btn-icon btn-sm mr-1 faArrowCu"
+                  title="Up" data-toggle="collapse" data-target="#demo"
+                  (click)="upArrowTest(item, item.dgUniqueID)" ><i class="fa fa-arrow-up"></i></button>
+                  <!-- [hidden]="item?.isLastChild"  -->
+                  <button type="button"
+                  class="btn-width mar-0 mar-2 btn btn-icon btn-sm mr-1 faArrowCu"
+                  title="Down" data-toggle="collapse" data-target="#demo" [hidden]="item?.isLastChild"
+                  (click)="downArrowTest(item, item.dgUniqueID)" ><i class="fa fa-arrow-down"></i></button>
+
+                <button [hidden]="item.number === '1.0' || item.number === 1.0" type="button"
+                  class="btn-width mar-0 mar-2 btn btn-icon btn-sm faDeleteCu" title="Delete"
+                  (click)="_deleteStep()"><i class="fa fa-trash delete-color"></i></button>
+              </div>
+              <div class="attach" *ngIf="item?.dataType === 'Attachment'" 
+              [ngStyle]="{'text-align': item.dataType === 'Attachment' ? styleLevelObj.attachment['text-align'] : 'initial'}" 
+               (click)="timedRepeatSteps(item);cbpService.selectedDgType = item?.dgType">
+                <span  [ngStyle]="(item.level === 0 ? (item.dataType !== 'Attachment' ? styleLevelObj.level1 : styleLevelObj.attachment) :
+                (item.level === 1 ? (item?.dgType == DgTypes.Section ? styleLevelObj.level2Section : styleLevelObj.level2Step ):
+                (item.level === 2 ? (item?.dgType == DgTypes.Section ? styleLevelObj.level3Section : styleLevelObj.level3Step):
+                ((item.level === 3 ? (item?.dgType == DgTypes.Section ? styleLevelObj.level4Section : styleLevelObj.level4Step):
+                ( item.level >= 4 ? (item?.dgType == DgTypes.Section ? styleLevelObj.level5Section : styleLevelObj.level5Step) :
+                styleLevelObj.levelNormal))))))" >{{item.number?.endsWith('.') && item.number.length>2 ? item?.number?.slice(0, -1) : item.number}}</span>
+
+              </div>
+
+
+
+              <div *ngIf="!cbpService.searchTemplate" class="textareacont sticky removemb" [ngClass]="{'dscenter': !item['editorOpened'] }">
+                <span *ngIf="item?.isCritical" class="display-inline ml-2">
+                  <i *ngIf="item?.isCritical" class="algClr fa fa-exclamation iscritical"></i>
+                </span>
+                <ng-container *ngIf="!item['editorOpened'] && !item['isHtmlText'] && !item?.refresh">
+                  <!-- [class.notSelectedField]="item?.dgUniqueID != cbpService.selectedElement?.dgUniqueID" -->
+                  <!-- [class.selectedField]="item?.dgUniqueID == cbpService.selectedElement?.dgUniqueID" -->
+                  <textarea class="text-area-wid"
+                   type="text" placeholder="{{ item?.dgType === DgTypes.Section ? ( item?.number?.indexOf('.0') > -1 ? 'Section' : 'Sub Section'  ) : (item?.firstDualStep ? 'Dual Step' : item?.dgType) }} HEADER"
+                    name="header" class="form-control stepSectionStyle bordernone customrSpace"
+                    [ngClass]="{'width-97': cbpService.selectedElement.dgUniqueID == item.dgUniqueID && !item?.stickyNote?.isAdded ||
+                    cbpService.selectedElement.dgUniqueID !== item.dgUniqueID && item?.stickyNote?.isAdded,
+                    'width-95': cbpService.selectedElement.dgUniqueID == item.dgUniqueID && item?.stickyNote?.isAdded}"
+                    [class.hideResize]="cbpService.selectedElement !== item"
+                    [class.mbzero]="cbpService.selectedElement?.dgType === DgTypes.StepInfo"
+                    [ngStyle]="(item.level === 0 ? (item.dataType !== 'Attachment' ? styleLevelObj.level1 : styleLevelObj.attachmentTitle) :
+                    (item.level === 1 ? (item?.dgType == DgTypes.Section ? styleLevelObj.level2Section : styleLevelObj.level2Step ):
+                    (item.level === 2 ? (item?.dgType == DgTypes.Section ? styleLevelObj.level3Section : styleLevelObj.level3Step):
+                    ((item.level === 3 ? (item?.dgType == DgTypes.Section ? styleLevelObj.level4Section : styleLevelObj.level4Step):
+                    ( item.level >= 4 ? (item?.dgType == DgTypes.Section ? styleLevelObj.level5Section : styleLevelObj.level5Step) :
+                    styleLevelObj.levelNormal))))))"
+                    [ngModel]="(item?.dgType == DgTypes.Section || item?.dgType == DgTypes.DelayStep || item?.dgType == DgTypes.StepInfo) ? item.title : item.action"
+                     rows="1" col="50" (ngModelChange)="(item?.dgType == DgTypes.Section || item?.dgType == DgTypes.DelayStep || item?.dgType == DgTypes.StepInfo) ? item.title = $event : item.action = $event;"
+                    autosize (input)="changeHeader(item);"
+                    (click)="timedRepeatSteps(item);cbpService.selectedDgType = item?.dgType"
+                    [disabled]="item.isEmbededObject && item?.property?.type == 'Dynamic'"
+                    (paste) ="cbpService.elementForCopyOrCut ? false : true"
+                    data-id="1_s_stephead" (focus)= "selectedItem(item);" [readonly]="cbpService.isBackGroundDocument"
+                    (focusout)="createAuditEntry(item,true)"></textarea>
+                    <div  class="feedback__btn" (click)="editorOpened(item)" *ngIf="!item['isHtmlText'] && cbpService.selectedUniqueId  == item.dgUniqueID && !cbpService.isBackGroundDocument">
+                      <i class="fa fa-edit"></i>
+                    </div>
+
+                  </ng-container>
+                  <div [style.width]="item['isHtmlText'] ? ((cbpService.selectedElement.dgUniqueID == item.dgUniqueID && !item?.stickyNote?.isAdded ||
+                    cbpService.selectedElement.dgUniqueID !== item.dgUniqueID && item?.stickyNote?.isAdded) || item['editorOpened']?'97%':'100%'): 'unset'">
+                      <div class="pb-2" *ngIf="item['editorOpened'] && cbpService.selectedUniqueId == item.dgUniqueID">
+                        <app-text-editor
+                        [input]="((item?.dgType == DgTypes.Section || item?.dgType == DgTypes.DelayStep || item?.dgType == DgTypes.StepInfo) ? item.title : item.action)"
+                        (updateEvent)="handleUpdateEvent($event, item)"
+                        (close)="outputhtml($event, item, 'action')"
+                        [ngStyle]="(item.level === 0 ? (item.dataType !== 'Attachment' ? styleLevelObj.level1 : styleLevelObj.attachmentTitle):
+                        (item.level === 1 ? (item?.dgType == DgTypes.Section ? styleLevelObj.level2Section : styleLevelObj.level2Step ):
+                        (item.level === 2 ? (item?.dgType == DgTypes.Section ? styleLevelObj.level3Section : styleLevelObj.level3Step):
+                        ((item.level === 3 ? (item?.dgType == DgTypes.Section ? styleLevelObj.level4Section : styleLevelObj.level4Step):
+                        ( item.level >= 4 ? (item?.dgType == DgTypes.Section ? styleLevelObj.level5Section : styleLevelObj.level5Step):
+                        styleLevelObj.levelNormal))))))"
+                        [item]="item" droppable [dragOverClass]="'drag-target-border'" class="bd-r5"
+                        [dropScope]="DgTypes.Hyperlink" [dragHintClass]="'drag-hint'"  (onDrop)="onLinkDrop($event, item, i)"  [editorStylObj] = "editorStylObj"></app-text-editor>
+                      </div>
+                      <ng-container *ngIf="!item['editorOpened'] && item['isHtmlText']" >
+                        <div class="feedback__btn" (click)="editorOpened(item)"
+                        *ngIf="!item['isHtmlText'] && cbpService.selectedUniqueId  == item.dgUniqueID"><i class="fa fa-edit"></i></div>
+                        <div class="content-editable customrSpace"
+                        autosize [attr.contenteditable]= "cbpService.isBackGroundDocument? false: true"
+                        [innerHtml]="(item?.dgType == DgTypes.Section || item?.dgType == DgTypes.DelayStep || item?.dgType == DgTypes.StepInfo) ? (item.title | innerhtml) : (item.action) | innerhtml"
+                        (click)="editorOpened(item);"
+                        [ngStyle]="(item.level === 0 ? (item.dataType !== 'Attachment' ? styleLevelObj.level1 : styleLevelObj.attachmentTitle) :
+                        (item.level === 1 ? (item?.dgType == DgTypes.Section ? styleLevelObj.level2Section : styleLevelObj.level2Step ):
+                        (item.level === 2 ? (item?.dgType == DgTypes.Section ? styleLevelObj.level3Section : styleLevelObj.level3Step):
+                        ((item.level === 3 ? (item?.dgType == DgTypes.Section ? styleLevelObj.level4Section : styleLevelObj.level4Step):
+                        ( item.level >= 4 ? (item?.dgType == DgTypes.Section ? styleLevelObj.level5Section : styleLevelObj.level5Step) :
+                        styleLevelObj.levelNormal))))))" >
+                        </div>
+                      </ng-container>
+                </div>
+                <div>
+                  <!-- sticky notes starts -->
+                  <div class="sticky__btn" *ngIf="item?.stickyNote?.isAdded"
+                   [style.right.px]="cbpService.selectedElement?.dgUniqueID!=item?.dgUniqueID?'6':((item['editorOpened'] || item['isHtmlText'])  && cbpService.selectedUniqueId == item.dgUniqueID ?'4':'24')"
+                  (click)="item.stickyNote.show = !item.stickyNote.show"><i class="fa {{item?.stickyNote?.bgColor == '#FFF'?'fa-sticky-note-o':'fa-sticky-note'}}"
+                  [style.color]="item.stickyNote.bgColor == '#FFF'?'#525252':item.stickyNote.bgColor"></i>
+                  </div>
+                  <app-sticky-note *ngIf="item?.stickyNote?.isAdded &&
+                   cbpService.selectedElement?.dgUniqueID == item?.dgUniqueID"
+                   [stickyNote]="item.stickyNote"  (stickyNoteChange)="setSticky($event)"
+                  [selectedElement]="cbpService.selectedElement" [userName]="cbpService.loggedInUserName"></app-sticky-note>
+                  <!-- sticky notes ends -->
+                </div>
+              </div>
+               <div *ngIf="cbpService.searchTemplate">
+                  <app-search-result [field]="item"
+                   [searchString]="cbpService.searchString"
+                   [triggerReplace]="cbpService.triggerReplace"
+                   (click)="timedRepeatSteps(item);cbpService.selectedDgType = item?.dgType"
+                   [triggerReplaceAll]="cbpService.triggerReplaceAll"
+                    *ngIf="item?.dgType == DgTypes.Section || item?.dgType == DgTypes.StepInfo ||
+                    item?.dgType == DgTypes.StepAction || item?.dgType == DgTypes.Timed ||
+                    item?.dgType == DgTypes.Repeat || item?.dgType == DgTypes.DelayStep">
+                  </app-search-result>
+               </div>
+              <div *ngIf="item.embeddedSection">
+                <textarea type="text" name="header"  rows="1"
+                 [class.selectedField]="item?.dgUniqueID == cbpService.selectedElement?.dgUniqueID"
+                 [class.notSelectedField]="item?.dgUniqueID != cbpService.selectedElement?.dgUniqueID"
+                  col="50" autosize [(ngModel)]="item.property.documentNumber" class="embedd-section-width form-control"
+                  [disabled]="true" data-id="1_s_stephead" (focusout)="createAuditEntryDoc(AuditTypes.EMBEDED_DOC_NUM,'documentNumber')"></textarea>
+                <div id="demo2" class="collapse in show">
+                </div>
+              </div>
+              <ng-container *ngIf="item?.dgType == DgTypes.StepInfo">
+                <dynamic-form-builder [media]="media" [stepObject]="item"  [field]="item?.para ? item?.para : []"></dynamic-form-builder>
+              </ng-container>
+              <ng-container *ngIf="!item.embeddedSection && item?.children?.length>0">
+                <ng-container *ngFor="let obj of item?.children; let j = index; trackBy:trackDgUniqueID">
+                  <div droppable [dragOverClass]="'drag-target-border'"
+                   [dropScope]="_buildUtil.dragElements" [dragHintClass]="'drag-hint'"
+                   (onDrop)="dataEntryDrop($event, item,j);"
+                    *ngIf="obj?.dgType != DgTypes.Section && obj?.dgType != DgTypes.StepAction && obj?.dgType != DgTypes.StepInfo &&
+                     obj?.dgType != DgTypes.DelayStep && obj?.dgType != DgTypes.Timed && obj?.dgType != DgTypes.Repeat && obj?.dgType != DgTypes.DualAction">
+                    <dynamic-form-builder  [stepObject]="item" [media]="media" [field]="obj" (linkCall)="getLinkSection($event)"></dynamic-form-builder>
+                  </div>
+                </ng-container>
+              </ng-container>
+              <div class="clearfix"></div>
+            </div>
+          </div>
+          <ng-container [ngTemplateOutlet]="dualStepTemp" [ngTemplateOutletContext]="{$implicit: item}"></ng-container>
+        </div>
+      </div>
+    </div>
+    <ng-container *ngIf="!item?.embeddedSection && item?.children?.length>0 && !dualStepAlign">
+      <ng-container *ngFor="let obj of item?.children; let j = index; trackBy:trackDgUniqueID">
+        <div droppable [dragOverClass]="'drag-target-border'"
+           [dropScope]="_buildUtil.dragElements" [dragHintClass]="'drag-hint'" (onDrop)="dataEntryDrop($event, item,j);"
+           *ngIf="obj?.dgType == DgTypes.Section || obj?.dgType == DgTypes.StepAction || obj?.dgType == DgTypes.StepInfo ||
+            obj?.dgType == DgTypes.DelayStep || obj?.dgType == DgTypes.Timed || obj?.dgType == DgTypes.Repeat">
+           <ng-container [ngTemplateOutlet]="editorTemplate"
+           [ngTemplateOutletContext]="{ '$implicit': [obj],item: item}">
+          </ng-container>
+        </div>
+        <ng-container [ngTemplateOutlet]="dualStepTemp" [ngTemplateOutletContext]="{$implicit: obj}"></ng-container>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+  <ng-container *ngIf="item.embeddedSection && item?.children?.length>0 && !dualStepAlign">
+    <ng-container [ngTemplateOutlet]="editorTemplate"
+    [ngTemplateOutletContext]="{ '$implicit': item?.children,item: item}">
+   </ng-container>
+  </ng-container>
+
+</ng-container>
+
+<ng-template #dualStepTemp let-item>
+   <ng-container *ngIf="!dualStepAlign">
+   <ng-container *ngIf="item?.dgType == DgTypes.DualAction;">
+     <div class="col-md-12 px-0 ds-flex smallDeviceFlexNone"  *ngIf="item.stepType === 'DualStepFreeForm'">
+       <div class="col-md-6 pl-2 pr-0" [class.selectedStep]="cbpService.selectedUniqueId == item.dgUniqueID"
+       (click)="timedRepeatSteps(item);">
+        <ng-container *ngIf="item?.children?.length>0">
+          <ng-container [ngTemplateOutlet]="editorTemplate"
+          [ngTemplateOutletContext]="{ '$implicit': item?.children,item: item}"></ng-container>
+         </ng-container>
+       </div>
+       <div class="col-md-6 pl-0 pr-2" [class.selectedStep]="cbpService.selectedUniqueId == item.dgUniqueID" (click)="timedRepeatSteps(item);">
+       <ng-container *ngIf="item?.rightDualChildren?.length>0">
+         <ng-container [ngTemplateOutlet]="editorTemplate"
+          [ngTemplateOutletContext]="{ '$implicit': item?.rightDualChildren,item: item}">
+         </ng-container>
+        </ng-container>
+       </div>
+     </div>
+     <ng-container *ngIf="item.stepType !== 'DualStepFreeForm'">
+      <app-dual-step [childObj]="item?.children" (deleteStep)="_deleteStep()"
+       [styleLevelObj]="styleLevelObj"  (emitParent)="selectedItem(item)"
+       [dualStepObj]="item?.rightDualChildren"></app-dual-step>
+     </ng-container>
+  </ng-container>
+ </ng-container>
+</ng-template>
+
+<ng-template #editorTemplate let-children let-item="item">
+  <app-editor [windowWidth]="windowWidth"  [section]="children" [styleLevelObj]="styleLevelObj"
+  (emitParent)="selectedItem(item)" (deleteStep)="_deleteStep()" class="embeded-section"></app-editor>
+</ng-template>

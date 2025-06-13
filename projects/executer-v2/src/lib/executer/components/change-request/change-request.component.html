@@ -1,0 +1,118 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px', fullScreenBackdrop:false}"> </ngx-loading>
+<div class="modal" id="CRModal" tabindex="-1" role="dialog " data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" style="max-width: 800px;" role="document">
+        <div class="modal-content">
+            <lib-modal-popup [title]="'Change Request'" (closeEvent)="cancel()"
+            [footerList]="footerList"
+            (submitButtons)="changeEvent($event)">
+            <div class="modal-body" style="height:550px;overflow-x:hidden;overflow-y:scroll;">
+                <div class="col-md-12 col-lg-12 pl-0 pt-0">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 pr-0">
+                          <label>Type</label>
+                          <select class="form-control" [(ngModel)]="changeRequest.crNewType" (ngModelChange)="setTypeUpdate($event)" name="typename">
+                            <option hidden="hidden" [ngValue]="" disabled></option>
+                            <option *ngFor="let item of typeValues" [ngValue]="item.cdvalDisplay">{{item?.cdvalDisplay}}</option>
+                          </select>
+                        </div>
+                        <div class="col-lg-4 col-md-4 pr-0">
+                          <label>Reason</label>
+                          <select class="form-control" [(ngModel)]="changeRequest.reasonCode" name="typsename">
+                            <option hidden="hidden" [ngValue]="" disabled></option>
+                            <option *ngFor="let item of reasonValues" [ngValue]="item?.cdValue">{{item?.cdvalDisplay}}</option>
+                          </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-lg-12 pl-0 pt-2 pr-0">
+                    <label>Title</label>
+                    <input type="text" [(ngModel)]="changeRequest.title" autocomplete="off" name="typsetiname" class="form-control" placeholder="" required="">
+                </div>
+                <div class="col-md-12 col-lg-12 pl-3 pt-0">
+                    <div class="row">
+                        <div class="col-md-12 col-lg-12 pl-0 pt-2 pr-0">
+                            <label>Description</label>
+                            <textarea name="description" [(ngModel)]="changeRequest.description" name="desc" class="form-control" rows="2" cols="30" required=""></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-lg-12 pl-0 pt-2">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 pr-0">
+                            <label>Affected Facility</label>
+                            <select class="form-control" name="fff" [(ngModel)]="changeRequest.facility" (ngModelChange)="getFacilityList = true;getFacility()">
+                                <option [ngValue]="" disabled selected>--Select Facility--</option>
+                          <option *ngFor="let facility of listOfFacilities" [ngValue]=facility?.id>{{facility?.name}}</option>
+                        </select>
+                        </div>
+                        <div class="col-lg-4 col-md-4 pr-0" [class.disabled]="listOfUnits?.length==0">
+                            <label>Affect Unit</label>
+                            <select class="form-control" name="ftesff" [(ngModel)]="changeRequest.unit" (ngModelChange)="getUnit()">
+                            <option [ngValue]="" disabled selected>--Select Unit--</option>
+                              <option *ngFor="let unit of listOfUnits" [ngValue]=unit?.id>{{unit?.name}}</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-4 col-md-4 pr-0" *ngIf="false">
+                          <label>Discipline</label>
+                          <select class="form-control" [(ngModel)]="changeRequest.discipline" name="discipline">
+                           <option value="volvo">2.1</option>
+                           <option value="saab">1.1</option>
+                          </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-lg-12 pl-0 pt-2 pr-0">
+                    <label>Location</label>
+                    <input type="text" [(ngModel)]="changeRequest.location" autocomplete="off" name="fssff" class="form-control" placeholder="" required="">
+                </div>
+                <div class="col-md-12 col-lg-12 pl-0 pt-2">
+                    <div class="row">
+                        <div class="col-lg-5 col-md-5 pr-0">
+                            <label>Equipment Id/Tag</label>
+                            <input type="text" [(ngModel)]="changeRequest.equipmentId" autocomplete="off" name="fssff"  class="form-control" placeholder="" required="">
+                        </div>
+                        <div class="col-lg-1 col-md-1 pl-2 pr-0" style="padding-top:30px;"  *ngIf="isTablet && !isDesktopDevice">
+                            <button *ngIf="isTablet && !isDesktopDevice" class="btn btn-outline-secondary btn-sm hidden-sm button-border"
+                            style=" padding: 4px !important;" type="button" data-dismiss="modal"><i class=" fa fa-camera">&nbsp;Scan</i></button>
+                        </div>
+                        <div class="col-lg-5 col-md-5 pr-0">
+                            <label>Equipment Name</label>
+                            <input type="text" name="fssff" [(ngModel)]="changeRequest.equipmentName" autocomplete="off" class="form-control" placeholder="" required="">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-lg-12 pl-0 pt-2">
+                    <div class="row">
+                        <div class="col-lg-5 col-md-5 pr-0">
+                            <label>Document Number</label>
+                            <input type="text" [style.font-size.px]="11" class="form-control" autocomplete="off" placeholder="" name="numbers" [(ngModel)]="changeRequest.documentInfo" required="">
+                        </div>
+                        <div class="col-lg-5 col-md-5 pr-0" style="padding-top: 0px!important">
+                            <label>Section/Step Number</label>
+                            <select [style.font-size.px]="13" class="form-control" [(ngModel)]="changeRequest.number" name="sectionsetep"
+                            (ngModelChange)="selectCommentObj()" disable  [isDisable]="isChangeUpdate" [hideColor]="true">
+                              <ng-container *ngFor="let item of numbers; let i =index">
+                                  <option value={{item.number}}>{{item.title}}</option>
+                              </ng-container>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="pt-2" *ngIf="cbpService.refresh">
+                  <app-gallery-view [doubleClickDisable]="true"
+                   [mediaType]="'executorUpload'"
+                   [mediaFiles]="mediaFiles" [eventType]="source" [media]="media"
+                   (addFiles)="changeRequestAddedFiles($event)"
+                   (deleteMedia)="deleteMediaFiles($event)"
+                   (selectedChange)="selectedChange($event)"
+                   [selected]="selectedItemFile" [canSelectItem]="true"
+                   (mediaUpdateFile)="updateMedia($event)"
+                   (setCaption)="setCaptionFile($event)"></app-gallery-view>
+                   <!-- (imageUpdate)="fileUpdate($event)"
+                  (updateParent)="updateView()" -->
+                </div>
+            </div>
+            </lib-modal-popup>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,15 @@
+.numb {
+    padding: 10px 8px !important;
+}
+
+.mg-bg {
+    margin-bottom: 1px;
+    background-color: #e9ecef;
+}
+.checkbox_lbleposition{
+    font-size: 12px !important;
+  }
+  .checkbox-inline{
+    font-size: 12px !important;
+  }
+  .overflowControle{overflow: hidden;}

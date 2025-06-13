@@ -1,0 +1,52 @@
+<ng-container *ngIf="!stepObject?.isTableDataEntry">
+<ng-container *ngIf="stepObject.dgType === dgType.Para">
+    <div class="row pb-2">
+      <div *ngIf="stepObject?.text.length==0" class="pt-2 pb-2">
+    
+      </div>
+      <lib-track-ui *ngIf="!stepObject?.subTable"  [field]="stepObject"></lib-track-ui>
+      <div *ngIf="stepObject?.text?.length>0" >
+      <div class="col-md-12 col-lg-12 plcs pr-2 pl-0">    
+        <div class="breakline" [ngStyle]="styleObject"  id="stepAno{{stepObject.dgUniqueID}}"
+         (click)="cbpService.handleSelection( $event, stepObject,'text');$event.stopPropagation();"
+         [innerHTML]="stepObject?.text | innerhtml"> </div>
+        <ng-container *ngIf="stepObject?.para?.length>0">
+          <ul class="stepPara ul-cl" (click)="cbpService.handleSelection( $event, stepObject,'text');$event.stopPropagation();">
+            <li *ngFor="let stepPara of stepObject?.para;">
+            <span class="title-space"> {{stepPara.text}}</span>
+            </li>
+          </ul>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</ng-container>
+<ng-container *ngIf="stepObject?.dgType === dgType.LabelDataEntry">
+  <div class="row" >
+    <lib-track-ui  *ngIf="!stepObject.isTableDataEntry"  [field]="stepObject"></lib-track-ui>
+    <div *ngIf="stepObject?.prompt.length==0" class="pt-2 pb-2">
+
+    </div>
+    <div id="stepAno{{stepObject.dgUniqueID}}" class="col-md-12 mb-1 plcs title-space pl-0"
+    (click)="selectStep(stepObject, 'prompt');$event.stopPropagation();"
+    [ngClass]="{'px-0': obj.dgType === dgType.StepInfo}"
+    [ngStyle]="styleObject"  [innerHTML]="stepObject?.prompt | innerhtml">
+    </div>
+  </div>
+</ng-container>
+</ng-container>
+
+<ng-container *ngIf="stepObject?.isTableDataEntry">
+  <div [class.aligntextcenter]="stepObject?.veriticalTB || stepObject?.veriticalBT">
+    <lib-track-ui *ngIf="!stepObject.isTableDataEntry" [field]="stepObject"></lib-track-ui>
+    <p id="stepAno{{stepObject.dgUniqueID}}" class="titleDatabreakNew" 
+     (click)="cbpService.handleSelection( $event, stepObject, stepObject.dgType === dgType.Para ?  'text' : 'prompt');$event.stopPropagation();"
+     [ngClass]="{'vertical-exe-test' : stepObject?.veriticalTB, 'verticalbt': stepObject?.veriticalBT }"
+     [ngStyle]="styleObject" 
+     [style.font-size]="isCoverPage &&  stepObject?.setStyle?.fontSize"
+     [style.font-family]="isCoverPage && stepObject?.setStyle?.fontName"
+     [style.color]="isCoverPage && stepObject?.setStyle?.color"
+
+     [innerHTML]="(stepObject.dgType === dgType.Para ?  stepObject?.text : stepObject?.prompt) | innerhtml"></p>
+     </div>
+</ng-container>

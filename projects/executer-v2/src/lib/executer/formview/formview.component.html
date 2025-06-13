@@ -1,0 +1,669 @@
+<div id="formViewLoader" style="display: none;">
+  <ngx-loading [show]="true " [config]="{ backdropBorderRadius: '3px', fullScreenBackdrop:true}">
+  </ngx-loading>
+</div>
+<ng-container *ngIf="!cbpService.loading">
+  <ng-container *ngFor="let obj of section; let i = index;trackBy: trackByName">
+    <ng-container
+      *ngIf="obj.paginateIndex >= cbpService.startIndex && obj.paginateIndex < (cbpService.startIndex + cbpService.pageSize)">
+      <ng-container
+        *ngIf="obj.dgType === dgType.Section && ((documentObj?.dynamicDocument) ? !obj?.hide_section : true)">
+        <div id="section{{obj.dgUniqueID}}" [class.role-invalid]="obj?.stepRoleQualRequired && !obj?.isChecked"
+          (click)="cbpService.handleSelection( $event, obj,  'title' );"
+          (touchend)="cbpService.handleSelection( $event, obj,'title')"
+          [ngClass]="{
+         'set-zindex selectedSection' : cbpService.selectedElement?.dgUniqueID === obj?.dgUniqueID, 'zindex-mb':obj?.options?.notApplicable && cbpService.selectedElement?.dgUniqueID !== obj?.dgUniqueID}"
+         [class.selectedNotApplicable]="obj?.options?.notApplicable && cbpService.selectedElement?.dgUniqueID !== obj?.dgUniqueID">
+          <div (click)="cbpService.selectedElement = obj;
+           getCurrentSection(obj.dgUniqueID, obj, $event);$event.stopPropagation();" class="row pb-0 row-mdis left-space">
+            <div class="{{sharedviewService.col12}} pr-2 pl-0 pr-0 al-g">
+              <!-- For backup -->
+              <!-- [ngClass]="{'set-zindex-new' : cbpService.selectedElement?.dgUniqueID !== obj?.dgUniqueID}" -->
+              <div>
+                <div [ngClass]="{'level-indendation': !obj?.aType && obj?.isCheckDgSequence && obj.indentLevel === 2}"
+                  [ngStyle]="obj?.setLayoutindentation" 
+                  (touchend)="cbpService.handleSelection( $event, obj,'title')"
+                  (click)="cbpService.handleSelection( $event,obj,'title');"  class="displayWidthCu">
+                  <!-- <div class="overflowHide" style="display: flex; align-items: flex-start;"> -->
+                    <div style="display: flex; align-items: flex-start;position: relative;">
+                      <lib-track-ui [ngClass]="{'layout3':!(layoutService.isDisableNumber && obj.originalSequenceType === sequenceTypes.DGSEQUENCES),
+                    'layout4':(layoutService.isDisableNumber && obj.originalSequenceType === sequenceTypes.DGSEQUENCES)}"
+                       [field]="obj"></lib-track-ui>
+                    <div class="attach pr-0"  [ngStyle]="{'text-align': obj.dataType === 'Attachment' ? (obj?.styleObjAttachTitle ? obj?.styleObjAttachTitle['text-align']: 'initial') : 'initial'}"
+                      *ngIf="obj.dgType === dgType.Section && obj.dataType === 'Attachment'; else nonAttach">
+                      <span class="aCss" [ngStyle]="obj?.styleObjAttachTitle">{{obj.number}}</span>
+                      <div id="stepAno{{obj.dgUniqueID}}" class="atcss" 
+                      (touched)="cbpService.handleSelection( $event, obj,  'title' );"
+                      (click)="cbpService.handleSelection( $event, obj,  'title' );"
+                        [ngStyle]="obj?.styleObjAttach" [innerHtml]="obj.title | innerhtml"></div>
+                        <div style="margin-left: 41px;">
+                          <ng-container *ngIf="obj?.dataEntryEnabled && (!menuConfig.isCollapsibleViewEnabled
+                          || ( menuConfig.isCollapsibleViewEnabled && (obj.level == 0 && obj.isInView )) || obj.level > 0)">
+                          <ng-container [ngTemplateOutlet]="dynamicTemplate"
+                            [ngTemplateOutletContext]="{'$implicit': obj}">
+                          </ng-container>
+                          </ng-container>
+                          </div>
+                    </div>
+                    <ng-template #nonAttach>
+                      <div style="display: flex;align-items: center;">
+                        <span *ngIf="!obj?.aType" [ngStyle]="obj?.setIndentaion"></span>
+                          <!-- [ngStyle]="obj?.setSpaceIndentaion" -->
+                          <ng-container *ngIf="!obj?.dualStep">
+                            <span [ngStyle]="layoutService.isHiddenIcon">
+                              <!-- <mat-icon *ngIf="obj?.number.indexOf('.0') > -1" [ngClass]="'dgicons-'+obj.iconStyle"
+                                [ngStyle]="{'color': obj?.styleNumber, 'fill': obj?.styleNumber  }"
+                                svgIcon="section-icon"></mat-icon>
+                              <mat-icon *ngIf="obj.number.indexOf('.0') < 0" [ngClass]="'dgicons-'+obj.iconStyle"
+                                [ngStyle]="{'color': obj?.styleNumber, 'fill': obj?.styleNumber }"
+                                svgIcon="sub-section-icon"></mat-icon> -->
+                                <img
+                                *ngIf="obj?.number.indexOf('.0') < 0" [ngClass]="'dgicons-'+obj.iconStyle"
+                                [ngStyle]="{'color': obj?.styleNumber, 'fill': obj?.styleNumber  }"
+                                [src]="'assets/cbp/images/sub-section-icon.svg'" class="img-navbar-width" alt="img">
+
+                                <img
+                                *ngIf="obj?.number.indexOf('.0') > -1" [ngClass]="'dgicons-'+obj.iconStyle"
+                                [ngStyle]="{'color': obj?.styleNumber, 'fill': obj?.styleNumber  }"
+                                [src]="'assets/cbp/images/section-icon.svg'" class="img-navbar-width " alt="img">
+                            </span>
+                          </ng-container>
+                          <label
+                          *ngIf="!(layoutService?.isDisableNumber && obj.originalSequenceType === sequenceTypes.DGSEQUENCES)"
+                          id="step1_id" class="e-point displaytable">
+                          <span class="nbcss" [ngStyle]="obj?.styleObj">
+                            <ng-container [ngTemplateOutlet]="SpecialCharTemplate"
+                              [ngTemplateOutletContext]="{'$implicit': obj}"></ng-container>
+                          </span>
+                        </label>
+                      </div>
+                      <div [ngClass]="{'gallery-wid': obj?.galleryEnabled, 'withoutgallery': !obj?.galleryEnabled }">
+                        <!-- [style.width.%]="obj?.galleryEnabled ? 95: 100"
+                          [ngClass]="{'over-h': obj?.dataEntryEnabled}" -->
+                        <div style="display: flex; width: 100%; align-items: flex-start;">
+                          <div class="px-0 labelflex" style="width: 100%;">
+                            <span class="display-inline" style="display:inline-block !important"
+                              *ngIf="obj?.applicabilityRule?.length>0 || obj?.rule?.length>0">
+                              <i class="fa fa-cog setting-icon"></i>
+                            </span>
+                            <div [ngStyle]="obj?.styleObj" style="list-style-position: inside;" class="display-inline titlebreak aligncent">
+                              <ng-container *ngIf="!obj.isEdited">
+                                <p id="stepAno{{obj.dgUniqueID}}" 
+                                (touchend)="cbpService.handleSelection( $event, obj,  'title' );"
+                                (click)="cbpService.handleSelection( $event, obj,  'title' );"
+                                [innerHtml]="(obj.title ? obj.title : (obj.action ? obj.action :'')) | innerhtml"></p>
+                                  <!-- [ngClass]="{'pl27': obj?.firstDualStep && obj?.rightdual}" -->
+                              </ng-container>
+                              <ng-container *ngIf="obj.isEdited">
+                                <span [class.redcolor]="obj?.isEdited">
+                                  <p><s class="LineMiddleToText" id="stepOld{{obj.dgUniqueID}}"
+                                    (touchend)="cbpService.handleSelection($event, obj,'oldText');"
+                                     (click)="cbpService.handleSelection($event, obj,'oldText');"
+                                    [innerHtml]="obj.oldText | innerhtml"></s></p>
+                                  <p id="stepNew{{obj.dgUniqueID}}"
+                                  (touchend)="cbpService.handleSelection($event, obj,'newText');"
+                                   (click)="cbpService.handleSelection($event, obj,'newText');"
+                                  [innerHtml]="obj.newText | innerhtml"></p>
+                                </span>
+                              </ng-container>
+                            </div>
+                            <h5 class="display-inline titlebreak" style="width:100%;z-index:0;"
+                              *ngIf="obj?.type === 'embedded' && obj?.property?.documentNumber"> {{ obj?.property?.documentNumber}}
+                            </h5>
+                          </div>
+                          <div class="rightdiv-align text-right pr-2" [class.disabled]="cbpService.isBackGroundDocument">
+                            <!-- {{sharedviewService.col2}}  -->
+                            <span *ngIf="obj?.orderChanged"><i class="fa fa-sort orderchange"></i></span>
+                            <ng-container [ngTemplateOutlet]="commentCr"
+                              [ngTemplateOutletContext]="{'$implicit': obj }"></ng-container>
+                            <span *ngIf="obj?.stepRoleQualRequired && obj.showLockIcon && !obj?.isChecked">
+                              <li id="sidedrop" class="dropdown dropdown-check">
+                                <a class="dropdown-toggle icon-menu role-icons" data-toggle="dropdown">
+                                  <img alt="img" [title]="obj?.showLockMessage" [src]="ImagePath.lockImg" width="24px"
+                                    style="margin-top: -12px;">
+                                </a>
+                                <app-show-users [customUsers]="customUsers"
+                                  (notifyParentEvent)="existingSecurityUser($event.item, $event.type)"></app-show-users>
+                              </li>
+                            </span>
+                            <span *ngIf="menuConfig.isCollapsibleViewEnabled && obj?.level == 0" class="pr-2">
+                              <li id="sidedropIcon" class="dropdown dropdown-check">
+                                <button *ngIf="!obj?.isInView"
+                                  class="width-150  btn btn-icon btn-outline btn-sm set-index e-point"
+                                  (click)="toggleDisplaySections(obj, section,0)">
+                                  <span title="Expand" class="btn-icon-wrap">
+                                    <i class="fa fa-plus white"></i>
+                                  </span>
+                                </button>
+                                <button *ngIf="obj?.isInView"
+                                  class="width-150  btn btn-icon btn-outline btn-sm set-index e-point"
+                                  (click)="toggleDisplaySections(obj, section,1)">
+                                  <span title="Expand" class="btn-icon-wrap">
+                                    <i class="fa fa-minus white"></i>
+                                  </span>
+                                </button>
+                              </li>
+                            </span>
+                            <!-- sticky notes Starts -->
+                            <ng-container [ngTemplateOutlet]="stickyNoteTemplate"
+                              [ngTemplateOutletContext]="{'$implicit': obj }"></ng-container>
+                            <!-- sticky notes ends -->
+                            <span [hidden]="obj?.stepRoleQualRequired" *ngIf="true">
+                              <!-- isSectionCompleted(obj?.children, false) -->
+                              <ng-container *ngIf="!obj?.options?.notApplicable">
+                              <li id="sidedrop" class="dropdown dropdown-check">
+                                <a class="dropdown-toggle icon-menu e-point" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  <!-- (click)="openPopup(obj, $event)" -->
+                                  <img alt="img" class="image-pad" [src]="ImagePath.menuImg" width="24px">
+                                </a>
+                                <div class="dropdown-menu user-profile profile-drop font14 showPopup" aria-labelledby="dropdownMenuButton"
+                                  *ngIf=" cbpService.selectedElement?.dgUniqueID === obj.dgUniqueID">
+                                  <!-- [style.top]="!showPaginationButtons ? '-190px': '-6px'" -->
+                                    <ng-container *ngFor="let item of sectionSideMenuInfo; let i=index;">
+                                      <a class="dropdown-item"
+                                      [class.disableColor]="sharedviewService.setDisable(obj, item.type)"
+                                      [class.disableView]="sharedviewService.setDisable(obj, item.type)"
+                                        (click)="cbpService.selectedElement = obj; stepDropMenu(obj, item.type); executionService.showPopupItem = null">
+                                        {{item.type}}<span *ngIf="item.type === stepTypes.Option">=></span></a>
+                                    </ng-container>
+                                </div>
+                              </li>
+                             </ng-container>
+                             <ng-container *ngIf="obj?.options?.notApplicable">
+                              <span *ngIf="!isDetailTabEnabled">N/A</span>
+                                <span *ngIf="isDetailTabEnabled">
+                                  <label>{{ obj.statusDate | date:'short'}} {{ obj.createdBy}}</label>
+                                </span>
+                              </ng-container>
+                            </span>
+                          </div>
+                        </div>
+                        <ng-container *ngIf="!menuConfig.isCollapsibleViewEnabled
+                          || ( menuConfig.isCollapsibleViewEnabled && (obj.level == 0 && obj.isInView )) || obj.level > 0">
+                          <ng-container [ngTemplateOutlet]="dynamicTemplate"
+                            [ngTemplateOutletContext]="{'$implicit': obj}">
+                          </ng-container>
+                        </ng-container>
+                      </div>
+                    </ng-template>
+
+                  </div>
+                </div>
+
+              </div>
+              <ng-container *ngIf="obj.acknowledgementReqd != null">
+                <ng-container [ngTemplateOutlet]="acknowledgeTemplate" [ngTemplateOutletContext]="{$implicit:  obj}">
+                </ng-container>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      <ng-container
+        *ngIf="(obj.dgType === dgType.StepAction || obj.dgType === dgType.DelayStep || obj.dgType === dgType.Timed || obj.dgType === dgType.Repeat)
+          && ((documentObj?.dynamicDocument) ? !obj?.hide_section : true)">
+        <form #ngFormValue="ngForm" name="form" *ngIf="documentObj?.dynamicDocument ? !obj?.hide_section : true"
+        [class.role-invalid]="obj?.stepRoleQualRequired && !obj?.isChecked"
+          id="section{{obj.dgUniqueID}}" [ngClass]="{
+         'selectedCurrentStep' : cbpService.selectedElement?.dgUniqueID === obj?.dgUniqueID, 'zindex-mb':obj?.options?.notApplicable && cbpService.selectedElement?.dgUniqueID !== obj?.dgUniqueID}"
+          [class.selectedSectionIsProgress]="obj?.options?.inProgress && cbpService.selectedElement?.dgUniqueID !== obj?.dgUniqueID "
+          [class.selectedNotApplicable]="obj?.options?.notApplicable && cbpService.selectedElement?.dgUniqueID !== obj?.dgUniqueID "
+          [class.selectedStepHold]="obj?.options?.hold && cbpService.selectedElement?.dgUniqueID !== obj?.dgUniqueID "
+          [class.selectedSkipStep]="obj?.options?.skip && cbpService.selectedElement?.dgUniqueID !== obj?.dgUniqueID "
+          [class.selectedStepComplete]="obj?.options?.complete && cbpService.selectedElement?.dgUniqueID === obj?.dgUniqueID ">
+          <ng-container
+            *ngIf="obj.dgType === dgType.StepAction || obj.dgType === dgType.DelayStep || obj.dgType === dgType.Timed || obj.dgType === dgType.Repeat">
+            <div class="row row-mdis left-space" 
+            (touchend)="cbpService.handleSelection($event, obj,'action');"
+            (click)="cbpService.handleSelection( $event, obj,  'action' );"
+              [class.set-zindex]="cbpService.selectedElement?.dgUniqueID === obj?.dgUniqueID"
+              [ngClass]="{'padding-8': obj?.galleryEnabled, 'pr-2': !obj?.galleryEnabled}"
+              >
+              <div class="{{sharedviewService.col12}} pr-0 e-point" style="font-size: 12px;"
+                [class.set-zindex]="cbpService.selectedElement?.dgUniqueID === obj?.dgUniqueID" [ngClass]="{'pl-1': obj?.isCheckDgSequence, 'pl-0' : !obj?.isCheckDgSequence
+                || (obj?.isCheckDgSequence &&( obj.indentLevel == 2 || obj.indentLevel > 2))}" (click)="cbpService.selectedElement = obj;
+                getCurrentSection(obj.dgUniqueID, obj, $event); $event.stopPropagation();">
+                <div class="row row-mdis" [ngStyle]=" obj?.setLayoutindentation">
+                  <div class="pl-0 pr-0 al-g {{sharedviewService.col12}}">
+                    <div class="row row-mdis" style="align-items: flex-start;">
+                      <div style="display: flex; width: 100%;">
+                        <div class="gearIconAlignment">
+                          <lib-track-ui [ngClass]="{'layout3':!(layoutService.isDisableNumber && obj.originalSequenceType === sequenceTypes.DGSEQUENCES),
+                        'layout4':(layoutService.isDisableNumber && obj.originalSequenceType === sequenceTypes.DGSEQUENCES)}" [field]="obj"></lib-track-ui>
+                        <ng-container>
+                          <span [ngStyle]="layoutService.isHiddenIcon">
+                            <i class="numberf mr-1 dgfont-{{obj?.iconStyle ? obj?.iconStyle : 2 }} fa"
+                              [ngStyle]="{'color': obj?.styleNumber, 'fill': obj?.styleNumber }"
+                              [ngClass]="{'fa-repeat' : obj.dgType === dgType.Repeat, 'fa-hand-o-down pl-0' : obj.dgType === dgType.StepAction,
+                          'fa-clock-o' : obj.dgType === dgType.DelayStep, 'fa-hourglass-o' : obj.dgType === dgType.Timed }"></i>
+                          </span>
+                        </ng-container>
+                        <span *ngIf="!obj?.aType" [ngStyle]="obj?.setIndentaion"></span>
+                          <span
+                            [hidden]="layoutService.isDisableNumber && obj.originalSequenceType === sequenceTypes.DGSEQUENCES"
+                            class="displaytable">
+                            <!-- [ngStyle]="obj?.setSpaceIndentaion" -->
+                            <ng-container
+                              *ngIf="!(layoutService?.isDisableNumber && obj.originalSequenceType === sequenceTypes.DGSEQUENCES)">
+                              <!-- *ngIf="!obj?.rightdual" -->
+                              <!-- *ngIf="!obj?.rightdual" -->
+                              <span  id="{{obj?.isTapped}}"
+                                [class.disableView]="obj?.isTapped === 2 && !layoutService.isDisableCircleSelected"
+                                [class.crossbg]="(obj?.isTapped === 1 || obj?.isTapped === 2) && !layoutService.isDisableCircleSelected"
+                                [class.cross]="obj.isTapped === 2 && !layoutService.isDisableCircleSelected"
+                                (click)="obj?.isTapped !== 2 && tappedNumber(obj, true);$event.stopPropagation();">
+                                <span class="nbcss numberf" [ngStyle]="obj?.styleObj">
+                                  <ng-container [ngTemplateOutlet]="SpecialCharTemplate"
+                                    [ngTemplateOutletContext]="{'$implicit': obj}"></ng-container>
+                                </span>
+                              </span>
+                            </ng-container>
+                            <span *ngIf="obj?.isCritical" class="display-inline ml-2" >
+                              <!-- style="margin-top: -1px;" -->
+                              <i *ngIf="obj?.isCritical"
+                                class="dgfont-{{obj?.iconStyle ? obj?.iconStyle : 2 }}  fa fa-exclamation iscritical"></i>
+                            </span>
+                            <span class="ml-2 mr-2 uppercase holdpoint" *ngIf="obj.holdPointStart">HOLD POINT START</span>
+                          <span class="m1-2 uppercase holdpoint" *ngIf="obj.holdPointEnd ">HOLD POINT END</span>
+                          </span>
+                           <span *ngIf="obj?.applicabilityRule?.length>0 || obj?.rule?.length>0"
+                            class="display-inline mr-1"
+                            [ngClass]="{'ml-1' : obj?.applicabilityRule?.length>0 || obj?.rule?.length>0}">
+                            <i *ngIf="obj?.applicabilityRule?.length>0 || obj?.rule?.length>0"
+                              class="dgfont-{{obj?.iconStyle ? obj?.iconStyle : 2 }} fa fa-cog settingicon"></i>
+                          </span>
+                        </div>
+                        <div [ngClass]="{'gallery-wid': obj?.galleryEnabled, 'withoutgallery': !obj?.galleryEnabled}">
+                          <!-- [style.width.%]="obj?.galleryEnabled ? 95: 100" -->
+                          <!-- [ngClass]="{'over-h': obj?.dataEntryEnabled}" -->
+                          <div style="display: flex; width: 100%; align-items: flex-start;">
+                            <div [ngStyle]="obj?.styleObj" class="display-inline titlebreak aligncent"
+                              [class.redcolor]="obj?.isEdited">
+                              <ng-container *ngIf="!obj.isEdited">
+                                <p id="stepAno{{obj.dgUniqueID}}" 
+                                  (touchend)="cbpService.handleSelection( $event, obj,  obj?.title ? 'title' : 'action' )"
+                                  (click)="cbpService.handleSelection( $event, obj,  obj?.title ? 'title' : 'action' );"
+                                  [innerHtml]="(obj.title ? obj.title : obj.action) | innerhtml"></p>
+                                  <!-- [ngClass]="{'pl30': obj?.firstDualStep && obj?.rightdual && obj?.level===3,
+                                'pl25': obj?.firstDualStep && obj?.rightdual && obj?.level===2,
+                                'pl37': obj?.firstDualStep && obj?.rightdual && obj?.level===4}" -->
+                              </ng-container>
+                              <ng-container *ngIf="obj.isEdited">
+                                <p><s id="stepOld{{obj.dgUniqueID}}" 
+                                  (touchend)="cbpService.handleSelection( $event, obj, 'oldText' );"
+                                    (click)="cbpService.handleSelection( $event, obj, 'oldText' );"
+                                    [innerHtml]="obj.oldText | innerhtml"></s></p>
+                                <p id="stepNew{{obj.dgUniqueID}}" 
+                                  (touchend)="cbpService.handleSelection( $event, obj, 'newText' );"
+                                  (click)="cbpService.handleSelection( $event, obj, 'newText' );"
+                                  [innerHtml]="obj.newText | innerhtml"></p>
+                              </ng-container>
+                            </div>
+                            <div class="rightdiv-align text-right pr-2 pl-0 checkbox-margin"
+                              [class.labelflex]="obj?.dualStep"
+                              [class.disableView]="cbpService.selectedElement?.dgUniqueID !== obj?.dgUniqueID || cbpService.isBackGroundDocument || obj?.showLockIcon">
+                              <ng-container *ngIf="executionService.stepActionCondition(obj)">
+                                <ng-container *ngIf="!obj?.options?.notApplicable">
+                                  <ng-container [ngTemplateOutlet]="commentCr"
+                                    [ngTemplateOutletContext]="{'$implicit': obj }"></ng-container>
+                                  <ng-container *ngIf="obj.dgType === dgType.DelayStep || obj.dgType === dgType.Timed || obj.dgType == dgType.Repeat">
+                                    <span class="input-group custom-delay"
+                                      [class.custom-delay-dual]="obj.dualStep && obj.dgType === dgType.Timed"
+                                      [hidden]="obj.isChecked"
+                                      [class.disabled]="obj?.stepRoleQualRequired && obj.showLockIcon && !obj.isChecked"
+                                      *ngIf="((obj.dgType === dgType.DelayStep) && !obj.isChecked) || ((obj.dgType === dgType.Timed) && !obj.stepTimerStart) || (!obj?.repeatStepStarted && obj.dgType == dgType.Repeat)"
+                                      (click)="TimerStep(obj)">
+                                      <input type="text"
+                                        class="form-control form-control-height disableView play-ui-css"
+                                        placeholder="{{obj.dgType === dgType.DelayStep ? ((obj?.dealyTime || obj?.delayTime) ? (obj?.dealyTime ? obj?.dealyTime : obj?.delayTime): 1) : (obj.dgType === dgType.Timed ? obj?.timeInMinutes : 'Repeat')}} {{obj.dgType === dgType.Timed && obj?.dualStep ? 'min' : (obj.dgType === dgType.Repeat ? obj.repeatTimes+' Times': 'min')}}">
+                                      <span class="input-group-append">
+                                        <span class="delaystep"><i class="fa fa-play-circle-o p-c"></i></span>
+                                      </span>
+                                    </span>
+                                    <label [class.disabled]="obj?.stepRoleQualRequired"
+                                      class="fancy-checkbox plc form-group" [hidden]="isDetailTabEnabled"
+                                      *ngIf="(!obj.options?.skip && !obj.options?.hold &&(obj.isChecked || obj?.isTapped ==2)) || ((obj?.dgType === dgType.Timed) && obj.stepTimerStart) || (obj.dgType == dgType.Repeat && obj?.repeatStepStarted)"
+                                      [class.disableView]="obj.isTapped === 2">
+                                      <!-- <input data-parsley-errors-container="#error-checkbox" name="checkbox"
+                                        type="checkbox" id="valueCheck{{obj?.dgUniqueID}}"
+                                        [checked]="obj?.isChecked || obj?.isTapped === 2"
+                                        [class.disableView]="cbpService.selectedElement?.dgUniqueID !== obj?.dgUniqueID"
+                                        (change)="currentStepExecute(obj, $event);"> -->
+                                        <input data-parsley-errors-container="#error-checkbox" name="checkbox" type="checkbox"
+                                          id="valueCheck{{ obj?.dgUniqueID }}" [checked]="obj?.isChecked || obj?.isTapped === 2"
+                                          [class.disableView]="cbpService.selectedElement?.dgUniqueID !== obj?.dgUniqueID" [disabled]="obj?.isProcessing"
+                                          (change)="currentStepExecute(obj, $event)">
+                                      <span></span>
+                                    </label>
+                                  </ng-container>
+                                  <!-- sticky notes starts -->
+                                  <ng-container [ngTemplateOutlet]="stickyNoteTemplate"
+                                    [ngTemplateOutletContext]="{'$implicit': obj }"></ng-container>
+                                  <!-- sticky notes ends -->
+                                  <ng-container
+                                    *ngIf="!obj?.options?.inProgress && !obj?.options?.hold && !obj?.options?.skip">
+                                    <ng-container
+                                      *ngIf="obj.dgType !== dgType.DelayStep && obj.dgType !== dgType.Timed && obj.dgType !== dgType.Repeat">
+                                      <label class="fancy-checkbox plc form-group"
+                                        [class.disabled]="obj?.stepRoleQualRequired"
+                                        *ngIf="!obj.isChecked || !isDetailTabEnabled || obj.isTapped !==2"
+                                        [class.disableView]="obj.isTapped === 2">
+                                        <input data-parsley-errors-container="#error-checkbox" name="checkbox"
+                                          type="checkbox" id="valueCheck{{obj?.dgUniqueID}}"
+                                          [checked]="obj?.isChecked || obj?.isTapped === 2"
+                                          [class.disableView]="cbpService.selectedElement?.dgUniqueID !== obj?.dgUniqueID"
+                                          (change)="currentStepExecute(obj, $event);">
+                                        <span></span>
+                                        <!--  style="margin-top:5px !important" -->
+                                      </label>
+                                    </ng-container>
+                                  </ng-container>
+                                  <ng-container
+                                    *ngIf="(obj.dgType !== dgType.Repeat && obj.dgType !== dgType.Timed && obj.dgType !== dgType.DelayStep)  &&  (obj?.options?.skip || obj?.options?.inProgress || obj?.options?.hold) && !isDetailTabEnabled">
+                                    <span (click)="currentStepExecute(obj, true);$event.stopPropagation()">
+                                      <i class="fa fa-circle-thin circle-css"
+                                        [ngClass]="{'red': obj?.options?.inProgress, 'yel': obj?.options?.hold,'sil': obj?.options?.skip }"
+                                        aria-hidden="true"></i>
+                                    </span>
+                                  </ng-container>
+                                  <ng-container>
+                                    <span [hidden]="obj?.stepRoleQualRequired"
+                                      *ngIf="(!obj.isChecked || obj?.options?.inProgress || obj?.options?.hold || obj?.options?.skip)">
+                                      <li id="sidedrop" class="dropdown dropdown-check">
+                                        <a class="dropdown-toggle icon-menu e-point">
+                                          <!--  (click)="openPopup(obj, $event)" -->
+                                          <img alt="img" class="image-pad" [src]="ImagePath.menuImg" width="24px">
+                                        </a>
+                                        <!-- [style.top]="!showPaginationButtons ? '-190px': '-6px'"> -->
+                                        <div class="dropdown-menu user-profile profile-drop font14 showPopup"
+                                          *ngIf="cbpService.selectedElement?.dgUniqueID === obj.dgUniqueID">
+                                          <ng-container *ngFor="let item of sideMenuInfo; let i=index;">
+                                            <a class="dropdown-item"
+                                            [class.disableColor]="item?.type === stepTypes.InProgressStep && obj?.options?.inProgress ||
+                                            item?.type === stepTypes.SkipStep && obj?.options?.skip ||
+                                            item?.type === stepTypes.HoldStep && obj?.options?.hold ||
+                                            item?.type === stepTypes.NotApplicableStep && obj?.options?.notApplicable ||
+                                            item?.type === stepTypes.CompleteStep && obj?.options?.complete"
+                                              [class.disableView]="sharedviewService.setDisable(obj, item.type)"
+                                              (click)="stepDropMenu(obj, item.type);$event.stopPropagation()">{{item.type}}</a>
+                                          </ng-container>
+                                        </div>
+                                      </li>
+                                    </span>
+                                    <span *ngIf="obj?.stepRoleQualRequired && !obj.showLockIcon" class="rtb-space">
+                                    </span>
+                                    <span *ngIf="obj?.stepRoleQualRequired && obj.showLockIcon && !obj.isChecked">
+                                      <li id="sidedrop" class="dropdown dropdown-check">
+                                        <a class="dropdown-toggle icon-menu role-icons titleShow" [title]="obj?.showLockMessage"
+                                          data-toggle="dropdown">
+                                          <img alt="img" [src]="ImagePath.lockImg" width="24px"
+                                            style="margin-top:-13px">
+                                        </a>
+                                        <app-show-users [customUsers]="customUsers"
+                                          (notifyParentEvent)="existingSecurityUser($event.item, $event.type)"></app-show-users>
+                                      </li>
+                                    </span>
+                                  </ng-container>
+
+                                  <label
+                                    *ngIf="isDetailTabEnabled && (obj?.options?.complete || obj?.options?.inProgress || obj?.options?.hold || obj?.options?.skip)">
+                                    {{ obj.statusDate | date:'short'}} {{ obj.createdBy}}
+                                  </label>
+                                </ng-container>
+                                <ng-container *ngIf="obj?.options?.notApplicable">
+                                  <span *ngIf="!isDetailTabEnabled">N/A</span>
+                                  <span *ngIf="isDetailTabEnabled">
+                                    <label>{{ obj.statusDate | date:'short'}} {{ obj.createdBy}}</label>
+                                  </span>
+                                </ng-container>
+                              </ng-container>
+                            </div>
+                          </div>
+                          <ng-container [ngTemplateOutlet]="dynamicTemplate"
+                            [ngTemplateOutletContext]="{'$implicit': obj}">
+                          </ng-container>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+          </ng-container>
+        </form>
+      </ng-container>
+      <ng-container *ngIf="obj.dgType === dgType.StepInfo && ((documentObj?.dynamicDocument) ? !obj?.hide_section : true)">
+        <div class="viewPort{{obj.dgUniqueID}}" id="section{{obj.dgUniqueID}}" *ngIf="obj?.text?.length>0" [ngClass]="{
+        'selectedSection' : cbpService.selectedElement?.dgUniqueID === obj?.dgUniqueID}" (click)="cbpService.selectedElement = obj;
+         obj?.dgUniqueID && getCurrentSection(obj.dgUniqueID, obj, $event);$event.stopPropagation();">
+          <div class="row row-mdis" [ngStyle]="obj?.setLayoutindentation">
+            <div class="{{sharedviewService.col12}} pl-1 al-g pr-1">
+            <!--  pd-8 -->
+              <div style="width:100%;display: flex; align-items: flex-start;"
+              [ngClass]="{
+                'wi100': !obj?.isCommentAvailable && !obj?.isCRAvailable && !obj?.stickyExeNote?.isAdded,
+                'wid100':  cbpService.checkedLast && (obj?.isCommentAvailable || obj?.isCRAvailable || !obj?.stickyExeNote?.isAdded),
+                 'wi94default': cbpService.checkedDefault &&  (obj?.isCommentAvailable || obj?.isCRAvailable || !obj?.stickyExeNote?.isAdded),
+                 'wi92first':  cbpService.checkedFirst && (obj?.isCommentAvailable || obj?.isCRAvailable || !obj?.stickyExeNote?.isAdded)
+              }">
+                <lib-track-ui [ngClass]="{'layout5':!(layoutService.isDisableNumber && obj.originalSequenceType === sequenceTypes.DGSEQUENCES),
+              'layout6':(layoutService.isDisableNumber && obj.originalSequenceType === sequenceTypes.DGSEQUENCES)}" [field]="obj"></lib-track-ui>
+                <div style="padding-left: 17px; display: flex; align-items: flex-start; width: 100%;">
+                  <span  [ngStyle]="layoutService.isHiddenIcon">
+                    <i class="dgicons-{{obj?.iconStyle ? obj?.iconStyle : 2 }} dgfont-{{obj?.iconStyle ? obj?.iconStyle : 2 }} fa fa-info"></i>
+                  </span>
+                  <!-- {{sharedviewService.col10}} -->
+                  <span [ngStyle]="obj?.setIndentaion"></span>
+                  <ng-container
+                    *ngIf="!(layoutService?.isDisableNumber && obj.originalSequenceType === sequenceTypes.DGSEQUENCES)">
+                  <span class="displaytable">
+                      <!--  [ngStyle]="obj?.setSpaceIndentaion" -->
+                  
+                      <span class="nbcss numberf" [ngStyle]="obj?.styleObj">
+                        <ng-container [ngTemplateOutlet]="SpecialCharTemplate"
+                          [ngTemplateOutletContext]="{'$implicit': obj}"></ng-container>
+                      </span>
+                      <!-- <span class="nbcss numberf" [ngStyle]="obj?.styleObj"
+                        *ngIf="obj.originalSequenceType === 'BULLETS'">
+                        <i class="fa fa-circle bullet-css"></i>
+                      </span> -->
+                    </span>
+                  </ng-container>
+                  <div class="breakline fontstep aligncent" [class.redcolor]="obj?.isEdited" [ngStyle]="obj?.styleObj">
+                      <ng-container *ngIf="!obj.isEdited">
+                      <p id="stepAno{{obj.dgUniqueID}}" *ngIf="obj?.title" 
+                      (touchend)="cbpService.handleSelection( $event, obj,  'title' );"
+                      (click)="cbpService.handleSelection( $event, obj,  'title' );"
+                        [innerHtml]="obj?.title | innerhtml"></p>
+                    </ng-container>
+                    <ng-container *ngIf="obj.isEdited">
+                      <p><s id="stepOld{{obj.dgUniqueID}}" >{{ obj?.oldText }}</s></p>
+                      <p id="stepNew{{obj.dgUniqueID}}" [innerHtml]="obj.newText | innerhtml"></p>
+                    </ng-container>
+
+                    <div *ngIf="obj?.children?.length>0" class="row row-mdis" style="margin-left: 1px !important"
+                      style="width: 100%;">
+                      <div [ngClass]="[sharedviewService.col12]" class="pl-0">
+                        <ng-container *ngIf="obj?.children?.length>0">
+                          <ng-container [ngTemplateOutlet]="dynamicTemplate" [ngTemplateOutletContext]="{'$implicit': obj}">
+                          </ng-container>
+                        </ng-container>
+                        <ng-container *ngIf="obj?.para?.length>0">
+                          <ng-container [ngTemplateOutlet]="paraTemplate"
+                            [ngTemplateOutletContext]="{$implicit:  obj?.para, obj: obj}"></ng-container>
+                        </ng-container>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+                <div class="rightdiv-align text-right pr-2">
+                  <!-- {{sharedviewService.col2}}  -->
+                  <!-- <span>
+                <i *ngIf="obj?.isCommentAvailable" class="fa fa-commenting-o commentcss"></i>
+                <i *ngIf="obj?.isCRAvailable" class="fa fa-id-card-o commentcss"></i>
+              </span> -->
+                  <ng-container [ngTemplateOutlet]="commentCr"
+                    [ngTemplateOutletContext]="{'$implicit': obj }"></ng-container>
+                  <ng-container [ngTemplateOutlet]="stickyNoteTemplate"
+                    [ngTemplateOutletContext]="{'$implicit': obj }"></ng-container>
+                </div>
+              </div>
+    
+            </div>
+          </div>
+        </div>
+        <ng-container *ngIf="obj.acknowledgementReqd != null">
+          <ng-container [ngTemplateOutlet]="acknowledgeTemplate" [ngTemplateOutletContext]="{$implicit:  obj}">
+          </ng-container>
+        </ng-container>
+      </ng-container>
+
+    </ng-container>
+    <!-- PAGINATION -->
+    <div *ngIf="obj?.dgType ===dgType.DualAction">
+      <ng-container [ngTemplateOutlet]="dualStepTemp" [ngTemplateOutletContext]="{'$implicit': obj}"></ng-container>
+    </div>
+
+    <div *ngIf="(obj?.embeddedSection || obj.children?.length>0) && obj?.dgType !== dgType.DualAction">
+      <ng-container [ngTemplateOutlet]="formviewTemplate"
+        [ngTemplateOutletContext]="{'$implicit': obj?.embeddedSection ? (obj.embeddedSection?.section.length>0 ? obj.embeddedSection?.section : obj?.children ) : obj?.children}">
+      </ng-container>
+    </div>
+
+  </ng-container>
+</ng-container>
+
+<ng-template #dualStepTemp let-obj>
+  <div class="col-md-12 px-0 displyflex smallDeviceFlexNone">
+    <div class="col-md-6 px-0" style="margin-left:3px">
+      <ng-container [ngTemplateOutlet]="formviewTemplate" [ngTemplateOutletContext]="{'$implicit': obj?.children }">
+      </ng-container>
+    </div>
+    <div class="col-md-6 px-0">
+      <ng-container [ngTemplateOutlet]="formviewTemplate"
+        [ngTemplateOutletContext]="{'$implicit': obj?.rightDualChildren }"></ng-container>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #formviewTemplate let-section>
+  <app-formview (notifyFormExectution)="gettingInfoFromViewForm($event)" (linkViewEmit)="getLinkEvent($event)"
+    [documentObj]="documentObj" [customUsers]="customUsers" [(freezePage)]="freezePage" [(repeatTimes)]="repeatTimes"
+    [(isRepeatStep)]="isRepeatStep" [(isTimerOnStep)]="isTimerOnStep" [isDetailTabEnabled]="isDetailTabEnabled"
+    (isTimerOnStepChange)="setisTimerOnStep()" (isRepeatStepChange)="setisRepeatStep()"
+    [menuConfig]="menuConfig" (setDataJson)="dataJsonChangeNew($event)" (protectSection)="protectionInfo($event)"
+    [section]="section" [isMaster]="false"
+    [showPaginationButtons]="showPaginationButtons">
+  </app-formview>
+</ng-template>
+
+<ng-template #dynamicTemplate let-obj>
+  <div *ngIf="obj?.children?.length>0 && obj?.dataEntryEnabled" class="row row-mdis" [class.dual-align]="obj?.dualStep"
+    [ngClass]="{'wi-100': !obj?.dualStep, 'wi-auto': obj?.dualStep}">
+    <!-- [ngStyle]="obj?.setAlignIndentaion"
+    [style.width.%]="!obj?.dualStep && !obj?.dataEntryEnabled ? 100 : auto" -->
+    <div class="pt-1 pb-2 pr-2 pl-0" [ngClass]="{'indendation': obj?.isCheckDgSequence && obj.indentLevel ===1,
+      'level-2indendation': obj?.isCheckDgSequence && (obj.indentLevel ===2 || obj.indentLevel>2),
+      'col-xs-12 col-sm-12 col-lg-12 col-md-12' : layoutService.isDisableNumber
+      }" style="width: 100%;">
+      <!-- [style.padding-left]="!layoutService.isDisableNumber && !mobileView ? (obj?.isCheckDgSequence ? '10px' : '56px !important') : '0px'" -->
+      <!-- 'col-xs-12 col-sm-12 col-lg-12 col-md-12' : !layoutService.isDisableNumber, -->
+
+      <div [class.disableView]="cbpService.selectedElement?.dataType !== 'Attachment' && ((obj?.isChecked && obj.isTapped===2) ||
+       cbpService.selectedElement?.dgUniqueID !== obj?.dgUniqueID
+      || obj?.options?.notApplicable || obj?.stepRoleQualRequired)
+      || ((obj.dgType === dgType.Timed) && !obj.stepTimerStart) || (!obj?.stepTimerStart && obj?.isParentTimedStep ) ||
+       (obj.dgType == dgType.Repeat && !obj?.repeatStepStarted ) || (!obj?.repeatStepStarted && obj?.isParentRepeatStep )">
+        <div *ngIf="obj?.children?.length > 0" style="padding-left:15px !important">
+          <ng-container *ngFor="let stepObject of obj.children; let i = index; trackBy: trackByName">
+            <!-- *inView -->
+            <div *inViewStep="stepObject" [class.disable]="disableSelectedStep && documentObj?.usage === dgType.Continuous"
+              [class.disableView]="(obj.dgType === dgType.Timed || obj?.timedChild) && !obj?.stepTimerStart">
+              <app-dynamic-exe-form [stepObject]="stepObject" [obj]="obj" [usageType]="documentObj?.usage"
+                [menuConfig]="menuConfig" (setEntryDataJson)="dataJsonChangeNew($event)"
+                *ngIf="stepObject?.dgType != dgType.Section && stepObject?.dgType != dgType.StepAction &&
+                stepObject?.dgType != dgType.StepInfo && stepObject?.dgType != dgType.DelayStep &&
+                stepObject?.dgType != dgType.Timed && stepObject?.dgType != dgType.Repeat"
+                [isDetailTabEnabled]="isDetailTabEnabled"
+                (dynamicFormAlertEvent)="alertViewOutput($event)"
+                (dynamicFormRefEvent)="openReferenceInLinkTab($event)"
+                (dynamicFormValidationEvent)="checkValidation($event.event, $event.stepObj, $event.value)"
+                (dynamicVerificationOpen)="openVerification($event)"
+                (refObj)="fetchRefObj($event)"
+                (deleteSingleMedia)="deleteMediChild($event, obj, i)"
+                (deleteImageEvent)="deleteImageObj($event)"
+                (updateFiles)="updateMediaFiles($event)"
+                (parentNotifyError)="errorMessageEvent.emit({error: 'Conflict DataJson API'})">
+              </app-dynamic-exe-form>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #paraTemplate let-paraList let-obj>
+  <app-para-label-view *ngFor="let item of paraList;trackBy: trackByName" [stepObject]="item" [obj]="obj">
+  </app-para-label-view>
+</ng-template>
+
+<ng-template #SpecialCharTemplate let-obj>
+  <ng-container *ngIf="obj.originalSequenceType == sequenceTypes.NUMERIC">
+    <span>
+      {{obj.number.includes('.0') ? obj.number.slice(0, -1): obj.number}}
+    </span>
+  </ng-container>
+  <ng-container *ngIf="obj.originalSequenceType !== sequenceTypes.NUMERIC">
+    <span *ngIf="!obj.number?.endsWith('.')" [class.fontzz]="obj.originalSequenceType == sequenceTypes.SQUARE"
+    [innerHTML]="obj.number">
+  </span>
+  <span *ngIf="obj.number?.endsWith('.')">
+    {{obj.number?.endsWith('.') && obj.number?.length > 2 ? obj?.number?.slice(0, -1) : obj.number}}
+  </span>
+  </ng-container>
+ 
+</ng-template>
+
+<ng-template #acknowledgeTemplate let-obj>
+  <div *ngIf="obj.acknowledgementReqd != null" class="acknowledge pr-0 col-md-12 col-lg-12 text-right">
+    <button [hidden]="!obj.acknowledgementReqd" 
+    [class.disabled]="obj.isChecked || obj?.options?.complete || obj?.options?.skip || obj?.options?.notApplicable || (!obj?.repeatStepStarted && obj?.isParentRepeatStep) || (!obj?.stepTimerStart && obj?.isParentTimedStep )"
+      class="btn btn-icon btn-outline-secondary btn-sm ack acknowledgementBtn" *ngIf="!isDetailTabEnabled">
+      <span *ngIf="obj.acknowledgementReqd" (click)="!obj.isChecked && !obj?.options?.complete && acknowledgeNew({'object': obj});">
+        <span>Ack<ng-container *ngIf="!obj?.options?.complete">nowledge</ng-container></span>
+      </span>
+    </button>
+    <label *ngIf="obj.isChecked && isDetailTabEnabled"> {{ obj.statusDate | date:'short'}} {{ obj.createdBy }}</label>
+  </div>
+</ng-template>
+
+<ng-template #stickyNoteTemplate let-obj>
+  <div class="sticky__btn pointer" *ngIf="obj?.stickyExeNote?.isAdded"
+    (click)="obj.stickyExeNote.show = !obj.stickyExeNote.show">
+    <i class="fa {{obj?.stickyExeNote?.bgColor == '#FFF'?'fa-sticky-note-o':'fa-sticky-note'}}"
+      [style.color]="obj.stickyExeNote.bgColor == '#FFF'?'#525252':obj.stickyExeNote.bgColor">
+    </i>
+  </div>
+ 
+  <app-sticky-note *ngIf="obj?.stickyExeNote?.isAdded &&
+  cbpService?.selectedElement?.dgUniqueID === obj?.dgUniqueID" [stickyNote]="obj?.stickyExeNote"
+    (stickyNoteChange)="_stickyNoteChange($event)" [selectedElement]="obj"
+    [userName]="executionService.loggedInUserName"></app-sticky-note>
+</ng-template>
+
+<ng-template #commentCr let-obj>
+  <span *ngIf="obj?.isCommentAvailable"
+     (click)="showCrComment(obj, 'Comment');$event.stopPropagation();">
+    <img alt="img" class="image-pad mr-1" [src]="ImagePath.commentsIcon" width="24px"
+      (click)="showCrComment(obj, 'Comments');$event.stopPropagation();">
+  </span>
+  <span *ngIf="obj?.isCRAvailable"
+     (click)="showCrComment(obj, 'changerequest');$event.stopPropagation();">
+    <img alt="img" class="image-pad mr-1" [src]="ImagePath.changeRequestIcon" width="24px"
+      (click)="showCrComment(obj, 'Change Request');$event.stopPropagation();">
+  </span>
+</ng-template>

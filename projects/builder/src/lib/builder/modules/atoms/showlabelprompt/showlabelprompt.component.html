@@ -1,0 +1,38 @@
+<ng-container *ngIf="!field['editorOpened'] && !field['isHtmlText']">
+  <textarea  name="labeltextarea" autosize class="form-control"  rows="1" cols="50"
+  [class.disabled]="tableService.viewMode && cbpService.documentSelected"
+  placeholder="Enter Text" [(ngModel)]="field[propName]"  [ngStyle]="styleObject" 
+  [class.selectedField]="field?.dgUniqueID == cbpService.selectedUniqueId"
+  [class.notSelectedField]="field?.dgUniqueID != cbpService.selectedUniqueId"
+  (ngModelChange)="viewUpdate()"> </textarea>
+  <div class="feedback__btn sh"   [hidden]="tableService.viewMode && cbpService.documentSelected"
+  *ngIf="field?.dgUniqueID == cbpService?.tableDataEntrySelected?.dgUniqueID"
+   (click)="editorOpened(field)"><i class="fa fa-edit"></i></div>
+</ng-container>
+
+<ng-container *ngIf="field['editorOpened'] && ( cbpService.selectedUniqueId == field.dgUniqueID || cbpService.tableDataEntrySelected?.dgUniqueID == field.dgUniqueID ) ">
+  <app-text-editor [input]="field[propName]" (close)="outputhtml($event, field)"  [ngStyle]="styleObject" 
+   class="fs-14 bd-5" (blur)="cbpService.checkEditorOpenInTable(false, field);" (editorClose) = "editorClose($event)"
+   (updateEvent)="setFieldPromptValue($event);viewUpdate()"  [class.disabled]="tableService.viewMode && cbpService.documentSelected"
+  [item]="field"  droppable [dragOverClass]="'drag-target-border'"
+  [dropScope]="DgTypes.Hyperlink" [dragHintClass]="'drag-hint'"  (onDrop)="hLService.onLinkDrop($event, field)"></app-text-editor>
+
+</ng-container>
+<ng-container *ngIf="!field['editorOpened'] && field['isHtmlText']">
+  <div [hidden]=" cbpService.selectedUniqueId !== field.dgUniqueID">
+    <div class="feedback__btn" (click)="editorOpened(field)"  [hidden]="tableService.viewMode && cbpService.documentSelected"
+    *ngIf="(cbpService.selectedUniqueId  == field.dgUniqueID 
+      && !tableService.viewMode)"><i class="fa fa-edit"></i></div>
+      <div class="content-editable breaknew" autosize [attr.contenteditable]="(tableService.viewMode && cbpService.documentSelected) ? 'false': 'true'"  
+      [innerHtml]="field[propName] | innerhtml"  [ngStyle]="styleObject" 
+      (click)="cbpService.selectedUniqueId = field.dgUniqueID;editorOpened(field)">
+     </div>
+  </div>
+  <div *ngIf="cbpService.selectedUniqueId !== field.dgUniqueID">
+    <!-- <p (click)="editorOpened(field)" class="fs-14" [innerHTML]="field[propName] | innerhtml"></p> -->
+    <div class="content-editable breaknew" autosize [attr.contenteditable]="(tableService.viewMode && cbpService.documentSelected) ? 'false': 'true'"  
+    [innerHtml]="field[propName] | innerhtml"  [ngStyle]="styleObject" 
+    (click)="cbpService.selectedUniqueId = field.dgUniqueID;editorOpened(field)">
+   </div>
+  </div>
+</ng-container>

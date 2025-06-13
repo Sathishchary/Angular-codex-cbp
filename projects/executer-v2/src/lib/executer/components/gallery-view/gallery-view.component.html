@@ -1,0 +1,90 @@
+<div class="card">
+  <div class="pl-0 pb-0 pr-0 pt-2">
+    <div class="card-body">
+      <div class="upload-items-container mt-0">
+        <button *ngIf="!executionService.showHideImageClick" class="btn btn-icon btn-outline-secondary btn-sm" hidden>
+          <span *ngIf="mediaType !== 'executor'" class="btn-icon-wrap" title="full screen" id="{{galleryId}}">
+            <i class="lg-fullscreen lg-icon"></i>
+          </span>
+          <span *ngIf="mediaType === 'executor'" class="btn-icon-wrap" title="full screen" id="{{galleryId}}">
+            <i class="lg-fullscreen lg-icon"></i>
+          </span>
+        </button>
+        <div class="upload-items" id="scrollbarStyle">
+            <div *ngFor="let item of mediaFiles; let i = index" class="item-close-hover pl-0 mr-2">
+              <div class="card card-css thumbnail-wrapper" id="galleryView{{uniqueID}}"
+                (dblclick)="!doubleClickDisable && showImagePreview(item, i)"
+                (click)="canSelectItem && selectedImage(item, i);" [class.selected]="i === selectedItemIndex">
+                <div class="file" style="border-radius:5px !important;">
+                  <div  class="hover">
+                    <span *ngIf="item?.fileType !== 'Audio' && item?.fileType !== 'Video'"
+                      class="btn btn-icon btn-success" (click)="editImage(item, i);">
+                      <i class="fa fa-pencil white"></i></span>
+                    <span class="btn btn-icon btn-danger" (click)="removeImage(item, i);">
+                      <i class="fa fa-trash white"></i></span>
+                  </div>
+                  <div class="image" (dragstart)="false">
+                    <audio *ngIf="item?.fileType === 'Audio'" controls class="img-fluid" width="200px"
+                      style="height:108px;">
+                      <source   [src]="setImage(item, i)"  type="audio/ogg">
+                      <source   [src]="setImage(item, i)"  type="audio/mpeg">
+                      Your browser does not support the audio tag.
+                    </audio>
+                    <img
+                      *ngIf="item?.fileType === 'Image' || item?.fileName.indexOf('.png') > -1 ||
+                        item?.fileName.indexOf('.jpg') > -1 || item?.fileName.indexOf('.PNG') > -1 || item?.fileName.indexOf('.JPG') > -1"
+                        [src]="setImage(item, i)"  alt="img" class="img-fluid" (error)="setLoader($event)"
+                      style="height: 108px; padding: 10px 0;">
+                    <video *ngIf="item?.fileType === 'Video'" width="100%" controls class="img-fluid" width="200px"
+                      style="height:108px;">
+                      <source   [src]="setImage(item, i)"  type="video/mp4">
+                      <source   [src]="setImage(item, i)"  type="video/ogg">
+                      Your browser does not support HTML video.
+                    </video>
+                  </div>
+                  <ng-container>
+                    <div class="file-name" *ngIf="!item?.captionText">
+                      <p class="m-b-5 text-muted text-cap" title="{{item?.caption}}">
+                        <span class="btn btn-icon" (click)="selectedItem = item; textEdit(item);item.captionText=true">{{item?.caption |
+                          slice:0: 15}}&nbsp;&nbsp;<i class="fa fa-pencil"></i>
+                          <span *ngIf="item?.caption?.length>14">...</span>
+                        </span>
+                      </p>
+                    </div>
+                    <div *ngIf="item?.captionText">
+                      <input class="form-control"  #myInput (focusout)="textBox(item)" type="text" [(ngModel)]="item.caption"
+                      (ngModelChange)="item.caption = $event;changeCaption(item.caption,i )">
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
+            <!-- </ng-container> -->
+            </div>
+          <div class="upload-item-plus" *ngIf="mediaType !== 'executor' && !isMobile"
+            [hidden]="mediaFiles?.length>0 && executionService.uploadMediaType === 'single'">
+            <div class="upload-btn-text">
+              <span><i class="fa fa-upload ng-star-inserted"></i>&nbsp;&nbsp;Add Media</span>
+              <input class="input-upload" #fileInput type="file" multiple (click)="fileInput.value = ''"
+              *ngIf="executionService?.uploadMediaType !== 'single'" (change)="onChangeNewlyAddedFilesTest($event)"
+              [accept]="acceptImages" title=" ">
+              <input class="input-upload" #fileInput type="file"  (click)="fileInput.value = ''"
+              *ngIf="executionService?.uploadMediaType === 'single'"
+              (change)="onChangeNewlyAddedFilesTest($event)" [accept]="accept" title=" ">
+            </div>
+          </div>
+
+          <!-- Mobile Function -->
+          <div  style="cursor: pointer;" (click)="openImageChange()" class="upload-item-plus forAddMediaPadd" *ngIf="mediaType !== 'executor' && isMobile"
+            [hidden]="mediaFiles?.length>0 && executionService.uploadMediaType === 'single'">
+            <div class="upload-btn-text"  ><i class="fa fa-upload ng-star-inserted"></i>
+              Add Media</div>
+          </div>
+          <div  style="cursor: pointer;" (click)="captureMedia()" *ngIf="isMobile" class="upload-item-plus col-lg-2 col-md-4 col-sm-12 ml-1">
+            <div class="upload-btn-text"><i class="fa fa-camera ng-star-inserted"></i> Capture
+              Media</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,47 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px', fullScreenBackdrop:false}"> </ngx-loading>
+<div class="modal " id="emailpopup" tabindex="-1 " role="dialog " data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-lg" role="document ">
+      <div class="modal-content">
+          <lib-modal-popup [title]="'Send Email'" (closeEvent)="closeModal()"
+           [footerList]="[{type:'Save', disabled : !email.toUsername || !email.subject || !validEmail}, {type:'Cancel'}]"
+           (submitButtons)="footerEvent($event)">
+          <div class="modal-body">
+              <div class="col-md-12 col-lg-12 pl-0 pt-0">
+                  <div class="row">
+                      <div class="col-lg-5 col-md-5 pr-0">
+                          <label>Your Name</label>
+                          <input type="text" [(ngModel)]="email.name" name="typsetiname" class="form-control"
+                           placeholder="" required=""  disable>
+                      </div>
+                      <div class="col-lg-5 col-md-5 pr-0" >
+                          <label>Your Email</label>
+                          <input type="text" [(ngModel)]="email.email"  name="typsetiname" class="form-control"
+                          placeholder="" required=""  disable>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-md-12 col-lg-12 pl-0 pt-2 pr-0">
+                  <label>To</label>
+                  <input type="text"  [(ngModel)]="email.toUsername" (focusout)="validateEmail(email.toUsername)"
+                  name="typsetiname" class="form-control" placeholder="" required="" (change)="update()">
+                  <span style="color:red" *ngIf="!validEmail">Please enter valid email address</span>
+              </div>
+              <div class="col-md-12 col-lg-12 pl-0 pt-2 pr-0">
+                  <label>Subject</label>
+                  <input type="text" [(ngModel)]="email.subject" (change)="update()" (focusout)="validateSubject(email.subject)" name="typsetiname" class="form-control" placeholder="" required="">
+              </div>
+              <div class="col-md-12 col-lg-12 px-0 pt-2">
+                  <label>Message</label>
+                  <textarea [(ngModel)]="email.mailBody" name="message" name="desc" (focusout)="validateMessage(email.mailBody)"  (change)="update()"
+                  class="form-control" rows="5" cols="28" required=""></textarea>
+              </div>
+              <div class="col-md-12 col-lg-12 px-0 pt-2 align" *ngIf="isDev">
+                <label class="mr-2">CBP attachment</label>
+                <input type="checkbox" name="checkbox">
+              </div>
+
+          </div>
+         </lib-modal-popup>
+      </div>
+  </div>
+</div>

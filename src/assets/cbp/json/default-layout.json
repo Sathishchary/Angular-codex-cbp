@@ -1,0 +1,48 @@
+{
+  "layout": [
+    {
+      "name": "margin",
+      "margin": "default"
+    },
+    {
+      "name": "showhideicons",
+      "showIcons": true
+    },
+    {
+      "name": "showIndendation",
+      "showIndendation": false
+    },
+    {
+      "name": "disableCircle",
+      "disableCircle": false
+    },
+    {
+      "name": "disableNumber",
+      "disableNumber": false
+    },
+    {
+      "name": "coverPage",
+      "coverPage": true
+    },
+    {
+      "name": "marginTop",
+      "marginTop": 50
+    },
+    {
+      "name": "marginBottom",
+      "marginBottom": 50
+    },
+    {
+      "name": "enableAutoScroll",
+      "enableAutoScroll": false
+    },
+    {
+      "name": "enableDataProtection",
+      "enableDataProtection": false
+    },
+    {
+      "name": "collapseView",
+      "collapseView": false
+    }
+  ]
+}

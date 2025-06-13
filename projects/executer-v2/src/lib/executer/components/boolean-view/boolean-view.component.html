@@ -1,0 +1,65 @@
+<ng-template #booleanTemplate>
+  <div class="pt-1 pr-3"
+   [ngClass]="{
+    'col-12 col-lg-12 col-md-12': obj?.dualStep && !cbpService.tabletCheck,
+    'col-md-4 col-lg-3 col-4 pl-3 pr-3': !obj?.dualStep && !stepObject.isTableDataEntry && !cbpService.tabletCheck,
+    'col-12 col-lg-12 col-md-12 pl-0': stepObject.isTableDataEntry,
+    'col-lg-12': cbpService.tabletCheck,
+    'pl-1': obj?.dualStep || cbpService.tabletCheck,
+    'pr-3': stepObject?.showLockIcon
+     }"
+    style="height: 30px; width: 100%;">
+    <div >
+    <input name="optradiotrue{{stepObject.dgUniqueID}}"
+     [class.dis-col]="stepObject?.protect || stepObject?.showLockIcon || stepObject?.disableField"
+     type="radio" value="1"   [disabled]="stepObject?.protect || stepObject?.showLockIcon || stepObject?.disableField"
+     [class.disableCheck]="stepObject?.protect"
+      (change)="checkValidation(obj, stepObject ,stepObject.storeValue)"
+       [(ngModel)]="stepObject.storeValue"
+      class="e-point" [ngClass]="{
+        'role-disable':stepObject?.showLockIcon,
+        'disableCheck' : stepObject?.protect
+     }">
+      <span class="boolean-check" [title]="stepObject.TrueValue"
+       [style.top.px]="stepObject?.showLockIcon? '0': '-2'">&nbsp;{{stepObject.TrueValue}}</span>
+    <input name="optradiofalse{{stepObject.dgUniqueID}}"
+     [class.dis-col]="stepObject?.protect || stepObject?.showLockIcon || stepObject?.disableField"
+      type="radio" value="0"
+      [disabled]="stepObject?.protect || stepObject?.showLockIcon || stepObject?.disableField"
+      [(ngModel)]="stepObject.storeValue"
+      [class.disableCheck]="stepObject?.protect"
+      (change)="checkValidation(obj, stepObject ,stepObject.storeValue)"
+      class="ml-2 e-point" [ngClass]="{
+        'role-disable':stepObject?.showLockIcon,
+        'disableCheck' : stepObject?.protect
+     }">
+      <span class="boolean-check" [title]="stepObject.FalseValue"
+       [style.top.px]="stepObject?.showLockIcon? '0': '-2'">&nbsp;{{stepObject.FalseValue}}</span>
+    <span class="required req" *ngIf="stepObject.required">*</span>
+    <lib-lockicon-exe [selectedElement]="stepObject" [type]="'booleanRole'"></lib-lockicon-exe>
+    </div>
+  </div>
+</ng-template>
+
+<ng-container *ngIf="!stepObject?.isTableDataEntry">
+  <div class="row" style="padding-left: 11px;">
+    <div class="col-md-12 pl-0 mb-2" [ngClass]="{'pl-2': obj?.dualStep}">
+      <div class="row">
+        <lib-track-ui [field]="stepObject"></lib-track-ui>
+        <div class="pl-1 pt-1" [ngClass]="{
+         'col-12 col-lg-12 col-md-12': obj?.dualStep && !cbpService.tabletCheck,
+         'col-md-8 col-lg-9 col-8 ': !obj?.dualStep && !cbpService.tabletCheck,
+         'col-lg-12': cbpService.tabletCheck}"
+          [ngStyle]="styleObject" id="stepAno{{stepObject.dgUniqueID}}"
+          (click)="cbpService.handleSelection( $event, stepObject,  'prompt' )"
+          [innerHtml]="stepObject.prompt| innerhtml" style="word-wrap: break-word;">
+        </div>
+        <ng-container *ngTemplateOutlet="booleanTemplate"></ng-container>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="stepObject?.isTableDataEntry">
+  <ng-container *ngTemplateOutlet="booleanTemplate"></ng-container>
+</ng-container>

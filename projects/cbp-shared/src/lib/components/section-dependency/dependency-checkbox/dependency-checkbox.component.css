@@ -1,0 +1,60 @@
+.fancy-checkbox input[type=checkbox]:checked+span:before {
+    color: #fff;
+    font-family: FontAwesome;
+    content: '\f00c';
+    font-size: 10px;
+    text-align: center;
+    line-height: 21px;
+  }
+  
+  .fancy-checkbox input[type=checkbox]+span:before {
+    display: inline-block;
+    vertical-align: middle;
+    border-radius: 2px;
+    position: relative;
+    bottom: -2px;
+    width: 22px !important;
+    height: 22px !important;
+    margin-right: 0px;
+    content: "";
+    border: 1px solid #bdbdbd;
+  }
+  .fancy-checkbox input[type="checkbox"]+span {
+    top: -7px!important;
+  }
+  label {
+    margin-bottom: 0px !important;
+  }
+  
+  /* .pad-1{
+    padding-top: 3.3px;
+  } */
+  .fieldSet {
+    width: 100%;
+    height: 24px;
+    z-index: 9999;
+    cursor: pointer;
+    /* background: linear-gradient(to bottom, #beebff 0, #a8e4ff 100%);
+    background: linear-gradient(to bottom, #beebff 0, #a8e4ff 100%); */
+    position: relative;
+    display: inline-block;
+    min-width: 100%;
+    width: 100%;
+    border: 1px solid #ccc8c8;
+    border-radius: 1px;
+    background-color: #fbfbfb;
+    color: #555;
+    cursor: pointer;
+    font-size: 12px !important;
+    line-height: 24px;
+  }
+
+  .fieldsetAlignment{
+    padding-left: 15px;
+  }
+
+  .check-center{
+    padding-left: 30px;
+    position: relative;
+    top: 2px;
+  }

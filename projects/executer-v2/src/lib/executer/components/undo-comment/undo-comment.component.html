@@ -1,0 +1,31 @@
+<div class="modal" id="undoComment" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <lib-modal-popup [title]="'Undo Comment'" (closeEvent)="closeModal()"
+            [footerList]="[{type:'Save', disabled : !undoCommentValue}, {type:'Cancel'}]"
+            (submitButtons)="$event.type=== 'Save' && undoCommentStore(undoCommentValue); $event.type=== 'Cancel' && closeModal();">
+            <div class="modal-body">
+                <div class="col-md-12 col-lg-12 pl-0">
+                    <div class="row disableview">
+                        <div class="col-lg-12 col-md- pr-0 disable">
+                            <label>Step</label> <br>
+                            <fieldset style="border: 1px solid #ccc;padding: 5px;">
+                            <span>{{selectedStepSectionInfo?.number + ' ' }}</span>
+                            <span [innerHtml]="(selectedStepSectionInfo?.action ? selectedStepSectionInfo?.action: selectedStepSectionInfo?.title) | innerhtml"></span>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-lg-12  pt-2">
+                    <div class="row">
+                        <textarea name="undoComment" [(ngModel)]="undoCommentValue"
+                         name="texunod" class="form-control" (change)="viewUpdated()"
+                            style="font-size: 13px !important;" rows="3" cols="30" required="">
+                        </textarea>
+                    </div>
+                </div>
+            </div>
+            </lib-modal-popup>
+        </div>
+    </div>
+</div>

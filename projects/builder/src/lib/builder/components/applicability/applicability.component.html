@@ -1,0 +1,197 @@
+<div class="modal fade " id="component-applicability" tabindex="-1 " role="dialog " data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg " role="document ">
+      <div class="modal-content">
+        <lib-modal-popup [title]="appnum?appnum:'Applicability Rule -'"  [footerList]="footerList"
+        (submitButtons)="$event.type === 'Reset' && resetApplicability(); $event.type === 'Undo' && undoApplicability(); 
+        $event.type === 'Save' && saveApplicabilty();$event.type === 'Update' && updateApplicabilityRule(); $event.type === 'Close' && hide();" (closeEvent)="hide()">
+        <div class="modal-body" class="appliindex">
+            <div class="col-md-12 col-lg-12 pl-0 pt-0">
+                <div class="row">
+                    <div class="col-md-3 col-lg-3 px-0">
+                        <div class="col-md-12 col-lg-12 pt-0 px-0">
+                            <div class="card indextop">
+                                <div class="header selected-asset">
+                                    <h6>Index
+                                        <a class="pointer" (click)="changeControl('index')"></a>
+                                    </h6>
+                                </div>
+                                <div class="px-0 py-0">
+                                    <div class="col-md-12 col-lg-12 indexscroll">
+                                        <div class="row">
+                                            <div class="col-md-12 col-lg-12 py-1 pr-0 px-2">
+                                                <span>
+                                                    <lib-tree-structure [renameNode] = "renameNode"
+                                                        [cbpJson]="cbpService.cbpJson"
+                                                        [updatedNode]="currentNodeSelected" [parent]="componentInfo"
+                                                        (selectedNode)="selectStepNode($event)">
+                                                    </lib-tree-structure>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6 px-0">
+                        <div class="card rulestitle">
+                            <div class=" px-2 pt-0 pb-2">
+                                <div class="col-md-12 col-lg-12 pl-0 pt-0">
+                                    <div class="row pl-3">
+                                        <div class="col-md-12 col-lg-12 pt-0 px-0">
+                                            <div class="card rulestop">
+                                                <div class="header selected-asset">
+                                                    <h6>Rules</h6>
+                                                </div>
+                                                <div class="px-2 pt-2 pb-2 rulesscroll">
+                                                    <div class="col-md-12 col-lg-12 pt-0 px-0"
+                                                    [ngClass]="{'table-height-auto': element.applicabulityaddInfo.length > 0, 'table-height-fixed': element.applicabulityaddInfo.length === 0}">
+                                                        <table class="table-bordered mb-0 ruleslabel">
+                                                            <thead class="rulesapplibg">
+                                                                <tr>
+                                                                    <th class="conditionlabel customePaddings">Condition</th>
+                                                                    <th class="actionlabel customePaddings">Action</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr *ngFor="let info of element.applicabulityaddInfo; let i = index;last as isLast; first as isFirst" 
+                                                                [class.isEdit]="selectAppObj?.dgUniqueID === info?.dgUniqueID && i==selectedIndex">
+                                                                    <td class="tableDataPadding">{{info.DisplayValue}}</td>
+                                                                    <td class="arrowsalign tableDataPadding">
+                                                                        <div class="text-center">
+                                                                            <a class="tableIconArrow"  [hidden]="isFirst"><span  (click)="fielddataUp(i)"><i class="fa fa-arrow-up"></i></span></a>
+                                                                            <a class="tableIconArrow" [hidden]="isLast"><span (click)="fielddataDown(i)"><i class="fa fa-arrow-down"></i></span></a>
+                                                                            <a class="tableIconEdit" ><span (click)="appEdit(info,i)"><i class="fa fa-edit"></i></span></a>
+                                                                            <a class="tableIconDelete"><span (click)="fieldDataDelete(i)"><i class="fa fa-trash"></i></span></a>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 pt-2 px-0">
+                                            <div class="card">
+                                                <div class="header selected-asset">
+                                                    <h6>Add Rule</h6>
+                                                </div>
+                                                <div class="px-2 pt-1 pb-0 addrulehigt">
+                                                    <div class="col-lg-12 col-md-12 pl-0 pt-2 pr-0">
+                                                        <div class="row">
+                                                            <div class="col-md-4 col-lg-4 pr-0">
+                                                                <label>Field Name</label>
+                                                                <select class="form-control" (change)="fieldExpresion(element.ParsedValue)" [(ngModel)]="element.ParsedValue" [disabled]="isEdit">
+                                                                    <option *ngFor="let fname of fieldsdata" [ngValue]="fname">{{fname.fieldName}}</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-md-2 col-lg-2 pr-0">
+                                                                <label>Operator </label>
+                                                                <select class="form-control" [(ngModel)]="element.ComparisonOperator" [disabled]="isEdit">
+                                                                    <option value="" disabled>Select Operator</option>
+                                                                    <option *ngFor="let option of operatorOptions" [value]="option.value">{{option.name}}</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-md-5 col-lg-5 ">
+                                                                <div *ngIf="!(checkBooleandataentry() || element.ParsedValue.DgType === dgType.DateDataEntry)">
+                                                                    <label>Value</label>
+                                                                    <input *ngIf="element.ParsedValue.DgType !== dgType.NumericDataEntry"  class="form-control" placeholder="" [(ngModel)]="element.DisplayValue" type="text" [disabled]="isEdit">
+                                                                    <input *ngIf="element.ParsedValue.DgType === dgType.NumericDataEntry" [disabled]="isEdit"
+                                                                    numeric  decimals = "{{selectedElement?.decimal}}"  class="form-control" placeholder="Number" [(ngModel)]="element.DisplayValue" type="text">
+                                                                </div>
+                                                                <div class="row" *ngIf="checkBooleandataentry()" class="valuerule">
+                                                                    <div class="radio-inline mr-3 pt-2">
+                                                                        <ng-container *ngIf="element?.ParsedValue?.DgType !== dgType.CheckboxDataEntry">
+                                                                        <label><input type="radio" name="optradio" value="1"  [(ngModel)]="element.DisplayValue" [disabled]="isEdit"><span class="ruleboolean" >{{element.ParsedValue.object.TrueValue}}</span></label>
+                                                                        <label><input type="radio" name="optradio" value="0" [(ngModel)]="element.DisplayValue" [disabled]="isEdit"><span class="ruleboolean" >{{element.ParsedValue.object.FalseValue}}</span></label>
+                                                                       </ng-container>
+                                                                        <ng-container *ngIf="element?.ParsedValue?.DgType === dgType.CheckboxDataEntry">
+                                                                            <input type="checkbox" name="checkbox" [(ngModel)]="element.DisplayValue" [disabled]="isEdit">
+                                                                         </ng-container>
+                                                                    
+                                                                    </div>
+                                                                    <!-- <div class="radio-inline mr-3 pt-2">
+                                                                        <label><input type="radio" name="optradio" value="0" [(ngModel)]="element.DisplayValue"><span class="ruleboolean">{{element.ParsedValue.object.FalseValue}}</span></label>
+                                                                    </div> -->
+                                                                </div>
+                                                                <div  *ngIf="element.ParsedValue.DgType === dgType.DateDataEntry" >
+                                                                  <label>Value</label>
+                                                                    <lib-date-time
+                                                                    [placeholder]="'Date/Time'"
+                                                                    [position]="'above'"
+                                                                    [noCalender]="!isDateTime.isDateDisplayOpen"
+                                                                    [isEnableTime]="isDateTime.isTimeDisplayOpen"
+                                                                    [(dataField)]="element.DisplayValue"
+                                                                    [disabled]="isEdit">
+                                                                    </lib-date-time>
+                                                            </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 pt-0 pl-3">
+                                                      <div class="row">
+                                                          <div class="col-md-12 col-lg-12 pt-2">
+                                                              <div class="row">
+                                                              <button [disabled]="isEdit"
+                                                              class="btn btn-outline-secondary btn-sm hidden-sm button-border addbutton"
+  
+                                                              type="button"
+                                                              (click)="refreshApplicabulityInfo()">ADD</button>
+                                                                <button [disabled]="isEdit"
+                                                              class="btn btn-outline-secondary btn-sm hidden-sm button-border addandbutton"
+                                                              type="button" (click)="and()">Add AND</button>
+                                                              <button [disabled]="isEdit"
+                                                              class="btn btn-outline-secondary btn-sm hidden-sm button-border addorbutton"
+                                                                type="button" (click)="or()">Add OR</button>
+                                                              </div>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                                    <div class="col-lg-12 col-md-12 pl-0 pt-1 pr-0">
+                                                        <textarea class="form-control" [(ngModel)]="element.applicabulityInfo" (change)="changeRule()" rows="5"></textarea>
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 pl-0 pt-2">
+                                                        <div class="row">
+                                                            <div class="col-md-4 col-lg-4 pr-0">
+                                                                <label>Action</label>
+                                                                <select class="form-control" [(ngModel)]="element.fieldName" (change)="refreshApplicabulityInfo()">
+                                                                    <option value="Continue()" selected>Continue()</option>
+                                                                    <option value="Skip()">Skip()</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-lg-3 px-0">
+                        <div class="col-md-12 col-lg-12 pt-0 px-0">
+                            <div class="card datafeild">
+                                <div class="header selected-asset">
+                                    <h6>Data Field</h6>
+                                </div>
+                                <div class=" px-0 py-0">
+                                    <div class="col-md-12 col-lg-12 datafieldscroll">
+                                        <div class="row" *ngFor="let adata of fieldsdata">
+                                            <div class="col-md-12 col-lg-12 py-1 index-list"  [class.disabled]="isEdit"  [class.lightcolor]="adata.fieldName === datField">
+                                                <label class="mb-2"><a (click)="appFieldData(adata)">{{adata.fieldName}}</a></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </lib-modal-popup>   
+     </div>
+     </div>
+    </div>

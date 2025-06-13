@@ -1,0 +1,4 @@
+div#wordData {
+    overflow: scroll;
+    cursor: grab;
+}

@@ -1,0 +1,16 @@
+.modal-css {
+  padding: 7px 5px 0px 21px !important;
+  height: 440px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+.pad-lr{
+  padding-left: 0px;
+  padding-right: 0px;
+}
+@media only screen and (max-width: 769px){
+  .pad-lr{
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}

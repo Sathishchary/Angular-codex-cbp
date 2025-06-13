@@ -1,0 +1,223 @@
+
+<div class="modal fade " id="Setup-modal" tabindex="-1 " role="dialog " data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg " role="document" (mouseover)="currentSelectedDataFalse()">
+        <div class="modal-content" (mouseover)="currentSelectedDataFalse()">
+            <lib-modal-popup [title]="selectedAlaram"   [footerList]="footerList"
+            (submitButtons)="$event.type === 'Save' && saveSetUp(); $event.type === 'Cancel' && hide();" (closeEvent)="hide()">
+
+            <div class="modal-body pad-h-OF" (mouseover)="currentSelectedDataFalse()" >
+                <div class="col-md-12 col-lg-12 pl-0 pt-0">
+                    <div class="row">
+                        <div class="col-md-3 col-lg-3 px-0">
+                            <div class="col-md-12 col-lg-12 pt-0">
+                                <div class="card">
+                                    <div class="header selected-asset">
+                                        <h6>Index
+                                            <a class="pointer"></a>
+                                        </h6>
+                                    </div>
+                                    <div class=" px-0 py-0">
+                                        <div class="col-md-12 col-lg-12 h-OF" >
+                                            <div class="row" (mouseover)="currentSelectedDataFalse()">
+                                                <div class="col-md-12 col-lg-12 py-1 px-1 disabled">
+                                                  <lib-tree-structure *ngIf="isTree"
+                                                  [cbpJson]="cbpService.cbpJson"
+                                                      [updatedNode]="currentNodeSelected" [parent]="componentInfo"
+                                                      (selectedNode)="!currentSelectedDataEntry && selectStepNode($event)">
+                                                  </lib-tree-structure>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-lg-12 pt-2">
+                                <div class="card mg-t" >
+                                    <div class="header selected-asset">
+                                        <h6>Derived Data Field
+                                            <a class="pointer"></a>
+                                        </h6>
+                                    </div>
+                                    <div class=" px-0 py-0">
+                                        <div class="col-md-12 col-lg-12 h250-OF" >
+                                            <div class="row" *ngFor="let setdata of setfieldsdata">
+                                                <div class="col-md-12 col-lg-12 py-1 index-list" (click)="derivedFieldData(setdata)" [class.lightcolor]="setdata.fieldName ===fieldSelectedname">
+                                                    <label class="mb-2"><a >{{setdata.fieldName}}</a></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-6 col-lg-6 px-0">
+                            <div class="card bd1-white" >
+                                <div class="px-2 pt-0 pb-2">
+                                    <div class="col-md-12 col-lg-12 pt-0 px-0">
+                                        <div class="card mg-t2" >
+                                            <div class="pt-0 pr-2 pl-2 pb-2 h125">
+                                                <div class="col-lg-12 col-md-12 pt-2 px-2">
+                                                    <div class="row">
+                                                        <div class="col-lg-4 col-md-4 pr-0">
+                                                            <label>Field Name</label>
+                                                            <input class="form-control" disabled [(ngModel)]="cbpService.selectedElement.fieldName" required="" type="text">
+                                                        </div>
+                                                        <div class="col-lg-5 col-md-5 pr-0">
+                                                            <label>Prompt</label>
+                                                            <input class="form-control" required="" disabled [(ngModel)]="cbpService.selectedElement.prompt" type="text">
+                                                        </div>
+                                                        <div class="col-md-2 col-lg-2 pl-4 text-center pr-0">
+                                                            <label>Required?</label><br>
+                                                            <input type="checkbox" value="" disabled [(ngModel)]="cbpService.selectedElement.required">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 pt-2 px-2">
+                                                    <div class="row">
+                                                        <div class="col-lg-4 col-md-4 pr-0">
+                                                            <label>Data Type</label>
+                                                            <input class="form-control" required="" type="text" disabled [(ngModel)]="cbpService.selectedElement.dataType">
+                                                        </div>
+                                                        <div class="col-lg-2 col-md-2 pr-0" *ngIf="cbpService.selectedElement?.dgType == dgType.NumericDataEntry">
+                                                            <label>Decimal</label>
+                                                            <input class="form-control" required=""  numeric type="text" disabled [(ngModel)]="cbpService.selectedElement.decimal">
+                                                        </div>
+                                                        <div class="col-lg-2 col-md-2 pr-0">
+                                                            <label>Value</label>
+                                                            <input class="form-control" type="text" disabled [(ngModel)]="valueType">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 pt-2 px-0">
+                                        <div class="card h437" >
+                                            <div class="header selected-asset">
+                                                <h6 class="clr-fff" >Formula</h6>
+                                            </div>
+
+                                            <div class="pt-0 pr-2 pl-2 pb-0">
+                                                <div class="col-lg-12 col-md-12 pt-2 pr-0 pl-0 pb-2">
+                                                    <textarea name="www.dataglance.com" class="form-control" 
+                                                    [disabled]="(setfieldsdata.length === 0 && cbpService.selectedElement?.dgType != dgType.Form)"
+                                                     [(ngModel)]="formula" rows="20" cols="30"> </textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-lg-3 px-0">
+                            <div class="col-md-12 col-lg-12 pt-2 px-0">
+                                <div class="card mg-t8" >
+                                    <div class="header selected-asset">
+                                        <h6>Data Field
+                                            <a class="pointer"></a>
+                                        </h6>
+                                    </div>
+                                    <div class=" px-0 py-0">
+                                        <div class="col-md-12 col-lg-12 h150-OF">
+
+                                            <div class="row" *ngFor="let data of fieldsdata; let i = index">
+                                                <div *ngIf="((i<indexValue) || cbpService?.selectedElement?.dgType == dgType.Form )" 
+                                                class="col-md-12 col-lg-12 py-1 index-list" (click)="dataFieldFormula(data)" 
+                                                [class.lightcolor]="data.fieldName === fieldSelectedname">
+                                                    <label class="mb-2"><a>{{data.fieldName}}</a></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion col-md-12 col-lg-12 px-0" id="accordionExample">
+                                <div class="col-md-12 col-lg-12 pt-2 px-0">
+                                    <div class="card">
+                                        <div class="header selected-asset" type="button" data-toggle="collapse" data-target="#collapseOne">
+                                            <h6>Operator</h6>
+                                        </div>
+
+                                        <div class="px-0 py-0">
+                                            <div class="col-md-12 col-lg-12 collapse show h317-OF" id="collapseOne" aria-labelledby="headingOne" data-parent="#accordionExample" >
+                                                <ul class="tree">
+                                                    <li>Math Operator
+                                                        <ul>
+                                                            <li (click)="operatorData('+')">+ c=a+b</li>
+                                                            <li (click)="operatorData('-')">- c=a-b</li>
+                                                            <li (click)="operatorData('*')">* c=a*b</li>
+                                                            <li (click)="operatorData('/')">/ c=a/b</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>Logical Operator
+                                                        <ul>
+                                                            <li (click)="operatorData('==')">==</li>
+                                                            <li (click)="operatorData('!=')">!=</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>Conditional Operator
+                                                        <ul>
+                                                            <li>If Then Else </li>
+                                                            <li>Switch</li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 col-lg-12 pt-2 px-0">
+                                    <div class="card">
+                                        <div class="header selected-asset" type="button" data-toggle="collapse" data-target="#collapseTwo">
+                                            <h6>Function</h6>
+                                        </div>
+                                        <div class="px-0 py-0">
+                                            <div class="col-md-12 col-lg-12 collapse h317px-OF " id="collapseTwo" aria-labelledby="headingTwo" data-parent="#accordionExample" >
+                                                <div class="row">
+                                                    <div class="col-md-12 col-lg-12 py-1 index-list h317px-OF" >
+                                                        <ul class="tree">
+                                                            <li>DateToTime
+                                                                <ul>
+                                                                    <li (click)="functionData('CharToDate()')">CharToDate</li>
+                                                                    <li (click)="functionData('CharToTime()')">CharToTime</li>
+                                                                </ul>
+                                                            </li>
+                                                            <li>String
+                                                                <ul>
+                                                                    <li (click)="functionData('Concat()')">Concat</li>
+                                                                </ul>
+                                                            </li>
+                                                            <li>Conversion
+                                                                <ul>
+                                                                    <li (click)="functionData('NumberToChar()')">NumberToChar</li>
+                                                                </ul>
+                                                            </li>
+
+                                                            <li>Comparision
+                                                                <ul>
+                                                                    <li (click)="functionData('Compare()')">Compare</li>
+                                                                </ul>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </lib-modal-popup>
+        </div>
+    </div>
+</div>

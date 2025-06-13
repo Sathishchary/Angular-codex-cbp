@@ -1,0 +1,13 @@
+<label>Repeat</label>
+<div class="row dp-flex">
+    <div class="col-md-3 col-lg-3 pr-0">
+        <input type="text" class="form-control" required=""
+            [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType" numeric
+            decimals="{{selectedElement.repeatTimes}}" [(ngModel)]="selectedElement.repeatTimes"
+            [ngModelOptions]="{standalone: true}"
+            (focusout)="cbpService.repeatValid();createAuditEntry(AuditTypes.PROPERTY_STEP_REPEAT, {propName: 'repeatTimes'})">
+    </div>
+    <div class="col-md-4 col-lg-4 pt-1 pl-2">
+        <label>times</label>
+    </div>
+</div>

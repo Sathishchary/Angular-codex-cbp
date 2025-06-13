@@ -1,0 +1,334 @@
+<div class="propertyHead"  id="{{cbpService.selectedElement?.dgType}}"
+   [ngClass]="{
+    'disablebg':  cbpService.isBackGroundDocument && (!cbpService.documentSelected &&
+        cbpService.selectedElement?.dgType != dgType.Figures && 
+        cbpService.tableDataEntrySelected?.dgType != dgType.Figures
+    )
+   }"
+   >
+    <div *ngIf="cbpService.documentSelected; else otherContent">
+        <app-doc-property [editorType]="editorType"></app-doc-property>
+    </div>
+    <ng-template #otherContent>
+         <div>
+            <div *ngIf="(cbpService.selectedElement?.dgType == dgType.Footer ||
+            cbpService.selectedElement?.dgType == dgType.Header) &&
+            !cbpService.selectedElement.embeddedSection">
+                <h5 class="heading">Property {{cbpService.selectedElement?.dgType}}</h5>
+            </div>
+            <div
+                *ngIf="(cbpService.selectedElement?.dgType == dgType.WaterMark) &&  !cbpService.selectedElement.embeddedSection ">
+                <ng-container [ngTemplateOutlet]="title"
+                [ngTemplateOutletContext]="{'$implicit' : 'Water Mark'}"></ng-container>
+                <div class="col-lg-12 col-md-12 px-2 scroll-OF">
+                    <div class="row" >
+                        <div class="col-md-12 col-lg-12 col-sm-12 pt-2 col-xs-12">
+                            <label> Water Mark</label>
+                            <input class="form-control H28" placeholder="Water Mark" required="" minlength="0"
+                                maxlength="32"
+                                [disabled]="cbpService.selectedElement.isEmbededObject && cbpService.embeddedType"
+                                [(ngModel)]="cbpService.waterMarkValue" (input)="inputValidator($event)" name="footer"
+                                type="text">
+                        </div>
+                    </div>
+                    <div class="row mt-2 ml-0 mr-0 justify-c">
+
+                        <button class="btn btn-icon btn-outline-secondary btn-outline-secondary btn-sm mr-1 float-r"
+                            title="WaterMark" (click)="cbpService.waterMarkValue = '';clearWaterMark()"
+                            [disabled]="cbpService.selectedElement.isEmbededObject && cbpService.embeddedType">
+                            Clear
+                        </button>
+                        <button class="btn btn-icon btn-outline-secondary btn-outline-secondary btn-sm mr-0 float-r"
+                            title="WaterMark"
+                            (click)="setWaterMark(cbpService.selectedElement, AuditTypes.PROPERTY_WATER_MARK,{propName: 'waterMarkValue'})"
+                            [disabled]="!cbpService.waterMarkValue || cbpService.selectedElement.isEmbededObject && cbpService.embeddedType"
+                            [ngClass]="{'applied': watermarkApplied && cbpService.waterMarkValue}">
+                            {{ watermarkApplied && cbpService.waterMarkValue ? 'Applied' : 'Apply' }}
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="cbpService.selectedElement?.dgType == dgType.Section &&
+                  cbpService.selectedElement?.dataType !== dgType.Attachment &&
+                  !cbpService.selectedElement.embeddedSection " 
+                  [class.disabled]="(cbpService.selectedElement?.isEmbededObject && cbpService.selectedElement?.property?.type == 'Dynamic')">
+                <ng-container [ngTemplateOutlet]="title"
+                [ngTemplateOutletContext]="{'$implicit' : 'Section'}"></ng-container>
+                <lib-section-property  (primaryCodeSubTypeEvent)="primaryCodeSubType($event)"
+                    (onFocusEventEvent)="onFocusEvent()"
+                    (checkAndChangesNumberedStepsEvent)="checkAndChangesNumberedSteps($event)"
+                    (checkBoxAuditEvent)="checkBoxAuditv2($event)"
+                    (setDynamicHideSectionEvent)="setDynamicHideSection($event.event, $event.e)"
+                    (setDynamicSectionEvent)="setDynamicSection($event.event, $event.e)"></lib-section-property>
+            </div>
+            <div *ngIf="cbpService.selectedElement?.dgType == dgType.Section &&
+                cbpService.selectedElement?.dataType === dgType.Attachment &&
+                !cbpService.selectedElement.embeddedSection">
+                <ng-container [ngTemplateOutlet]="title"
+                [ngTemplateOutletContext]="{'$implicit' : 'Attachment'}"></ng-container>
+                    <div class="col-lg-12 col-md-12 px-2  scroll-OF ">
+                        <div class="row" >
+                            <div class="col-md-12 col-lg-12 col-sm-12 pt-2 col-xs-12">
+                                <label> Type</label>
+                                <select class="form-control" disabled>
+                                    <option [value]="dgType.Attachment">Attachment</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-12 col-md-12 pt-2">
+                                <label>Number</label>
+                                <input class="form-control numb bg-9" placeholder=""
+                                    [(ngModel)]="cbpService.selectedElement.number" disabled
+                                    name="number" required="" type="text">
+                            </div>
+                            <div class="col-lg-12 col-md-12 pt-2 mt-2 dp-flex">
+                                <label class="checkbox-inline flexAlign">
+                                    <input type="checkbox"
+                                        [disabled]="cbpService.selectedElement.isEmbededObject && cbpService.embeddedType"
+                                        (click)="checkAndChangesNumberedSteps($event);"
+                                        [checked]="cbpService.selectedElement.numberedChildren">&nbsp;&nbsp; <span
+                                        class="checkbox_lbleposition">Numbered Steps</span>
+                                </label>
+                            </div>
+                            <div class="col-lg-12 col-md-12 pt-2">
+                                <app-dg-unique-idproperty
+                                    [(dgUniqueID)]="cbpService.selectedElement.dgUniqueID">
+                                </app-dg-unique-idproperty>
+                            </div>
+                            <div class="col-md-12 col-lg-12 col-sm-12">
+                                <lib-basic-section-prop></lib-basic-section-prop>
+                            </div>
+                            <div class="propertyBorder card p-0 pt-2 w-sticky"
+                            *ngIf="cbpService.cbpJson.documentInfo[0]?.dynamicDocument">
+                            <h5 class="col-md-12 col-lg-12 col-sm-12 background-step">Dynamic Property</h5>
+                            <div class="scroll-OF" [class.disabled-dynamic]="cbpService.selectedElement?.protectDynamic">
+                                <div class="col-lg-12 col-md-12 pt-2 dp-flex">
+                                    <label class="checkbox-inline flexAlign">
+                                        <input type="checkbox" [(ngModel)]="cbpService.selectedElement.dynamic_section"
+                                            (change)="setDynamicSection($event, 1)"
+                                            [disabled]="(cbpService.selectedElement.isEmbededObject && cbpService.embeddedType) ||
+                                            cbpService.selectedElement.protectDynamic">
+                                        &nbsp;<span class="checkbox_lbleposition">Dynamic Section</span>
+                                    </label>
+                                </div>
+                                <div class="col-lg-12 col-md-12 pt-2 dp-flex"
+                                    [class.disabled]="!cbpService.selectedElement.dynamic_section">
+                                    <label class="checkbox-inline flexAlign">
+                                        <input type="checkbox" [(ngModel)]="cbpService.selectedElement.hide_section"
+                                            (change)="setDynamicHideSection($event, 0)"
+                                            [disabled]="(cbpService.selectedElement.isEmbededObject && cbpService.embeddedType) || !cbpService.selectedElement.dynamic_section">
+                                        &nbsp;<span class="checkbox_lbleposition">Hide Section</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+            </div>
+
+            <!--For EMbeded Section-->
+            <div *ngIf="cbpService.selectedElement?.dgType == dgType.Section &&
+            cbpService.selectedElement.embeddedSection ">
+                <ng-container [ngTemplateOutlet]="title"
+                [ngTemplateOutletContext]="{'$implicit' : 'Embedded Section'}"></ng-container>
+                <div>
+                    <lib-embedded-property (removeStaticContentEvent)=" viewUpdateTrack()"></lib-embedded-property>
+                </div>
+            </div>
+
+            <div
+            [class.disabled]="(cbpService.selectedElement?.isEmbededObject && cbpService.selectedElement?.property?.type == 'Dynamic')"
+                *ngIf="cbpService.selectedElement?.dgType == dgType.StepAction ||
+                  cbpService.selectedElement?.dgType == dgType.Timed ||
+                  cbpService.selectedElement?.dgType == dgType.Repeat">
+                <ng-container [ngTemplateOutlet]="title"
+                [ngTemplateOutletContext]="{'$implicit' : 'Step'}"></ng-container>
+                <div class="col-lg-12 col-md-12 px-2 propertyDataHeight">
+                    <div class="row pad-b" >
+                        <div class="col-md-12 col-lg-12 pl-0 pr-0">
+                          <lib-type-steptype-num
+                            (onFocusEventEvent)="onFocusEvent()"
+                            (primaryCodeSubTypeEvent)="changeSubType($event)">
+                            <ng-container *ngTemplateOutlet="TypeDropdown"></ng-container>
+                          </lib-type-steptype-num>
+                            <div class="col-lg-12 col-md-12 pt-2">
+                                <app-dg-unique-idproperty
+                                    [(dgUniqueID)]="cbpService.selectedElement.dgUniqueID">
+                                </app-dg-unique-idproperty>
+                            </div>
+                            <ng-container *ngIf="!cbpService.isBackGroundDocument">
+                                  <!-- <lib-action-text></lib-action-text> -->
+                                  <lib-is-critical-property (setOrUnSetIconEvent)="setOrUnSetIcon()" (changesNumberedSteps)="checkAndChangesNumberedSteps($event)"></lib-is-critical-property>
+                                  <lib-section-verification-property></lib-section-verification-property>
+                                  <lib-section-hold-properties (checkBoxAuditEvent)="viewUpdateTrack()"></lib-section-hold-properties>
+                              <div class="col-lg-12 col-md-12 pt-2" *ngIf="cbpService.selectedElement?.dgType == dgType.Timed">
+                                <lib-timed-step-properties></lib-timed-step-properties>
+                              </div>
+                              <div class="col-lg-12 col-md-12 pt-2" *ngIf="cbpService.selectedElement?.dgType == dgType.Repeat">
+                                <lib-repeat-step-properties [selectedElement]="cbpService.selectedElement"></lib-repeat-step-properties>
+                              </div>
+                              <app-rule-info [selectedElement]="cbpService.selectedElement"></app-rule-info>
+                          </ng-container>
+                        </div>
+                        <div class="propertyBorder card p-0 w-sticky"
+                        *ngIf="cbpService.cbpJson.documentInfo[0]?.dynamicDocument">
+                        <h5 class="col-md-12 col-lg-12 col-sm-12 background-step">Dynamic Property</h5>
+                        <div class="scroll-OF" [class.disabled-dynamic]="cbpService.selectedElement?.protectDynamic">
+                            <div class="col-lg-12 col-md-12 pt-2 dp-flex">
+                                <label class="checkbox-inline flexAlign">
+                                    <input type="checkbox" [(ngModel)]="cbpService.selectedElement.dynamic_section"
+                                        (change)="setDynamicSection($event, 1)"
+                                        [disabled]="(cbpService.selectedElement.isEmbededObject && cbpService.embeddedType) ||
+                                        cbpService.selectedElement.protectDynamic">
+                                    &nbsp;<span class="checkbox_lbleposition">Dynamic Section</span>
+                                </label>
+                            </div>
+                            <div class="col-lg-12 col-md-12 pt-2 dp-flex"
+                                [class.disabled]="!cbpService.selectedElement.dynamic_section">
+                                <label class="checkbox-inline flexAlign">
+                                    <input type="checkbox" [(ngModel)]="cbpService.selectedElement.hide_section"
+                                        (change)="setDynamicHideSection($event, 0)"
+                                        [disabled]="(cbpService.selectedElement.isEmbededObject && cbpService.embeddedType) || !cbpService.selectedElement.dynamic_section">
+                                    &nbsp;<span class="checkbox_lbleposition">Hide Section</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="cbpService.selectedElement?.dgType == dgType.StepInfo ||
+                cbpService.selectedElement?.dgType == dgType.DelayStep"
+                [class.disabled]="(cbpService.selectedElement?.isEmbededObject && cbpService.selectedElement?.property?.type == 'Dynamic')">
+                <ng-container [ngTemplateOutlet]="title"
+                    [ngTemplateOutletContext]="{'$implicit' : 'Step'}"></ng-container>
+                <lib-step-info-property (onFocusEventEvent)="onFocusEvent()"
+                    (changeSubTypeEvent)="changeSubType($event)"
+                    (checkBoxAuditEvent)="checkBoxAudit($event.event,$event.auditType, $event.optionalParams )"
+                  >
+                  <ng-container *ngTemplateOutlet="TypeDropdown"></ng-container>
+                </lib-step-info-property>
+            </div>
+            <div *ngIf="cbpService.selectedElement?.dgType == dgType.Caution ||
+                cbpService.selectedElement?.dgType == dgType.Warning ||
+                cbpService.selectedElement?.dgType == dgType.Note ||
+                cbpService.selectedElement?.dgType == dgType.Alara ||
+                cbpService.selectedElement?.dgType == dgType.LabelDataEntry ||
+                cbpService.selectedElement?.dgType == dgType.Para ||
+                cbpService.selectedElement?.dgType == dgType.FormulaDataEntry">
+                <lib-basic-property [property]="{
+                title: 'Property ' + cbpService.selectedElement?.dgType,
+                dgType: cbpService.selectedElement?.dgType,
+                dgUniqueID: cbpService.selectedElement?.dgUniqueID }" (nameExistEvent)="checkNameExistOrnot()"
+                    (onFousEvent)="onFocusEvent()" [field]="cbpService.selectedElement"></lib-basic-property>
+            </div>
+
+            <div *ngIf="cbpService.selectedElement?.dgType == dgType.TextDataEntry ||
+            cbpService.selectedElement?.dgType == dgType.TextAreaDataEntry">
+                <ng-container [ngTemplateOutlet]="title"
+                [ngTemplateOutletContext]="{'$implicit' : 'Data Entry'}"></ng-container>
+                <lib-data-entry-prop [selectedElement]="cbpService.selectedElement"></lib-data-entry-prop>
+            </div>
+            <div *ngIf="cbpService.selectedElement?.dgType == dgType.NumericDataEntry">
+                <ng-container [ngTemplateOutlet]="title"
+                [ngTemplateOutletContext]="{'$implicit' : 'Data Entry'}"></ng-container>
+                <lib-numeric-prop [selectedElement]="cbpService.selectedElement"></lib-numeric-prop>
+            </div>
+            <div *ngIf="cbpService.selectedElement?.dgType == dgType.DateDataEntry">
+                <ng-container [ngTemplateOutlet]="title"
+                [ngTemplateOutletContext]="{'$implicit' : 'Data Entry'}"></ng-container>
+                <div class="col-lg-12 col-md-12 col-sm-12 propertyDateHeight">
+                    <div class="row">
+                        <lib-date-prop [selectedElement]="cbpService.selectedElement"></lib-date-prop>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="cbpService.selectedElement?.dgType == dgType.BooleanDataEntry">
+                <ng-container [ngTemplateOutlet]="title"
+                [ngTemplateOutletContext]="{'$implicit' : 'Data Entry'}"></ng-container>
+                <lib-boolean-prop [selectedElement]="cbpService.selectedElement"></lib-boolean-prop>
+            </div>
+            <div *ngIf="cbpService.selectedElement?.dgType == dgType.CheckboxDataEntry">
+                <ng-container [ngTemplateOutlet]="title"
+                [ngTemplateOutletContext]="{'$implicit' : 'Data Entry'}"></ng-container>
+                <lib-check-prop [selectedElement]="cbpService.selectedElement"></lib-check-prop>
+            </div>
+            <div *ngIf="cbpService.selectedElement?.dgType == dgType.Figures">
+                <ng-container [ngTemplateOutlet]="title"
+                [ngTemplateOutletContext]="{'$implicit' : 'Media'}"></ng-container>
+                <lib-figure-prop [selectedElement]="cbpService.selectedElement"></lib-figure-prop>
+
+            </div>
+            <div *ngIf="cbpService.selectedElement?.dgType == dgType.Link">
+                <ng-container [ngTemplateOutlet]="title"
+                [ngTemplateOutletContext]="{'$implicit' : 'Link'}"></ng-container>
+                <lib-link-prop [selectedElement]="cbpService.selectedElement"></lib-link-prop>
+            </div>
+            <div *ngIf="cbpService.selectedElement?.dgType == dgType.Procedure"
+            [class.disabled]="(cbpService.selectedElement?.isEmbededObject && cbpService.selectedElement?.property?.type == 'Dynamic')">
+                <ng-container [ngTemplateOutlet]="title"
+                [ngTemplateOutletContext]="{'$implicit' : 'Procedure'}"></ng-container>
+                <lib-proccedure-prop [selectedElement]="cbpService.selectedElement"></lib-proccedure-prop>
+            </div>
+            <!--For Reference-->
+            <div *ngIf="cbpService.selectedElement?.dgType == dgType.Reference">
+                <ng-container [ngTemplateOutlet]="title"
+                [ngTemplateOutletContext]="{'$implicit' : 'Reference'}"></ng-container>
+                <!-- <lib-reference-prop [selectedElement]="cbpService.selectedElement"></lib-reference-prop> -->
+            </div>
+            <!--For Table-->
+            <div *ngIf="cbpService.selectedElement?.dgType == dgType.Table">
+                <ng-container [ngTemplateOutlet]="title"
+                [ngTemplateOutletContext]="{'$implicit' : 'Table'}"></ng-container>
+                <lib-table-properties [selectedElement]="cbpService.selectedElement"
+                [tempsectionnumbers]="tempsectionnumbers"
+                (checkNameExistEvent)="checkNameExistOrnot()"></lib-table-properties>
+            </div>
+            <!--For Verification-->
+            <div *ngIf="cbpService.selectedElement?.dgType == dgType.VerificationDataEntry">
+                <ng-container [ngTemplateOutlet]="title"
+                [ngTemplateOutletContext]="{'$implicit' : 'Verification'}"></ng-container>
+                <lib-verification-component></lib-verification-component>
+            </div>
+            <!--For Verification Signature-->
+            <div *ngIf="cbpService.selectedElement?.dgType == dgType.SignatureDataEntry">
+                <ng-container [ngTemplateOutlet]="title"
+                [ngTemplateOutletContext]="{'$implicit' : 'Signature'}"></ng-container>
+                <lib-signature-prop></lib-signature-prop>
+            </div>
+            <!--For Verification Intial-->
+            <div *ngIf="cbpService.selectedElement?.dgType == dgType.InitialDataEntry">
+                <ng-container [ngTemplateOutlet]="title"
+                [ngTemplateOutletContext]="{'$implicit' : 'Initial'}"></ng-container>
+                <div class="col-lg-12 col-md-12 px-2 propertyDataHeight">
+                    <lib-intial-data-entry-prop></lib-intial-data-entry-prop>
+                </div>
+            </div>
+
+        </div>
+    </ng-template>
+</div>
+<ng-template #title let-title>
+    <h5 class="heading">Property {{title}}</h5>
+</ng-template>
+
+<ng-template #TypeDropdown>
+    <select class="form-control" [(ngModel)]="cbpService.selectedElement.stepType"
+      (focus)="onFocusEvent()" (ngModelChange)="onChange($event)"
+      [disabled]="cbpService.selectedElement.isEmbededObject && cbpService.embeddedType" >
+       <option value="Simple Action">Action</option>
+       <option value="StepInfo">Information</option>
+       <ng-container *ngIf="cbpService.selectedElement?.firstDualStep">
+        <option value="DualStepFreeForm">Dual Step Free Form</option>
+        <option value="DualStepAlignment">Dual Step Alignment</option>
+       </ng-container>
+       <ng-container 
+       *ngIf="!cbpService.selectedElement?.isTimedChildren && 
+       !cbpService.selectedElement?.isParentTimedStep && !cbpService.selectedElement?.isParentRepeatStep">
+        <option value="DelayStep">Delay</option>
+        <option value="Repeat">Repeat</option>
+        <option value="Timed">Timed</option>
+      </ng-container>
+   </select>
+</ng-template>

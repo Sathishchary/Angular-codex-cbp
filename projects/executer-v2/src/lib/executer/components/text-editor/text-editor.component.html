@@ -1,0 +1,36 @@
+<div class="modal-content" *ngIf="!hidePopup">
+  <lib-modal-popup [title]="'Update Text'" (closeEvent)="cancel()"
+  [footerList]="footerList" (submitButtons)="$event.type=== 'Save' && save(); $event.type=== 'Cancel' && cancel();">
+  <div class="modal-body">
+    <angular-editor *ngIf="updateView" [(ngModel)]="input" (update)="input = $event;" [id]="stepObject.dgUniqueID"
+      [config]="config" [stepObject]="stepObject" (focusout)="emithtml($event)" [foreColor]="foreColor"
+      [signatureConfig]="signatureConfig" [isDisabled]="isDisabled"
+      (data)="createHyperLink($event)" (close)="closeEventCheck($event); input = $event">
+    </angular-editor>
+    <div class="col-md-12 col-lg-12 pl-3 pt-0" *ngIf="stepObject?.protect">
+      <div class="row">
+          <div class="col-md-12 col-lg-12 pl-0 pt-2 pr-0">
+            <label>Comments</label>
+            <textarea name="comments" [(ngModel)]="stepObject['comments']" class="form-control f13"
+            rows="1" cols="30" required=""></textarea>
+          </div>
+          <p class="red" *ngIf="showError && stepObject['comments'] === ''">Please enter comments</p>
+      </div>
+    </div>
+  </div>
+  </lib-modal-popup>
+</div>
+
+<ng-container *ngIf="hidePopup">
+  <angular-editor *ngIf="updateView" [(ngModel)]="input" [(stepObject)]="stepObject"
+  (stepObjectChange)="setObjectValue($event)"  [isDisabled]="isDisabled"
+  (update)="input = $event; updateTitle.emit($event)" (focus)="focusEvent()"
+  [config]="config" (focusout)="emithtml($event)" [foreColor]="foreColor" (blur)="blur.emit($event)"
+  (data)="createHyperLink($event)" (close)="closeEventCheck($event); input = $event"
+  (position)="createHyperLinkWithPosition($event)" [id]="'editor-'+stepObject.dgUniqueID"
+  [index]="triggerHyperLink"  [hyperLink] = "hyperLink" [signatureConfig]="signatureConfig"
+  droppable [dragOverClass]="'drag-target-border'"
+  (mouseOutEvent)="mouseOutEvent.emit($event)"
+  [dropScope]="'Hyperlink'" [dragHintClass]="'drag-hint'"  (onDrop)="onLinkDrop($event, stepObject, 0)">
+  </angular-editor>
+</ng-container>

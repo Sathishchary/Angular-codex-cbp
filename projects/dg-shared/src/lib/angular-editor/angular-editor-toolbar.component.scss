@@ -1,0 +1,229 @@
+@import "style";
+
+.select-button {
+  display: inline-block;
+  &.disabled {
+    cursor: pointer;
+    background-color: #f1f1f1;
+    transition: 0.2s ease;
+  }
+}
+
+.font-names{
+  background-color: white!important;
+    border-radius: 0px!important;
+    border: 1px solid #dddddd!important;
+}
+
+.font-pickr-options{
+  border: 0 solid #ddd;
+  cursor: pointer;
+  display: block;
+  min-width: 2rem;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-top: 5px;
+  text-align: left;
+  width: 100%;
+  z-index: 3;
+}
+backcss{
+  width: 24px;
+  position: relative;
+  top: 1px;
+  height: 24px;
+  pointer-events: none;
+}
+.color{
+  position: relative;
+  top: -7px;
+}
+.script{
+  background: #fff5b9 !important;
+}
+//special char
+.special-drop{
+  position: relative;
+  display: inline-block;
+}
+.specialcahr-drop {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  border: 1px solid #ccc;
+  z-index: 1;
+  top: 30px;
+  padding: 10px 0;
+  cursor: pointer;
+}
+.special-drop:hover .special-show{
+  display: block !important;
+}
+.special-show{
+  display: none;
+}
+.spec-div{
+  display: flex;
+  align-items: center;
+  padding-left: 5px;
+}
+.special-signs{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+    width: 25px;
+    height: 25px;
+    border: 1px solid #e5e5e5;
+    text-align: center;
+    margin-right:5px;
+    font-size: 14px;
+    font-weight: 600;
+}
+.at-sp{
+  font-weight: 600;
+}
+//special char end
+// executer color picker
+
+.dropdown {
+  float: left;
+  position: relative;
+  top: 7px;
+}
+
+.dropdown .dropbtn {
+  cursor: pointer;
+  font-size: 16px;
+  border: none;
+  outline: none;
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit;
+  margin: 0;
+}
+
+.navbar a:hover, .dropdown:hover .dropbtn, .dropbtn:focus {
+  background-color: red;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  border: 1px solid #ccc;
+  z-index: 1;
+  top: 30px;
+  padding: 10px 0
+}
+
+.dropdown-content a {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+.dropdown-content{
+  min-width: fit-content;
+}
+.dropdown .show {
+  display: none;
+}
+.dropdown:hover .show{
+  display: block;
+}
+// executer color picker end
+
+.angular-editor-toolbar .angular-editor-toolbar-set{
+  margin-right: 0px;
+}
+.angular-editor-toolbar .angular-editor-toolbar-set .angular-editor-button{
+  margin-left: 2px;
+}
+.ae-font.ae-picker{
+  margin-left: 0.09rem;
+}
+.font-names{
+  height: 29px;
+}
+input{
+  height: 29px;
+  margin-left:2px;
+}
+.color-picker{
+  top: 18px;
+  position: absolute;
+  left: 0;
+  width: 100%;
+  display: inline-block;
+  bottom: -2px;
+  // border-bottom: 4px solid #fff;
+}
+.editor-width{
+  white-space: pre-wrap;
+  min-width: 100%;
+}
+.font-back{
+  width: 14px;
+  top: -2px;
+  position: relative;
+}
+
+@media (min-width: 1470px) and (max-width: 1920px)  {
+  .left-show{
+    right: 0;
+  }
+  .right-show{
+    right: 0;
+  }
+  
+}
+ 
+ @media (min-width: 1351px) and (max-width: 1476px)  { 
+  .angular-editor-toolbar .angular-editor-toolbar-set .angular-editor-button {
+      padding: 6px 2px;
+      min-width: 22px;
+  }
+  .angular-editor-toolbar .angular-editor-toolbar-set select {
+      padding: 7px 4px;
+      cursor: pointer;
+  }
+  }
+ 
+  // PRODFIX-245 
+@media (min-width: 1351px) and (max-width: 1486px)  { 
+    .dropdown-content.menuOnLeft { right: 0px !important;}
+}
+@media (min-width: 992px) and (max-width: 1351px)  { 
+   .dropdown-content.menuOnLeft { left: 0px !important;}
+}
+ // PRODFIX-245 End
+
+
+ .color-card{
+  left: 0 !important;
+ }
+ .text-color-card{
+  left: 0 !important;
+ }
+ .background-color-card{right: 0 !important;}
+
+ @media (min-width:1596px ) and (max-width: 1670px)  { 
+  .text-color-card{
+    left: 0 !important;
+   }
+}
+@media (min-width: 1009px ) and (max-width: 1176px)  { 
+  .angular-editor-toolbar-set .angular-editor-button {
+      min-width: 3.0rem !important;    
+}
+}

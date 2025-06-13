@@ -1,0 +1,33 @@
+.boolean-check{
+    top: -3px;
+    font-size: 13px;
+}
+.required{
+    padding-left: 5px;
+}
+.role-set-boolean{
+    position: absolute;
+    right: 17px;
+    text-align: center;
+    top: 6px;
+    font-size: 12px;
+}
+.role-set-table{
+    position: absolute;
+    right: 0;
+    text-align: center;
+    top: 6px;
+    font-size: 12px;
+}
+.role-disable{
+    background: #e9ecef;
+    display: flex;
+    align-items: center;
+    height: 30px;
+    width: 100%;
+    position: relative;
+}
+.disableCheck{
+   accent-color: #ccc !important;
+   background: #ccc;
+}

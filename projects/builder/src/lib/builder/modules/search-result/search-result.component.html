@@ -1,0 +1,14 @@
+<!-- <div  mwlTextInputHighlightContainer *ngIf="!isHTMLText">
+  <textarea rows="1" col="50" autosize class="form-control" style="" type="text" name="text" [(ngModel)]="text" [ngStyle]="stylesService.setMessageStyles('normal')"
+    placeholder="Please Enter the Text" [disabled]="field.isEmbededObject && field?.property?.type == 'Dynamic'"
+    (focusout)="createAuditEntry()" mwlTextInputElement #textarea></textarea>
+    <mwl-text-input-highlight [tags]="tags" [textInputElement]="textarea"> </mwl-text-input-highlight>
+</div> -->
+<div class="content-editable" id="dataEntry{{field?.dgUniqueID}}" [class.disabled]="true"
+ autosize contenteditable=true [innerHtml]="text"  
+  [ngStyle]="(field?.level === 0 ? (field?.dataType !== 'Attachment' ? cbpService.styleLevelObj?.level1 : cbpService.styleLevelObj?.attachment) :
+  (field?.level === 1 ? (field?.dgType == dgType.Section ? cbpService.styleLevelObj?.level2Section : cbpService.styleLevelObj?.level2Step ):
+  (field?.level === 2 ? (field?.dgType == dgType.Section ? cbpService.styleLevelObj?.level3Section : cbpService.styleLevelObj?.level3Step):
+  ((field?.level === 3 ? (field?.dgType == dgType.Section ? cbpService.styleLevelObj?.level4Section : cbpService.styleLevelObj?.level4Step):
+  ( field?.level === 4 ? (field?.dgType == dgType.Section ? cbpService.styleLevelObj?.level5Section : cbpService.styleLevelObj?.level5Step) :
+  cbpService.styleLevelObj?.levelNormal))))))"></div>

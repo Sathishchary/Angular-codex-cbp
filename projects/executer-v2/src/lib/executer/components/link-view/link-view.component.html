@@ -1,0 +1,17 @@
+<div class="row lpad">
+  <div class="col-md-12 pl-0">
+    <div [ngClass]="{'row': !stepObject?.isTableDataEntry}">
+      <lib-track-ui [field]="stepObject" *ngIf="!stepObject.isTableDataEntry"></lib-track-ui>
+      <div *ngIf="!stepObject?.isTableDataEntry" [ngClass]="{'col-12 col-lg-12 col-md-12': obj?.dualStep}"
+        class="col-md-10 col-lg-10 col-8 pl-1 pt-1 title-break" [ngStyle]="styleObject"
+        (click)="cbpService.handleSelection( $event, stepObject,  'caption' )" id="stepAno{{stepObject.dgUniqueID}}"
+        [innerHtml]="stepObject.caption| innerhtml">
+      </div>
+      <div [ngClass]="{'pl-0 col-12 col-lg-12 col-md-12 pr-0': stepObject?.isTableDataEntry || obj?.dualStep,
+                       'col-md-2 col-lg-2 col-4 pr-1 pl-1': !stepObject?.isTableDataEntry}">
+        <a class="link-cursor" type="button" (click)="openReferenceInLinkTab(stepObject, $event)">
+          {{stepObject.displayText.slice(0,35)+(stepObject.displayText.length>35?'...':'')}}</a>
+      </div>
+    </div>
+  </div>
+</div>

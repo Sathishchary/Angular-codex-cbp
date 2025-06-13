@@ -1,0 +1,26 @@
+<div ></div>
+<ng-container *ngIf="section">
+  <ng-container *ngFor="let item of section">
+    <div class="row">
+    <div class="col-md-1 col-lg-1 pad-1 check-center" *ngIf="(item.dgType === dgType.Section || item.dgType === dgType.StepAction || item.dgType === dgType.StepInfo) && item.checkboxNode">
+      <label>
+      <input type="checkbox" class="e-point" name="ids"  (click)="checkSectionIds(item, $event)"
+        [(ngModel)]="item.dependencyChecked"  [disabled]="item.disabledDependency"
+        data-parsley-errors-container="#error-checkbox" data-parsley-multiple="checkbox"
+        [hidden]="(item.dgType === 'StepInfo' && !item.acknowledgementReqd) ">
+        <span class="checkbox_lbleposition"></span>
+      </label>
+    </div>
+    <div class="col-md-11 col-sm-11 col-lg-11 pad-lr pl-0 pr-0 index-list"
+    *ngIf="(item.dgType === dgType.Section || item.dgType === dgType.StepAction || item.dgType === dgType.StepInfo) && item.checkboxNode">
+      <fieldset class="fieldSet fieldsetAlignment"
+      [style.padding-left.px]="15*(item.level+1)"
+      > {{item.text}} </fieldset>  <!--py-1 pr-0 px-0 -->
+    </div>
+  </div>
+    <ng-container *ngIf="item && item?.children?.length>0">
+        <app-dependency-checkbox  [section]="item.children"></app-dependency-checkbox>
+    </ng-container>
+  </ng-container>
+</ng-container>
+<div class=""></div>

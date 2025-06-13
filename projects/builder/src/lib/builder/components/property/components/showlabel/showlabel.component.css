@@ -1,0 +1,25 @@
+label {
+    margin-bottom: 2px !important;
+    color: #212529;
+    font-weight: 400;
+}
+.form-control {
+    font-size: 12px !important;
+    /* height: 28px; */
+    padding: 5px !important;
+  }
+  .form-control {
+    display: block;
+    width: 100%;
+    padding: 4px 4px !important;
+    line-height: 1.5 !important;
+    color: #555;
+  }
+  .checkbox_lbleposition {
+    /* position: absolute; */
+    top: 7px;
+    left: 11px;
+}
+/* PRODFIX-1669 */
+label.flexAlign {display: flex;align-items: center;}
+/* PRODFIX-1669 End*/

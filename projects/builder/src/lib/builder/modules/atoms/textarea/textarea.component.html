@@ -1,0 +1,58 @@
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 px-0"
+  [ngClass]="{'mr-0 pr-0 mt-1 mb-1': field.isTableDataEntry, 'pl-0':field?.labelSide === 'left' }">
+  <div *ngIf="field"
+     (click)="!field.isTableDataEntry && selectElement();$event.stopPropagation();
+     field.isTableDataEntry && selectedForTable($event)"
+    [ngClass]="{'section-border': cbpService.selectedUniqueId == field.dgUniqueID, 'row ml-0 mr-0': field?.showLabel}"
+    [class.noneBg]="field.isTableDataEntry">
+    <div [ngClass]="{'hover': cbpService.selectedElement.dgUniqueID  == field.dgUniqueID}" *ngIf="cbpService.sectionHover && !field.isTableDataEntry">
+      <app-step-option [field]="field"></app-step-option>
+    </div>
+    <ng-container *ngIf="!field.isTableDataEntry">
+      <dg-track-ui [field]="field" *ngIf="!hideTrackUi && !field.isTableDataEntry" (fieldChange)="setField($event);"></dg-track-ui>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 px-0 ds-flex"  >
+        <textarea name="textarea" class="form-control resize" (focus)= "cbpService.selectedElement = field;cbpService.selectedUniqueId = field.dgUniqueID"
+         (resize)="resizeTextArea($event)"
+          readonly rows="2" cols="50" placeholder="text..." required=""  [style.height.px] ="field?.height" > </textarea>
+          <lib-lockicon [selectedElement]="field"></lib-lockicon>
+          <i class="drp-req" *ngIf="field.required">*</i>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="field.isTableDataEntry">
+      <ng-container [ngTemplateOutlet]="textareaTemp" [ngTemplateOutletContext]="{$implicit: 'left'}"></ng-container>
+        <div [ngClass]="{'col-xs-12 col-sm-12 pl-0' :!field?.showLabel,
+         'col-xs-6 col-sm-6 pl-2 pr-0' :field?.showLabel }" class="ds-flex"  style="display: flex; padding-right: 0;">
+         <textarea [style.width.%]="field.dataEntrySize"
+          name="tabletextarea"
+          autosize class="form-control resize"
+          readonly rows="1" cols="50"
+          placeholder="text..."
+          [minRows]="field?.height ? (field?.height/20).toFixed(1) : 1"
+          (resize)="resizeTextArea($event)"
+          [class.selectedField]="field?.dgUniqueID == cbpService.selectedUniqueId"
+          [class.notSelectedField]="field?.dgUniqueID != cbpService.selectedUniqueId" style="background: #e9ecef !important;">
+         </textarea>
+         <lib-lockicon [selectedElement]="field"></lib-lockicon>
+          <i class="drp-req" *ngIf="field.required">*</i>
+        </div>
+        <ng-container [ngTemplateOutlet]="textareaTemp" [ngTemplateOutletContext]="{$implicit: 'right'}"></ng-container>
+    </ng-container>
+  </div>
+</div>
+
+<ng-template #textareaTemp let-type>
+  <div *ngIf="field?.showLabel && field?.labelSide == type"
+   [ngClass]="{'col-xs-6 col-sm-6 pr-0 pl-0 labelBorder' :field?.showLabel, 'pl-2': field?.labelSide === 'right' }">
+     <app-search-result  *ngIf="cbpService.searchTemplate" [field]="field" [propName]="'showLablePrompt'"
+     [searchString]="cbpService.searchString"
+     [triggerReplace]="cbpService.triggerReplace">
+     </app-search-result>
+     <!-- <textarea *ngIf="!cbpService.searchTemplate" name="labeltextarea"
+          autosize class="form-control"  rows="1" cols="50"
+          placeholder="text..." [(ngModel)]="field.showLablePrompt"
+          [class.selectedField]="field?.dgUniqueID == cbpService.selectedUniqueId"
+          [class.notSelectedField]="field?.dgUniqueID != cbpService.selectedUniqueId">
+     </textarea> -->
+     <lib-showlabelprompt [(field)]="field"></lib-showlabelprompt>
+  </div>
+</ng-template>

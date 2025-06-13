@@ -1,0 +1,66 @@
+select.form-control:not([size]):not([multiple]) {
+  height: 30px !important;
+  font-size: 12px !important;
+}
+.table td, .table th {
+  padding: 5px!important;
+  vertical-align: top;
+  border-top: 1px solid #dee2e6;
+}
+.form-control {
+  padding-left: 5px!important;
+  font-size: 13px;
+  height: 29px;
+}
+.modal-footer {
+  padding: 5px 10px !important;
+}
+.modal-content{
+  border-radius: 10px !important;
+}
+.col-lg-3{
+  -ms-flex: 0 0 25%!important;
+  flex: 0 0 25%!important;
+  max-width: 25%!important;
+}
+.cust{
+  margin-bottom: -15px;
+  float: right;
+}
+.width70{
+  width: 70%;
+}
+.button-refresh{
+  border: 1px solid #eaeaea!important;
+  font-size: 13px;
+}
+.button-clear{
+  border: 1px solid #eaeaea!important;
+  font-size: 13px;
+  margin-left: 10px;
+}
+.bg-white{
+  background: #f7f7f7
+}
+.fl-right{
+  float:right;
+}
+.width200{
+  width: 200px;
+}
+.tablescroller{
+  height: 300px;
+  overflow-x: auto;
+  overflow-y: auto;
+}
+.tx-center{
+  text-align: center;
+}
+.pt-18{
+  padding-top: 20px !important;
+}
+@media only screen and (max-width: 769px){
+  .modal-content{
+    width: 100%;
+  }
+}

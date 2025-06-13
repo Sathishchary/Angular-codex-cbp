@@ -1,0 +1,375 @@
+<ng-container *ngIf="windowWidth < 1350">
+    <div *ngIf="cbpService.selectedElement" class="dropdown"  [class.disabled]="(cbpService.selectedElement?.isEmbededObject || cbpService.selectedElement?.type==='embedded')">
+        <button class="dropbtn mr-2 buttns buttonscl">
+            <img [src]="ImagePath.tableProperty" width="34px" class="imageblue" alt="img">
+    </button>
+        <div  class="dropdown-content currentdropdown table-iconsHeight tableDropdownCu">
+            <div class="col-md-12 col-lg-12 current paddingsZero">
+                <div class="row">
+                    <div class="col-md-12 col-lg-12">
+
+                        <div class="col-md-12 col-lg-12 pt-2 pb-2 ">
+                            <div class="row">
+                                <!-- <div class="col-3 col-sm-3 col-md-3 col-lg-3 pl-0 marginfive">
+                                    <button [ngClass]=[btntable] (click)="tableService.isTableProperties= true; tableService.referenceProperty = false">
+                                        <span class="btn-icon-wrap"title="Properties">
+                                            <img [src]="ImagePath.tableProperty" width="34px" class="imageblue" alt="img">
+                                            <img [src]="ImagePath.tableProperty" width="34px" class="imageblue" alt="img">
+                                        </span>
+                                    </button>
+                                    </div> -->
+                                <div class="col-3 col-sm-3 col-md-3 col-lg-3 pl-0 marginfive">
+                                <button [ngClass]=[btntable] (click)="toolbarProp()">
+                                    <span class="btn-icon-wrap"title="Properties">
+                                        <img [src]="ImagePath.tableProperty" width="34px" class="imageblue" alt="img">
+                                    </span>
+                                </button>
+                                </div>
+                                <div class="col-3 col-sm-3 col-md-3 col-lg-3 pl-0 marginfive">
+                                    <div class="dropdowninside">
+                                        <button class="dropbtniside mr-2 buttnstable buttonscltable">
+                                            <img [src]="ImagePath.tableSelect" width="34px" class="imageblue" alt="img">
+                                        </button>
+
+                                        <div class="dropdown-content-inside currenttabledropdown dropdownEvenSpaces">
+                                            <button [ngClass]=[tabletoolbar] (click)="selectTableOption('cell')"
+                                             [disabled]="tableService.selectedRow.length !== 1 ">
+                                                <i class="fa fa-plus-square mr-2"></i>Select Cell</button>
+                                            <button [ngClass]=[tabletoolbar] (click)="selectTableOption('column')" [disabled]="(tableService.selectedRow.length ===0 && !tableService.selectTableCol) || tableService.selectedRow.length>1">
+                                            <i class="fa fa-plus-square mr-2"></i>Select Column</button>
+                                            <button [ngClass]=[tabletoolbar] (click)="selectTableOption('row')" [disabled]="(tableService.selectedRow.length ===0 && !tableService.selectTableCol) || tableService.selectedRow.length>1">
+                                                <i class="fa fa-plus-square mr-2"></i>Select Row</button>
+                                            <button [ngClass]=[tabletoolbar] (click)="selectTableOption('table')">
+                                                 <i class="fa fa-plus-square mr-2" ></i>Select Table</button>
+                                        </div>
+                                        </div>
+
+                                </div>
+                                <div class="col-3 col-sm-3 col-md-3 col-lg-3 pl-0 marginfive">
+                                    <div class="dropdowninside">
+                                        <button class="dropbtniside mr-2 buttnstable buttonscltable">
+                                            <img [src]="ImagePath.tableDelete" width="34px" class="imageblue" alt="img">
+                                        </button>
+                                        <div class="dropdown-content-inside currenttabledropdown dropdownEvenSpaces">
+                                           <button [ngClass]=[tabletoolbar]
+                                           (click)="tabledeleteListAlert(cbpService.tableDataEntrySelected)" [disabled]="!cbpService.tableDataEntrySelected && tableService.selectedCellDatentry.length ===0">
+                                               <i class="fa fa-plus-square mr-2 "></i>Delete Entry</button>
+                                           <button [ngClass]=[tabletoolbar]
+                                           [disabled]="tableService.isTableSelectedElement"
+                                           (click)="deleteSelectedCell(cbpService.selectedElement)">
+                                               <i class="fa fa-plus-square mr-2 "></i>Delete Cell</button>
+                                           <button [ngClass]=[tabletoolbar]
+                                           [disabled]="(cbpService.selectedElement.isEmbededObject && cbpService.embeddedType) || (tableService.selectedRow.length ===0 && !tableService.selectTableCol)" title="Delete Column"
+                                           (click)="deleteSelectedColumnItem()" >
+                                               <i class="fa fa-plus-square mr-2 "></i>Delete Column</button>
+                                           <button [ngClass]=[tabletoolbar]
+                                           (click)="deleteSelectedRow(tableService.tableRowPosition)"
+                                           [disabled]="(cbpService.selectedElement.isEmbededObject && cbpService.embeddedType) || (tableService.selectedRow.length ===0)">
+                                               <i class="fa fa-plus-square mr-2 "></i>Delete Row</button>
+                                           <button [ngClass]=[tabletoolbar]
+                                           (click)="deleteTable()"
+                                           [disabled]="cbpService.selectedElement.isEmbededObject && cbpService.embeddedType">
+                                               <i class="fa fa-plus-square mr-2 "></i>Delete Table</button>
+                                       </div>
+                                       </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    </ng-container>
+    <ng-container *ngIf="(windowWidth  > 1350)">
+        <ng-container *ngIf="!tableService.viewMode && cbpService.documentSelected && cbpService.tableDataEntrySelected
+        && cbpService.tableDataEntrySelected?.dgType !== DgTypes.Para
+        && cbpService.tableDataEntrySelected?.dgType !== DgTypes.LabelDataEntry">
+        <button [ngClass]=[btntable]  (click)="alignEvent('left')" [hidden]="hideStyleIcons">
+            <span class="btn-icon-wrap" title="Left Align">
+                <img [src]="defaultTextAlign == 'left'? ImagePath.leftAlignSelected :ImagePath.leftAlign"  width="34px" class="imageblue" alt="img">
+            </span>
+        </button>
+        <button [ngClass]=[btntable]  (click)="alignEvent('center')" [hidden]="hideStyleIcons" >
+            <span class="btn-icon-wrap" title="Center Align">
+                <img [src]="defaultTextAlign == 'center'? ImagePath.centerAlignSelected :ImagePath.centerAlign"  width="34px" class="imageblue" alt="img">
+            </span>
+        </button>
+        <button [ngClass]=[btntable]  (click)="alignEvent('right')" [hidden]="hideStyleIcons">
+            <span class="btn-icon-wrap" title="Right Align">
+                <img [src]="defaultTextAlign == 'right'? ImagePath.rightAlignSelected :ImagePath.rightAlign"  width="34px" class="imageblue" alt="img">
+            </span>
+        </button>
+        </ng-container>
+
+
+<button [ngClass]=[btntable] (click)="toolbarProp()">
+    <span class="btn-icon-wrap"title="Properties">
+        <img [src]="ImagePath.tableProperty" width="34px" class="imageblue" alt="img">
+    </span>
+</button>
+
+<div class="dropdown">
+<button class="dropbtn mr-2 buttns buttonscl ToolbarBtn">
+    <img [src]="ImagePath.tableSelect" width="34px" class="imageblue" alt="img">
+</button>
+
+<div class="dropdown-content pt-1 dropdownEvenSpaces top26">
+    <button [ngClass]=[tabletoolbar] (click)="selectTableOption('cell')"
+     [disabled]="tableService.selectedRow.length !== 1 ">
+        <i class="fa fa-plus-square mr-2"></i>Select Cell</button>
+    <button [ngClass]=[tabletoolbar] (click)="selectTableOption('column')" [disabled]="(tableService.selectedRow.length ===0 && !tableService.selectTableCol) || tableService.selectedRow.length>1">
+    <i class="fa fa-plus-square mr-2"></i>Select Column</button>
+    <button [ngClass]=[tabletoolbar] (click)="selectTableOption('row')" [disabled]="(tableService.selectedRow.length ===0 && !tableService.selectTableCol) || tableService.selectedRow.length>1">
+        <i class="fa fa-plus-square mr-2"></i>Select Row</button>
+    <button [ngClass]=[tabletoolbar] (click)="selectTableOption('table')">
+         <i class="fa fa-plus-square mr-2" ></i>Select Table</button>
+</div>
+</div>
+
+<div class="dropdown">
+ <button [ngClass]=[btntable]>
+     <span class="btn-icon-wrap"title="Delete">
+         <img [src]="ImagePath.tableDelete" width="34px" class="imageblue" alt="img">
+     </span>
+ </button>
+ <div class="dropdown-content dropdownEvenSpaces top29">
+    <button [ngClass]=[tabletoolbar]
+    (click)="tabledeleteListAlert(cbpService.tableDataEntrySelected)"
+     [disabled]="(!cbpService.tableDataEntrySelected && tableService.selectedCellDatentry.length ===0)
+     || (!cbpService.tableDataEntrySelected || tableService.selectedRow.length !=1)">
+        <i class="fa fa-plus-square mr-2 "></i>Delete Entry</button>
+    <button [ngClass]=[tabletoolbar]
+    [disabled]="tableService.isTableSelectedElement||cbpService.selectedElement.isEmbededObject && cbpService.embeddedType || tableService.selectedRow.length===0" title="Delete Column"
+    [hidden] = "cbpService.coverPageViewEnable"
+    (click)="deleteSelectedCell(cbpService.selectedElement)">
+        <i class="fa fa-plus-square mr-2 "></i>Delete Cell</button>
+    <button [ngClass]=[tabletoolbar]
+    [disabled]="tableService.isTableSelectedElement||(cbpService.selectedElement.isEmbededObject && cbpService.embeddedType) ||
+  (tableService.selectedRow.length ===0 && !tableService.selectTableCol)|| isSelectColumn" title="Delete Column"
+  [hidden] = "cbpService.coverPageViewEnable"
+    (click)="deleteSelectedColumnItem()" >
+        <i class="fa fa-plus-square mr-2 "></i>Delete Column</button>
+    <button [ngClass]=[tabletoolbar]
+    (click)="deleteSelectedRow(tableService.tableRowPosition)"
+    [disabled]="tableService.isTableSelectedElement||(cbpService.selectedElement.isEmbededObject && 
+    cbpService.embeddedType) || (tableService.selectedRow.length ===0) || cbpService.coverPageSinglerow">
+        <i class="fa fa-plus-square mr-2 "></i>Delete Row</button>
+    <button [ngClass]=[tabletoolbar]
+    (click)="deleteTable()"
+    [hidden] = "cbpService.coverPageViewEnable && !cbpService.selectedElement.subTabe"
+    [disabled]="cbpService.selectedElement.isEmbededObject && cbpService.embeddedType">
+        <i class="fa fa-plus-square mr-2 "></i>Delete Table</button>
+</div>
+</div>
+</ng-container>
+<ng-container *ngIf="windowWidth < 1350">
+    <div *ngIf="cbpService.selectedElement" class="dropdown"  [class.disabled]="(cbpService.selectedElement?.isEmbededObject || cbpService.selectedElement?.type==='embedded')">
+        <button class="dropbtn mr-2 buttns buttonscl">
+            <img [src]="ImagePath.tableRowAbove" width="34px" class="imageblue" alt="img">
+    </button>
+        <div  class="dropdown-content currentdropdown table-iconsHeight tableDropdownCu">
+            <div class="col-md-12 col-lg-12 current paddingsZero">
+                <div class="row">
+                    <div class="col-md-12 col-lg-12">
+
+                        <div class="col-md-12 col-lg-12 pt-2 pb-2 ">
+                            <div class="row">
+                                <div class="col-3 col-sm-3 col-md-3 col-lg-3 pl-0 marginfive">
+                                    <button [ngClass]=[btntable]
+                                    (click)="addRow('top')" [disabled]="cbpService.selectedElement.isEmbededObject && cbpService.embeddedType ">
+                                        <span class="btn-icon-wrap"title="Table Row Above">
+                                            <img [src]="ImagePath.tableRowAbove" width="34px" class="imageblue" alt="img">
+                                        </span>
+                                    </button>
+                                </div>
+                                <div class="col-3 col-sm-3 col-md-3 col-lg-3 pl-0 marginfive">
+                                    <button [ngClass]=[btntable]
+                                    (click)="addRow('bottom')" [disabled]="cbpService.selectedElement.isEmbededObject && cbpService.embeddedType">
+                                        <span class="btn-icon-wrap"title="Table Row Below">
+                                            <img [src]="ImagePath.tableRowBelow" width="34px" class="imageblue" alt="img">
+                                        </span>
+                                    </button>
+
+                                </div>
+                                <div class="col-3 col-sm-3 col-md-3 col-lg-3 pl-0 marginfive">
+                                    <button [ngClass]=[btntable]
+                                    (click)="addColumn('left')" [disabled]="cbpService.selectedElement.isEmbededObject && cbpService.embeddedType||
+                                    diableTable">
+                                        <span class="btn-icon-wrap"title="Column Left">
+                                            <img [src]="ImagePath.tableColumnLeft" width="34px" class="imageblue" alt="img">
+                                        </span>
+                                    </button>
+                                </div>
+                                <div class="col-3 col-sm-3 col-md-3 col-lg-3 pl-0 marginfive">
+                                    <button [ngClass]=[btntable]
+                                    (click)="addColumn('right')" [disabled]="cbpService.selectedElement.isEmbededObject && cbpService.embeddedType||
+                                    diableTable" >
+                                        <span class="btn-icon-wrap"title="Column Right">
+                                            <img [src]="ImagePath.tableColumnRight" width="34px" class="imageblue" alt="img">
+                                        </span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-container>
+ <ng-container *ngIf="(windowWidth  > 1350)">
+ <button [ngClass]=[btntable]
+ (click)="addRow('top')" [disabled]="cbpService.selectedElement.isEmbededObject && cbpService.embeddedType ">
+     <span class="btn-icon-wrap"title="Table Row Above">
+         <img [src]="ImagePath.tableRowAbove" width="34px" class="imageblue" alt="img">
+     </span>
+ </button>
+
+ <button [ngClass]=[btntable]
+ (click)="addRow('bottom')" [disabled]="cbpService.selectedElement.isEmbededObject && cbpService.embeddedType">
+     <span class="btn-icon-wrap"title="Table Row Below">
+         <img [src]="ImagePath.tableRowBelow" width="34px" class="imageblue" alt="img">
+     </span>
+ </button>
+
+ <button [ngClass]=[btntable]
+ (click)="addColumn('left')" [disabled]="cbpService.selectedElement.isEmbededObject && cbpService.embeddedType ||
+ diableTable">
+     <span class="btn-icon-wrap"title="Column Left">
+         <img [src]="ImagePath.tableColumnLeft" width="34px" class="imageblue" alt="img">
+     </span>
+ </button>
+
+ <button [ngClass]=[btntable]
+ (click)="addColumn('right')" [disabled]="cbpService.selectedElement.isEmbededObject && cbpService.embeddedType ||
+ diableTable" >
+     <span class="btn-icon-wrap"title="Column Right">
+         <img [src]="ImagePath.tableColumnRight" width="34px" class="imageblue" alt="img">
+     </span>
+ </button>
+</ng-container>
+<ng-container *ngIf="windowWidth < 1350">
+    <div *ngIf="cbpService.selectedElement" class="dropdown"  [class.disabled]="(cbpService.selectedElement?.isEmbededObject)">
+        <button class="dropbtn mr-2 buttns buttonscl">
+            <img [src]="ImagePath.tableMerge" width="34px" class="imageblue" alt="img">
+    </button>
+        <div  class="dropdown-content currentdropdown table-iconsHeight tableDropdownCu">
+            <div class="col-md-12 col-lg-12 current paddingsZero">
+                <div class="row">
+                    <div class="col-md-12 col-lg-12">
+
+                        <div class="col-md-12 col-lg-12 pt-2 pb-2 ">
+                            <div class="row">
+                                <div class="col-3 col-sm-3 col-md-3 col-lg-3 pl-0 marginfive">
+
+                                <button [ngClass]=[btntable]
+                                (click)="mergeTable(cbpService.selectedElement)">
+                                    <span class="btn-icon-wrap"title="Merge">
+                                        <img [src]="ImagePath.tableMerge" width="34px" class="imageblue" alt="img">
+                                    </span>
+                                </button>
+                                </div>
+                                <div class="col-3 col-sm-3 col-md-3 col-lg-3 pl-0 marginfive">
+                                    <button [ngClass]=[btntable] [disabled]="tableService.selectedRow.length > 1"  (click)="splitCell();">
+                                        <span class="btn-icon-wrap"title="Split">
+                                            <img [src]="ImagePath.tableSplit" width="34px" class="imageblue" alt="img">
+                                        </span>
+                                    </button>
+
+                                </div>
+                                <div class="col-3 col-sm-3 col-md-3 col-lg-3 pl-0 marginfive">
+                                    <div class="dropdowninside">
+                                        <button class="dropbtniside mr-2 buttnstable buttonscltable">
+                                            <img [src]="ImagePath.tableTextDirection" width="34px" class="imageblue" alt="img">
+                                        </button>
+
+                                        <div class="dropdown-content-inside currenttabledropdown dropdownEvenSpaces">
+                                            <button [ngClass]=[tabletoolbar] (click)="setDirectionText(true, false, false)">
+                                                <i class="fa fa-plus-square mr-2"></i>Horizontal (Default)</button>
+                                             <button [ngClass]=[tabletoolbar] (click)="setDirectionText(false, true, false)">
+                                               <i class="fa fa-plus-square mr-2"></i>Vertical (Top to Bottom)</button>
+                                              <button [ngClass]=[tabletoolbar] (click)="setDirectionText(false, false, true)">
+                                               <i class="fa fa-plus-square mr-2"></i>Vertical (Bottom to Top)</button>
+                                        </div>
+                                        </div>
+
+                                </div>
+                                <div class="col-3 col-sm-3 col-md-3 col-lg-3 pl-0 marginfive">
+                                    <div class="dropdowninside">
+                                        <button class="dropbtniside mr-2 buttnstable buttonscltable">
+                                            <img [src]="ImagePath.tableBorders" width="34px" class="imageblue" alt="img">
+                                        </button>
+
+                                        <div class="dropdown-content-inside currenttabledropdown dropdownEvenSpaces">
+                                            <button [ngClass]=[tabletoolbar] (click)="borderHide('Top')">
+                                                <i class="fa fa-plus-square mr-2 "></i>Top</button>
+                                            <button [ngClass]=[tabletoolbar] (click)="borderHide('Bottom')">
+                                                <i class="fa fa-plus-square mr-2 "></i>Bottom</button>
+                                            <button [ngClass]=[tabletoolbar] (click)="borderHide('Left')">
+                                                <i class="fa fa-plus-square mr-2 "></i>Left</button>
+                                            <button [ngClass]=[tabletoolbar] (click)="borderHide('Right')">
+                                                <i class="fa fa-plus-square mr-2 "></i>Right</button>
+                                        </div>
+                                        </div>
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    </ng-container>
+    <ng-container *ngIf="(windowWidth  > 1350)">
+ <button [ngClass]=[btntable]
+  (click)="mergeTable(cbpService.selectedElement)">
+     <span class="btn-icon-wrap"title="Merge">
+         <img [src]="ImagePath.tableMerge" width="34px" class="imageblue" alt="img">
+     </span>
+ </button>
+
+ <button [ngClass]=[btntable]  [disabled]="tableService.selectedRow.length > 1"  (click)="splitCell()">
+    <span class="btn-icon-wrap"title="Split">
+        <img [src]="ImagePath.tableSplit" width="34px" class="imageblue" alt="img">
+    </span>
+</button>
+
+
+ <div class="dropdown">
+     <button class="dropbtn mr-2 buttns buttonscl ToolbarBtn">
+         <img [src]="ImagePath.tableTextDirection" width="34px" class="imageblue" alt="img">
+     </button>
+     <div class="dropdown-content dropdownEvenSpaces top26">
+        <button [ngClass]=[tabletoolbar] (click)="setDirectionText(true, false, false)">
+         <i class="fa fa-plus-square mr-2"></i>Horizontal (Default)</button>
+      <button [ngClass]=[tabletoolbar] (click)="setDirectionText(false, true, false)">
+        <i class="fa fa-plus-square mr-2"></i>Vertical (Top to Bottom)</button>
+       <button [ngClass]=[tabletoolbar] (click)="setDirectionText(false, false, true)">
+        <i class="fa fa-plus-square mr-2"></i>Vertical (Bottom to Top)</button>
+    </div>
+ </div>
+
+ <div class="dropdown">
+  <button class="dropbtn mr-0 buttns buttonscl ToolbarBtn" [disabled]="tableService.selectedRow.length ===0 ">
+      <img [src]="ImagePath.tableBorders" width="34px" class="imageblue" alt="img">
+  </button><span class="marginRightandLeft">|</span>
+  <div class="dropdown-content dropdownEvenSpaces top26">
+    <button [ngClass]=[tabletoolbar] (click)="borderHide('Top')">
+        <i class="fa fa-plus-square mr-2 "></i>Top</button>
+    <button [ngClass]=[tabletoolbar] (click)="borderHide('Bottom')">
+        <i class="fa fa-plus-square mr-2 "></i>Bottom</button>
+    <button [ngClass]=[tabletoolbar] (click)="borderHide('Left')">
+        <i class="fa fa-plus-square mr-2 "></i>Left</button>
+    <button [ngClass]=[tabletoolbar] (click)="borderHide('Right')">
+        <i class="fa fa-plus-square mr-2 "></i>Right</button>
+  </div>
+</div>
+</ng-container>
+<notifier-container></notifier-container>

@@ -1,0 +1,18 @@
+.close-tracker{
+    color: #aaa;
+    float: right;
+    font-size: 16px;
+    font-weight: 500;
+}
+.date{
+    margin-left: 10px;
+}
+.by{
+    margin-right: 3px;
+}
+.pd{
+    padding: 5px 6px 5px;
+}
+.comments{
+    padding: 10px 6px;
+}

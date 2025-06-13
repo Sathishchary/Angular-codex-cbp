@@ -1,0 +1,75 @@
+<div class="col-lg-12 col-md-12 px-2 scroll-rs"
+[class.disabled]="(cbpService.selectedElement?.isEmbededObject && cbpService.selectedElement?.property?.type == 'Dynamic')">
+    <div class="row">
+        <div class="col-md-12 col-lg-12 col-sm-12 pt-2 col-xs-12">
+            <label> Type</label>
+            <select class="form-control" [(ngModel)]="cbpService.selectedElement.selectedDgType"
+                [disabled]="cbpService.selectedElement.number.indexOf('.0') === 1 || cbpService.embeddedType"
+                (change)="changeSubType(cbpService.selectedElement.selectedDgType)">
+                <option [value]="dgType.Section">Section</option>
+                <option [value]="dgType.StepAction">Step</option>
+            </select>
+        </div>
+        <div class="col-lg-12 col-md-12 pt-2">
+            <label>Number</label>
+            <p class="form-control numb bg-9" [innerHtml]="cbpService.selectedElement.number"
+                disabled required="" type="text"></p>
+        </div>
+        <ng-container *ngIf="!cbpService.isBackGroundDocument">
+            <div class="col-lg-12 col-md-12 pt-2 dp-flex" *ngIf="getSequenceType() == SequenceTypes.DGSEQUENCES">
+                <label class="checkbox-inline flexAlign">
+                    <input type="checkbox" (focus)="onFocusEvent()"
+                        [disabled]="cbpService.selectedElement.isEmbededObject && cbpService.embeddedType"
+                        (click)="checkAndChangesNumberedSteps($event);"
+                        [checked]="cbpService.selectedElement.numberedChildren">&nbsp;&nbsp; <span
+                        class="checkbox_lbleposition ">Numbered Steps</span>
+                </label>
+            </div>
+            <ng-container *ngIf="!cbpService.isBackGroundDocument">
+                <div class="col-lg-12 col-md-12 pt-2 dp-flex">
+                    <label class="checkbox-inline flexAlign">
+                        <input type="checkbox" value="" [(ngModel)]="cbpService.selectedElement.acknowledgementReqd"
+                            (focus)="onFocusEvent()"
+                            [disabled]="cbpService.selectedElement.isEmbededObject && cbpService.embeddedType"
+                            (click)="checkBoxAudit($event, AuditTypes.PROPERTY_ACK_REQ, {propName: 'acknowledgementReqd'})">
+                        &nbsp;&nbsp;<span class="checkbox_lbleposition">Acknowledgement Required</span>
+                    </label>
+                </div>
+                <div class="col-lg-12 col-md-12 pt-1">
+                    <app-dg-unique-idproperty
+                    [(dgUniqueID)]="cbpService.selectedElement.dgUniqueID"></app-dg-unique-idproperty>
+                </div>
+                <div class="col-md-12 col-lg-12 col-sm-12">
+                    <lib-basic-section-prop></lib-basic-section-prop>
+                </div>
+                <app-rule-info [selectedElement]="cbpService.selectedElement" [hideComponent]="true"></app-rule-info>
+                <div class="propertyBorder card p-0 w-sticky"
+                    *ngIf="cbpService.cbpJson.documentInfo[0]?.dynamicDocument">
+                    <!-- bg-light -->
+                    <!-- && cbpService.selectedElement?.dgSequenceNumber?.includes('.0') -->
+                    <h5 class="col-md-12 col-lg-12 col-sm-12 background-step">Dynamic Property</h5>
+                    <div class="scroll-OF" [class.disabled-dynamic]="cbpService.selectedElement?.protectDynamic">
+                        <div class="col-lg-12 col-md-12 pt-2 dp-flex">
+                            <label class="checkbox-inline flexAlign">
+                                <input type="checkbox" [(ngModel)]="cbpService.selectedElement.dynamic_section"
+                                    (change)="setDynamicSection($event, 1)"
+                                    [disabled]="(cbpService.selectedElement.isEmbededObject && cbpService.embeddedType) ||
+                                    cbpService.selectedElement.protectDynamic">
+                                &nbsp;<span class="checkbox_lbleposition">Dynamic Section</span>
+                            </label>
+                        </div>
+                        <div class="col-lg-12 col-md-12 pt-2 dp-flex"
+                            [class.disabled]="!cbpService.selectedElement.dynamic_section">
+                            <label class="checkbox-inline flexAlign">
+                                <input type="checkbox" [(ngModel)]="cbpService.selectedElement.hide_section"
+                                    (change)="setDynamicHideSection($event, 0)"
+                                    [disabled]="(cbpService.selectedElement.isEmbededObject && cbpService.embeddedType) || !cbpService.selectedElement.dynamic_section">
+                                &nbsp;<span class="checkbox_lbleposition">Hide Section</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </ng-container>
+    </div>
+</div>

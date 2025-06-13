@@ -1,0 +1,28 @@
+<h5 class="heading" *ngIf="property?.title">{{property?.title}}</h5>
+<div class="col-lg-12 col-md-12 pt-2"
+ [class.propertyDataHeight]="!field.isTableDataEntry"
+ [ngClass]="{'px-0': field.isTableDataEntry && !cbpService.isSearchTemplate &&
+ cbpService.selectedElement.dgUniqueID !== field.dgUniqueID,
+ 'px-2': !field.isTableDataEntry,
+ 'pl-0 pr-0': cbpService.isSearchTemplate}">
+    <div class="row" *ngIf="property?.fieldName">
+      <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 mb-1">
+        <span> Field Name</span>
+        <input class="form-control numb"
+         (blur)="checkNameExistOrnot()" (focus)="onFocusEvent()"  class="form-control"
+         [disabled]="cbpService.selectedElement.isEmbededObject && cbpService.embeddedType" placeholder=""
+         (keypress)="builderService.checkNameEvent($event)" (paste)="builderService.checkPasteEvent($event)"
+         [(ngModel)]="cbpService.selectedElement.fieldName" required="" type="text"  type="text">
+    </div>
+    </div>
+  <div class="row">
+      <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+          <span> Data Type</span>
+         <app-show-dg-type [dgType]="property.dgType" [disabled]="true"></app-show-dg-type>
+      </div>
+       <div class="col-md-12 col-lg-12 col-sm-12 pt-2 col-xs-12">
+        <app-dg-unique-idproperty [(dgUniqueID)]="property.dgUniqueID"></app-dg-unique-idproperty>
+      </div>
+ </div>
+</div>
+

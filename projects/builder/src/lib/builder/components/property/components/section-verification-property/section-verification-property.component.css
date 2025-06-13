@@ -1,0 +1,9 @@
+.checkbox_lbleposition{
+    font-size: 12px !important;
+  }
+  .checkbox-inline{
+    font-size: 12px !important;
+  }
+  /* PRODFIX-1669 */
+label.flexAlign {display: flex;align-items: center;}
+/* PRODFIX-1669 End*/

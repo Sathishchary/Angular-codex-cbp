@@ -1,0 +1,24 @@
+<a class="track"
+[ngClass]="{
+  'veri' : field.dgType === dgType.QA || field.dgType === dgType.Peer || 
+  field.dgType === dgType.Independent || field.dgType === dgType.Concurrent,
+  'alert' : field.dgType === dgType.Warning || field.dgType === dgType.Caution || 
+  field.dgType === dgType.Alara || field.dgType === dgType.Note,
+  'stepInfo' : field.dgType === dgType.StepInfo,
+  'date-track': field.dgType == dgType.DateDataEntry,
+  'dataEntry': field.dgType === dgType.NumericDataEntry || field.dgType === dgType.BooleanDataEntry ||
+      field.dgType === dgType.VerificationDataEntry || field.dgType === dgType.FormulaDataEntry,
+      'label': (field.dgType === dgType.LabelDataEntry && field?.prompt),
+      'label2': (field.dgType === dgType.LabelDataEntry && !field?.prompt),
+   'sign' : field.dgType === dgType.SignatureDataEntry,
+   'initial': field.dgType === dgType.InitialDataEntry,
+   'link': field.dgType === dgType.Link,
+   'media': field.dgType === dgType.Figures,
+   'textarea':field.dgType === dgType.TextAreaDataEntry,
+   'table':  field.dgType === dgType.Form,
+   'formula' :  field.dgType === dgType.FormulaDataEntry,
+   'textbox' : field.dgType === dgType.TextDataEntry,
+   'checkbox':  field.dgType === dgType.CheckboxDataEntry,
+   'para': field.dgType === dgType.Para
+}"
+*ngIf="showTrackChange && cbpService.showUpdates"> |</a>

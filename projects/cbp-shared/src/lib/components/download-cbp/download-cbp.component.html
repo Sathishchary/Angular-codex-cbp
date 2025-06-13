@@ -1,0 +1,25 @@
+<div class="modal fade" id="saveCbpModal" tabindex="-1" role="dialog " data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document " style="width: 600px;">
+        <div class="modal-content " style="margin-top: 17%;">
+            <lib-modal-popup [title]="'File Name'" (closeEvent)="closeModal()"
+            [footerList]="[{type:'Ok', disabled: !fileName}, {type: 'Cancel'}]"
+            (submitButtons)="$event.type === 'Ok' && setCbpZipDownload(); $event.type === 'Cancel' && closeModal(); ">
+            <div class="modal-body pb-0 pt-2" style="height:150px">
+                <div class="col-md-12 col-lg-12 pt-2 pl-0 pr-0" style="padding:50px!important">
+                    <div class="row">
+                        <div class="col-lg-2 col-md-2 pr-0 pt-1">
+                            <label>File Name</label>
+                        </div>
+                        <div class="col-lg-10 col-md-10" >
+                            <input type="text" class="form-control" style="height:28px!important"
+                             (input)="updateView()"
+                             (keydown.enter)="setCbpZipDownload()" [(ngModel)]="fileName" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </lib-modal-popup>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,27 @@
+.initalname{
+    right: 25px !important;
+    top: 28px !important;
+}
+.initialsign{
+    top: 19px !important;
+    right: 10px !important;
+}
+.signature-sign{
+    top: 20px !important;
+    right: 10px !important;
+}
+.signaturename{
+    top: 34px !important;
+    right: 16px !important;
+}
+.signature-date{
+    top: 34px !important;
+    right: 18px !important;
+}
+.signature-initial{
+    top: 20px;
+    right: 25px;
+}
+.role-required{
+    right: 10px !important;
+}

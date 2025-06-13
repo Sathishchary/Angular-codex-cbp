@@ -1,0 +1,59 @@
+<nav class="navbar navbar-fixed-top" [class.zindex]="cbp">
+    <div class="container-fluid borders" [class.cbpshodow]="cbp">
+        <div class="navbar-brand" [class.cbp]="cbp" [class.pl-0]="cbp">
+            <a class="btn-toggle-fullwidth pointer">
+                <i *ngIf="topBarInfo.showNav" id="bar" class="fa fa-bars e-point" (click)="changeSideBar()"></i>
+                <span class="name e-point mrg" (click)="gotoAdmin()">
+                    <img class="top-logo lgh" [src]="topBarInfo.logo" (error)="handleError($event)" alt="">
+                </span>
+            </a>
+        </div>
+        <div class="navbar-brand hidden-xs" *ngIf="isTitleEnable">
+            <a class="def">{{titleInfo}}</a>
+        </div>
+        <div class="navbar-brand hidden-xs twid"  *ngIf="propertyDocument">
+            <h6 class="prop title">{{propertyDocument?.number}}<span *ngIf="propertyDocument?.revision || propertyDocument?.number">/</span>{{propertyDocument?.revision}}<span *ngIf="documentType">({{documentType}})</span></h6>
+            <h6 class="title">{{propertyDocument?.title}}</h6>
+        </div>
+        <div class="navbar-right" [class.cbp]="cbp">
+            <ul class="list-unstyled clearfix mb-0 mrgleft">
+                <li>
+                    <div id="navbar-menu brl">
+                        <ul class="nav navbar-nav">
+                            <ng-content></ng-content>
+                            <li class="dropdown">
+                                <a href="javascript:void(0);" class="dropdown-toggle icon-menu" data-toggle="dropdown">
+                                    <img class="rounded-circle" [src]="topBarInfo.userLogo" width="30" alt="">
+                                </a>
+                                <div class="dropdown-menu animated flipInY user-profile">
+                                    <div class="d-flex p-2 align-items-center">
+                                        <div class="drop-left m-r-10">
+                                            <img [src]="topBarInfo.userLogo" class="rounded ProfileRounded" alt="">
+                                        </div>
+                                        <div class="drop-right">
+                                            <h4 class="user-title">{{topBarInfo.userName}}</h4>
+                                            <p class="user-name">{{topBarInfo.userEmail}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="p-2 drop-list">
+                                        <ul class="list-unstyled">
+                                            <!-- <li><a><i class="icon-user"></i>My Profile</a></li>
+                                                 <li><a ><i class="icon-envelope-open"></i>Messages</a></li>
+                                              <li><a ><i class="icon-settings"></i>Settings</a></li> -->
+                                            <li (click)="openMyProfile()" class="pointer"><a>
+                                                <img src="assets/emedia/images/myprofile.png" class="rounded IconsCu" alt="">My Profile</a></li>
+                                            <li class="divider"></li>
+                                            <li (click)="openMyAbout()" class="e-point"><a><img src="assets/emedia/images/about.png" class="rounded IconsCu" alt="">About</a></li>
+                                            <li class="divider"></li>
+                                            <li><a (click)="logout()"><img src="assets/emedia/images/Logout.png" class="rounded IconsCu" alt="">Logout</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

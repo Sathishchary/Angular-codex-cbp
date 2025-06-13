@@ -1,0 +1,87 @@
+.track{
+    color: red;
+    position: relative;
+    top: 0px;
+    left: -3px;
+}
+.stepInfo{
+    left: -6px !important;
+}
+.alert{
+    position: absolute !important;
+    top: -12px  !important;
+    left: -37px  !important;
+}
+.dataEntry{
+    position: absolute !important;
+    top: 4px;
+    left: -18px;
+}
+.date-track{
+    position: absolute !important;
+    top: 8px;
+    left: -18px;
+}
+.veri{
+    position: absolute !important;
+    top: 4px;
+    left: -11px;
+}
+.label{
+    /* top: 17px; */
+    top: 0px;
+    left: -18px;
+}
+.label2{
+    top: 0px;
+    left: -18px;
+}
+.sign{
+    position: absolute !important;
+    top: 7px;
+    left: -18px; 
+}
+.initial{
+    color: red;
+    top: 16px;
+    left: -26px;
+}
+.formula{
+    /* position: absolute; */
+    top: 4px;
+    /* left: 43px; */
+}
+.link{
+    position: absolute;
+    top: 4px;
+    left: -19px;
+}
+.media{
+    position: absolute;
+    left: -7px;
+    top: 5px;
+}
+.textarea{
+    position: absolute !important;
+    top: 3px;
+    left: -7px;
+}
+.table{
+    top:16px;
+    left:-12px;
+}
+.textbox{
+    position: absolute !important;
+    top:4px;
+    left:-17px;
+}
+.checkbox{
+    position: absolute !important;
+    top:8px;
+    left:-17px;
+}
+.para{
+    position: relative !important;
+    top:2px;
+    left:-18px;
+}

@@ -1,0 +1,61 @@
+.disabled {
+  pointer-events: none !important;
+  cursor: default !important;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.opacity {
+  opacity: 0.5 !important;
+  pointer-events: none !important;
+  cursor: default !important;
+}
+
+.readonly {
+  pointer-events: none !important;
+  cursor: default !important;
+}
+
+.input-group-text {
+  padding: 6px !important;
+}
+
+:host ng-deep .flatpickr-wrapper {
+  position: relative;
+  width: inherit !important;
+  width: 100% !important;
+}
+
+.input-css {
+  right: 1px !important;
+  position: absolute;
+  /* z-index: 9999; */
+}
+
+.calender-icon {
+  padding: 6px 10px;
+  font-size: 12px;
+  border-left: 1px solid #cccc;
+}
+
+.colorWhite {
+  background-color: white !important;
+}
+
+.input-group-prepend {
+  margin-right: 0px;
+}
+:host ::ng-deep  .flatpickr-calendar.static.open {
+  position: absolute !important;
+  /* right: 0 !important; */
+}
+
+:host ::ng-deep  .flatpickr-calendar:before, .flatpickr-calendar:after{
+  left: 85%;
+}
+.form-control{
+  background-color: #e9ecef;
+  opacity: 1;
+}

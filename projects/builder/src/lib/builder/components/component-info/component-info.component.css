@@ -1,0 +1,13 @@
+.componentinfo{
+  width:60% !important;
+  border-radius: 0;
+}
+.compoinfotop{
+  padding-top:0px!important;
+}
+.modalfooter{
+  padding:5px 0px 0px 16px !important;
+}
+.savebutton{
+  border: 1px solid #eaeaea!important;
+}

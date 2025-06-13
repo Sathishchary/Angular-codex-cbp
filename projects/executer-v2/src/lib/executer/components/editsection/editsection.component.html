@@ -1,0 +1,171 @@
+<div class="modal" id="editStepTitle" tabindex="-1" [class.hide]="signatureEnabled"
+ role="dialog" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+        <lib-modal-popup [title]="'Field Change Criteria'" (closeEvent)="closeModal()"
+            [footerList]="footerList"
+            (submitButtons)="changeEvent($event)">
+          <div class="modal-body" [class.disabled]="isUpdated">
+            <div class="row dp-flex" *ngIf="firstPage">
+              <ng-container *ngFor="let item of questions; let i = index">
+                <div class="col-md-10 col-lg-10 pb-2">
+                  <p class="p-mar">{{item?.question}}</p>
+              </div>
+              <div class="col-md-2 col-lg-2 dp-flex pb-2">
+                <input type="radio" id="yes" name="criteria_one{{i}}" (click)="viewUpdated()"
+                  [(ngModel)]="item['criteria']" (ngModelChange)="viewUpdated()"  value="Yes" class="input-control mr-1"> <span class="mr-1">Yes</span>
+                <input type="radio" id="no" name="criteria_one{{i}}" (click)="viewUpdated()"
+                  [(ngModel)]="item['criteria']"  (ngModelChange)="viewUpdated()"  value="No"  class="input-control mr-1"> <span class="mr-1">No</span>
+              </div>
+              </ng-container>
+            </div>
+
+           <ng-container *ngIf="secondPage">
+            <div class="col-md-12 col-lg-12 pl-0">
+              <div class="row disableview">
+                  <div class="col-lg-3 col-md-12 pr-0" >
+                      <label>Number</label>
+                      <input class="f13" disable type="text" class="form-control" value="{{modal.number}}">
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-12 col-lg-12 pl-0 pt-2">
+              <div class="row">
+                <div class="col-lg-12 col-md-12 pr-0">
+                    <label>Original Text</label>
+                    <fieldset class="changeValue f13" style="min-height: 32px;"> <span class="titledbreak" [innerHTML]="modal.title"></span></fieldset>
+                </div>
+            </div>
+          </div>
+          <div class="col-md-12 col-lg-12 pl-0 pt-2">
+              <div class="row">
+                <div class="col-lg-12 col-md-12 pr-0">
+                    <label>New Text</label>
+                    <span class="req"><i class="fa fa-star" aria-hidden="true"></i></span>
+                    <textarea class="f13" type="text" class="form-control" rows="1"
+                      [(ngModel)]="modal.newTextValue"  (input)="newTextChange($event)"  (ngModelChange)="saveButton($event)" name="title"></textarea>
+                </div>
+              </div>
+          </div>
+          <div class="col-md-12 col-lg-12 pl-0 pt-2">
+              <div class="row">
+                <div class="col-lg-12 col-md-12 pr-0 disabled">
+                    <label>New Display Text</label>
+                    <fieldset class="changeValue">
+                    <span class="titledbreak red LineMiddleToText" [hidden]="!valueChanged">
+                      <del  [innerHtml]="modal.title | innerhtml"></del></span><br>
+                    <span class="titledbreak red LineMiddleToText" [hidden]="!valueChanged" 
+                    [innerHtml]="modal.newTextValue | innerhtml"></span>
+                  </fieldset>
+                </div>
+              </div>
+          </div>
+          <div class="col-md-12 col-lg-12 pl-0 pt-2">
+              <div class="row">
+                <div class="col-lg-12 col-md-12 pr-0">
+                <label>Reason</label>
+                <span class="req"><i class="fa fa-star" aria-hidden="true"></i></span>
+                <textarea [(ngModel)]="modal.reason" (input)="saveButton($event)" name="message" name="desc"
+                class="form-control" rows="2" cols="28" required=""></textarea>
+               </div>
+              </div>
+          </div>
+          <div class="col-md-12 col-lg-12 pl-0 pt-2">
+            <div class="row">
+              <div class="col-lg-12 col-md-12 pr-0">
+             <p class="approval">Approval</p>
+             </div>
+            </div>
+          <div class="col-md-12 col-lg-12 pl-0 pr-0 pt-2">
+              <div class="row">
+                <div class="col-lg-5 col-md-5 pr-0">
+                <label>Signature</label>
+                <span class="req"><i class="fa fa-star" aria-hidden="true"></i></span>
+                <fieldset class="fieldSetTable"  (click)="getSignatureData(modal, 'signature');"
+                style="display: flex;justify-content: flex-start;">
+                <span *ngIf="!modal?.signature || executionService.isPlaceDispaly" class="sign-ex" alt="">Sign</span>
+                <img *ngIf="modal?.signature"  [src]="signatureValue"
+                style="height: 45px; width:auto;margin:0 auto;object-fit: contain;" alt="">
+              </fieldset>
+               </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-5 col-md-5 pr-0 pt-2">
+                  <label>Reviewer / Approver Name</label>
+                  <ng-container
+                    *ngTemplateOutlet="dynamicInput; context: { $implicit: modal['reviewerName'], update: updateUserInfo.bind(this,'reviewerName'), stepObject: modal, placeholder: 'Enter User Name', isRequired:executionService.authenticatorConfig?.verification?.username_is_required == 1 , isReadOnly:(modal.reviewerName && modal.authenticator && modal.authenticatorreviewerName) || modal.isUserNameEditable == 0, 
+                      editorVar:'userNameEditorOpened',editorOpenedAtr:userNameEditorOpened,modelName:'reviewerName',isNotes:false,
+                      isDisable:(modal.reviewerName && modal.authenticator && modal.authenticatorreviewerName) || modal.isUserNameEditable == 0}"></ng-container>
+                </div>
+                <div class="col-lg-5 col-md-5 pr-0 pt-2">
+                  <label>User Id</label>
+                  <ng-container
+                    *ngTemplateOutlet="dynamicInput; context: { $implicit: modal['userId'], update: updateUserInfo.bind(this,'userId'), stepObject: modal, placeholder: 'Enter User ID',
+                     isRequired:executionService.authenticatorConfig?.verification?.username_is_required == 1 ,
+                     isReadOnly:(modal.userId && modal.authenticator  && modal.authenticatoruserId ) || modal.isUserIdEditable == 0,
+                     editorVar:'userIdEditorOpened',editorOpenedAtr:userIdEditorOpened,modelName:'userId',
+                     isDisable:(modal.userId && modal.authenticator && modal.authenticatoruserId) || modal.isUserIdEditable == 0,isNotes:false}"></ng-container>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-12 col-md-12 pr-0 pt-2">
+                  <label>Comment</label>
+                  <ng-container
+                    *ngTemplateOutlet="dynamicInput; context: { $implicit: modal['comment'], update: updateUserInfo.bind(this,'comment'), stepObject: modal, placeholder: 'Enter Notes',
+                        isRequired:false , isReadOnly:false, editorVar:'userNotesEditorOpened',editorOpenedAtr:userNotesEditorOpened,modelName:'comment',isNotes:true,isDisable:false}"></ng-container>
+                </div>
+              </div>
+          </div>
+          </div>
+        </ng-container>
+         <ng-container class="row dp-flex" *ngIf="thirdPage">
+          <div class="col-md-10 col-lg-10 pb-2">
+              <p class="p-mar">{{DEFAULT_MESSAGE}}</p>
+          </div>
+        </ng-container>
+        </div>
+        </lib-modal-popup>
+      </div>
+  </div>
+</div>
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px', fullScreenBackdrop:false}"> </ngx-loading>
+
+<ng-template #dynamicInput let-modelVariableName="modelVariableName" let-update="update" let-stepObject="stepObject"
+  let-isRequired="isRequired" let-placeholder="placeholder" let-isReadOnly="isReadOnly"
+  let-editorOpenedAtr="editorOpenedAtr" let-modelName="modelName" let-isNotes="isNotes" let-editorVar="editorVar" let-isDisable="isDisable">
+  <span *ngIf="isRequired" class="req"> <i class="fa fa-star"></i></span>
+  <div>
+    <!-- Text Input -->
+    <ng-container *ngIf="isNotes && !stepObject?.isHtmlView">
+      <textarea name="www.dataglance.com" [ngModel]="getValue(modelName)"  [placeholder]="placeholder"
+        (ngModelChange)="update($event,modelVariableName)" name="Comment" class="form-control" rows="2" cols="30"
+        required=""> </textarea>
+    </ng-container>
+    <ng-container *ngIf="!isNotes">
+      <input *ngIf="!stepObject?.isHtmlView" type="text" class="form-control form-control-height"
+        [placeholder]="placeholder" name="textDataEntry{{stepObject?.dgUniqueID}}" [class.dis-cols] ="isDisable"
+        id="{{modelName}}{{stepObject?.dgUniqueID}}" [ngModel]="getValue(modelName)"
+        (ngModelChange)="update($event,modelVariableName);saveButton('')" [readonly]="isReadOnly" />
+    </ng-container>
+    <!-- Rich Text Area or View Mode -->
+    <ng-container *ngIf="stepObject?.isHtmlView">
+      <div *ngIf="(!executionService.isPopupOpened) && editorOpenedAtr; else textUserView"
+        id="{{modelName}}{{stepObject?.dgUniqueID}}" [ngClass]="{'black': stepObject?.isTableDataEntry}"
+        style="margin-top:-6px">
+        <lib-text-editor [hidePopup]="true" [input]="getValue(modelName)" [stepObject]="stepObject"
+          [foreColor]="cbpService.documentInfo?.color" [config]="isNotes ? notesConfig : userConfig"
+          (updateTitle)="update($event,modelVariableName)" [signatureConfig] ="'verificationStyles'"
+          (close)="update($event,modelVariableName); saveSignatureUserInfo(stepObject, $event, editorVar)"
+           (mouseOutEvent)="openOrCloseEditor(editorVar,false)"
+          (blur)="saveSignatureUserInfo(stepObject, $event,editorVar)"></lib-text-editor>
+      </div>
+     <ng-template #textUserView>
+        <div style="display: flex;">
+          <div [class.dis-cols]="isDisable || isReadOnly" class="form-control hiddens textOverflowControl"
+            (click)="!isReadOnly && openOrCloseEditor(editorVar,true)"
+            [ngClass]="{ 'notes-height': isNotes }" [innerHtml]="getValue(modelName) | innerhtml" id="{{modelName}}{{stepObject?.dgUniqueID}}"></div>
+        </div>
+      </ng-template>
+    </ng-container>
+  </div>
+</ng-template>

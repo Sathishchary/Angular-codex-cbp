@@ -1,0 +1,83 @@
+ <div class="modal" id="commentsCrModal" tabindex="-1" role="dialog " data-backdrop="static"
+  data-keyboard="false">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+        <lib-modal-popup [title]="typeOfModal" (closeEvent)="cancel()"
+        [footerList]="[{type: 'Cancel'}]" (submitButtons)="cancel()">
+        <div class="modal-body">
+          <ng-container *ngIf="typeOfModal === 'Comments'">
+          <ng-container *ngFor="let item of stepComments;let last=last ; let i = index ">
+            <div class="col-md-12 col-lg-12 pl-0 pt-0">
+              <div class="row">
+                  <div class="col-lg-6 col-md-6 col-sm-6 pr-0">
+                    <label>Type</label>
+                    <input class="disabled form-control"  type="text" readonly [value]="item.type ? item.type : item?.commentNewType">
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-12 col-lg-12 pl-3 pt-0">
+              <div class="row">
+                  <div class="col-md-12 col-lg-12 pl-0 pt-2 pb-2 pr-0">
+                      <label>Comments</label>
+                      <textarea name="comments" class="disabled form-control"  [value]="item.comments" rows="3" cols="30" required=""></textarea>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-6 pl-0  pr-0 pb-2">
+                    <label>User Name</label>
+                    <input class="disabled form-control"  type="text" readonly [value]="item.createdBy">
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-6 pr-0 pb-2">
+                    <label>Updated Date & Time</label>
+                    <input class="disabled form-control"  type="text" readonly [value]="item.createdDate| date:'short'">
+                </div>
+                  <hr *ngIf="!last" class="line">
+              </div>
+
+          </div>
+          </ng-container>
+
+          </ng-container>
+
+          <ng-container *ngIf="typeOfModal === 'Change Request'">
+            <ng-container *ngFor="let item of stepCrArrayData; let last=last">
+            <div class="col-md-12 col-lg-12 pl-0 pt-2">
+              <div class="row">
+                  <div class="col-lg-6 col-md-6 col-sm-6 pr-0">
+                      <label>Type</label>
+                      <input class="disabled form-control" type="text"  [value]="item?.crType?.cdvalDisplay">
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-6 pr-0">
+                    <label>Reason</label>
+                    <input class="disabled form-control" type="text" [value]="item?.reasonType ? item?.reasonType : item?.reasonCode">
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-12 col-lg-12 pl-3 pt-0">
+              <div class="row">
+                  <div class="col-md-12 col-lg-12 pl-0 pt-2 pr-0">
+                      <label>Title</label>
+                      <textarea name="crtitle" [value]="item.title" class="disabled form-control f13" rows="3" cols="30" required=""></textarea>
+                  </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12 col-lg-12 pl-0 pt-2 pb-2 pr-0">
+                    <label>Description</label>
+                    <textarea name="cr"  [value]="item.description" class="disabled form-control f13" rows="3" cols="30" required=""></textarea>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 pl-0 pr-0">
+                  <label>User Name</label>
+                  <input class="disabled form-control" type="text"  [value]="item.createdBy">
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 pr-0">
+                  <label>Updated Date & Time</label>
+                  <input class="disabled form-control" type="text"  [value]="item.createdDate| date:'short'">
+                </div>
+                <hr *ngIf="!last" class="line">
+            </div>
+          </div>
+          </ng-container>
+          </ng-container>
+       </div>
+       </lib-modal-popup>
+      </div>
+  </div>
+</div>

@@ -1,0 +1,121 @@
+<div class="modal-content">
+  <input [hidden]="true" id="fileUploadSignature" type="file" accept=".jpeg,.gif,.png,.jpg,.pipeg,.tiff,.jfif"
+    (click)="onInputClick($event)" (change)="uploadSig($event)">
+  <lib-modal-popup [title]="title" (closeEvent)="closeModal()"
+    [footerList]="footerList"
+    (submitButtons)="$event.type=== 'Upload' && uploadImage();$event.type=== 'Clear' && clear();
+      $event.type === 'Save & Protect' && protectEntireCbp();
+      $event.type=== 'Save' && setSignature(); $event.type=== 'Cancel' && closeModal();
+    $event.type=== 'Set As Default' && setAsDefault();$event.type=== 'Remove Default' && removeDefault();">
+    <div class="modal-body sign-image pb-3">
+      <div class="col-md-12 col-lg-12 pl-0 pr-0 pt-0">
+        <div class="sign-canvas">
+          <signature-pad *ngIf="!isUploadImage" [options]="signaturePadOptions" (onBeginEvent)="drawStart()"
+            (onEndEvent)="drawComplete()" class="overflowWidthControl">
+          </signature-pad>
+          <div *ngIf="isUploadImage && signature!== ''">
+            <img [src]="signature" alt="uploadimage" style=" height: auto;width: 281px;">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12 col-lg-12 pl-0 pr-0 pt-2" *ngIf="isSignatureEnabled">
+        <div class="row">
+          <div class="col-md-4 col-lg-4 pr-0">
+            <label>Reviewer / Approver Name</label>
+            <ng-container *ngTemplateOutlet="dynamicInput; context: { $implicit: userName, update: updateUserName.bind(this,'userName'), stepObject: userNameStep, placeholder: 'Enter User Name', isRequired:isUserNameRequired == 1 , isReadOnly:userNameEditable == 0, editorVar:'userNameEditorOpened',editorOpenedAtr:userNameEditorOpened,modelName:'userName',isNotes:false}"></ng-container>
+            <!-- <span  *ngIf ="isUserNameRequired == 1" class="req"> <i class="fa fa-star"></i></span>
+            <input class="form-control" [readOnly]="userNameEditable == 0" (focusout)="updateFooterList()" [(ngModel)]="userName" type="text"> -->
+          </div>
+          <div class="col-md-4 col-lg-4">
+            <label>User Id</label>
+            <ng-container *ngTemplateOutlet="dynamicInput; context: { $implicit: userId, update: updateUserName.bind(this,'userId'), stepObject: userIdStep, placeholder: 'Enter User ID', isRequired:isUserIdRequired == 1 , isReadOnly:userIdEditable == 0, editorVar:'userIdEditorOpened',editorOpenedAtr:userIdEditorOpened,modelName:'userId',isNotes:false}"></ng-container>
+            <!-- <span *ngIf ="isUserIdRequired == 1" class="req"> <i class="fa fa-star"></i></span>
+            <input class="form-control" [readOnly]="userIdEditable == 0" (focusout)="updateFooterList()" [(ngModel)]="userId" type="text"> -->
+          </div>
+          <div class="col-md-4 col-lg-4 pl-0 dateAlignmant">
+            <label>Date</label>
+            <ng-container *ngTemplateOutlet="newDateTemplate"></ng-container>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 col-lg-12 pt-2">
+            <label>Notes</label>
+              <ng-container *ngTemplateOutlet="dynamicInput; context: { $implicit: commentInfo, update: updateUserName.bind(this,'commentInfo'), stepObject: commentStep, placeholder: 'Enter Notes', isRequired:false , isReadOnly:false, editorVar:'userNotesEditorOpened',editorOpenedAtr:userNotesEditorOpened,modelName:'commentInfo',isNotes:true}"></ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </lib-modal-popup>
+</div>
+
+<ng-template #newDateTemplate>
+  <div  style="display: flex;">
+  <div  class="input-group flat flatd">
+    <div class="flatpickr-wrapper wra" (click)="openDate()">
+       <p class="date" [innerHtml]="signatureDate | innerhtml"></p>
+      <div class="input-group-prepend"><span class="calender-icon">
+        <i class="fa fa-calendar"></i></span></div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+
+<ng-template #datePopupModal let-modal>
+  <div class="modal-content">
+    <lib-modal-popup [title]="'Signature Date'" (closeEvent)="cancel()"
+    [footerList]="[{ type: 'Clear' }, { type: 'Save' }, { type: 'Cancel' }]"
+    (submitButtons)="$event.type=== 'Clear' && clearDate(); $event.type=== 'Save' && save(); $event.type=== 'Cancel' && cancel();">
+    <div class="modal-body">
+       <input type="text" hidden>
+        <lib-date-time
+        [dateFormat]="documentInfo?.dateFormatNew" [inline]="true" [disabled]="true"
+        [dateIimeId]="dateTimeId" [placeholder]="'dd/mm/yyyy'" 
+        [noCalender]="false" [isEnableTime]="selectedSignture?.dgType == 'SignatureDataEntry' ? (selectedSignture?.isTimeDisplayOpen || selectedSignture?.timePromptDisplay):true"
+        [(dataField)]="signatureDate" (dataFieldChange)="changeDate($event)">
+     </lib-date-time>
+    </div>
+    </lib-modal-popup>
+  </div>
+
+</ng-template>
+
+<ng-template #dynamicInput let-modelVariableName="modelVariableName" let-update="update" let-stepObject="stepObject"
+  let-isRequired="isRequired" let-placeholder="placeholder" let-isReadOnly="isReadOnly"
+  let-editorOpenedAtr="editorOpenedAtr" let-modelName="modelName" let-isNotes="isNotes" let-editorVar="editorVar">
+  <span *ngIf="isRequired" class="req"> <i class="fa fa-star"></i></span>
+  <div>
+    <!-- Text Input -->
+    <ng-container *ngIf="isNotes && !stepObject?.isHtmlView">
+      <textarea name="www.dataglance.com" [ngModel]="getValue(modelName)"  [placeholder]="placeholder"
+        (ngModelChange)="update($event,modelVariableName)" name="Comment" class="form-control" rows="2" cols="30"
+        required=""> </textarea>
+    </ng-container>
+    <ng-container *ngIf="!isNotes">
+      <input *ngIf="!stepObject?.isHtmlView" type="text" class="form-control form-control-height"
+        [placeholder]="placeholder" name="textDataEntry{{stepObject?.dgUniqueID}}"
+        id="{{modelName}}{{stepObject?.dgUniqueID}}" [ngModel]="getValue(modelName)"
+        (ngModelChange)="update($event,modelVariableName);updateFooterList()" [readonly]="isReadOnly" />
+    </ng-container>
+
+    <!-- Rich Text Area or View Mode -->
+    <ng-container *ngIf="stepObject?.isHtmlView">
+      <div *ngIf="(!executionService.isPopupOpened) && editorOpenedAtr; else textUserView"
+        id="{{modelName}}{{stepObject?.dgUniqueID}}" [ngClass]="{'black': stepObject?.isTableDataEntry}"
+        style="margin-top:-6px">
+        <lib-text-editor [hidePopup]="true" [input]="getValue(modelName)" [stepObject]="stepObject"
+          [foreColor]="documentInfo?.color" [config]="isNotes ? notesConfig : userConfig"
+          (updateTitle)="update($event,modelVariableName)" [signatureConfig] ="'verificationStyles'"
+          (close)="saveSignatureUserInfo(stepObject, $event, editorVar)"
+          (mouseOutEvent)="openOrCloseEditor(editorVar,false)"
+          (focusout)="updateFooterList()"></lib-text-editor>
+      </div>
+      <ng-template #textUserView>
+        <div style="display: flex;">
+          <div [class.dis-cols]="isReadOnly" class="form-control hiddens textOverflowControl" (click)=" !isReadOnly && openOrCloseEditor(editorVar,true)"
+            [ngClass]="{ 'notes-height': isNotes }" [innerHtml]="getValue(modelName) | innerhtml" id="{{modelName}}{{stepObject?.dgUniqueID}}"></div>
+        </div>
+      </ng-template>
+    </ng-container>
+  </div>
+</ng-template>

@@ -1,0 +1,15 @@
+
+<button (click)="gotoExecutor()" class="btn btn-primary">Go to Executor</button>
+<div *ngIf="isExecutor">
+<app-pageview [userApi]="userAPIInfo" ></app-pageview>
+</div>
+<div *ngIf="!isExecutor">
+    <!-- <pre>cbpJson Obtained is: {{ cbpJson | json }}</pre> -->
+    <pre>dataJson Obtained is: {{ dataJson | json }}</pre>
+    <pre>styleJson Obtained is: {{ styleJson | json }}</pre>
+    <pre>styleImageJson Obtained is: {{ styleImageJson | json }}</pre>
+    <pre>layoutJson Obtained is: {{ layoutJson | json }}</pre>
+    <pre>defaultStyleImageJson Obtained is: {{ defaultStyleImageJson | json }}</pre>
+    <pre>execution_order Obtained is: {{ execution_order | json }}</pre>
+    <pre>ACTIVE_CBP_PATH Obtained is: {{ ACTIVE_CBP_PATH | json }}</pre>
+</div>

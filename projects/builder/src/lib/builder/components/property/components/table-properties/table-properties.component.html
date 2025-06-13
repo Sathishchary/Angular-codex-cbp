@@ -1,0 +1,969 @@
+<div class="col-lg-12 col-md-12 px-2 table-height pad-b1">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 pt-2 ">
+            <label>Data Type</label>
+            <input type="text" readonly class="form-control" value="Table" />
+        </div>
+        <div class="col-lg-12 col-md-12 pt-2 ">
+            <label>Table Name</label>
+            <input type="text" class="form-control" readonly
+                [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType"
+                [(ngModel)]="selectedElement.tableName" (blur)="checkTableNameExistOrnot()" (focus)="onFocusEvent()"
+                (keydown)="builderService.checkNameEvent($event)" name="table" placeholder="Table Name" />
+        </div>
+
+        <ng-container [ngTemplateOutlet]="uniqueDropdown"
+            [ngTemplateOutletContext]="{'$implicit': selectedElement.dgUniqueID, 'num':true}">
+        </ng-container>
+
+        <div class="col-lg-12 col-md-12 pt-2" *ngIf="!isCoverPage">
+            <div class="row">
+                <div class="col-lg-5 col-md-5 pt-1">
+                    <button class="btn btn-icon btn-sm btn-test width100"
+                        [ngClass]="{'indexColor': selectedElement?.tableRules?.length>0 }"
+                        (click)="cbpService.tableRuleOpen = true; cbpService.isRulesOpen = true" data-placement="top"
+                        data-toggle="tooltip" title="Table Rule" [disabled]="cbpService.tableDataEntrySelected?.isEmbededObject &&
+                   cbpService.embeddedType">
+                        Table Rule
+                    </button>
+                </div>
+                <div class="col-lg-12 col-md-12 pt-1">
+                  
+                    <div class="col-lg-12 col-md-12 pt-1">
+                        <div class="row additionalFlex">
+                            <div class="col-md-7 pl-0"> <label for="checkid" class="firstrow"> Exclude Rows </label>
+                            </div>
+                            <div class="col-md-5">
+                                <input min="0" (keypress)="cbpService.validateNumberField($event,cbpService.selectedElement['rowsCount'])"
+                                    (paste)="cbpService.validatePasteContentForNumberField($event,'Table Rows')" 
+                                    (ngModelChange)="updateViewTrack()" 
+                                    [max]="cbpService.selectedElement?.calstable[0]?.table.tgroup.tbody[0]?.row.length"
+                                    name="textbox{{selectedElement?.dgUniqueID}}"
+                                    [(ngModel)]="cbpService.selectedElement['rowsCount']" class="form-control checktop"
+                                    type="number" id="DataEntry{{selectedElement?.dgUniqueID}}">
+                            </div>
+                        </div>
+                        <span style="color: red;float: right;" *ngIf="isTableRowMaxExceeded">
+                            Value can't be exceed {{cbpService.selectedElement?.calstable[0]?.table.tgroup.tbody[0]?.row.length}}
+                       </span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div *ngIf="cbpService.selectedTableCol" class="col-md-12 col-lg-12 pt-2">
+            <div>
+                <h5 class="heading-column">Property Column</h5>
+                <div class="col-lg-12 col-sm-12 col-md-12 px-0 pb-1 pt-1">
+                    <label>Title</label>
+                    <input class="form-control" disabled type="text" [value]="cbpService.selectedColTitle"
+                        placeholder="">
+                </div>
+                <div class="col-lg-12 col-md-12 pt-0 mt-0 pl-0">
+                    <div class="col-lg-12 col-md-12 pl-0 pt-1">
+                        <button class="btn btn-icon btn-sm btn-test" [ngClass]="{'indexColor': cbpService.tableDataEntrySelected?.Security?.Role?.length>0 || cbpService.tableDataEntrySelected?.Security?.Qualification?.length>0 || cbpService.tableDataEntrySelected?.Security?.QualificationGroup?.length>0,
+                    'btn-outline-secondary': cbpService.tableDataEntrySelected?.Security?.Role?.length ==0 && cbpService.tableDataEntrySelected?.Security?.Qualification?.length == 0 && cbpService.tableDataEntrySelected?.Security?.QualificationGroup?.length ==0
+                    }" (click)="cbpService.isRoleQualOpen = true" data-placement="top" data-toggle="tooltip"
+                            title="Role/Qualification"
+                            [disabled]="cbpService.tableDataEntrySelected?.isEmbededObject && cbpService.embeddedType">
+                            Role/Qualification
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div *ngIf="isCoverPage" class="col-md-12 col-lg-12 pt-2">
+            <div class="col-lg-12 col-md-12 pl-0 pt-1">
+                <button class="btn btn-icon btn-sm btn-test" [ngClass]="{'indexColor': cbpService.tableDataEntrySelected?.Security?.Role?.length>0 || cbpService.tableDataEntrySelected?.Security?.Qualification?.length>0 || cbpService.tableDataEntrySelected?.Security?.QualificationGroup?.length>0,
+            'btn-outline-secondary': cbpService.tableDataEntrySelected?.Security?.Role?.length ==0 && cbpService.tableDataEntrySelected?.Security?.Qualification?.length == 0 && cbpService.tableDataEntrySelected?.Security?.QualificationGroup?.length ==0
+            }" (click)="cbpService.isRoleQualOpen = true" data-placement="top" data-toggle="tooltip"
+                    title="Role/Qualification"
+                    [disabled]="cbpService.tableDataEntrySelected?.isEmbededObject && cbpService.embeddedType">
+                    Role/Qualification
+                </button>
+            </div>
+        </div> -->
+
+        <div *ngIf="cbpService?.tableDataEntrySelected && (!cbpService.selectedTableCol )" class="col-md-12 col-lg-12">
+            <div class="row">
+                <div class="col-md-12 col-lg-12 pt-2 pl-1 pr-1">
+                    <h5 class="heading background-step"> Cell Attribute </h5>
+                </div>
+                <div class="col-lg-12 col-md-12">
+                    <div class="row">
+                        <!--Label Data Entry-->
+                        <div class="col-md-12 col-lg-12 pt-2"
+                            *ngIf="cbpService.tableDataEntrySelected?.dgType !== dgType.Para &&
+                            cbpService.tableDataEntrySelected?.dgType !== dgType.Figures &&
+                            cbpService.tableDataEntrySelected?.dgType !== dgType.Figure && 
+                            cbpService.tableDataEntrySelected?.dgType !== dgType.LabelDataEntry && (cbpService.coverPageViewEnable ? this.cbpService?.tableDataEntrySelected?.coverType == undefined ? true :false  : true)">
+                            <label>Field Name</label>
+                            <ng-container>
+                                <input type="text" class="form-control" (blur)="tablefieldNameExistOrNot()"
+                                    [(ngModel)]="cbpService.tableDataEntrySelected['fieldName']"
+                                    (focus)="onFocusEventTable()" (ngModelChange)="updateViewTrack()" (keypress)="builderService.checkNameEvent($event)" (paste)="builderService.checkPasteEvent($event)"
+                                    (focusout)="tablePropertyCreateAuditEntry(AuditTypes.PROPERTY_TABLE_NAME,{propName: 'fieldName'})"
+                                    name="table" />
+                            </ng-container>
+                        </div>
+                        <!-- Cover page Attribute entry  -->
+                        <div class="col-md-12 col-lg-12 pt-2"
+                            *ngIf="cbpService.tableDataEntrySelected?.dgType !== dgType.Para &&
+                        cbpService.tableDataEntrySelected?.dgType !== dgType.LabelDataEntry && cbpService.coverPageViewEnable && this.cbpService?.tableDataEntrySelected?.property ">
+                            <label>Attribute Name</label>
+                            <ng-container>
+                                <input type="text" class="form-control" (blur)="tablefieldNameExistOrNot()"
+                                    [disabled]="true" [(ngModel)]="cbpService.tableDataEntrySelected['property']"
+                                    (focus)="onFocusEventTable()" 
+                                    (focusout)="tablePropertyCreateAuditEntry(AuditTypes.PROPERTY_TABLE_NAME,{propName: 'fieldName'})"
+                                    name="table" />
+                            </ng-container>
+                        </div>
+                        <div class="col-md-12 col-lg-12 pt-2"
+                        *ngIf="cbpService.tableDataEntrySelected?.dgType !== dgType.Para &&
+                    cbpService.tableDataEntrySelected?.dgType !== dgType.LabelDataEntry && cbpService.coverPageViewEnable && this.cbpService?.tableDataEntrySelected?.property ">
+                        <label>Attribute UniqueID</label>
+                        <ng-container>
+                            <input type="text" class="form-control" (blur)="tablefieldNameExistOrNot()"
+                                [disabled]="true" [(ngModel)]="cbpService.tableDataEntrySelected['dgUniqueID']"
+                                (focus)="onFocusEventTable()"
+                                (focusout)="tablePropertyCreateAuditEntry(AuditTypes.PROPERTY_TABLE_NAME,{propName: 'fieldName'})"
+                                name="table" />
+                        </ng-container>
+                    </div>
+                        <!-- Cover page Attribute entry End -->
+                        <div class="cpol-md-12 col-lg-12 pt-2"
+                            *ngIf="cbpService.tableDataEntrySelected?.dgType === dgType.TextDataEntry || cbpService.tableDataEntrySelected?.dgType === dgType.TextAreaDataEntry">
+                            <div class="row">
+                                <div class="col-md-6 col-lg-6 pr-0"
+                                    *ngIf="cbpService.tableDataEntrySelected?.dataType !== 'Dropdown'">
+                                    <label>Data Type</label>
+                                    <select class="form-control" [(ngModel)]="cbpService.tableDataEntrySelected.dgType"
+                                        (focus)="onFocusEventTable()"
+                                        [disabled]="cbpService.tableDataEntrySelected.isEmbededObject && cbpService.embeddedType || cbpService.tableDataEntrySelected?.dgType === dgType.TextAreaDataEntry"
+                                        (ngModelChange)="changeTableEntryType(cbpService.tableDataEntrySelected.dgType);updateViewTrack();tablePropertyCreateAuditEntry(AuditTypes.PROPERTY_TABLE_DGTYPE,{propName: 'dgType'})">
+                                        <ng-container *ngFor="let item of typetextarraList">
+                                            <option [value]="item.type"> {{item.display}} </option>
+                                        </ng-container>
+                                    </select>
+                                </div>
+                                <!--Text Data Entry-->
+                                <div class="col-md-6 col-lg-6" *ngIf="cbpService?.tableDataEntrySelected?.dgType ===dgType.TextDataEntry ||
+                                    cbpService?.tableDataEntrySelected?.dgType ===dgType.TextAreaDataEntry ">
+                                    <ng-container *ngIf="cbpService.tableDataEntrySelected?.dataType !== 'Dropdown'">
+                                        <label>Max Size</label>
+                                        <input type="number" [(ngModel)]="cbpService.tableDataEntrySelected.MaxSize"
+                                            (focus)="onFocusEventTable()" (blur)="keyPressEvent($event)" min="0" (ngModelChange)="updateViewTrack()"
+                                            (focusout)="tablePropertyCreateAuditEntry(AuditTypes.PROPERTY_TABLE_LENGTH,{propName: 'MaxSize'})"
+                                            class="form-control" name="table" />
+                                    </ng-container>
+                                    <ng-container *ngIf="cbpService.tableDataEntrySelected.dataType == 'Dropdown'">
+                                        <label> Data Type</label>
+                                        <select class="form-control" [disabled]="true">
+                                            <option value="volvo">Dropdown</option>
+                                        </select>
+                                    </ng-container>
+                                </div>
+                            </div>
+                            <ng-container [ngTemplateOutlet]="uniqueDropdown"
+                                [ngTemplateOutletContext]="{'$implicit': cbpService.tableDataEntrySelected.dgUniqueID, 'text':true}">
+                            </ng-container>
+                        </div>
+
+                        <!-- table text , text area -->
+                        <ng-container *ngIf="(cbpService?.tableDataEntrySelected?.dgType ===dgType.TextDataEntry ||
+                              cbpService?.tableDataEntrySelected?.dgType ===dgType.TextAreaDataEntry)
+                              && cbpService.tableDataEntrySelected?.dataType !== 'Dropdown' ">
+                            <ng-container *ngIf="cbpService.tableDataEntrySelected?.dgType === dgType.TextDataEntry">
+                                <div class="col-lg-12 col-md-12 pt-2 pr-0">
+                                    <div class="row dp-end">
+                                        <div class="col-md-9 col-lg-9 col-sm-12 col-xs-12">
+                                            <label>Value</label>
+                                            <select class="form-control"
+                                                [(ngModel)]="cbpService.tableDataEntrySelected.valueType"
+                                                (ngModelChange)="updateViewTrack()"
+                                                [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType"
+                                                (click)="valueTypeRequired(cbpService.tableDataEntrySelected.valueType)"
+                                                (focus)="onFocusEventTable()"
+                                                (focusout)="tablePropertyCreateAuditEntry(AuditTypes.PROPERTY_TABLE_VALUE,{propName: 'valueType'})">
+                                                <option value="Entered" selected>Entered</option>
+                                                <option value="Derived">Derived</option>
+                                                <option value="AutoPopulate">Auto Populate</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 pl-0 pr-0"
+                                            *ngIf="cbpService.tableDataEntrySelected.valueType === 'Derived'">
+                                            <button
+                                                class="mb-0 btn btn-icon btn-outline-secondary btn-outline-secondary btn-sm"
+                                                (click)="cbpService.isSetup = true" title="Setup"
+                                                [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType">
+                                                Setup
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12 pt-2 pl-3"
+                                    *ngIf="cbpService.tableDataEntrySelected.valueType === 'Derived'">
+                                    <textarea class="form-control" rows="5" readonly
+                                        [(ngModel)]="cbpService.tableDataEntrySelected.DisplayValue"
+                                        [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType"></textarea>
+                                </div>
+                                <div class="col-lg-12 col-md-12 mt-2"
+                                    *ngIf="cbpService.tableDataEntrySelected.valueType === 'AutoPopulate'">
+                                    <label>Value Option</label>
+                                    <select class="form-control"
+                                        [(ngModel)]="cbpService.tableDataEntrySelected.autoPopulate"
+                                        (focus)="onFocusEventTable()" (ngModelChange)="updateViewTrack()"
+                                        (focusout)="tablePropertyCreateAuditEntry(AuditTypes.PROPERTY_VALUE_OPTION,{propName: 'autoPopulate'})"
+                                        [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType">
+                                        <option value="CurrentUser" selected>Current User</option>
+                                        <option value="CurrentLogin">Current Login</option>
+                                        <option value="CurrentPersonnelID">Current Personnel ID</option>
+                                    </select>
+                                </div>
+
+                            </ng-container>
+                            <div class="col-md-12 col-lg-12 pt-2">
+                                <app-showlabel></app-showlabel>
+                            </div>
+                            <div class="col-lg-12 col-md-12 pt-1 dp-flex">
+                                <label class="checkbox-inline flexAlign">
+                                    <input type="checkbox" value=""
+                                        [(ngModel)]="cbpService.tableDataEntrySelected.required"
+                                        (ngModelChange)="updateLinkRequired();updateViewTrack()" (focus)="onFocusEventTable()"
+                                        (click)="checkBoxTableAudit($event, AuditTypes.PROPERTY_TABLE_REQ,{propName: 'required'})"
+                                        [checked]="cbpService.tableDataEntrySelected.required">
+                                    &nbsp;&nbsp;<span class="checkbox_lbleposition">Required</span>
+                                </label>
+                            </div>
+                            <ng-container [ngTemplateOutlet]="rulesInfo"></ng-container>
+                        </ng-container>
+
+                        <!-- table checkbox -->
+                        <div class="cpol-md-12 col-lg-12"
+                            *ngIf="cbpService.tableDataEntrySelected?.dgType === dgType.CheckboxDataEntry">
+                            <!-- pt-2 -->
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 pt-2">
+                                    <label>Data Type</label>
+                                    <input type="text" readonly="" value="Checkbox" class="form-control">
+                                </div>
+                                <ng-container [ngTemplateOutlet]="uniqueDropdown"
+                                    [ngTemplateOutletContext]="{'$implicit': cbpService.tableDataEntrySelected.dgUniqueID, 'num': true}">
+                                </ng-container>
+                                <div class="col-md-10 col-lg-10 dp-flex">
+                                    <label class="checkbox-inline pt-2 flexAlign"><input type="checkbox" value=""
+                                            [(ngModel)]="cbpService.tableDataEntrySelected.showLabel"
+                                            (focus)="onFocusEventTable()"
+                                            (ngModelChange)="updateViewTrack()"
+                                            (click)="checkBoxTableAudit($event, AuditTypes.PROPERTY_TABLE_SHOWLABEL,{propName: 'showLabel'})"
+                                            [checked]="cbpService.tableDataEntrySelected?.showLabel" name="checkbox">
+                                        <span class="checkbox_lbleposition"> &nbsp;&nbsp;Show
+                                            Label</span></label>
+                                </div>
+                                <div class="col-md-12 col-lg-12 pt-2"
+                                    *ngIf="cbpService?.tableDataEntrySelected?.showLabel">
+                                    <div class="row">
+                                        <div class="col-md-6 col-lg-6 dp-flex">
+                                            <label class="checkbox-inline flexAlign">
+                                                <input type="radio"
+                                                    [checked]="cbpService.tableDataEntrySelected.checkboxSide === 'right' ? true: false"
+                                                    (focus)="onFocusEventTable()"
+                                                    (click)="checkBoxTableAudit($event, AuditTypes.PROPERTY_TABLE_RIGHT,{propName: 'checkboxSide'})"
+                                                    name="samename" id="customTop"
+                                                    (change)="setCheckBoxSide('right')">&nbsp;<span
+                                                    class="radioCustom">Right</span>
+                                            </label>
+                                        </div>
+                                        <div class="col-md-6 col-lg-6 leftZero dp-flex">
+                                            <label class="checkbox-inline flexAlign">
+                                                <input type="radio"
+                                                    [checked]="cbpService.tableDataEntrySelected.checkboxSide === 'left' ? true: false"
+                                                    (focus)="onFocusEventTable()"
+                                                    (click)="checkBoxTableAudit($event, AuditTypes.PROPERTY_TABLE_LEFT,{propName: 'checkboxSide'})"
+                                                    name="samename" id="custombottom"
+                                                    (change)="setCheckBoxSide('left')">&nbsp; <span
+                                                    class="radioCustom">Left</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12 pt-2 pr-0">
+                                    <div class="row">
+                                        <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                                            <label>Default</label>
+                                            <select class="form-control"
+                                                (change)="updateCheckBox(cbpService.tableDataEntrySelected.valueType, true)"
+                                                (ngModelChange)="updateViewTrack();"
+                                                [(ngModel)]="cbpService.tableDataEntrySelected.valueType"
+                                                [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType"
+                                                (focus)="onFocusEvent()">
+                                                <option value="Normal" selected>Normal</option>
+                                                <option value="Selected">Selected</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6 col-lg-6 leftAndrightCu">
+                                            <label> Size</label>
+                                            <input type="number" min="0" max="100"
+                                                (ngModelChange)="updateViewTrack()"
+                                                [(ngModel)]="cbpService.tableDataEntrySelected.dataEntrySize"
+                                                (focus)="onFocusEventTable()"
+                                                (focusout)="tablePropertyCreateAuditEntry(AuditTypes.PROPERTY_TABLE_DATAENTRYSIZE,{propName: 'dataEntrySize'})"
+                                                class="form-control" name="table" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- <div class="col-lg-12 col-md-12 pt-2 pr-0">
+                                    <div class="row">
+
+                                    </div>
+                                </div> -->
+                                <div class="col-lg-12 col-md-12 pt-2 mt-0 dp-flex">
+                                    <label class="checkbox-inline flexAlign">
+                                        <input type="checkbox" [(ngModel)]="cbpService.tableDataEntrySelected.required"
+                                            (ngModelChange)="updateViewTrack()" (focus)="onFocusEventTable()"
+                                            (click)="checkBoxTableAudit($event, AuditTypes.PROPERTY_TABLE_REQ,{propName: 'required'})"
+                                            [checked]="cbpService.tableDataEntrySelected.required">
+                                        &nbsp;&nbsp;<span class="checkbox_lbleposition">Required</span>
+                                    </label>
+                                </div>
+                                <ng-container [ngTemplateOutlet]="rulesInfo"></ng-container>
+                            </div>
+                            <!-- <lib-check-prop [isTableDataEntry]="true"
+                              [(selectedElement)]="cbpService.tableDataEntrySelected"
+                             ></lib-check-prop> -->
+
+                        </div>
+                        <!-- table para lable, sign, ini -->
+                        <div class="col-md-12 col-lg-12" [ngClass]="{'pt-0': cbpService.tableDataEntrySelected?.dgType === dgType.SignatureDataEntry ||
+                           cbpService.tableDataEntrySelected?.dgType === dgType.InitialDataEntry,
+                          'pt-2':cbpService.tableDataEntrySelected?.dgType !== dgType.SignatureDataEntry &&
+                           cbpService.tableDataEntrySelected?.dgType !== dgType.InitialDataEntry
+                           }" *ngIf="cbpService.tableDataEntrySelected?.dgType === dgType.LabelDataEntry ||
+                             cbpService.tableDataEntrySelected?.dgType === dgType.Para ||
+                             cbpService.tableDataEntrySelected?.dgType === dgType.SignatureDataEntry ||
+                             cbpService.tableDataEntrySelected?.dgType === dgType.InitialDataEntry">
+                            <lib-basic-property [property]="{
+                                dgType: cbpService.tableDataEntrySelected?.dgType.replace('DataEntry',''),
+                                dgUniqueID: cbpService.tableDataEntrySelected?.dgUniqueID }"
+                                (nameExistEvent)="checkNameExistOrnot()" [field]="cbpService.tableDataEntrySelected">
+                            </lib-basic-property>
+                        </div>
+
+                        <ng-container *ngIf="cbpService.tableDataEntrySelected?.dgType === dgType.SignatureDataEntry ||
+                        cbpService.tableDataEntrySelected?.dgType === dgType.InitialDataEntry">
+                            <div class="col-lg-12 col-md-12 pt-1 dp-flex">
+                                <label class="checkbox-inline  flexAlign">
+                                    <input type="checkbox"
+                                        [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType"
+                                        [(ngModel)]="cbpService.tableDataEntrySelected.required"
+                                        (ngModelChange)="updateLinkRequired()" (focus)="onFocusEventTable()"
+                                        (click)="checkBoxTableAudit($event, AuditTypes.PROPERTY_TABLE_REQ,{propName: 'required'})"
+                                        [checked]="cbpService.tableDataEntrySelected.required">
+                                    &nbsp;&nbsp; <span class="checkbox_lbleposition">Required</span>
+                                </label>
+                            </div>
+                            <div class="col-lg-12 col-md-12 pl-0 dp-flex">
+                                <div class="col-lg-12 col-md-12 pt-2 dp-flex">
+                                    <label class="checkbox-inline flexAlign">
+                                      <input type="checkbox" value=""
+                                             [(ngModel)]="cbpService.tableDataEntrySelected.notesPromptDispaly"
+                                             (ngModelChange)="tableNotes($event)">
+                                      &nbsp;&nbsp;<span>Display Notes?</span>
+                                    </label>
+                                </div>
+                                </div>
+
+                        </ng-container>
+                        <ng-container *ngIf="cbpService.tableDataEntrySelected?.dgType === dgType.SignatureDataEntry ||
+                        cbpService.tableDataEntrySelected?.dgType === dgType.InitialDataEntry"
+                            [ngTemplateOutlet]="rulesInfoCheck"></ng-container>
+                        <!-- table Dropdown  -->
+
+                        <div class="col-md-12 col-lg-12 pt-0"
+                            *ngIf="cbpService.tableDataEntrySelected?.dataType == 'Dropdown'">
+                            <div class="row">
+                                <ng-container>
+                                    <div class="col-lg-12 col-md-12 bottom-p mb-1">
+                                        <button
+                                            class="btn btn-icon btn-outline-secondary btn-outline-secondary btn-sm table-choice-height"
+                                            (click)="tableService.isTableDropDown = true; cbpService.dropItems = true"
+                                            title="Rules"
+                                            [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType">
+                                            Add/Edit Choice
+                                        </button>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 pt-2"
+                                        *ngIf="cbpService.tableDataEntrySelected?.choice.length>0">
+                                        <div class="col-lg-12 col-md-12 px-0 add-editchoice dataOverflowControl">
+                                            <table class="table table-bordered add-tablebordered">
+                                                <tbody>
+                                                    <tr
+                                                        *ngFor="let item of cbpService.tableDataEntrySelected?.choice;let i = index;">
+                                                        <td class="pad-7">{{item}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </ng-container>
+
+                                <div class="col-md-12 col-lg-12 pt-2"> <app-showlabel></app-showlabel></div>
+                                <div class="col-lg-12 col-md-12 pt-1 dp-flex">
+                                    <label class="checkbox-inline flexAlign">
+                                        <input type="checkbox"
+                                            [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType"
+                                            [(ngModel)]="cbpService.tableDataEntrySelected.required"
+                                            (ngModelChange)="updateViewTrack()" (focus)="onFocusEventTable()"
+                                            (click)="checkBoxTableAudit($event, AuditTypes.PROPERTY_TABLE_REQ,{propName: 'required'})"
+                                            [checked]="cbpService.tableDataEntrySelected.required">
+                                        &nbsp;&nbsp; <span class="checkbox_lbleposition">Required</span>
+                                    </label>
+                                </div>
+
+                                <ng-container [ngTemplateOutlet]="rulesInfoCheck"></ng-container>
+                            </div>
+                        </div>
+
+                        <!-- table number  -->
+                        <div class="col-md-12 col-lg-12 pt-2"
+                            *ngIf="cbpService.tableDataEntrySelected?.dgType == dgType.NumericDataEntry">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12">
+                                    <label>Data Type</label>
+                                    <input type="text" readonly class="form-control"
+                                        [value]="cbpService.tableDataEntrySelected?.dgType.replace('DataEntry','')" />
+                                </div>
+                                <ng-container [ngTemplateOutlet]="uniqueDropdown"
+                                    [ngTemplateOutletContext]="{'$implicit': cbpService.tableDataEntrySelected.dgUniqueID, 'num': true}">
+                                </ng-container>
+                                <div class="col-lg-12 col-md-12 pt-2 pr-0">
+                                    <div class="row dp-end">
+                                        <div class="col-md-9 col-lg-9 col-sm-8 col-xs-12 pt-2">
+                                            <label>Value</label>
+                                            <select class="form-control"
+                                                [(ngModel)]="cbpService.tableDataEntrySelected.valueType"
+                                                (ngModelChange)="updateViewTrack()"
+                                                [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType"
+                                                (click)="valueTypeRequired(cbpService.tableDataEntrySelected.valueType)"
+                                                (focus)="onFocusEventTable()"
+                                                (focusout)="tablePropertyCreateAuditEntry(AuditTypes.PROPERTY_TABLE_VALUE,{propName: 'valueType'})">
+                                                <option value="Entered" selected>Entered</option>
+                                                <option value="Derived">Derived</option>
+                                                <option value="AutoPopulate">Auto Populate</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 col-md-4 pl-0 pr-0"
+                                            *ngIf="cbpService.tableDataEntrySelected.valueType === 'Derived'">
+                                            <button class="btn mb-0 btn-icon btn-outline-secondary btn-outline-secondary btn-sm"
+                                                (click)="cbpService.isSetup = true" title="Setup"
+                                                [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType">
+                                                Setup
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12 pt-2"
+                                    *ngIf="cbpService.tableDataEntrySelected.valueType === 'Derived'">
+                                    <textarea class="form-control" rows="5" readonly
+                                        [(ngModel)]="cbpService.tableDataEntrySelected.DisplayValue"
+                                        [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType"></textarea>
+                                </div>
+
+                                <div class="col-lg-12 col-md-12 pt-2"
+                                    *ngIf="cbpService.tableDataEntrySelected.valueType === 'AutoPopulate'">
+                                    <label>Value Option</label>
+                                    <select class="form-control"
+                                        [(ngModel)]="cbpService.tableDataEntrySelected.autoPopulate"
+                                        (ngModelChange)="updateViewTrack()"
+                                        (focus)="onFocusEventTable()"
+                                        (focusout)="tablePropertyCreateAuditEntry(AuditTypes.PROPERTY_VALUE_OPTION,{propName: 'autoPopulate'})"
+                                        [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType">
+                                        <option value="CurrentUser" selected>Current User</option>
+                                        <option value="CurrentLogin">Current Login</option>
+                                        <option value="CurrentPersonnelID">Current Personnel ID</option>
+                                    </select>
+                                </div>
+                             <div class="col-lg-12 col-md-12 pt-2">
+                                    <label>Decimal</label>
+                                    <input class="form-control property-decimal-height"
+                                        [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType"
+                                        [(ngModel)]="cbpService.tableDataEntrySelected.decimal" (ngModelChange)="updateViewTrack()"
+                                        (focus)="onFocusEventTable()" (paste)="cbpService.validateNumericInput($event,cbpService.tableDataEntrySelected.decimal,0,false)" (keypress)="cbpService.validateNumericInput($event,cbpService.tableDataEntrySelected.decimal,0,false)"
+                                        (focusout)="tablePropertyCreateAuditEntry(AuditTypes.PROPERTY_TABLE_DECIMAL,{propName: 'decimal'})"
+                                        (input)="decimalValid(cbpService.tableDataEntrySelected)" type="text">
+                                </div>
+                                <div class="col-lg-12 col-md-12 pt-2 dp-flex">
+                                    <label class="checkbox-inline flexAlign">
+                                        <input type="checkbox" value=""
+                                            [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType"
+                                            (ngModelChange)="updateViewTrack()"
+                                            [(ngModel)]="cbpService.tableDataEntrySelected.required"
+                                            (focus)="onFocusEventTable()"
+                                            (click)="checkBoxTableAudit($event, AuditTypes.PROPERTY_TABLE_REQ,{propName: 'required'})"
+                                            [checked]="cbpService.tableDataEntrySelected.required">
+                                        &nbsp;&nbsp; <span class="checkbox_lbleposition">Required</span>
+                                    </label>
+                                </div>
+                                <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 pt-1 dp-flex">
+                                    <label class="checkbox-inline flexAlign">
+                                        <input type="checkbox" value=""
+                                            [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType"
+                                            [(ngModel)]="cbpService.tableDataEntrySelected.unitsRequired"
+                                            (ngModelChange)="updateViewTrack()"
+                                            [checked]="cbpService.tableDataEntrySelected.unitsRequired"
+                                            (change)="selectUnitValue($event.target.checked)"
+                                            (focus)="onFocusEventTable()"
+                                            (click)="checkBoxTableAudit($event, AuditTypes.PROPERTY_TABLE_REQ_UNIT,{propName: 'unitsRequired'})">
+                                        &nbsp;&nbsp;<span>Requires Unit?</span>
+                                    </label>
+                                </div>
+                                <div class="col-lg-12 col-md-12 pt-1"
+                                    *ngIf="cbpService.tableDataEntrySelected.unitsRequired">
+                                    <label>Unit</label>
+                                    <input class="form-control"
+                                        [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType"
+                                        placeholder="" [(ngModel)]="cbpService.tableDataEntrySelected.units"
+                                        (ngModelChange)="checkUnit(cbpService.tableDataEntrySelected.units);updateViewTrack()"
+                                        (focus)="onFocusEventTable()"
+                                        (focusout)="unitValue(cbpService.tableDataEntrySelected);tablePropertyCreateAuditEntry(AuditTypes.PROPERTY_TABLE_UNIT,{propName: 'units'})"
+                                        required="" type="text">
+                                </div>
+                              <div class="col-lg-12 col-md-12 pt-1">
+                                    <label>Default Value</label>
+                                    <input class="form-control"
+                                        (paste)="cbpService.validateNumericInput($event,cbpService.tableDataEntrySelected.defaultValue,cbpService.tableDataEntrySelected.decimal)"
+                                        (keypress)="cbpService.validateNumericInput($event,cbpService.tableDataEntrySelected.defaultValue,cbpService.tableDataEntrySelected.decimal)"
+                                        [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType"
+                                        placeholder="" [(ngModel)]="cbpService.tableDataEntrySelected.defaultValue"
+                                        required="" type="text" (ngModelChange)="updateViewTrack()"
+                                        (mouseleave)="checkMaxValue(cbpService.tableDataEntrySelected)"
+                                        (focus)="onFocusEventTable()"
+                                        (focusout)="tablePropertyCreateAuditEntry(AuditTypes.PROPERTY_TABLE_DEFAULT_VALUE,{propName: 'defaultValue'})">
+                                </div>
+                                <div class="col-lg-12 col-md-12 pt-2">
+                                    <div class="row">
+                                       <div class="col-lg-6 col-md-6">
+                                            <label>Minimum</label>
+                                            <input (mouseleave)="checkMaxValue(cbpService.tableDataEntrySelected)"
+                                                (paste)="cbpService.validateNumericInput($event,cbpService.tableDataEntrySelected.minimum,cbpService.tableDataEntrySelected.decimal)"
+                                                (keypress)="cbpService.validateNumericInput($event,cbpService.tableDataEntrySelected.minimum,cbpService.tableDataEntrySelected.decimal)"
+                                                class="form-control" (ngModelChange)="updateViewTrack()"
+                                                [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType"
+                                                placeholder="" [(ngModel)]="cbpService.tableDataEntrySelected.minimum"
+                                                (focus)="onFocusEventTable()"
+                                                (focusout)="tablePropertyCreateAuditEntry(AuditTypes.PROPERTY_TABLE_MIN,{propName: 'minimum'})"
+                                                required="" type="text">
+                                        </div>
+                                       <div class="col-lg-6 col-md-6">
+                                            <label>Maximum</label>
+                                            <input (mouseleave)="checkMaxValue(cbpService.tableDataEntrySelected)"
+                                                (paste)="cbpService.validateNumericInput($event,cbpService.tableDataEntrySelected.maximum,cbpService.tableDataEntrySelected.decimal)"
+                                                (keypress)="cbpService.validateNumericInput($event,cbpService.tableDataEntrySelected.maximum,cbpService.tableDataEntrySelected.decimal)"
+                                                class="form-control" (ngModelChange)="updateViewTrack()"
+                                                [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType"
+                                                placeholder="" [(ngModel)]="cbpService.tableDataEntrySelected.maximum"
+                                                (focus)="onFocusEventTable()"
+                                                (focusout)="tablePropertyCreateAuditEntry(AuditTypes.PROPERTY_TABLE_MAX,{propName: 'maximum'})"
+                                                required="" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-lg-12 pt-2">
+                                    <app-showlabel></app-showlabel>
+                                </div>
+                                <ng-container [ngTemplateOutlet]="rulesInfo"></ng-container>
+                            </div>
+                        </div>
+
+                        <!-- tabe date and table boolean -->
+
+                        <div class="col-md-12 col-lg-12 pt-2"
+                            *ngIf="cbpService.tableDataEntrySelected?.dgType == dgType.DateDataEntry">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12">
+                                    <label>Data Type</label>
+                                    <input type="text" readonly class="form-control"
+                                        [value]="cbpService.tableDataEntrySelected?.dgType.replace('DataEntry','')" />
+                                </div>
+                                <ng-container [ngTemplateOutlet]="uniqueDropdown" [ngTemplateOutletContext]="{
+                                    '$implicit': cbpService.tableDataEntrySelected.dgUniqueID, 'num': true}">
+                                </ng-container>
+                                <div class="col-lg-12 col-md-12 pt-2 pl-0 ml-3">
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-5 pt-1 pr-0 dp-flex">
+                                            <label class="checkbox-inline flexAlign"
+                                                [class.disableviewNew]="!cbpService.tableDataEntrySelected.isTimeDisplayOpen">
+                                                <input type="checkbox" value="" (ngModelChange)="showDate()"
+                                                    [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType"
+                                                    [(ngModel)]="cbpService.tableDataEntrySelected.isDateDisplayOpen"
+                                                    (focus)="onFocusEventTable()"
+                                                    (click)="checkBoxTableAudit($event, AuditTypes.PROPERTY_TABLE_DATE_DISPLAY,{propName: 'isDateDisplayOpen'})"
+                                                    [checked]="cbpService.tableDataEntrySelected.isDateDisplayOpen">
+                                                &nbsp;&nbsp;<span>Date?</span>
+                                            </label>
+                                        </div>
+                                        <div class="col-lg-5 col-md-5 pt-1 pr-0 dp-flex">
+                                            <label class="checkbox-inline flexAlign"
+                                                [class.disableviewNew]="!cbpService.tableDataEntrySelected.isDateDisplayOpen">
+                                                <input type="checkbox" value="" (ngModelChange)="showDate();updateViewTrack()"
+                                                    [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType"
+                                                    [(ngModel)]="cbpService.tableDataEntrySelected.isTimeDisplayOpen"
+                                                    (focus)="onFocusEventTable()"
+                                                    (click)="checkBoxTableAudit($event, AuditTypes.PROPERTY_TABLE_TIME_DISPLAY,{propName: 'isTimeDisplayOpen'})"
+                                                    [checked]="cbpService.tableDataEntrySelected.isTimeDisplayOpen">
+                                                &nbsp;&nbsp; <span>Time?</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-9 col-md-9 mt-2">
+                                    <label>Value</label>
+                                    <select class="form-control"
+                                        [(ngModel)]="cbpService.tableDataEntrySelected.valueType"
+                                        (ngModelChange)="updateViewTrack()"
+                                        [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType"
+                                        (focus)="onFocusEventTable()"  (click)="valueTypeRequired(cbpService.tableDataEntrySelected.valueType)"
+                                        (focusout)="tablePropertyCreateAuditEntry(AuditTypes.PROPERTY_TABLE_VALUE,{propName: 'valueType'})">
+                                        <option value="Entered" selected>Entered</option>
+                                        <option value="AutoPopulate">AutoPopulate</option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-12 col-md-12 pt-2"
+                                    *ngIf="cbpService.tableDataEntrySelected.valueType === 'AutoPopulate'">
+                                    <label>Value Option</label>
+                                    <select class="form-control"
+                                        [(ngModel)]="cbpService.tableDataEntrySelected.autoPopulate"
+                                        (ngModelChange)="updateViewTrack()"
+                                        (focus)="onFocusEventTable()"
+                                        (focusout)="tablePropertyCreateAuditEntry(AuditTypes.PROPERTY_VALUE_OPTION,{propName: 'autoPopulate'})"
+                                        [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType">
+                                        <option value="CurrentTimeStamp" selected>Current Time Stamp
+                                        </option>
+                                        <option value="CurrentDate">Current Date</option>
+                                        <option value="CurrentTime">Current Time</option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-12 col-md-12 pt-2 pl-0 ml-3 dp-flex">
+                                    <label class="checkbox-inline flexAlign">
+                                        <input type="checkbox" value=""
+                                            [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType"
+                                            (ngModelChange)="updateViewTrack()"
+                                            [(ngModel)]="cbpService.tableDataEntrySelected.required"
+                                            (focus)="onFocusEventTable()"
+                                            (click)="checkBoxTableAudit($event, AuditTypes.PROPERTY_TABLE_REQ,{propName: 'required'})"
+                                            [checked]="cbpService.tableDataEntrySelected.required">
+                                        &nbsp;&nbsp;<span class="checkbox_lbleposition">Required</span>
+                                    </label>
+                                </div>
+                                <div class="col-lg-12 col-md-12"
+                                    [class.disabled]="selectedElement.isEmbededObject && cbpService.embeddedType">
+                                    <label>Minimum</label>
+                                    <ng-container [ngTemplateOutlet]="newDateTemplate"
+                                        [ngTemplateOutletContext]="{'$implicit': 'minimum'}"></ng-container>
+                                </div>
+                                <div class="col-lg-12 col-md-12 pt-2"
+                                    [class.disabled]="selectedElement.isEmbededObject && cbpService.embeddedType">
+                                    <label>Maximum</label>
+                                    <ng-container [ngTemplateOutlet]="newDateTemplate"
+                                        [ngTemplateOutletContext]="{'$implicit': 'maximum'}"></ng-container>
+                                </div>
+                                <div class="col-md-12 col-lg-12 pt-2"> <app-showlabel></app-showlabel></div>
+
+                                <ng-container [ngTemplateOutlet]="rulesInfo"></ng-container>
+                            </div>
+                        </div>
+                        <!-- table boolean -->
+                        <div class="col-md-12 col-lg-12 pt-2"
+                            *ngIf="cbpService.tableDataEntrySelected?.dgType == dgType.BooleanDataEntry">
+                            <div class="row">
+                                <div class="col-lg-7 col-md-7">
+                                    <label>Data Type</label>
+                                    <input type="text" readonly class="form-control"
+                                        [value]="cbpService.tableDataEntrySelected?.dgType.replace('DataEntry','')" />
+                                </div>
+                                <ng-container [ngTemplateOutlet]="uniqueDropdown" [ngTemplateOutletContext]="{
+                                    '$implicit': cbpService.tableDataEntrySelected.dgUniqueID, 'num': true}">
+                                </ng-container>
+                                <div class="col-lg-12 col-md-12 pt-2">
+                                    <label>Display Value</label>
+                                    <input class="form-control" placeholder=""
+                                        [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType"
+                                        (ngModelChange)="updateViewTrack()"
+                                        [(ngModel)]="cbpService.tableDataEntrySelected.TrueValue"
+                                        (focus)="onFocusEventTable()"
+                                        (focusout)="tablePropertyCreateAuditEntry(AuditTypes.PROPERTY_TABLE_BOOLEAN_DISPLAY_TRUE,{propName: 'TrueValue'})"
+                                        required="" type="text">
+                                </div>
+                                <div class="col-lg-12 col-md-12 pt-2">
+                                    <input class="form-control" placeholder=""
+                                        [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType"
+                                        (ngModelChange)="updateViewTrack()"
+                                        [(ngModel)]="cbpService.tableDataEntrySelected.FalseValue"
+                                        (focus)="onFocusEventTable()"
+                                        (focusout)="tablePropertyCreateAuditEntry(AuditTypes.PROPERTY_TABLE_BOOLEAN_DISPLAY_FALSE,{propName: 'FalseValue'})"
+                                        required="" type="text">
+                                </div>
+                                <div class="col-lg-12 col-md-12 pt-2 dp-flex">
+                                    <label class="checkbox-inline  flexAlign">
+                                        <input type="checkbox" value=""
+                                            [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType"
+                                            (ngModelChange)="updateViewTrack()"
+                                            [(ngModel)]="cbpService.tableDataEntrySelected.required"
+                                            (focus)="onFocusEventTable()"
+                                            (click)="checkBoxTableAudit($event, AuditTypes.PROPERTY_TABLE_REQ,{propName: 'required'})"
+                                            [checked]="cbpService.tableDataEntrySelected.required">
+                                        &nbsp;&nbsp; <span class="checkbox_lbleposition">Required</span>
+                                    </label>
+                                </div>
+                                <ng-container [ngTemplateOutlet]="rulesInfo"></ng-container>
+                            </div>
+                        </div>
+                        <!-- table LInk -->
+                        <div class="row pr-3 pl-3" *ngIf="cbpService.tableDataEntrySelected?.dgType == dgType.Link">
+                            <div class="col-lg-12 col-md-12 pt-2">
+                                <label>Source</label>
+                                <select class="form-control" [(ngModel)]="cbpService.tableDataEntrySelected.source"
+                                    (focus)="onFocusEvent()"   (ngModelChange)="updateViewTrack()"
+                                    (change)="changeUI(cbpService.tableDataEntrySelected.source);createAuditEntry(AuditTypes.PROPERTY_SOURCE,{propName: 'source'})">
+                                    <option *ngFor="let elem of sourceList" [value]="elem" selected>{{elem}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-lg-12 col-md-12 pt-2">
+                                <label>Action</label>
+                                <select class="form-control" [(ngModel)]="cbpService.tableDataEntrySelected.action"
+                                    (focus)="onFocusEvent()"   (ngModelChange)="updateViewTrack()"
+                                    (change)="createAuditEntry(AuditTypes.PROPERTY_ACTION,{propName: 'action'})"
+                                    [disabled]="cbpService.tableDataEntrySelected.source ==='Local' || cbpService.tableDataEntrySelected.source ==='URL' || cbpService.tableDataEntrySelected.source ==='eMedia'">
+                                    <option *ngIf="cbpService.tableDataEntrySelected.source === 'URL' || cbpService.tableDataEntrySelected.source === 'eMedia'"
+                                        value="N/A">N/A</option>
+                                    <option value="Execute">Execute</option>
+                                    <option value="Reference">Reference</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-12 col-md-12 pt-2"
+                                *ngIf="cbpService.tableDataEntrySelected.source !== 'Attach'">
+                                <label>Caption</label>
+                                <input class="form-control" [(ngModel)]="cbpService.tableDataEntrySelected.caption"
+                                    required="" type="text" (ngModelChange)="updateViewTrack()"
+                                    [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType"
+                                    (focus)="onFocusEvent()"
+                                    (focusout)="createAuditEntry(AuditTypes.CAPTION,{propName: 'caption'})">
+                            </div>
+                            <div class="col-lg-12 col-md-12 pt-2"
+                                *ngIf="cbpService.tableDataEntrySelected.source !== 'Attach'">
+                                <label>Description</label>
+                                <textarea class="form-control" rows="5"
+                                    [(ngModel)]="cbpService.tableDataEntrySelected.description" (ngModelChange)="updateViewTrack()"
+                                    [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType"
+                                    (focus)="onFocusEvent()"
+                                    (focusout)="createAuditEntry(AuditTypes.PROPERTY_DESC,{propName: 'description'})"></textarea>
+                            </div>
+                            <div class="col-lg-12 col-md-12 pt-2">
+                                <label> Link</label>
+                                <input class="form-control" placeholder="" required=""
+                                    [(ngModel)]="cbpService.tableDataEntrySelected.displayText" type="text"
+                                    (ngModelChange)="updateViewTrack()"
+                                    [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType"
+                                    (focus)="onFocusEvent()"
+                                    (focusout)="createAuditEntry(AuditTypes.PROPERTY_DISPLAY_TEXT,{propName: 'displayText'});updateLink()">
+                            </div>
+                            <div class="col-lg-12 col-md-12 pt-2"
+                                *ngIf="cbpService.tableDataEntrySelected.source === 'Local'">
+                                <label>Section/Step</label>
+                                <select class="form-control" [(ngModel)]="selectedStepnumber"
+                                    (focus)="onFocusEvent()"
+                                    (change)="sectionId(selectedStepnumber);createAuditEntry(AuditTypes.PROPERTY_LINK_SECTION_OR_STEP,{propName: 'sectionNumber'})"
+                                    [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType">
+                                    <option *ngFor="let fname of tempsectionnumbers" [value]="fname.number">
+                                        {{fname?.text}}</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-12 col-md-12 pt-2 mb-2"
+                                *ngIf="cbpService.tableDataEntrySelected.source === 'Attach'">
+                                <label class="attch"> Attach <input type="file" size="60" id='file'
+                                        (change)="onNewFileSelected($event)" /></label>
+                            </div>
+                            <div class="col-lg-12 col-md-12 pt-2 mb-2"
+                                *ngIf="cbpService.tableDataEntrySelected.source === 'eDocument'">
+                                <button class="btn btn-icon btn-outline-secondary btn-outline-secondary btn-sm"
+                                    (click)="cbpService.isEdocLink = true" title="URL"
+                                    [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType">
+                                    Configure Link
+                                </button>
+
+                            </div>
+                            <div class="col-lg-12 col-md-12 pt-2 mb-2"
+                                *ngIf="cbpService.tableDataEntrySelected.source === 'eMedia'">
+                                <button class="btn btn-icon btn-outline-secondary btn-outline-secondary btn-sm"
+                                    (click)="cbpService.isLinkAssetsOpen = true" title="URL"
+                                    [disabled]="cbpService.tableDataEntrySelected.isEmbededObject && cbpService.embeddedType">
+                                    Configure Link
+                                </button>
+                            </div>
+                            <div class="col-lg-12 col-md-12 pt-2 mb-2"
+                                *ngIf="cbpService.tableDataEntrySelected.source === 'URL'">
+                                <button class="btn btn-icon btn-outline-secondary btn-outline-secondary btn-sm"
+                                    (click)="cbpService.issetupURLOpen = true" title="URL"
+                                    [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType">
+                                    Setup URL
+                                </button>
+                            </div>
+                            <!-- <div class="col-lg-12 col-md-12 pt-0"
+                                *ngIf="cbpService.tableDataEntrySelected.source !== 'Local'">
+
+                                <input class="form-control" required="" type="text"
+                                    [(ngModel)]="cbpService.tableDataEntrySelected.uri"
+                                    (focusout)="renderEdocumentConfigure()" [disabled]="true">
+                            </div> -->
+                            <div class="col-lg-12 col-md-12 pt-2"
+                                *ngIf="cbpService.tableDataEntrySelected.source === 'eDocument' || cbpService.tableDataEntrySelected.source === 'Attach'">
+                                <label>Target</label>
+                                <input class="form-control" placeholder=""
+                                    [(ngModel)]="cbpService.tableDataEntrySelected.target" 
+                                    [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType" required=""
+                                    type="text"  (ngModelChange)="updateViewTrack()"
+                                    (focusout)="createAuditEntry(AuditTypes.PROPERTY_LINK_TARGET,{propName: 'target'})">
+                            </div>
+                            <ng-container [ngTemplateOutlet]="rulesInfoCheck"></ng-container>
+
+                        </div>
+                        <!-- table single Figure  -->
+                        <ng-container *ngIf="cbpService.tableDataEntrySelected.dgType === dgType.SingleFigure ||
+                            cbpService.tableDataEntrySelected.dgType === dgType.Figure ||
+                            cbpService.tableDataEntrySelected.dgType === dgType.Figures">
+                            <div class="col-lg-12 col-md-12 px-3 propertyHeight">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 pr-0 pt-2">
+                                        <div class="row">
+                                            <div class="col-lg-5 col-md-5 pr-0">
+                                                <label>Type</label>
+                                                <input class="form-control" disable
+                                                    [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType"
+                                                    placeholder=""
+                                                    [(ngModel)]="cbpService.fileproperties===undefined ? '' :cbpService.fileproperties.dgType"
+                                                    required="" type="text"  (ngModelChange)="updateViewTrack()"
+                                                    (focusout)="createAuditEntry(AuditTypes.PROPERTY_MEDIA_TYPE,{propName: 'dgType'})">
+                                            </div>
+                                            <div class="col-lg-5 col-md-5 pr-0">
+                                                <label>Sub Type</label>
+                                                <input class="form-control" disable
+                                                    [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType"
+                                                    placeholder=""
+                                                    [(ngModel)]="cbpService.fileproperties===undefined ? '' :cbpService.fileproperties.name.split('.')[1]"
+                                                    required="" type="text"  (ngModelChange)="updateViewTrack()">
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <ng-container [ngTemplateOutlet]="uniqueDropdown"
+                                        [ngTemplateOutletContext]="{'$implicit': cbpService.tableDataEntrySelected.dgUniqueID,'num':true}">
+                                    </ng-container>
+                                    <div class="col-lg-12 col-md-12 pt-2">
+                                        <label>Source</label>
+                                        <input class="form-control" disable
+                                            [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType"
+                                            required="" type="text"
+                                            [(ngModel)]="cbpService.fileproperties===undefined ? '' :cbpService.fileproperties.source"
+                                            (ngModelChange)="updateViewTrack()"
+                                            (focusout)="createAuditEntry(AuditTypes.PROPERTY_MEDIA_SOURCE,{propName: 'source', index: cbpService.fileproperties.index})">
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 pt-2">
+                                        <label>Name</label>
+                                        <input class="form-control" [disabled]="true" placeholder="" required=""
+                                            [(ngModel)]="cbpService.fileproperties===undefined ? '' :cbpService.fileproperties.name"
+                                            type="text" (ngModelChange)="updateViewTrack()"
+                                            (focusout)="createAuditEntry(AuditTypes.PROPERTY_MEDIA_NAME,{propName: 'name', index: cbpService.fileproperties.index})">
+                                    </div>
+                                    <ng-container *ngIf="cbpService.fileproperties?.typeImage !== 'header'">
+                                        <div class="col-lg-12 col-md-12 pt-2">
+                                            <label>Caption</label>
+                                            <input class="form-control"
+                                                [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType"
+                                                placeholder="" required="" type="text" 
+                                                [(ngModel)]="cbpService.fileproperties===undefined ? '' :cbpService.fileproperties.caption"
+                                                (ngModelChange)="updateImageView(cbpService.fileproperties)"
+                                                (focusout)="createAuditEntry(AuditTypes.PROPERTY_MEDIA_CAPTION,{propName: 'caption', index: cbpService.fileproperties.index})">
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 pt-2">
+                                            <label>Description</label>
+                                            <textarea rows="5" class="form-control"
+                                                [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType"
+                                                [(ngModel)]="cbpService.fileproperties===undefined ? '' :cbpService.fileproperties.description"
+                                                (ngModelChange)="updateImageView(cbpService.fileproperties)"
+                                                (focusout)="createAuditEntry(AuditTypes.PROPERTY_MEDIA_DESC,{propName: 'description', index: cbpService.fileproperties.index})"></textarea>
+                                        </div>
+                                    </ng-container>
+                                    <ng-container *ngIf="cbpService?.tableDataEntrySelected?.mediaType === 'single'">
+                                        <!-- <div class="col-lg-12 col-md-12 pt-2">
+                                            <label>Width</label>
+                                            <input type="number" class="form-control"
+                                                [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType"
+                                                [(ngModel)]="cbpService.fileproperties['width']"
+                                                (focusout)="createAuditEntry(AuditTypes.PROPERTY_MEDIA_DESC,{propName: 'description', index: cbpService.fileproperties.index})">
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 pt-2">
+                                            <label>height</label>
+                                            <input type="number" class="form-control"
+                                                [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType"
+                                                [(ngModel)]="cbpService.fileproperties['height']"
+                                                (focusout)="createAuditEntry(AuditTypes.PROPERTY_MEDIA_DESC,{propName: 'description', index: cbpService.fileproperties.index})">
+                                        </div> -->
+                                        <div class="col-lg-12 col-md-12 pt-2">
+                                            <label>align</label>
+                                            <select class="form-control" (ngModelChange)="updateVerify($event)"
+                                                [(ngModel)]="cbpService.fileproperties['align']">
+                                                <option selected value="left">Left</option>
+                                                <option value="center">Center</option>
+                                                <option value="right">Right</option>
+                                            </select>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #rulesInfo>
+    <div class="col-lg-12 col-md-12 pt-0 mt-0 pl-0" *ngIf="!isCoverPage">
+        <app-rule-info [selectedElement]="cbpService.tableDataEntrySelected" [showAlarm]="true" [hideRoleQual]="false"
+            [hideApplicablityRule]="true" [hideComponent]="true" [hideConditionalRule]="true"></app-rule-info>
+    </div>
+</ng-template>
+
+<ng-template #rulesInfoCheck>
+    <div class="col-lg-12 col-md-12 pt-0 mt-0 pl-0">
+        <app-rule-info [selectedElement]="cbpService.tableDataEntrySelected" 
+        [showAlarm]="false" [hideRoleQual]="false"
+            [hideApplicablityRule]="true" [hideComponent]="true" [hideConditionalRule]="true"></app-rule-info>
+    </div>
+</ng-template>
+
+<ng-template #uniqueDropdown let-dgUniqueID let-num="num" let-text="text">
+    <div class="col-md-12 col-lg-12 pt-2" [class.pr-0]="text" [class.pl-0]="!num">
+        <app-dg-unique-idproperty [dgUniqueID]="dgUniqueID" [coverPageDgUniqueId]="coverPageDgUniqueId"
+            [isCoverPage]="isCoverPage"></app-dg-unique-idproperty>
+    </div>
+</ng-template>
+
+<ng-template #newDateTemplate let-type>
+    <div class="input-group flat" style="width: 100%;" (click)="openDate(type)">
+        <div class="flatpickr-wrapper">
+            <input autocomplete="off" type="text" readonly [(ngModel)]="cbpService.tableDataEntrySelected[type]"
+                name="date{{cbpService.tableDataEntrySelected.dgUniqueID}}" (ngModelChange)="updateViewTrack()"
+                [title]="cbpService.tableDataEntrySelected[type]"
+                class="form-control flat flatpicker  flatpickr-input DateFlatpickr" placeholder="Date">
+        </div>
+        <div class="input-group-prepend input-css">
+            <span class="calender-icon"><i class="fa fa-calendar"></i>
+            </span>
+        </div>
+    </div>
+</ng-template>

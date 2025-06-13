@@ -1,0 +1,72 @@
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pl-0 mr-0"
+[ngClass]="{'pr-0': cbpService.selectedUniqueId  == field.dgUniqueID || !stepObject?.dualStep}">
+  <div class="stop_draging mt-1 mb-1" *ngIf="field"
+  (click)="!field.isTableDataEntry && selectElement();$event.stopPropagation();
+  field.isTableDataEntry && selectedForTable($event)"
+    [ngClass]="{'section-border pr-0': cbpService.selectedUniqueId == field.dgUniqueID,
+    'row ml-0 brc' : stepObject?.dualStep, 'fb-row': !stepObject?.dualStep}"
+    [class.tablebottom]="field.isTableDataEntry" [class.noneBg]="field.isTableDataEntry">
+    <div [ngClass]="{'hover': cbpService.selectedElement.dgUniqueID  == field.dgUniqueID}" *ngIf="cbpService.sectionHover && !field.isTableDataEntry">
+      <app-step-option [field]="field"></app-step-option>
+    </div>
+    <ng-container *ngIf="!field.isTableDataEntry">
+      <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 px-0 textareacont"
+      [ngClass]="{'col-md-12 col-lg-12 pb-1': stepObject?.dualStep}"
+      *ngIf="!cbpService.searchTemplate">
+        <dg-track-ui [field]="field" *ngIf="!hideTrackUi && !field.isTableDataEntry" (fieldChange)="setField($event);"></dg-track-ui>
+        <lib-editor-text [field]="field" [placeholder]="'Please Enter a Date '"  (fieldChange)="field = $event"></lib-editor-text>
+     </div>
+    <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 px-0"
+    [ngClass]="{'col-md-12 col-lg-12': stepObject?.dualStep}"
+    *ngIf="cbpService.searchTemplate">
+      <app-search-result [field]="field" [propName]="'prompt'"  [searchString]="cbpService.searchString"
+      [triggerReplace]="cbpService.triggerReplace" [triggerReplaceAll]="cbpService.triggerReplaceAll" ></app-search-result>
+    </div>
+    <div class="col-xs-12 col-md-2 col-lg-2 pt-0 pr-1"  style="display: flex; height: fit-content;"
+    [ngClass]="{'col-md-12 col-lg-12 pl-0': stepObject?.dualStep}">
+      <ng-container *ngTemplateOutlet="dateTemplate"></ng-container>
+      <lib-lockicon [selectedElement]="field"></lib-lockicon>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="field.isTableDataEntry">
+    <ng-container [ngTemplateOutlet]="dateLabelTempltae" [ngTemplateOutletContext]="{ $implicit: 'left' }"></ng-container>
+    <div  [ngClass]="{'col-xs-12 col-sm-12' :!field?.showLabel,
+     'col-xs-6 col-sm-6 pl-2' :field?.showLabel }" class="pr-0 pl-0 disflex">
+       <ng-container *ngTemplateOutlet="dateTemplate"></ng-container>
+       <lib-lockicon [selectedElement]="field"></lib-lockicon>
+    </div>
+    <ng-container [ngTemplateOutlet]="dateLabelTempltae" [ngTemplateOutletContext]="{ $implicit: 'right' }"></ng-container>
+  </ng-container>
+  </div>
+</div>
+
+<ng-template #dateTemplate>
+    <div class="empty-txt"  [ngClass]="{'autoPopulate-background':field.valueType === 'AutoPopulate'}" [style.width.%]="field.dataEntrySize">
+      {{field?.isDateDisplayOpen && !field.isTimeDisplayOpen ?
+       (cbpService.cbpJson?.documentInfo[0].dateFormat | datePlaceholder) :
+       !field?.isDateDisplayOpen && field.isTimeDisplayOpen ? 'HH:MM' :
+       (cbpService.cbpJson?.documentInfo[0].dateFormat | datePlaceholder) + ' HH:MM'}}
+   </div>
+  <i class="drp-req" *ngIf="field.required">*</i>
+</ng-template>
+
+<ng-template #dateLabelTempltae let-type>
+  <div *ngIf="field?.showLabel && field?.labelSide === type && !cbpService.searchTemplate"
+  [ngClass]="{'pl-0 pr-0 col-xs-6 col-sm-6 labelBorder' :field?.showLabel && !cbpService.searchTemplate }">
+    <!-- <textarea  name="labeltextarea" autosize class="form-control"  rows="1" cols="50"
+    
+    placeholder="text..."  [(ngModel)]="field.showLablePrompt"
+    [class.selectedField]="field?.dgUniqueID == cbpService.selectedUniqueId"
+    [class.notSelectedField]="field?.dgUniqueID != cbpService.selectedUniqueId"
+    > 
+  </textarea> -->
+  <!-- [ngStyle]="styleObject" name="{{field.dgUniqueID}}" id="{{field.dgUniqueID}}" -->
+  <lib-showlabelprompt [(field)]="field"></lib-showlabelprompt>
+  </div>
+  <div  *ngIf="cbpService.searchTemplate && field?.showLabel && field?.labelSide === type"
+  [ngClass]="{'pl-0 col-xs-6 col-sm-6' :field?.showLabel && cbpService.searchTemplate}">
+    <app-search-result [field]="field" [propName]="'showLablePrompt'" [searchString]="cbpService.searchString"
+      [triggerReplace]="cbpService.triggerReplace" [triggerReplaceAll]="cbpService.triggerReplaceAll">
+    </app-search-result>
+  </div>
+</ng-template>

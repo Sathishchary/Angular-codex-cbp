@@ -1,0 +1,7 @@
+.sh{
+    display: flex;
+    top:4px;
+}
+.disabled{
+    pointer-events: none;
+}

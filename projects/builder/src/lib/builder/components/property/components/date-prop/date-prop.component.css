@@ -1,0 +1,8 @@
+:host ::ng-deep  .flatpickr-calendar.static.open {
+    max-width: 100% !important;
+}
+.FieldSetMaxColumn{ display: flex; flex-direction: row; flex-wrap: wrap;width: 100%;}
+
+/* PRODFIX-1669 */
+label.flexAlign {display: flex;align-items: center;}
+/* PRODFIX-1669 End*/

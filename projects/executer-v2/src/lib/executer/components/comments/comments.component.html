@@ -1,0 +1,51 @@
+<ngx-loading [show]="false" [config]="{ backdropBorderRadius: '3px', fullScreenBackdrop:false}"> </ngx-loading>
+ <div class="modal" id="commentsModal" tabindex="-1" role="dialog " data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog"  style="max-width: 800px;" role="document">
+    <div class="modal-content">
+        <lib-modal-popup [title]="'Comments'" (closeEvent)="cancel()"
+        [footerList]="footerList" (submitButtons)="commentEvent($event)">
+        <div class="modal-body">
+          <div class="col-md-12 col-lg-12 pl-0 pt-0">
+              <div class="row" *ngIf="commentObject">
+                  <div class="col-lg-6 col-md-6 col-sm-6 pr-0">
+                      <label>Section/Step</label>
+                      <select  class="form-control f13" [hideColor]="true" disable [isDisable]="isCommentUpdate"
+                      [(ngModel)]="commentObject.number" name="sectionsetep" (ngModelChange)="selectCommentObj()">
+                      <ng-container *ngFor="let item of numbers; let i =index">
+                          <option [value]=item.number><p [innerHTML]="item.title | innerhtml"></p></option>
+                      </ng-container>
+                    </select>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-6 pr-0">
+                    <label>Type</label>
+                    <select class="form-control f13" [(ngModel)]="commentObject.commentNewType"
+                     (ngModelChange)="setTypeObject()" name="typename">
+                      <option hidden="hidden" [ngValue]="null"></option>
+                      <option *ngFor="let item of cbpService.codeValues;" [ngValue]="item.cdvalDisplay">{{item?.cdvalDisplay}}</option>
+                    </select>
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-12 col-lg-12 pl-3 pt-0">
+              <div class="row">
+                  <div class="col-md-12 col-lg-12 pl-0 pt-2 pr-0">
+                      <label>Comments</label>
+                      <textarea name="comments" [(ngModel)]="commentObject.comments" class="form-control f13" rows="3" cols="30" required=""></textarea>
+                  </div>
+              </div>
+          </div>
+          <div class="pt-2" *ngIf="cbpService.refresh">
+            <app-gallery-view #galleryView [doubleClickDisable]="true"
+            [mediaFiles]="mediaFiles"
+            [media]="media" [mediaType]="'executorComment'"
+            (selectedChange)="selectedChange($event)"[selected]="selectedItemFile"
+            [canSelectItem]="true"
+            [eventType]="source" (mediaUpdateFile)="updateMedia($event)"
+            (addFiles)="changeRequestAddedFiles($event)" (deleteMedia)="deleteMediaFiles($event)"
+            (setCaption)="setCaptionFile($event)"></app-gallery-view>
+          </div>
+       </div>
+       </lib-modal-popup>
+      </div>
+  </div>
+</div>

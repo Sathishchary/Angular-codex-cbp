@@ -1,0 +1,77 @@
+.brl {
+  border-left: 1px solid #f5f5f6;
+}
+
+.mrgleft {
+  margin-left: -27px;
+}
+
+.lgh {
+  height: 17px;
+}
+
+.mrg {
+  margin: 8px !important
+}
+
+.def {
+  color: black;
+  text-align: center;
+  font-size: 16px;
+}
+
+.title {
+  font-size: 13px;
+  font-weight: 500;
+  color: #555555;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.prop {
+  padding-top: 6px;
+  margin-bottom: 2px;
+}
+
+.twid {
+  width: calc(100% - 40%) !important
+}
+
+.cbp {
+  width: calc(100% - 80%) !important;
+}
+
+.zindex {
+  z-index: 999;
+  margin-top: -5px;
+}
+
+.cbpshodow {
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+}
+.navbar-nav .user-profile .align-items-center{
+  background: #e3f8fa !important;
+}
+.user-title{
+  text-transform: capitalize;
+  color: #000 !important;
+  font-size: 14px !important;
+  font-weight: 600;
+}
+.navbar-nav .user-profile .drop-list li a{
+  padding: 0px 10px;
+}
+.drop-right p{
+  color: #000;
+}
+img.ProfileRounded {
+  width: 35px;
+  height: 35px;
+  object-fit: fill;
+}
+img.rounded.IconsCu {
+  width: 20px;
+  object-fit: fill;
+  margin-right: 6px;
+}

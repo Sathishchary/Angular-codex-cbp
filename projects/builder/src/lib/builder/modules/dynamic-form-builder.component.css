@@ -1,0 +1,16 @@
+.form-group {
+  margin-bottom: 7px;
+}
+.formGroup{
+  margin-bottom: 0px !important;
+}
+.alert-css { padding-left: 4px !important;}
+.form-control {
+  display: block;
+  width: 100%;
+  padding: 2px 4px !important;
+  font-size: 12px !important;
+  margin-left: 0px;
+  line-height: 1.5 !important;
+  margin-bottom: 9px;
+}

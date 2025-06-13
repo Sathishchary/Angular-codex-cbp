@@ -1,0 +1,204 @@
+<ng-container *ngIf="commentNavigation">
+  <div class="col-md-12 col-lg-12 pt-2 pl-0">
+      <div class="row">
+          <div class="col-lg-3 col-md-3 col-sm-3 pr-0">
+              <label> Type</label>
+              <select style="font-size: 13px !important;" class="form-control" [(ngModel)]="commentType"
+              (ngModelChange)="commentTypeChange()">
+                <option selected value="All">All</option>
+                <option *ngFor="let item of codeValues;" [ngValue]="item?.cdValue">{{item?.cdvalDisplay}}</option>
+            </select>
+          </div>
+          <!-- <div class="col-lg-3 col-md-3 col-sm-3 pr-0" style="padding-top: 21px;">
+              <button class="btn btn-outline-secondary btn-sm hidden-sm button-border"
+               type="button" style="display: block!important;">Refresh</button>
+          </div> -->
+      </div>
+  </div>
+  <div class="col-md-12 col-lg-12 pt-2 pl-0 pt-3 pr-0 marginsRemove">
+      <table class="table-responsive table table-stripped table-bordered TableCustomization"
+      [ngClass]="{'fullTableScroll': comments.length > 0,'autoTableScroll': comments.length == 0}"
+      >
+        <thead class="theadcss tableBorder">
+            <tr>
+                <th style="width: 17%;">Type </th>
+                <th>Comments</th>
+                <th style="width: 5%;">Section/Step</th>
+                <th style="width: 6%;">Media</th>
+                <th style="width: 15%;">Created By</th>
+                <th style="width: 15%;">Created Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="e-point"
+            *ngFor="let i = index; let item of comments | slice: (executionService.detailPageNumber-1) * 12 : executionService.detailPageNumber * 12;"
+            (click)="!freezePage && getComment(item, i)">
+                <td>{{item.type}}</td>
+                <td>{{item.comments}}</td>
+                <td><a class="select">{{item?.number}}</a></td>
+                <td class="text-center">
+                  <input data-parsley-errors-container="#error-checkbox" [class.disabled]="true"
+                    [checked]="item?.media?.length> 0" name="checkbox" required="" type="checkbox">
+                  <span></span>
+                </td>
+                <td>{{item.createdBy}}</td>
+                <td>{{item.createdDate | date:'short' }} </td>
+            </tr>
+        </tbody>
+      </table>
+       <ng-container [ngTemplateOutlet]="paginationTemp" [ngTemplateOutletContext]="{$implicit: commentsPage }"></ng-container>
+  </div>
+</ng-container>
+<ng-container *ngIf="mediaLink">
+    <div class="col-md-12 col-lg-12 pt-2">
+      <fieldset class="field">
+      <div class="form-check form-check-inline e-point">
+          <input value="added" [checked]="addedRadioButton" (change)="setRadioButton('added')"
+           type="radio" name="inlineRadioOptions" id="inlineRadio1">
+          <label class="form-check-label labelc" for="inlineRadio1">Added</label>
+      </div>
+      <div class="form-check form-check-inline e-point">
+          <input value="All" [checked]="allRadioButton" (change)="setRadioButton('all')"
+          type="radio" name="inlineRadio2" id="inlineRadio2">
+          <label class="form-check-label labelc" for="inlineRadio2">All</label>
+      </div>
+    </fieldset>
+    </div>
+   <div class="col-md-12 col-lg-12 pt-2 pl-3">
+      <div class="row" *ngIf="refresh">
+        <ng-container
+        *ngFor="let item of mediaFiles | slice: (executionService.detailPageNumber-1) * 10 : executionService.detailPageNumber * 10;">
+          <div class="col-md-3 col-lg-3 pt-2 text-center" [hidden]="item?.fileName?.endsWith('.wmv')">
+                <div class="card" style="margin-bottom: 10px !important;">
+                    <div class="file stop_draging" style="border-radius:5px !important;" id="{{item.fileName}}">
+                        <span>
+                          <img *ngIf="item?.fileName?.endsWith('.wmf')"
+                          [src]="ImagePath.loaderImg" style="width: 100%; height: 130px !important;" [alt]="item?.fileName">
+                          <img *ngIf="item?.fileName?.endsWith('.jpg') ||item?.fileName?.endsWith('.png') || item?.fileName?.endsWith('.jpeg') ||
+                           item?.fileName?.endsWith('.PNG')|| item?.fileName?.endsWith('.JPG')
+                           || item?.fileName?.endsWith('.gif') || item?.fileName?.endsWith('.jfif') "
+                           [src]="setImage(item)"
+                           style="width: 100%; height: 130px !important;"
+                           (error)="executionService.setLoader($event)" [alt]="item?.fileName">
+                          <ng-container *ngIf="item?.fileTypfe === 'Video' || item?.fileName?.endsWith('.mp4') || item?.fileName?.endsWith('.avi') ||
+                           item?.fileName?.endsWith('.mov') || item?.fileName?.endsWith('.mp4')">
+                            <video #ev controls preload="metadata" id="video-tag" style="width:100%; height: 103px;">
+                              <source [src]="setImage(item)" type='video/mp4' >
+                            </video>
+                            <img *ngIf="item?.fileName?.endsWith('.wmv')"
+                            [src]="'assets/cbp/images/play.png'" style="width: 100%; height: 130px !important;" [alt]="item?.fileName">
+                          </ng-container>
+                          <audio *ngIf="item.fileType === 'Audio'" controls  class="img-fluid" width="200px" style="height:108px;">
+                            <source [src]="setImage(item)" type="audio/ogg">
+                            <source [src]="setImage(item)" type="audio/mpeg">
+                            Your browser does not support the audio tag.
+                          </audio>
+                        </span>
+                        <div class="file-name text-left pl-2 dataOverflowControle">
+                          <p class="text-muted m-0" [title]="item?.caption">
+                            <span>{{item.caption}}</span>
+                          </p>
+                        </div>
+                    </div>
+                </div>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="mediaFiles?.length === 0">
+          <div class="alert fit no-media">
+             No media is available
+          </div>
+        </ng-container>
+      </div>
+  </div>
+  <div class="col-md-12 col-lg-12 pt-2 pl-0 pt-3 pr-0">
+      <ng-container [ngTemplateOutlet]="paginationTemp" [ngTemplateOutletContext]="{$implicit: mediaFiles }"></ng-container>
+  </div>
+</ng-container>
+<ng-container *ngIf="crNavigation">
+  <div class="col-md-12 col-lg-12 pt-2 pl-0">
+      <div class="row">
+          <div class="col-lg-3 col-md-3 pr-0">
+            <label> Type</label>
+            <select style="font-size: 13px !important;" class="form-control" [(ngModel)]="changeRequestType"
+            (ngModelChange)="crTypeChange()">
+              <option selected value="All">All</option>
+              <option *ngFor="let item of typeValues;" [ngValue]="item?.cdValue">{{item?.cdvalDisplay}}</option>
+            </select>
+          </div>
+          <!-- <div class="col-lg-3 col-md-3 pr-0" style="padding-top: 21px;">
+              <button class="btn btn-outline-secondary btn-sm hidden-sm button-border" type="button" style="display: block!important;">Refresh</button>
+          </div> -->
+      </div>
+  </div>
+  <div class="col-md-12 col-lg-12 pt-2 pl-0 pt-3 pr-0 marginsRemove">
+      <table class="table-responsive table table-stripped table-bordered TableCustomization"
+      [ngClass]="{'fullTableScroll': crArrayData.length > 0,'autoTableScroll': crArrayData.length == 0}"
+      >
+          <thead class="theadcss tableBorder">
+              <tr>
+                  <th style="width: 17%;">Type </th>
+                  <th>Title</th>
+                  <th>Description</th>
+                  <th style="width: 5%;">Section/Step</th>
+                  <th style="width: 6%;">Media</th>
+                  <th style="width: 15%;">Created By</th>
+                  <th style="width: 15%;">Created Date</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr class="e-point" *ngFor="let item of crArrayData | slice: (executionService.detailPageNumber-1) * 12 : executionService.detailPageNumber * 12;
+              let i = index;" (click)="!freezePage && getSelectedObject(item, i)">
+                  <td>{{item.requestType}}</td>
+                  <td>{{item.title}}</td>
+                  <td>{{item?.description}}</td>
+                  <td><a class="select">{{item?.number}}</a></td>
+                  <td class="text-center">
+                    <input data-parsley-errors-container="#error-checkbox" [class.disabled]="true"
+                      [checked]="item?.media?.length> 0" name="checkbox" required="" type="checkbox">
+                    <span></span>
+                  </td>
+                  <td>{{item?.createdBy}}</td>
+                  <td>{{item?.createdDate | date:'short' }} </td>
+              </tr>
+          </tbody>
+      </table>
+      <ng-container [ngTemplateOutlet]="paginationTemp" [ngTemplateOutletContext]="{$implicit: crArrayDataPage }"></ng-container>
+  </div>
+</ng-container>
+<ng-container *ngIf="otspView">
+<div class="col-md-12 col-lg-12 pt-2 pl-0 pt-3 pr-0 marginsRemove">
+    <table class="table-responsive table table-stripped table-bordered TableCustomization"
+    [ngClass]="{'fullTableScroll': otspData.length > 0,'autoTableScroll': otspData.length == 0}">
+        <thead class="theadcss tableBorder">
+            <tr>
+                <th style="width: 5%;">Section/Step</th>
+                <th style="width: 27%;">Original Text</th>
+                <th style="width: 28%;">New Text</th>
+                <th style="width: 15%;">Created By</th>
+                <th style="width: 15%;">Created Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="e-point" *ngFor="let item of otspData | slice: (executionService.detailPageNumber-1) * 12 : executionService.detailPageNumber * 12;
+            let i = index;"
+             (click)="getSelectedOtSpObject(item, i)">
+                <td><a class="select">{{item?.number}}</a></td>
+                <td [innerHTML]="item?.oldText"></td>
+                <td [innerHTML]="item?.newText"></td>
+                <td>{{item?.createdBy}}</td>
+                <td>{{item?.createdDate | date:'short' }} </td>
+            </tr>
+        </tbody>
+    </table>
+    <ng-container [ngTemplateOutlet]="paginationTemp" [ngTemplateOutletContext]="{$implicit: otspData }"></ng-container>
+  </div>
+</ng-container>
+
+<ng-template #paginationTemp let-items>
+
+  <ngb-pagination class="d-flex justify-content-end paginationAlignmnet" [maxSize] = "8"
+  [collectionSize] = "items.length" *ngIf = "items.length > 10"
+  (pageChange)="pagination($event)"
+  [(page)] = "executionService.detailPageNumber" [pageSize] = "10"
+  [rotate] = "true" [ellipses] = "false" [boundaryLinks] = "true"></ngb-pagination>
+</ng-template>

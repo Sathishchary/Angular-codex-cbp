@@ -1,0 +1,558 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>DataglanceExecutor</title>
+    <base href="/">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <script src="data/cbpjson.js"></script>
+    <script async src="assets/cbp/parser/MathJax-2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+    <script src="assets/cbp/js/style-image-default.js"></script>
+    <script src="assets/external/env.js"></script>
+    <meta name="theme-color" content="#1976d2" version="18-09-2024">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge;" />
+</head>
+
+<body>
+    <app-root></app-root>
+    <script>
+        // $(document).ready(function () {
+        //   eventHandler.setMediaPath(DEV_MEDIA_PATH);
+        //   eventHandler.setDevicePlotform('windows');
+        //   // eventHandler.setDevicePlotform('windows');
+        // });
+        var PROD_MEDIA_PATH = 'data/packages/' + ACTIVE_CBP_PATH + '/media/';
+        var DEV_MEDIA_PATH = 'data/packages/' + ACTIVE_CBP_PATH + '/media/';
+        var PROD_PACKAGE_PATH = 'data/packages/' + ACTIVE_CBP_PATH;
+        var DEV_PACKAGE_PATH = 'data/packages/' + ACTIVE_CBP_PATH;
+        var devicePlatform = 'windows';
+        // EVENT HANDLING BETWEEN CBP PLUGIN AND NATIVE APP
+        var eventHandler = {
+            ACTIVE_CBP_PATH: ACTIVE_CBP_PATH,
+            // ACTIVE_MEDIA_PATH: PROD_MEDIA_PATH,
+            // PROD_PACKAGE_PATH: DEV_PACKAGE_PATH,
+            setPlatFormDetails: function() {
+                eventHandler.setMediaPath(DEV_MEDIA_PATH);
+                eventHandler.setDevicePlotform('windows');
+            },
+            setMediaPath: function(path) {
+                eventHandler.ACTIVE_MEDIA_PATH = path;
+            },
+
+            /*
+             * Pass the devicePlatform parameter to set device platform
+             * for windows eventHandler.setDevicePlotform('windows')
+             * for android eventHandler.setDevicePlotform('android')
+             * for ios     eventHandler.setDevicePlotform('ios')
+             */
+            setDevicePlotform: function(devicePlatform) {
+                devicePlatform = devicePlatform;
+                window['mobilesdk'].component.devicePlatform(devicePlatform);
+            },
+            /* {
+                userName:userName,
+                userId : userId,
+                emailId : emailId
+            } */
+            setUserProfile: function(user) {
+                window['mobilesdk'].component.setUserProfile(user);
+            },
+            // fireVerificationLoginEvent: function (userName, password) {
+            //   console.log(userName + "===" + password);
+            //    eventHandler.notify(eventHandler.buildJsonString('verification_login', {userName:userName, password:password})) ;
+            //   //eventHandler.setUserInfo('dataglance');
+            //   window.webkit.messageHandlers.jsHandler.postMessage({ action: 'verification_login', verificationData: {userName:userName, password:password} });
+            // },
+
+            //{type:'success',message:'Successfully saved'}
+            //{type:'warning',message:'All fields are required'}
+            //{type:'error',message:'Server Error'}
+            sendMsgToPlugin: function(msgObjct) {
+                //window['excecutionRef'].zone.run(() => { window['excecutionRef'].component.sendMsgToPlugin(msgObjct); })
+                window['mobilesdk'].component.sendMsgToPlugin(msgObjct)
+            },
+
+            recieveMsgFromPlugin: function() {
+                //Inprogress
+            },
+            //Auto save time
+            setAutoSave: function(milliSeconds) {
+                // window['excecutionRef'].zone.run(() => { window['excecutionRef'].component.setAutoSave(milliSeconds); })
+                window['mobilesdk'].component.setAutoSave(milliSeconds);
+            },
+            //Inprogress
+            getLocationOfUserFromPlugin: function() {
+
+            },
+            //Inprogress
+            updateLocation: function(location) {},
+            displayData: function(data) {
+                console.log(data);
+            },
+            getTextData: function() {
+                // eventHandler.getCbpData();
+                return "hello";
+            },
+            crOpened: function() {
+                eventHandler.getCommentTypes();
+                eventHandler.getCodeValues();
+                eventHandler.getReasonCodeValues();
+                eventHandler.getFacilityValues();
+                // eventHandler.setFacility(
+                //     "{\"statusCode\":\"200\",\"data\":[{\"id\":\"DGLN0000000000000001\",\"name\":\"Facility\"}]}");
+                // eventHandler.setCodeValues(
+                //     "{\"statusCode\":\"200\",\"data\":[{\"id\":\"1000\",\"cdvalDisplay\":\"CHANGE REQUEST\"}]}");
+                // eventHandler.setReasonCodeValues(
+                //     "{\"statusCode\":\"200\",\"data\":[{\"cdValue\":\"1000\",\"cdvalDisplay\":\"SAFETY RELATED\"}]}");
+                // eventHandler.setCommentTypesV2(
+                //     "{\"statusCode\":\"200\",\"data\":[{\"cdValue\":\"1000\",\"cdvalDisplay\":\"GENERAL\"}]}");
+                // eventHandler.setUnitFacility(
+                //   "{\"statusCode\":\"200\",\"data\":[{\"id\":\"DGLN0000000000000001\",\"name\":\"Unit\"}]}");
+
+                  },
+            getPenInk: function(data) { //For comment Types master Data
+                    eventHandler.notify(eventHandler.buildJsonString('getPenInk', data));
+            },
+            getAnnoationstoSDK : function(data) { //For Annoations 
+             //   eventHandler.notify(eventHandler.buildJsonString('getAnnoationstoSDK', data));
+            },
+            getCommentTypes: function() { //For comment Types master Data
+                eventHandler.notify(eventHandler.buildJsonString('getCommentTypes', ''));
+                // eventHandler.setCommentTypesV2(
+                //     "{\"statusCode\":\"200\",\"data\":[{\"cdValue\":\"1000\",\"cdvalDisplay\":\"GENERAL\"}]}");
+            },
+            getCodeValues: function() {
+                eventHandler.notify(eventHandler.buildJsonString('setCodeValues', ''));
+                // eventHandler.setCodeValues(
+                //     "{\"statusCode\":\"200\",\"data\":[{\"cdValue\":\"1000\",\"cdvalDisplay\":\"CHANGE REQUEST\"}]}");
+            },
+            getReasonCodeValues: function() {
+                eventHandler.notify(eventHandler.buildJsonString('getReasonCodeValues', ''));
+                // eventHandler.setReasonCodeValues(
+                //     "{\"statusCode\":\"200\",\"data\":[{\"cdValue\":\"1000\",\"cdvalDisplay\":\"SAFETY RELATED\"}]}");
+            },
+            getFacilityValues: function() {
+                 eventHandler.notify(eventHandler.buildJsonString('getFacilityValues', ''));
+                // eventHandler.setFacility(
+                //   "{\"statusCode\":\"200\",\"data\":[{\"id\":\"DGLN0000000000000001\",\"name\":\"Facility\"}]}");
+            },
+            getUnitFacility: function(msg) {
+                 eventHandler.notify(eventHandler.buildJsonString('getUnitFacility', msg));
+                // eventHandler.setUnitFacility(
+                //   "{\"statusCode\":\"200\",\"data\":[{\"id\":\"DGLN0000000000000001\",\"name\":\"Unit\"}]}");
+            },
+            getVerifyLoginSecurity: function() {
+                eventHandler.notify(eventHandler.buildJsonStringForsave('getVerifyLoginSecurity', data, source));
+            },
+     
+            setPenInkQuestions: function(data){
+                 window['mobilesdk'].component.setPenInkQuestions(data);
+            },
+            setRestartExecution: function(data){
+                 window['mobilesdk'].component.setRestartExecution(data);
+            },
+            setPenInk: function(data){
+                window['mobilesdk'].component.setPenInk(data);
+            },
+            setCodeValues: function(data) {
+            //   console.log('setCodeValues called'+JSON.stringify(data));
+                window['mobilesdk'].component.setCodeValues(data);
+            },
+            setReasonCodeValues: function(data) {
+            //   console.log('setReasonCodeValues called'+JSON.stringify(data));
+              window['mobilesdk'].component.setReasonCodeValues(data);
+            },
+            setFacility: function(data) {
+              window['mobilesdk'].component.setFacility(data);
+            },
+            setUnitFacility: function(data) {
+              window['mobilesdk'].component.setUnitFacility(data);
+            },
+            setCommentTypesV2: function(data) {
+                window['mobilesdk'].component.setCommentTypesV2(data);
+            },
+            setVerifyLoginSecurity: function() {
+                window['mobilesdk'].component.setVerifyLoginSecurity(JSON.parse(data));
+            },
+            setAnnoationSDK: function(data){
+               // window['mobilesdk'].component.setAnnoationSDK(data);
+            },
+            // setUserCBPInfo: function() {
+            //     window['mobilesdk'].component.setUserCBPInfo(JSON.parse(data));
+            // },
+            // Get the latest .cbp file for saving
+            // getCbpData: function () {
+            //   eventHandler.notify(eventHandler.buildJsonString('save', window['mobilesdk'].component.getCbpData()));
+            // },
+            /*
+             * Data Format
+             * {"action":"mediaEdit","data":{"fileName":"image6.png","caption":"","description":"","dgUniqueID":3,"fileType":"Image","type":"executor","dgType":"Figure","isSavedOnServer":false,"mediaType":"","createdDate":"2021-05-12T10:49:32.796Z","statusDate":"2021-05-12T10:49:32.796Z","name":"image6.png","baseUrl":"assets/data/packages/DG0000000000000001/media/image6.png","index":0}};
+             */
+            // refreshMedia: function (data) {
+            //   window['excecutionRef'].component.refreshMedia(data);
+            // },
+
+            buildJsonString: function(action, data) {
+                obj = {
+                        action: action,
+                        data: data
+                    }
+                    // console.log(obj);
+                return JSON.stringify(obj);
+            },
+            buildJsonStringForsave: function(action, data, opt) {
+                obj = {
+                        action: action,
+                        data: data,
+                        source: opt
+                    }
+                    // console.log(obj);
+                return JSON.stringify(obj);
+            },
+            notify: function(data) {
+                switch (devicePlatform) {
+                    case 'windows':
+                        // window.external.notify(data);
+                        window.chrome.webview.postMessage(data);
+                        // window.chrome.webview.postMessage(eventHandler.buildJsonString('save', data));
+                        break;
+                    case 'android':
+                        //Not yet implemented
+                        Device.TakePicture(data);
+                        break;
+                    case 'ios':
+                        window.webkit.messageHandlers.jsHandler.postMessage(data);
+                        break;
+                    default:
+                        break;
+                }
+            },
+            // getCbpDataString: function () {
+            //   //return window['cbpFileString'];
+            // },
+            //Clear the cbp data
+            // clearCbpData: function () {
+            //   window['cbpFile'] = null;
+            // },
+
+            //This method will be called when the user clicks on save icon
+            saveEvent: function(data, source) {
+                console.log(data);
+                // eventHandler.saveDataHandShake();
+                eventHandler.notify(eventHandler.buildJsonStringForsave('save', data, source));
+            },
+            refreshEvent: function(data, source) {
+                console.log(data);
+                // eventHandler.saveDataHandShake();
+                eventHandler.notify(eventHandler.buildJsonStringForsave('refresh', data, source));
+            },
+            startexecution: function(data, source) {
+                console.log(data);
+                eventHandler.saveEventFromMobile();
+                // eventHandler.saveDataHandShake();
+                // eventHandler.notify(eventHandler.buildJsonStringForsave('startexecution', data, source));
+            },
+            stopexecution: function(data, source) {
+                console.log(data);
+                // eventHandler.saveDataHandShake();
+                eventHandler.notify(eventHandler.buildJsonStringForsave('stopexecution', data, source));
+            },
+            tabletExecutionStart : function() {
+                console.log('tablet-execution');
+                eventHandler.notify(eventHandler.buildJsonStringForsave('TabletExecutionStart', '', ''));
+            },
+            saveDynamicJsonEvent: function(data, source) {
+                console.log(data);
+                // eventHandler.saveDataHandShake();
+                eventHandler.notify(eventHandler.buildJsonStringForsave('saveDynamicJson', data, source));
+            },
+
+            // refreshCbpData: function (data) {
+            //   window['excecutionRef'].component.refreshCbpData(data);
+            // },
+            //Change Request Media event
+            crMediaEvent: function() {
+                eventHandler.notify(eventHandler.buildJsonString('crMedia', null));
+            },
+            fireMediaEditEvent: function(item) {
+                console.log(item);
+                eventHandler.notify(eventHandler.buildJsonString('mediaEdit', item));
+            },
+            fireEditedMedia:function(item){
+                eventHandler.notify(eventHandler.buildJsonString('mediaUpdate', item));
+            },
+            fireMeadiaRemove: function(item) {
+                console.log(item);
+                eventHandler.notify(eventHandler.buildJsonString('mediaRemove', item));
+            },
+            fireMediaPreviewEvent: function(item) {
+                eventHandler.notify(eventHandler.buildJsonString('mediaPreview', item));
+            },
+            
+
+            //This method will be called when the user clicks on Media icon on the top and select add media in the popup
+            fireMediaEvent: function(component) {
+                console.log(component);
+                eventHandler.notify(eventHandler.buildJsonString('media', null));
+                // eventHandler.setMedia('Eastman491627.png');
+                // eventHandler.setVideo('file_example_MP4_480_1_5MG.mp4');
+            },
+
+            fireCameraEvent: function(component) {
+                console.log(component);
+                eventHandler.notify(eventHandler.buildJsonString('camera', component));
+                // eventHandler.setVideo('file_example_MP4_480_1_5MG.mp4');
+            },
+            saveDataJson: function(res) {
+                console.log(res);
+                //eventHandler.notify(res);
+                eventHandler.notify(eventHandler.buildJsonStringForsave(res, "", ""));
+            },
+            fireSendEmailEvent: function(send_mail) {
+                console.log(send_mail);
+                eventHandler.notify(eventHandler.buildJsonString('send_mail', send_mail));
+            },
+
+            //This method will be called when the user clicks on Media icon on the top and select capture media in the popup
+            fireVideoPlayEvent: function(path) {
+                eventHandler.notify(eventHandler.buildJsonString('play_video', path));
+            },
+
+            fireCancelMediaEvent: function(videoFiles) {
+                console.log(videoFiles)
+                for (let index = 0; index < videoFiles.length; index++) {
+                    eventHandler.notify(eventHandler.buildJsonString('delete_file', videoFiles[index].path));
+                }
+                // videoFiles.forEach(element => {
+                //   eventHandler.notify(eventHandler.buildJsonString('delete_file', element.path));
+                // });
+            },
+            fireSaveMediaEvent: function(videoFiles) {
+                for (let index = 0; index < videoFiles.length; index++) {
+                    eventHandler.notify(eventHandler.buildJsonString('save_file', videoFiles[index].path));
+                }
+            },
+            fireSignatureEvent: function(signature, isInitial) {
+                if (devicePlatform != 'ios') {
+                    console.log(signature)
+                    eventHandler.notify(eventHandler.buildJsonString('signature', {
+                        data: signature,
+                        isInitial: isInitial
+                    }));
+                    // eventHandler.setSignature(
+                    //   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPUAAAAZCAYAAADpN2icAAADfElEQVR4Xu3aXYhMYRgH8P/z2snHnC2rcOHGhnylJAqhmTO5IMkNIops68KNlLJ7yNTuOcqN4goXshcoxYVwY8+ZQpE2uVLysRcSLdGeGdkd8z7asnaM2Z1z1u7ONueZy+l5n/M+v3f+802QmwiIQE0JUE1NI8OIgAggcKg3tflLVcF4l0nTD3ETARGYvAIVQ51y+pYx9z8CqAHATwI6Oi3j0OQdSXYmAtEWqBjqpJO9QYzdxUw63zM9k26UV+xoP3Zk+kkqUDHUpp17DPD6v/bPuO6eNPZO0plkWyIQaYHKoT6Ta4Lmy6VKpLG585TxIKxewuldQnqKCUVdXuuMp2HXS70IiMDIAhVDPbDctHNfAJ5V0uobA0c8y7gWBNls93cSqWMMXltU74P5kHuy/maQHlIjAiJQWSBYqNv8NBSdLtOuAOY9eYXMw9b6nnKXM+3cFhAOgnnnsNth3iXBrnxYUiECQQQChTpx5ut8pWNPAMwt25ToJgr8FnV4Qazfaz1lBSk+AMaaIJsA4Ot8fI78XBZQS8pEYASBQKEeWJ+ys2cZOD5emgza5lnxu+PVX/qKQFQEAoc6Yfc2Kah/vjALD8UXtIqdV7rQAfC6wfUMOuxZ8Uvh+8kKERCBYoHgoW7zE0qRN0q+PoAvMSHjtdbfGuiRtLPPCVg51I9fuVb94lH2l2UiIAK/BQKHeqDetLNcRu4ngLrhRfmlzhurSj8vJ9v9h0S0YWgdvXGt+EI5GREQgf8TCBXqpJP1iJEIecn7rmVsLV1j2tkrAA78uZ/og+7vX55JN3wL2V/KRUAEigRChTrl9O5gVrdDCPpa1a3KtEx7XbomaeeaCXyx+H5WtNpriXeF6C+lIiACJQKhQp1If52pYrETAO0DeF4ZzW4QPQMX7mlVyGRaGrqHE5dQy2NRBMZHIFSoB7ew0fFnxxgWMS9gUp+ZMJ9YX5368dP1+xcW9QXZasrJelzyVl6rfONITwRB+kqNCERdYFShHgs0s93vBJFZ1KvPtYxpY9FbeohAlAWqF2on2wHG/kF8Bno8y5gT5cOQ2UVgLASqF+rSb7+BbtcyGsdiKOkhAlEWkFBH+fRl9poUqFqoU7Z/kUHNRapdrmWsrkllGUoEJlCgaqH+588ngIR6Ag9eLlW7AtULtfP9KFifG6KlO64V31671DKZCEyMwC+mCA0psxZ9BQAAAABJRU5ErkJggg==',
+                    //   JSON.stringify({
+                    //     data: signature,
+                    //     isInitial: isInitial
+                    //   }))
+                } else {
+                    eventHandler.notify(eventHandler.buildJsonString('signature', {
+                        dgUniqueID: signature.dgUniqueID,
+                        isInitial: isInitial
+                    }));
+                    // eventHandler.setSignatureForIOS(
+                    //   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPUAAAAZCAYAAADpN2icAAADfElEQVR4Xu3aXYhMYRgH8P/z2snHnC2rcOHGhnylJAqhmTO5IMkNIops68KNlLJ7yNTuOcqN4goXshcoxYVwY8+ZQpE2uVLysRcSLdGeGdkd8z7asnaM2Z1z1u7ONueZy+l5n/M+v3f+802QmwiIQE0JUE1NI8OIgAggcKg3tflLVcF4l0nTD3ETARGYvAIVQ51y+pYx9z8CqAHATwI6Oi3j0OQdSXYmAtEWqBjqpJO9QYzdxUw63zM9k26UV+xoP3Zk+kkqUDHUpp17DPD6v/bPuO6eNPZO0plkWyIQaYHKoT6Ta4Lmy6VKpLG585TxIKxewuldQnqKCUVdXuuMp2HXS70IiMDIAhVDPbDctHNfAJ5V0uobA0c8y7gWBNls93cSqWMMXltU74P5kHuy/maQHlIjAiJQWSBYqNv8NBSdLtOuAOY9eYXMw9b6nnKXM+3cFhAOgnnnsNth3iXBrnxYUiECQQQChTpx5ut8pWNPAMwt25ToJgr8FnV4Qazfaz1lBSk+AMaaIJsA4Ot8fI78XBZQS8pEYASBQKEeWJ+ys2cZOD5emgza5lnxu+PVX/qKQFQEAoc6Yfc2Kah/vjALD8UXtIqdV7rQAfC6wfUMOuxZ8Uvh+8kKERCBYoHgoW7zE0qRN0q+PoAvMSHjtdbfGuiRtLPPCVg51I9fuVb94lH2l2UiIAK/BQKHeqDetLNcRu4ngLrhRfmlzhurSj8vJ9v9h0S0YWgdvXGt+EI5GREQgf8TCBXqpJP1iJEIecn7rmVsLV1j2tkrAA78uZ/og+7vX55JN3wL2V/KRUAEigRChTrl9O5gVrdDCPpa1a3KtEx7XbomaeeaCXyx+H5WtNpriXeF6C+lIiACJQKhQp1If52pYrETAO0DeF4ZzW4QPQMX7mlVyGRaGrqHE5dQy2NRBMZHIFSoB7ew0fFnxxgWMS9gUp+ZMJ9YX5368dP1+xcW9QXZasrJelzyVl6rfONITwRB+kqNCERdYFShHgs0s93vBJFZ1KvPtYxpY9FbeohAlAWqF2on2wHG/kF8Bno8y5gT5cOQ2UVgLASqF+rSb7+BbtcyGsdiKOkhAlEWkFBH+fRl9poUqFqoU7Z/kUHNRapdrmWsrkllGUoEJlCgaqH+588ngIR6Ag9eLlW7AtULtfP9KFifG6KlO64V31671DKZCEyMwC+mCA0psxZ9BQAAAABJRU5ErkJggg==',
+                    //   signature.dgUniqueID, isInitial);
+
+                }
+            },
+
+            fireVerificationLoginEvent: function(userName, password) {
+                console.log(userName + "===" + password);
+                eventHandler.notify(eventHandler.buildJsonString('verification_login', {
+                    userName: userName,
+                    password: password
+                }));
+                // eventHandler.setUserInfo('ZIA');
+            },
+            fireVerificationCodeLoginEvent: function(userName, password) {
+                console.log(userName + "===" + password);
+                eventHandler.notify(eventHandler.buildJsonString('verification_login', {
+                    userName: userName,
+                    password: password
+                }));
+                // eventHandler.setVerificationCodeName('CODE NAME');
+            },
+            //When click on link it will send the file name
+            fireLinkAttachmentEvent: function(item) {
+                console.log(item);
+                eventHandler.notify(eventHandler.buildJsonString('attachment', item));
+            },
+            fireVerifyLoginSecurity(item) {
+                console.log(item);
+                eventHandler.notify(eventHandler.buildJsonString('verifyLoginSecurity', item));
+                /*     eventHandler.setSwitchUserResult({
+                        "userId": "DGLN0000000000000001",
+                        "userName": "DataGlance",
+                        "companyId": "DGLN0000000000000001",
+                        "companyName": "DataGlance, Inc.",
+                        "firstName": "DataGlance",
+                        "lastName": "Inc.",
+                        "displayName": "DataGlance, Inc.",
+                        "userType": 0,
+                        "userStatus": 0,
+                        "email": "dataglance@dataglance.com",
+                        "mobileNumber": "1234567892",
+                        "employeeNumber": "DATAGLANCE  ",
+                        "externalUser": false,
+                        "externalProperties": {}
+                    });
+                    eventHandler.setUserCBPInfo({
+                        "role": [],
+                        "qualification": [],
+                        "qualificationGroup": []
+                    })*/
+            },
+            fireGetUserCBPInfo: function(item) {
+                eventHandler.notify(eventHandler.buildJsonString('getUserCBPInfo', item));
+
+                // eventHandler.setUserCBPInfo({
+                //   "role": [],
+                //   "qualification": [{
+                //     "code": 2000,
+                //     "display": "OPERATOR"
+                //   }],
+                //   "qualificationGroup": []
+                // })
+            },
+            fireCameraVideoEvent() {
+               eventHandler.notify(eventHandler.buildJsonString('fireCameraVideoEvent', ''));
+               // eventHandler.setSingleVideo('file_example_MP4_480_1_5MG.mp4','Video');
+            },
+            fireLinkEdocEvent: function(item) {
+                console.log(item);
+                eventHandler.notify(eventHandler.buildJsonString('attachment_link_edoc', item));
+            },
+            fireLinkURLEvent: function(item) {
+                console.log(item);
+                eventHandler.notify(eventHandler.buildJsonString('attachment_link_url', item));
+            },
+            fireLinkEmeadiaEvent: function(item) {
+                console.log(item);
+                eventHandler.notify(eventHandler.buildJsonString('attachment_link_emedia', item));
+            },
+            triggerScanevent: function(verificationForm) {
+                eventHandler.notify(eventHandler.buildJsonString('verification_scan', {}));
+                // eventHandler.setScanData('dataglance', 'dataglance', 'dataglance');
+            },
+            triggerCodeScanevent: function(verificationForm) {
+                eventHandler.notify(eventHandler.buildJsonString('verification_code_scan', {}));
+                // eventHandler.setCodeScanData('CODE', 'CODE', 'CODE');
+            },
+            //Add the media to current step/section
+            setUserName: function(userName) {
+                window['mobilesdk'].component.setUserName(userName);
+            },
+
+            setUserInfo: function(userName) {
+                window['mobilesdk'].component.setUserInfo(userName);
+            },
+
+            setScanData: function(userName, password, name) {
+                window['mobilesdk'].component.setScanData(userName, password, name);
+            },
+
+            setCodeScanData: function(userName, password, name) {
+                window['mobilesdk'].component.setCodeScanData(userName, password, name);
+            },
+
+            setVerificationCodeName: function(codeName) {
+                window['mobilesdk'].component.setVerificationCodeName(codeName);
+            },
+            //event coming from Tablet
+            setMediaEdit: function(filename) {
+             //   console.log("baseb4url",filename)
+                window['mobilesdk'].component.setMediaEdit(filename);
+            },
+            setMedia: function(filename) {
+                window['mobilesdk'].component.setMedia(filename);
+            },
+            setSingleVideo: function(filename,type) {
+                window['mobilesdk'].component.setSingleVideo(filename,type);
+            },
+            setVideo: function(fileName) {
+                window['mobilesdk'].component.setVideo(fileName);
+            },
+            toggleExecution: function() {
+                window['mobilesdk'].component.toggleExecution();
+            },
+            setSignature: function(base64Image, data) {
+                window['mobilesdk'].component.setSignature(base64Image, data);
+            },
+            setSignatureForIOS: function(base64Image, dgUniqueID, isInitial) {
+                window['mobilesdk'].component.setSignatureForIOS(base64Image, dgUniqueID, isInitial);
+            },
+            //Initialize the events as false
+            initWindowObject: function() {
+                window['mediaEvent'] = false;
+                window['camereEvent'] = false;
+                window['saveEvent'] = false;
+            },
+
+            //It will trigger the loader active state
+            showLoader: function() {
+                cbpObject = window['mobilesdk'].component.showLoader();
+            },
+
+            //It will trigger the loader de-active state
+            hideLoader: function() {
+                cbpObject = window['mobilesdk'].component.hideLoader();
+            },
+            //operation= success/error    ======= source we sent in save evt
+            saveDataHandShake: function(operation, souce) {
+                //console.log('saveHandShake');
+                // alert('saveDataHandShake');
+                window['mobilesdk'].component.serverHandShake(operation, souce);
+            },
+            saveEventFromMobile: function() {
+                // alert('saveEventFromMobile');
+                window['mobilesdk'].component.saveEventFromMobile();
+            },
+            saveSyncData: function() {
+                //console.log('saveHandShake');
+                // alert('saveSyncData');
+                window['mobilesdk'].component.saveSyncData();
+            },
+            closeCBP: function() {
+                window['mobilesdk'].component.closeCBP();
+            },
+            closeExecutor: function(data) {
+                eventHandler.notify(eventHandler.buildJsonString('closeExecutor', data));
+            },
+            setSwitchUserResult(res) {
+                window['mobilesdk'].component.setRespVerificationLogin(res);
+            },
+            setUserCBPInfo: function(data) {
+                window['mobilesdk'].component.setCbpUserInfo(data);
+            },
+            fireRefObj: function(data) {
+                console.log(eventHandler.buildJsonString('fireRefObj', data))
+                eventHandler.notify(eventHandler.buildJsonString('fireRefObj', data));
+            },
+            fireYubikeyPIVverfication: function(data) {
+                console.log(eventHandler.buildJsonString('fireYubikeyPIVverfication', data))
+                eventHandler.notify(eventHandler.buildJsonString('fireYubikeyPIVverfication', data)); 
+               
+                
+            },
+            //Add the media to current step/section
+            verifyYubikey: function(data) {
+                //data = JSON.parse(data)
+              //  data.msg.data = JSON.parse(data.msg.data)
+                window['mobilesdk'].component.verifyYubikey(data);
+            },
+            reloadCBP() {
+                window['mobilesdk'].component.reloadCBP();
+            },
+            setAuthenticator: function(data) {
+              window['mobilesdk'].component.setAuthenticator(data);
+            },
+
+        }
+    </script>
+</body>
+
+</html>

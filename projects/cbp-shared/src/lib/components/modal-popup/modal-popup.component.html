@@ -1,0 +1,17 @@
+<div class="modal-header pb-0 pt-2 title-modal">
+    <div class="d-flex justify-content-between">
+      <h6 class="title fon" id="largeModalLabel" [innerHtml]="title"></h6>
+      <a aria-label="Close" class="close e-close" (click)="closeModal()">
+        <span class="colfont" aria-hidden="true" *ngIf="title !== 'Time Left'">×</span></a>
+    </div>
+</div>
+<ng-content></ng-content>
+  
+<div class="modal-footer" *ngIf="!hideFooter">
+    <ng-container *ngFor="let item of footerList">
+    <button class="borderenable" [ngClass]="defaultClass" [class.left]="item?.class"
+    [class.defaultSign]="item?.defaultSign"  type="button" [hidden] = "item?.hidden"
+     [disabled]="item?.disabled" (click)="submitclick(item)">{{item.type}}</button>
+    </ng-container>
+</div>
+  

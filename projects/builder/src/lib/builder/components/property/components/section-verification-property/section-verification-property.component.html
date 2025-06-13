@@ -1,0 +1,32 @@
+<div class="col-lg-12 col-md-12 pt-2">
+    <h6 class="background-step">Verification</h6>
+</div>
+<div class="col-lg-12 col-md-12 pt-0 pr-0">
+    <div class="row">
+        <div class="col-lg-5 col-md-5 pt-2 pr-0 dp-flex">
+            <label class="checkbox-inline flexAlign">
+                <input type="checkbox" value="" [disabled]="true" [checked]="cbpService.selectedElement.requiresIV">
+                &nbsp;&nbsp;<span>Requires IV?</span>
+
+            </label>
+        </div>
+        <div class="col-lg-5 col-md-5 pt-2 pr-0 dp-flex">
+            <label class="checkbox-inline flexAlign">
+                <input type="checkbox" value="" [disabled]="true" [checked]="cbpService.selectedElement.requiresCV">
+                &nbsp;&nbsp;<span>Requires CV?</span>
+            </label>
+        </div>
+        <div class="col-lg-5 col-md-5 pt-2 pr-0 dp-flex">
+            <label class="checkbox-inline flexAlign">
+                <input type="checkbox" value="" [disabled]="true" [checked]="cbpService.selectedElement.requiresQA">
+                &nbsp;&nbsp;<span class="checkbox_lbleposition">Requires QA?</span>
+            </label>
+        </div>
+        <div class="col-lg-5 col-md-5 pt-2 pr-0 dp-flex">
+            <label class="checkbox-inline flexAlign">
+                <input type="checkbox" value="" [disabled]="true" [checked]="cbpService.selectedElement.requiresPC">
+                &nbsp;&nbsp;<span class="checkbox_lbleposition">Requires PR?</span>
+            </label>
+        </div>
+    </div>
+</div>

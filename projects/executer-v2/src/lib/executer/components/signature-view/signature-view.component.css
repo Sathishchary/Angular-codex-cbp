@@ -1,0 +1,156 @@
+.sign-ex {
+  color: #8d8985;
+  padding: 5px;
+}
+
+.titleDatabreak {
+  padding-left: 0px !important;
+}
+
+.int {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 80%;
+  background-color: #e9ecef;
+  border: none !important;
+}
+
+.flatd {
+  width: 100%;
+  background: #e9ecef;
+  border: 1px solid #d4d4d4 !important;
+}
+
+.wra {
+  display: flex;
+  align-items: center;
+  justify-content: right;
+}
+
+.date {
+  font-size: 12px;
+  padding: 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.role-set-sign {
+  position: absolute;
+  right: 20px;
+  text-align: center;
+  top: 25px;
+  font-size: 14px;
+  z-index: 9;
+}
+
+.role-p {
+  pointer-events: none;
+  position: relative;
+  color: black;
+}
+
+.fix {
+  right: 0;
+  position: absolute;
+}
+
+/* PRODFIX-893 */
+.form-control.textOverflowControl {
+  height: 32px;
+  padding: 3px 5px !important;
+  overflow-y: auto;
+}
+
+/* PRODFIX-893 End*/
+.css-sign {
+  padding-left: 0px;
+  padding-right: 0;
+  position: relative;
+}
+
+.dis-cols {
+  background: #cbcdce !important;
+}
+
+@media (1401px <=width <=1501px) {
+  .date {
+    font-size: 11px;
+    padding: 3px;
+  }
+}
+
+@media (1315px <=width <=1400px) {
+  .date {
+    font-size: 9px;
+    padding: 3px;
+  }
+}
+
+@media (1256px <=width <=1314px) {
+  .date {
+    font-size: 9px;
+    padding: 3px;
+  }
+}
+
+@media (1161px <=width <=1255px) {
+  .date {
+    font-size: 7px;
+    padding: 3px;
+  }
+}
+
+@media (1000px <=width <=1160px) {
+  .date {
+    font-size: 6px;
+    padding: 2px;
+  }
+}
+
+.pos-Alignment {
+  display: flex;
+  flex-direction: row-reverse;
+  bottom: 33px;
+  position: relative;
+  left: 7px;
+  pointer-events: none;
+}
+
+.pos-text-align {
+  display: flex;
+  flex-direction: row-reverse;
+  bottom: 75px;
+  position: relative;
+  left: 7px;
+  pointer-events: none;
+}
+
+.h77 {
+  height: 77px;
+}
+
+.notesSign {
+  display: flex;
+  flex-direction: column;
+
+}
+
+.sign-notes-wrapper {
+  border: 1px solid #ccc;
+  padding: 4px;
+  margin-right: 3px;
+  margin-left: 0px;
+  background: #e5eef3;
+  border-radius: 0px;
+}
+
+.signNote-req {
+  display: flex;
+}
+.FontlineHeight font{line-height: 0 !important;}
+.textOverflowControl.empty-placeholder:empty::before {
+  content: attr(data-placeholder);
+  color: #999;
+  font-style: italic;
+  pointer-events: none;
+}

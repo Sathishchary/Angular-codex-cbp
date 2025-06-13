@@ -1,0 +1,12 @@
+.ul-cl{
+    list-style: unset !important;
+    list-style-type: unset !important;
+    list-style-image: unset !important;
+}
+
+.row {
+    display: flex;
+    flex-wrap: nowrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}

@@ -1,0 +1,647 @@
+<div class="col-md-12 col-xs-12 col-lg-12 col-sm-12 pl-2">
+    <div class="row dp-flex">
+        <div class="col-2 col-sm-2 col-md-3 col-lg-2" >
+          <div class="btn-group">
+            <ng-container *ngIf="windowWidth>=773">
+                <ng-container *ngTemplateOutlet="menuTemplate"></ng-container>
+            </ng-container>
+            <ng-container *ngIf="windowWidth<773">
+                <div class="dropdown">
+                    <button class="dropbtn mr-2 buttns buttonscl dropPo" style="top:0px!important">
+                      <img [src]="ImagePath.menubar" class="imageblue" alt="img" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }">
+                    </button>
+                    <div class="dropdown-content currentdropdown">
+                        <div class="col-md-12 col-lg-12 current">
+                            <div class="row">
+                                <div class="col-md-12 col-lg-12">
+                                    <div class="col-md-12 col-lg-12 pt-2 pb-2 ">
+                                        <div class="row">
+                                            <ng-container *ngTemplateOutlet="menuTemplate"></ng-container>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+          </div>
+        </div>
+        <div class="col-3 col-sm-3 col-md-3 col-lg-3 text-center btn-align pt-0"
+        [class.disabled]="freezePage || entirePageFreeze">
+            <div class="row center-col dflexWrap">
+                <div *ngIf="cbpService?.selectedElement?.number && !cbpService.coverPageSelected">
+                    <!-- <button class="btn-pd btn btn-icon btn-outline-secondary btn-sm"
+                    [innerHTML]="cbpService.selectedElement?.number" (click)="goToStep.emit()">
+                   </button> -->
+                   <button class="btn-pd btn btn-icon btn-outline-secondary btn-sm"
+                   [innerHTML]="cbpService.selectedElement?.number?.slice(0, 41)"
+                   title="{{cbpService.selectedElement?.number}}" (click)="goToStep.emit()">
+                  </button>
+                </div>
+                <div *ngIf="cbpService?.stepActionArray!.length>0" class="c-def">
+                    <button class="btn-pd btn btn-icon btn-outline-secondary btn-sm disabled c-def">
+                    {{stepCompleteCount?.length}} / {{ actionSteps?.length}}
+                    </button>
+                </div>
+                <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12 fullCount-width" *ngIf="isTimerOnStep">
+                    <span class="form-control countdown ContentMiddle">
+                    <countdown class="text-lg timeCountFont" (event)="timerFinished($event)"
+                    [config]="{leftTime: stepTime}"> $!h!:$!m!:$!s!
+                    </countdown>
+                    <!-- <br/> -->
+                    <span class="mints minutesCountFont"> Min</span>
+                    </span>
+                </div>
+                <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12 p-0 dispalyFlexCu"
+                 *ngIf="!isTimerOnStep && repeatStepEnable && repeatTimes <= totalRepeatTimes">
+                    <button class="btn btn-icon btn-outline-secondary btn-sm timerFontCu">
+                          {{repeatTimes}} of {{totalRepeatTimes}} Times</button>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="!isDetailsTabOpen" class="col-7 col-sm-7 col-md-6 col-lg-7 btn-align text-right px-0 priority_header_menu">
+            <ng-container *ngIf="!executerModes?.viewMode && !cbpService?.isBackGroundDocument">
+                <ng-container *ngIf="windowWidth>=773">
+                  <ng-container *ngTemplateOutlet="togglelock"></ng-container>
+                  <ng-container *ngTemplateOutlet="copyFromWord"></ng-container>
+                  <ng-container *ngIf="cbpService.documentInfo &&  cbpService.documentInfo['isDataProtected'] && menuConfig.isDataProtected">
+                    <ng-container *ngTemplateOutlet="toggleProtect"></ng-container>
+                  </ng-container>
+                  <ng-container *ngTemplateOutlet="linkTemplate"></ng-container>
+
+                  <ng-container *ngTemplateOutlet="roughAnnotationUndo"></ng-container>
+                  <ng-container *ngTemplateOutlet="roughAnnotationTempTab"></ng-container>
+                  <ng-container *ngTemplateOutlet="stickyTemplate"></ng-container>
+                  <!-- <ng-container *ngTemplateOutlet="referenceTemplate"></ng-container> -->
+                  <ng-container *ngTemplateOutlet="TableActionTemplate"></ng-container>
+                </ng-container>
+                <ng-container *ngIf="windowWidth<773 && !isMobile">
+                  <ng-container *ngTemplateOutlet="copyFromWord"></ng-container>
+                  <ng-container *ngIf="cbpService.documentInfo && cbpService.documentInfo['isDataProtected']">
+                    <ng-container *ngTemplateOutlet="toggleProtect"></ng-container>
+                  </ng-container>
+
+                  <ng-container *ngTemplateOutlet="linkTemplate"></ng-container>
+
+                  <ng-container *ngTemplateOutlet="roughAnnotationUndo"></ng-container>
+                  <ng-container *ngTemplateOutlet="roughAnnotationTemp"></ng-container>
+                  <ng-container *ngTemplateOutlet="stickyTemplate"></ng-container>
+                  <!-- <ng-container *ngTemplateOutlet="referenceTemplate"></ng-container> -->
+                    <div class="dropdown" [class.disabled]="entirePageFreeze">
+                        <button class="dropbtn mr-2 buttns buttonscl dropPo">
+                          <img [src]="ImagePath.tableText" class="imageblue" alt="img" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }">
+                        </button>
+                        <div class="dropdown-content submenu currentdropdown" style="height: 45px;">
+                            <div class="col-md-12 col-lg-12 current">
+                                <div class="row">
+                                    <div class="col-md-12 col-lg-12">
+                                        <div class="col-md-12 col-lg-12 pt-2 pb-2 ">
+                                            <div class="row">
+                                                <ng-container *ngTemplateOutlet="TableActionTemplate"></ng-container>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+                <ng-container *ngTemplateOutlet="commentsTemplate"></ng-container>
+                <ng-container>
+                    <ng-container *ngIf="!menuConfig?.isReadExecutor">
+                        <ng-container *ngTemplateOutlet="ExecutionTemplate"></ng-container>
+                    </ng-container>
+                </ng-container>
+                <ng-container *ngTemplateOutlet="newExecutionTemplate"></ng-container>
+            </ng-container>
+            <ng-container *ngIf="executerModes?.viewMode">
+                <button (click)="saveCbpFileCall('refresh')"
+                [disabled]="completedExecution || getDisableComplete()
+                 || !isEdocument || isReadOnlyFromEdocument || terminatedExecution" [ngClass]="[btnClass]" class="ToolbarBtn">
+                <span class="btn-icon-wrap" title="Reload">
+                  <img [src]="ImagePath.reLoadImg" class="image-pad" alt="img" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }">
+                </span>
+              </button>
+            </ng-container>
+            <!-- [disabled]="dataJson.isSavedDataJson === true"  -->
+            <button *ngIf="menuConfig.isDeleteEnabled" (click)="exitExecutor()"
+            [ngClass]="[btnClass]">
+            <span class="btn-icon-wrap" title="Close">
+              <img [src]="ImagePath.topClose" class="terminate" alt="img" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }">
+            </span>
+          </button>
+        </div>
+    </div>
+</div>
+
+<ng-template #stickyTemplate>
+  <button [ngClass]="[btnClass]" *ngIf="!cbpService.selectedTable && !stopCbpExecution && menuConfig.stickyNoteEnable"
+  [class.disabled]="completedExecution || terminatedExecution || isDetailsTabOpen || entirePageFreeze || cbpService.selectedElement?.stickyExeNote?.isAdded== true"
+  (click)="executerEvent('stickyNote')" class="ToolbarBtn">
+   <span class="btn-icon-wrap" title="Sticky Notes">
+     <img [src]="ImagePath.stickyNote" class="image-pad" alt="img" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }">
+   </span>
+ </button>
+</ng-template>
+
+<!-- <ng-template #referenceTemplate>
+  <button [ngClass]="[btnClass]" *ngIf="!stopCbpExecution && menuConfig.enableReferenceObj"
+  [class.disabled]="entirePageFreeze " (click)="referenceEvent()"
+  [class.active]=" executionService.referenceObjectEditMode">
+   <span class="btn-icon-wrap" title="Reference">
+     <img [src]="ImagePath.reference" class="image-pad" alt="img"
+     *ngIf="!executionService.referenceObjectEditMode" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }">
+     <img [src]="ImagePath.referenceActive" class="image-pad" alt="img"
+      *ngIf="executionService.referenceObjectEditMode" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }">
+   </span>
+ </button>
+</ng-template> -->
+<ng-template #linkTemplate>
+  <button [ngClass]="[btnClass]" *ngIf="!stopCbpExecution"
+  [disabled]="completedExecution || terminatedExecution || isDetailsTabOpen || cbpService.coverPageSelected ||documentSelected || entirePageFreeze " (click)="linkEvent()" class="ToolbarBtn">
+   <span class="btn-icon-wrap" title="Link">
+     <img [src]="ImagePath.link" class="image-pad" alt="img" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }">
+   </span>
+ </button>
+</ng-template>
+<ng-template #toggleProtect>
+  <button *ngIf="!stopCbpExecution" [ngClass]="[btnClass]"
+   [class.disabled]="completedExecution || terminatedExecution || isDetailsTabOpen || cbpService.coverPageSelected ||documentSelected" class="ToolbarBtn">
+   <span class="btn-icon-wrap" title="Protect Data" >
+     <img [src]="ImagePath.protectDataOnIcon" class="image-pad" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }" alt="img" *ngIf="executionService.isDataProtected" (click)="toggleProtectData()">
+     <img [src]="ImagePath.protectDataOffIcon" class="image-pad" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }" alt="img" *ngIf="!executionService.isDataProtected" (click)="toggleProtectData()">
+   </span>
+ </button>
+</ng-template>
+<ng-template #togglelock>
+  <button *ngIf="!stopCbpExecution" [ngClass]="[btnClass]" 
+  [disabled]="completedExecution || terminatedExecution || isDetailsTabOpen || cbpService.coverPageSelected ||documentSelected" class="ToolbarBtn">
+   <span class="btn-icon-wrap" title="Protect All Entries" >
+     <img [src]="ImagePath.protectLock" class="image-pad" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }" alt="img"
+      (click)="!(completedExecution || terminatedExecution || isDetailsTabOpen)&& notifyExecuterParent(menuBarEvent.protectAllFields)">
+   </span>
+ </button>
+</ng-template>
+<ng-template #copyFromWord>
+  <button *ngIf="!(cbpService.coverPageSelected || documentSelected) && menuConfig.showRowTable && !stopCbpExecution && !this.isMobile && cbpService.selectedTable" [ngClass]="[btnClass]" (click)="copyMsWordEvent()" 
+  [disabled]="completedExecution || terminatedExecution || isDetailsTabOpen || cbpService.coverPageSelected ||documentSelected" class="ToolbarBtn">
+   <span class="btn-icon-wrap" title="Copy Word Data" >
+     <img [src]="ImagePath.copyFromMsword" class="image-pad" alt="img" *ngIf="executionService.wordData.length == 0" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }">
+     <img [src]="ImagePath.copyFromMswordActive" class="image-pad" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }" alt="img" *ngIf="executionService.wordData.length > 0" >
+   </span>
+ </button>
+</ng-template>
+<ng-template #menuTemplate>
+  <button *ngIf="!stopCbpExecution" [ngClass]="[btnClass]" (click)="menuChange()" class="ToolbarBtn">
+    <span class="btn-icon-wrap" title="Menu">
+      <img [src]="ImagePath.menu_1" class="image-pad" alt="img" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }">
+    </span>
+  </button>
+  <button *ngIf="!stopCbpExecution" [ngClass]="[btnClass]" (click)="change()" class="ToolbarBtn">
+    <span class="btn-icon-wrap" title="Navigation">
+      <img [src]="ImagePath.menuImg" class="image-pad" alt="img" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }">
+    </span>
+  </button>
+  <button [ngClass]="[btnClass]" (click)="detailsTabChange()" class="ToolbarBtn">
+    <span class="btn-icon-wrap" title="Details">
+      <img [src]="ImagePath.detailsIcon" class="image-pad" alt="img" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }">
+    </span>
+ </button>
+
+    <ng-container *ngIf="!executerModes?.viewMode">
+        <ng-container *ngIf="!menuConfig?.isReadExecutor">
+            <!-- <button [ngClass]="[btnClass]" [disabled]="completedExecution || terminatedExecution || isDetailsTabOpen || entirePageFreeze || documentSelected || freezePage " (click)="detailsTabChange()" class="ToolbarBtn">
+                <span class="btn-icon-wrap" title="Details">
+                  <img [src]="ImagePath.detailsIcon" class="image-pad" alt="img" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }">
+                </span>
+            </button> -->
+            <div *ngIf="menuConfig.isSwitchUser" class="dropdown" style="display: inline-block !important;"
+             [class.disabled]="completedExecution || terminatedExecution || isDetailsTabOpen || entirePageFreeze || isReadOnlyExecution">
+                <button class="dropbtn mr-2 buttns marginThree" 
+                 [disabled]="completedExecution || terminatedExecution || isDetailsTabOpen || entirePageFreeze || isReadOnlyExecution">
+                    <span class="btn-icon-wrap" title="Switch User">
+                      <img [src]="ImagePath.user" alt="img" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }">
+                    </span>
+                  </button>
+                <div class="dropdown-content-test user-drop-con" [class.disabled]="entirePageFreeze">
+                    <div class="col-md-12 col-lg-12 user-drop">
+                        <app-show-users [customUsers]="customUsers" [isFormView]="false" (notifyParentEvent)="existingSecurityUserFromParent($event)"></app-show-users>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+        <button [ngClass]="[btnClass]" *ngIf="!stopCbpExecution && propertyDocument?.dynamicDocument && !menuConfig?.isExecuter" (click)="dynamicSectionTest()"
+         [disabled]="completedExecution || terminatedExecution || entirePageFreeze || isDetailsTabOpen" class="ToolbarBtn">
+            <span class="btn-icon-wrap" title="Dynamic section">
+              <img [src]="ImagePath.dynamic" class="image-pad" alt="img" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }">
+            </span>
+          </button>
+        <button class="save-mar" [ngClass]="[btnClass]" *ngIf="menuConfig.isReadExecutor || enableSave"
+          (click)="saveLocalCBP()" class="ToolbarBtn">
+            <span class="btn-icon-wrap" title="Save As">
+              <img [src]="ImagePath.topSave" class="image-pad" alt="img" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }">
+            </span>
+          </button>
+        <button *ngIf="sharedviewService.showComments" [ngClass]="[btnClass]" (click)="setCommentEnable()" 
+        [disabled]="completedExecution || terminatedExecution || entirePageFreeze || isDetailsTabOpen" class="ToolbarBtn">
+            <span class="btn-icon-wrap" title="Comments">
+              <img [src]="ImagePath.commentIcon" class="image-pad" alt="img" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }">
+            </span>
+          </button>
+    </ng-container>
+</ng-template>
+
+<ng-template #TableActionTemplate>
+  <button [ngClass]="[btnClass]" class="bg-t" 
+  [disabled]="cbpService.coverPageSelected ||documentSelected||entirePageFreeze  || completedExecution || terminatedExecution || isDetailsTabOpen"
+    *ngIf="!stopCbpExecution && !isMobile && cbpService.selectedTable"
+    (click)="!(completedExecution || terminatedExecution || isDetailsTabOpen)&& selectCell()" class="ToolbarBtn">
+    <span class="btn-icon-wrap" title="Selected" [ngClass]="{'btn-icon-width':!isMobile, 'tabIconwidth1' : isMobile }">
+      <img [src]="cbpService.selectCellEnabled ? ImagePath.selectCell : ImagePath.unSelectCell" class="tab-img image-pad" alt="img" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }">
+    </span>
+  </button>
+    <div class="dropdown" *ngIf="!(cbpService.coverPageSelected || documentSelected) && menuConfig.showRowTable && !stopCbpExecution && cbpService.selectedTable">
+        <button [ngClass]="[btnClass]" [disabled]="cbpService.coverPageSelected ||documentSelected || entirePageFreeze || completedExecution || terminatedExecution || isDetailsTabOpen" class="ToolbarBtn">
+        <span class="btn-icon-wrap " title="Add Row">
+          <img [src]="ImagePath.tableProperty" class="image-pad" alt="img" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }">
+        </span>
+      </button>
+        <div class="dropdown-contents currentImgdropdown table medias pl-0 pr-0 pt-2"
+        *ngIf="!(cbpService.coverPageSelected ||documentSelected || completedExecution || terminatedExecution)"
+        [class.disabled]="cbpService.coverPageSelected ||documentSelected || completedExecution || terminatedExecution || isDetailsTabOpen">
+            <div class="row drp-item dp-jus IconAdjustmentDropdown">
+              <ul class="p-0 btn-group mrb-0">
+                <li>
+                  <button [ngClass]="[btnClass]" class="bg-t ToolbarBtn"  [disabled]="(completedExecution || terminatedExecution || isDetailsTabOpen)"
+                  *ngIf="!stopCbpExecution&& cbpService.selectedTable"  (click)="addRowTable('above')">
+                    <span class="btn-icon-wrap" title="Add Row Above" [ngClass]="{'btn-icon-width':!isMobile, 'tabIconwidth1' : isMobile }">
+                      <img [src]="ImagePath.tableRowAbove" class="image-pad tab-img" alt="img" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }">
+                    </span>
+                  </button>
+                </li>
+                <li>
+                  <button [ngClass]="[btnClass]" class="bg-t ToolbarBtn" [disabled]="(completedExecution || terminatedExecution || isDetailsTabOpen)"
+                   *ngIf="!stopCbpExecution  && cbpService.selectedTable"  (click)="addRowTable('bottom')">
+                    <span class="btn-icon-wrap" title="Add Row below" [ngClass]="{'btn-icon-width':!isMobile, 'tabIconwidth1' : isMobile }">
+                      <img [src]="ImagePath.tableRowBelow" class="image-pad tab-img" alt="img" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }">
+                    </span>
+                  </button>
+                </li>
+                <li>
+                  <button [ngClass]="[btnClass]" class="bg-t ToolbarBtn" [disabled]="(completedExecution || terminatedExecution || isDetailsTabOpen)"
+                  *ngIf="!stopCbpExecution  && cbpService.selectedTable" (click)="selecTableOption('row')">
+                    <span class="btn-icon-wrap" title="Select Row" [ngClass]="{'btn-icon-width':!isMobile, 'tabIconwidth1' : isMobile }">
+                      <img [src]="ImagePath.selectRow" class="image-pad tab-img" alt="img" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }">
+                    </span>
+                  </button>
+                </li>
+                <li>
+                  <button [ngClass]="[btnClass]" class="bg-t ToolbarBtn" [disabled]="completedExecution || terminatedExecution || isDetailsTabOpen"
+                  *ngIf="!stopCbpExecution  && cbpService.selectedTable"  (click)="selecTableOption('column')">
+                    <span class="btn-icon-wrap" title="Select Column" [ngClass]="{'btn-icon-width':!isMobile, 'tabIconwidth1' : isMobile }">
+                      <img [src]="ImagePath.selectColumn" class="image-pad tab-img" alt="img" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }">
+                    </span>
+                  </button>
+                </li>
+                <li>
+                  <button [ngClass]="[btnClass]" class="bg-t ToolbarBtn" [disabled]="completedExecution || terminatedExecution || isDetailsTabOpen"
+                  *ngIf="!stopCbpExecution && cbpService.selectedTable"  (click)="selecTableOption('table')">
+                    <span class="btn-icon-wrap" title="Select Table" [ngClass]="{'btn-icon-width':!isMobile, 'tabIconwidth1' : isMobile }">
+                      <img [src]="ImagePath.selectTable" class="image-pad tab-img" alt="img" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }">
+                    </span>
+                  </button>
+                </li>
+                <li>
+                  <button [disabled]="tableService.selectedRow?.length==0 ||completedExecution || terminatedExecution || isDetailsTabOpen" [ngClass]="[btnClass]" class="bg-t"
+                   *ngIf="!stopCbpExecution && cbpService.selectedTable" (click)="notifyExecuterParent(menuBarEvent.ClearSelectedFields)" class="ToolbarBtn">
+                    <span class="btn-icon-wrap" title="Clear Fields" [ngClass]="{'btn-icon-width':!isMobile, 'tabIconwidth1' : isMobile }">
+                    <img [src]="ImagePath.topUndo" class="image-pad tab-img" alt="img" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }">
+                    </span>
+                </button>
+                </li>
+                <li *ngIf="disableForNNS">
+                  <button [ngClass]="[btnClass]" class="bg-t ToolbarBtn" [disabled]="completedExecution || terminatedExecution || isDetailsTabOpen"
+                  *ngIf="!stopCbpExecution  && cbpService.selectedTable"  [disabled]="!tableService.enableDeleteRow"
+                  (click)="deleteRowTable('delete')">
+                    <span class="btn-icon-wrap" title="Delete Row" [ngClass]="{'btn-icon-width':!isMobile, 'tabIconwidth1' : isMobile }">
+                    <img [src]="ImagePath.topDelete" class="image-pad tab-img" alt="img" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }">
+                    </span>
+                </button>
+                </li>
+              </ul>
+          </div>
+        </div>
+    </div>
+    <div class="dropdown-font-family">
+      <button [ngClass]="[btnClass]" class="bg-t ToolbarBtn" *ngIf="!stopCbpExecution && !isMobile"
+      [disabled]="completedExecution || terminatedExecution || isDetailsTabOpen" class="ToolbarBtn">
+        <span class="btn-icon-wrap" title="Font Family" [ngClass]="{'btn-icon-width':!isMobile, 'tabIconwidth1' : isMobile }">
+        <img [src]="ImagePath.fontFamilyIcon" class="image-pad tab-img"
+        alt="img" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }">
+      </span>
+      </button>
+      <div class="font-family-align" *ngIf="!cbpService.isDisabledAllInputEntries">
+        <form>
+          <select
+            #selectFamily [(ngModel)]="defaultFontFamily"
+            (change)="fontSizeFamily($event)" class="form-control font-names"
+            name="fontName">
+            <option [value]="item" *ngFor="let item of fontNames">
+              {{item === 'TimeNewRoman'? 'Times New Roman' : item}}</option>
+          </select>
+        </form>
+      </div>
+    </div>
+    <div class="dropdown-font">
+      <button [ngClass]="[btnClass]" class="bg-t ToolbarBtn" *ngIf="!stopCbpExecution && !isMobile"
+      [disabled]="completedExecution || terminatedExecution || isDetailsTabOpen" class="ToolbarBtn">
+        <span class="btn-icon-wrap" title="Font Size" [ngClass]="{'btn-icon-width':!isMobile, 'tabIconwidth1' : isMobile }">
+        <img [src]="ImagePath.textIcon" class="image-pad tab-img"
+        alt="img" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }">
+      </span>
+      </button>
+      <div class="font-size-align" *ngIf="!cbpService.isDisabledAllInputEntries">
+        <form>
+          <select #select (change)="fontSizeChange($event)" name="fontsize" [(ngModel)]="defaultFontSize">
+            <option [value]="item" *ngFor="let item of fontSizes">{{item}}</option>
+          </select>
+        </form>
+      </div>
+    </div>
+    <div class="dropdown-font-color">
+      <button type="button" [ngClass]="[btnClass]"
+      [disabled]="(completedExecution || terminatedExecution || isDetailsTabOpen)"
+      class="bg-t ToolbarBtn" title="Text Color" tabindex="-1"
+       *ngIf="!stopCbpExecution && !isMobile">
+        <span class="btn-icon-wrap" title="Font Color" [ngClass]="{'btn-icon-width':!isMobile, 'tabIconwidth1' : isMobile }">
+          <img [src]="ImagePath.fontColor" class="image-pad tab-img" alt="img" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }">
+          <span class="color-picker" [style.background]="'border-bottom: 4px solid'+defaultColor"></span>
+        </span>
+      </button>
+        <div class="font-family-color" *ngIf="!cbpService.isDisabledAllInputEntries">
+          <div class="container">
+            <div  class="row">
+              <div class="col-md-12 pl-0 pr-0">
+                <label >Section Font Color</label>
+                <div class="Picker">
+                  <ng-container *ngFor="let item of colors;">
+                    <div class="sample drag-handle" [style.background-color]="item"
+                    [class.selected]="defaultColor === item"
+                    (click)="insertColor(item, 'textColor', '');"></div>
+                  </ng-container>
+                </div>
+              </div>
+              <div class="col-md-12 pl-0 pr-0">
+                <label>Custom Font Color</label>
+                <br>
+                <input type="color" style="width:100%" class="backcss"
+                [value]="defaultColor"
+                #bgInput (change)="insertColor(bgInput.value, 'textColor', '')">
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <button [ngClass]="[btnClass]" class="bg-t ToolbarBtn" *ngIf="!stopCbpExecution && !isMobile"
+     (click)="formatPainter()" [disabled]="(completedExecution || terminatedExecution || isDetailsTabOpen) || cbpService.coverPageSelected ||documentSelected">
+      <span class="btn-icon-wrap" title="Format Painter" [ngClass]="{'btn-icon-width':!isMobile, 'tabIconwidth1' : isMobile }">
+       <img [src]="executionService.formatPainterEnable ? ImagePath.formatPainterSelected : ImagePath.formatPainter" class="img-navbar-width image-pad tab-img" alt="img">
+     </span>
+   </button>
+      <button [ngClass]="[btnClass]" class="bg-t ToolbarBtn" *ngIf="!stopCbpExecution && !isMobile && cbpService.selectedTable"
+       [disabled]="(completedExecution || terminatedExecution || isDetailsTabOpen) || cbpService.coverPageSelected ||documentSelected || entirePageFreeze" (click)="copyTable('copy')">
+      <span class="btn-icon-wrap" title="Copy" [ngClass]="{'btn-icon-width':!isMobile, 'tabIconwidth1' : isMobile }">
+        <img [src]="ImagePath.copyIcon" class="image-pad tab-img" alt="img" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }">
+      </span>
+      </button>
+    <button [ngClass]="[btnClass]"class="bg-t ToolbarBtn" 
+    [disabled]="(completedExecution || terminatedExecution || isDetailsTabOpen) || cbpService.coverPageSelected ||documentSelected || entirePageFreeze"
+    *ngIf="!stopCbpExecution && !isMobile && cbpService.selectedTable" (click)="copyTable('paste')">
+      <span class="btn-icon-wrap" title="Paste" [ngClass]="{'btn-icon-width':!isMobile, 'tabIconwidth1' : isMobile }">
+        <img [src]="ImagePath.pasteIcon" class="image-pad tab-img" alt="img" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }">
+      </span>
+    </button>
+      <button [ngClass]="[btnClass]" class="bg-t ToolbarBtn" [disabled]="(completedExecution || terminatedExecution || isDetailsTabOpen)"
+      *ngIf="!stopCbpExecution && !isMobile && cbpService.selectedTable" (click)="executerEvent('left')">
+        <span class="btn-icon-wrap"  [ngClass]="{'btn-icon-width':!isMobile, 'tabIconwidth1' : isMobile }" title="Left Align" [class.disabled]="(completedExecution || terminatedExecution || isDetailsTabOpen)">
+         <img [src]="defaultTextAlign == 'left'? ImagePath.leftAlignSelected : ImagePath.leftAlign" class="image-pad tab-img" alt="img" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }">
+       </span>
+     </button>
+      <button [ngClass]="[btnClass]" class="bg-t ToolbarBtn" [disabled]="(completedExecution || terminatedExecution || isDetailsTabOpen)"
+      *ngIf="!stopCbpExecution && !isMobile && cbpService.selectedTable" (click)="executerEvent('center')">
+        <span class="btn-icon-wrap" [ngClass]="{'btn-icon-width':!isMobile, 'tabIconwidth1' : isMobile }" title="Center Align"
+        [class.disabled]="(completedExecution || terminatedExecution || isDetailsTabOpen)">
+         <img [src]="defaultTextAlign == 'center'? ImagePath.centerAlignSelected :ImagePath.centerAlign" class="image-pad tab-img" alt="img" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }">
+       </span>
+     </button>
+      <button [ngClass]="[btnClass]" class="bg-t ToolbarBtn"
+       *ngIf="!stopCbpExecution && !isMobile && cbpService.selectedTable"
+       (click)="executerEvent('right')">
+        <span class="btn-icon-wrap" [ngClass]="{'btn-icon-width':!isMobile, 'tabIconwidth1' : isMobile }" title="Right Align"
+        [class.disabled]="(completedExecution || terminatedExecution || isDetailsTabOpen)">
+         <img [src]="defaultTextAlign == 'right'? ImagePath.rightAlignSelected :ImagePath.rightAlign" class="image-pad tab-img" alt="img" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }">
+       </span>
+     </button>
+
+    <button class="mar-right ToolbarBtn" [ngClass]="[btnClass]"
+     *ngIf="(executionService.selectedFieldEntry || executionService.selectedNewEntry) &&
+      !stopCbpExecution"
+      [disabled]="(entirePageFreeze || documentSelected || (completedExecution || terminatedExecution || isDetailsTabOpen) || disableStep) || 
+      (!(executionService.selectedNewEntry?.dataType === 'Text Area' || executionService.selectedNewEntry?.dataType === 'Text' ||
+      executionService.selectedNewEntry?.dataType === 'Number'))"
+      (click)="updateViewTextView()">
+      <span class="btn-icon-wrap" title="Edit Text">
+        <img [src]="ImagePath.tableText" class="image-pad" alt="img" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }">
+      </span>
+    </button>
+</ng-template>
+
+<ng-template #ExecutionTemplate>
+    <button *ngIf="menuConfig.play" (click)="stopExecutionChange()" [class.disabled]="entirePageFreeze || (completedExecution || terminatedExecution || isDetailsTabOpen)" [ngClass]="[btnClass]">
+      <span class="btn-icon-wrap" title="{{stopCbpExecution ? 'Play': 'Pause'}}">
+        <img *ngIf="!stopCbpExecution" [src]="ImagePath.pauseImg"
+          style="border: 1px solid #FFE777; border-radius: 5px;" alt="img" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }">
+        <img *ngIf="stopCbpExecution" [src]="ImagePath.topExecute"
+          style="border: 1px solid #A4FCC6; border-radius: 5px;" alt="img" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }">
+      </span>
+    </button>
+    <button (click)="completeExecution()" *ngIf="menuConfig.play && isLandScapeMode" [class.disabled]="entirePageFreeze || (completedExecution || terminatedExecution || isDetailsTabOpen)" [ngClass]="[btnClass]" class="ToolbarBtn">
+      <span class="btn-icon-wrap" title="Complete">
+        <img [src]="ImagePath.checkMarkImg" class="image-pad" alt="img" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }">
+      </span>
+    </button>
+    <button (click)="terminateExecution()" *ngIf="menuConfig.play && isLandScapeMode" [disabled]="entirePageFreeze || stepCompleteCount?.length === cbpService.stepActionArray.length || (completedExecution || terminatedExecution || isDetailsTabOpen)" [ngClass]="[btnClass]">
+      <span class="btn-icon-wrap" title="Terminate">
+        <img [src]="ImagePath.terminateImg" class="terminate" alt="img" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }">
+      </span>
+    </button>
+</ng-template>
+
+<ng-template #newExecutionTemplate>
+    <button *ngIf="!cbpService.selectedTable && menuConfig.isEditableCbp && !stopCbpExecution" [ngClass]="[btnClass]"
+    [disabled]="selectedItem?.isChecked || entirePageFreeze  || documentSelected || (completedExecution || terminatedExecution || isDetailsTabOpen) || disableStep || selectedStepSectionInfo?.isEdited" 
+    (click)="editStepTitleModal()" class="ToolbarBtn">
+      <span class="btn-icon-wrap" title="Edit">
+        <img [src]="ImagePath.editingImg" class="image-pad" alt="img" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }">
+      </span>
+    </button>
+    <button *ngIf="menuConfig.isUndoStep && !stopCbpExecution"
+     [class.disable]="disabledUndo || documentSelected || (completedExecution || terminatedExecution || isDetailsTabOpen) || repeatStepEnable || isTimerOnStep"
+     [disabled]="disabledUndo || documentSelected || (completedExecution || terminatedExecution || isDetailsTabOpen) || repeatStepEnable || isTimerOnStep"
+      (click)="openUndoComment()" [ngClass]="[btnClass]" class="ToolbarBtn">
+      <span class="btn-icon-wrap" [title]="(entirePageFreeze || disabledUndo || documentSelected || (completedExecution || terminatedExecution || isDetailsTabOpen)) ? '' : 'Undo'">
+        <img [src]="ImagePath.topUndo" class="image-pad" alt="img" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }">
+      </span>
+    </button>
+    <!-- <button [ngClass]="[btnClass]" (click)="saveCbpFileCall('refresh')">
+      <span class="btn-icon-wrap" title="Save">
+        <img [src]="ImagePath.topSave" class="image-pad" alt="img" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }">
+      </span>
+    </button> -->
+    <ng-container *ngIf="!menuConfig.isReadExecutor || cbpService.monitorExecution">
+        <button *ngIf="(menuConfig.isReload && !stopCbpExecution)" (click)="saveCbpFileCall('refresh')" [disabled]="entirePageFreeze || completedExecution || getDisableComplete()
+            || !isEdocument || isReadOnlyFromEdocument || terminatedExecution" [ngClass]="[btnClass]" class="ToolbarBtn">
+        <span class="btn-icon-wrap" title="Reload">
+          <img [src]="ImagePath.reLoadImg" class="image-pad" alt="img" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }">
+        </span>
+      </button>
+        <button *ngIf="menuConfig.isSave && !stopCbpExecution && !executerModes?.fileHandler"
+         [disabled]="entirePageFreeze || isReadOnlyExecution || !isEdocument"
+          (click)="saveCbpFileCall('save')" [ngClass]="[btnClass]" class="ToolbarBtn">
+        <span class="btn-icon-wrap" title="Save">
+          <img [src]="ImagePath.topSave" class="image-pad" alt="img" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }">
+        </span>
+      </button>
+    </ng-container>
+</ng-template>
+
+<ng-template #commentsTemplate>
+    <button [ngClass]="[btnClass]" *ngIf="menuConfig.isEmail && !stopCbpExecution"
+    [disabled]="headerFooterSelected || entirePageFreeze ||documentSelected ||
+    (completedExecution || terminatedExecution || isDetailsTabOpen) || disableStep"
+     (click)="openEmailRequest()" class="ToolbarBtn">
+      <span class="btn-icon-wrap" title="Email">
+        <img [src]="ImagePath.emailImg" class="image-pad" alt="img" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }">
+      </span>
+    </button>
+    <button [ngClass]="[btnClass]" (click)="openCr()" *ngIf="!cbpService.selectedTable && menuConfig.isCREnabled && !stopCbpExecution"
+      [disabled]="headerFooterSelected || entirePageFreeze ||documentSelected  ||
+      (completedExecution || terminatedExecution || isDetailsTabOpen) || disableStep" class="ToolbarBtn">
+      <span class="btn-icon-wrap" title="Add CR">
+        <img [src]="ImagePath.crImg" class="image-pad" alt="img" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }">
+      </span>
+    </button>
+
+    <div class="dropdown" *ngIf="menuConfig.isMedia && !stopCbpExecution"
+        [class.opacity7]="documentSelected ||(completedExecution || terminatedExecution || isDetailsTabOpen) ||
+        disableStep || selectedStepSectionInfo?.dgType === 'StepInfo'"
+        [class.disabled]="entirePageFreeze || documentSelected || (completedExecution ||
+        terminatedExecution || isDetailsTabOpen) ||
+        disableStep || selectedStepSectionInfo?.dgType === 'StepInfo'"
+         (mouseenter)="show = true;viewupdate(true)"
+         (mouseleave)="show = false;viewupdate(false)">
+        <button [ngClass]="[btnClass]" class="ToolbarBtn">
+          <span class="btn-icon-wrap" title="Add Media">
+            <img [src]="ImagePath.topMedia" class="image-pad" alt="img" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }">
+          </span>
+        </button>
+        <div *ngIf="show" class="dropdown-contents currentImgdropdown medias">
+            <div class="row drp-item IconAdjustment">
+              <div  *ngIf="!isMobile"  [hidden]="tableService.selectedRow.length > 0">
+                <button  [ngClass]="[btnClass]" *ngIf="!headerFooterSelected" (click)="uploadMediaOpen.emit();"
+                 [disabled]="documentSelected || (completedExecution || terminatedExecution || isDetailsTabOpen) || disableStep" class="ToolbarBtn">
+                  <span class="btn-icon-wrap" title="Media Gallery">
+                    <img [src]="ImagePath.uploadImg" class="image-pad" alt="img" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }">
+                  </span>
+                </button>
+              </div>
+              <div *ngIf="isMobile" [hidden]="tableService.selectedRow.length > 0">
+                <button [ngClass]="[btnClass]" *ngIf="!headerFooterSelected" 
+                (click)="uploadMediaOpen.emit();" 
+                [disabled]=" documentSelected || (completedExecution || terminatedExecution || isDetailsTabOpen) || disableStep" class="ToolbarBtn">
+                <span class="btn-icon-wrap" title="Media Gallery">
+                  <img [src]="ImagePath.uploadImg" class="image-pad" alt="img" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }">
+                </span>
+              </button>
+              </div>
+                <div *ngIf="!isMobile">
+                    <input [hidden]="true" #uploadSingle type="file" [accept]="executionService.singleMediaAccept"
+                    (click)="$any($event.target).value = '';onInputClick($event)" (change)="singleMediaChange($event)">
+                    <button [ngClass]="[btnClass]" (click)="uploadSingle.click();"
+                    [disabled]="documentSelected ||(completedExecution || terminatedExecution || isDetailsTabOpen) || disableStep" class="ToolbarBtn">
+                    <span class="btn-icon-wrap" title="Media Single">
+                      <img [src]="ImagePath.uploadVideo" class="image-pad" alt="img" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }">
+                    </span>
+                  </button>
+                </div>
+                <div *ngIf="isMobile">
+                    <!-- <input [hidden]="true" #uploadSingle type="file" [accept]="executionService.accept" (click)="onInputClick($event)" (change)="singleMediaChange($event)"> -->
+                    <button [ngClass]="[btnClass]" (click)="uploadCameraEvent()" [disabled]="documentSelected || (completedExecution || terminatedExecution || isDetailsTabOpen) || disableStep" class="ToolbarBtn">
+                  <span class="btn-icon-wrap" title="Media Single">
+                    <img [src]="ImagePath.uploadVideo" class="image-pad" alt="img" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }">
+                  </span>
+                </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button *ngIf="!cbpService.selectedTable && menuConfig.isComents && !stopCbpExecution"
+    [ngClass]="[btnClass]" (click)="commentModal()"
+    [disabled]="headerFooterSelected || entirePageFreeze || documentSelected  ||
+    (completedExecution || terminatedExecution || isDetailsTabOpen)" class="ToolbarBtn">
+      <span class="btn-icon-wrap" title="Add Comment">
+        <img [src]="ImagePath.commentsImg" class="image-pad" alt="img" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }">
+      </span>
+    </button>
+</ng-template>
+
+<ng-template #roughAnnotationTemp>
+  <div class="dropdown-font-family">
+    <button [ngClass]="[btnClass]" [disabled]="completedExecution || terminatedExecution
+     || isDetailsTabOpen || !cbpService.enableAnnotation" 
+    class="bg-t ToolbarBtn" *ngIf="!stopCbpExecution">
+      <span class="btn-icon-wrap" [ngClass]="{'btn-icon-width':!isMobile, 'tabIconwidth1' : isMobile }" title="Annotate">
+        <!-- !isMobile && !cbpService.enableAnnotation -->
+        <img [src]="ImagePath.roughNotation" class="image-pad" alt="img" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }">
+    </span>
+    </button>
+    <div class="font-family-align" *ngIf="cbpService.enableAnnotation"> 
+      <!--  || isMobile -->
+        <select [(ngModel)]="selecedAnnotate" (change)="selectdAnnotation($event)"
+          class="form-control font-names" name="annotate" >
+          <option [value]="item" *ngFor="let item of roughAnnotation"> {{item}}</option>
+        </select>
+    </div>
+  </div>
+</ng-template>
+
+
+<ng-template #roughAnnotationTempTab>
+  <div class="dropdown-font-family">
+    <button [ngClass]="[btnClass]" [disabled]="completedExecution || terminatedExecution || isDetailsTabOpen ||!cbpService.enableAnnotation"
+    class="bg-t ToolbarBtn" *ngIf="!stopCbpExecution">
+      <span class="btn-icon-wrap" [ngClass]="{'btn-icon-width':!isMobile, 'tabIconwidth1' : isMobile }" title="Annotate">
+        <img [src]="ImagePath.roughNotation" class="image-pad" alt="img" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }">
+      </span>
+    </button>
+    <div class="font-family-align" *ngIf="cbpService.enableAnnotation">
+      <!-- || isMobile -->
+        <select [(ngModel)]="selecedAnnotate" (change)="selectdAnnotation($event)"
+          class="form-control font-names" name="annotate" >
+          <option [value]="item" *ngFor="let item of roughAnnotation"> {{item}}</option>
+        </select>
+    </div>
+  </div>
+</ng-template>
+<ng-template #roughAnnotationUndo>
+  <button *ngIf="!stopCbpExecution" [ngClass]="[btnClass]" class="bg-t"
+  [disabled]="!cbpService.enableAnnotation || completedExecution || terminatedExecution || isDetailsTabOpen"
+   (click)="removeAnnotation()" class="ToolbarBtn">
+    <span class="btn-icon-wrap" [ngClass]="{'btn-icon-width':!isMobile, 'tabIconwidth1' : isMobile }" title="Annotate Undo">
+      <img [src]="ImagePath.roughNotationUndo" class="image-pad" alt="img" [ngClass]="{'img-navbar-width':!isMobile, 'tabIconwidth' : isMobile }">
+      </span>
+  </button>
+</ng-template>

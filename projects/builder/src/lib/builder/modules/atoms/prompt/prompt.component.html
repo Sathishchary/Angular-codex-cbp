@@ -1,0 +1,34 @@
+<span class="iconcenter" [ngClass]="{'mar-left-5': field.isTableDataEntry}">
+<ng-container *ngIf="!field['editorOpened'] && !field['isHtmlText']">
+  <div class="textarea-container" (click)="onTextareaFocus(field)">
+    <textarea rows="1" col="50" autosize class="form-control bordernone"
+      name="{{field.dgUniqueID}}" id="{{field.dgUniqueID}}"
+      [(ngModel)]="field[propName]" [ngClass]="{'checkBox_border': cbpService.tableDataEntrySelected?.dgUniqueID == field.dgUniqueID }"
+      (ngModelChange)="(field[propName] = $event)"
+      [ngStyle]="styleObject"  [placeholder]="placeholder" [disabled]="field.isEmbededObject && field?.property?.type == 'Dynamic'"
+      (focusout)="createAuditEntry(AuditTypes.PROMPT);viewUpdate()" [style.width.%]="field?.dataEntrySize"
+      [class.selectedField]="field?.dgUniqueID == cbpService.selectedUniqueId && cbpService.propertyDocument?.waterMarkOptions?.isWaterMarkEnabled"
+      [class.notSelectedField]="field?.dgUniqueID != cbpService.selectedUniqueId && cbpService.propertyDocument?.waterMarkOptions?.isWaterMarkEnabled"></textarea>
+    
+    <span class="feedback__btn" (click)="editorOpened(field)" id="{{cbpService.selectedUniqueId}}" [ngClass]="{'feedback__btnbtn' : cbpService.tableDataEntrySelected?.dgUniqueID == field.dgUniqueID}"
+    *ngIf="cbpService.selectedUniqueId == field.dgUniqueID ||
+    cbpService.tableDataEntrySelected?.dgUniqueID == field.dgUniqueID 
+    "><i class="fa fa-edit"></i></span>
+  </div>
+</ng-container>
+<ng-container *ngIf="field['editorOpened'] && (cbpService.selectedUniqueId == field.dgUniqueID ||
+cbpService.tableDataEntrySelected?.dgUniqueID == field.dgUniqueID)">
+  <app-text-editor [input]="field.dgType === DgTypes.Link ? field.caption: field.prompt"
+    (close)="outputhtml($event, field, 'prompt');viewUpdate()" (updateEvent)="(field[propName] = $event)"
+    [ngStyle]="styleObject" [item]="field" droppable [dragOverClass]="'drag-target-border'" class="bd-5"
+    [dropScope]="DgTypes.Hyperlink" [dragHintClass]="'drag-hint'" (onDrop)="hLService.onLinkDrop($event, field)"></app-text-editor>
+</ng-container>
+<ng-container *ngIf="!field['editorOpened'] && field['isHtmlText']" >
+  <div class="feedback__btn" (click)="editorOpened(field)" 
+  *ngIf="cbpService.selectedUniqueId  == field.dgUniqueID || 
+  cbpService.tableDataEntrySelected?.dgUniqueID == field.dgUniqueID" [hidden]="field['isHtmlText']" ><i class="fa fa-edit"></i></div>
+  <div class="content-editable" autosize contenteditable=true  [innerHtml]="(field[propName]) | innerhtml"
+   (click)="editorOpened(field)" [ngStyle]="styleObject" [style.width.%]="field?.dataEntrySize">
+  </div>
+</ng-container>
+</span>

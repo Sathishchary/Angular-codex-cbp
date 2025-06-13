@@ -1,0 +1,51 @@
+<div class="modal" id="error-modal" tabindex="-1" role="dialog"
+data-backdrop="static" data-keyboard="false">
+<div class="modal-dialog modal-lg modalsize modal-copy popupAbsolute" role="document">
+    <div class="popupPosition">
+      <div class="boxShadow">
+       <div class="modal-content modalContentCustomization">
+        <div class="modal-header header-popup modalHeaderCustomization">
+          <img [src]="errorMsgImg" width="24px" class="imageblue" alt="img">
+          <h5 class="modal-title pt-0 pl-2 mb-0 head">{{errorDgType}} Message</h5>
+        </div>
+        <div class="modal-body modalBodyCustomization">
+          <p style="margin-bottom: 0px;">{{displayMsg}}</p>
+        </div>
+        <div class="modal-footer modalFooterCustomization">
+          <div class="d-flex justify-content-end">
+            <button type="button" class="btn btn-danger" (click)="closeModal();">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+   </div>
+  </div>
+</div>
+
+<ng-container *ngIf="false">
+  <div  id="cbp-error-popup">
+      <div class=""
+          style=" box-shadow: 0 1px 2px 0 rgb(60 64 67 / 30%), 0 2px 6px 2px rgb(60 64 67 / 15%);">
+          <div class="" style="border-radius:3px !important;">
+              <!-- Modal Header -->
+
+              <div  class="modal-header header-popup">
+                <img [src]="errorMsgImg" width="24px" class="imageblue" alt="img">
+                <h5 class="modal-title pt-0 pl-2 mb-0 head">{{errorDgType}} Message</h5>
+              </div>
+              <!-- Modal body -->
+              <div  class="modal-body">
+              <p style="margin-bottom: 5px;">{{displayMsg}}</p>
+            </div>
+              <!-- Modal footer -->
+              <div class="modal-footer py-0 px-2">
+                  <div class="d-flex justify-content-end">
+                    <button type="button" class="btn btn-danger" (click)="closeModal();">Close</button>
+
+                  </div>
+
+              </div>
+          </div>
+      </div>
+  </div>
+</ng-container>

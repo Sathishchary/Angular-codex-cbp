@@ -1,0 +1,77 @@
+select.form-control:not([size]):not([multiple]) {
+  /* height: 28px!important; */
+}
+.card {
+  margin-bottom: 0px !important;
+  border-radius: 5px!important;
+}
+label {
+  font-weight: 600;
+  font-size: 12px!important;
+  margin-bottom: 0px !important;
+}
+.form-control{
+  padding:4px!important;
+  font-size: 12px!important;
+  border-radius: 2px!important;
+}
+.index-list {
+  border-bottom: 1px solid #eaeaea;
+  background: #fbfbfb;
+}
+a {
+  color: #808080!important;
+}
+h6 {
+  font-size: 14px !important;
+  font-weight: 600;
+  margin-bottom: 0px;
+}
+input[type=checkbox], input[type=radio] {
+  box-sizing: border-box;
+  padding-top: 10px !important;
+  height: 20px !important;
+  width: 20px !important;
+  margin-top:4px;
+}
+.indexColor{
+  background: yellow !important;
+  color: black !important;
+}
+/* html style css added */
+.actionhead{
+  padding:0px 0px 0px 10px !important;
+  height: 534px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+.actionindex{
+  margin-top: -1px;
+ border: 1px solid #dfdfdf;
+}
+.actionscroll{
+  height: 594px;
+  overflow-x:hidden;
+  overflow-y:scroll;
+}
+.steptype{
+  font-weight:bold;
+}
+.actionbutton{
+  border: 1px solid #eaeaea!important;
+}
+.modalsize{
+  width:80%
+}
+.heightauto{
+  height: auto;
+}
+.height50{
+  height: 50px !important;
+}
+.height60{
+  height: 60px !important
+}
+.disabled{
+  pointer-events: none;
+}

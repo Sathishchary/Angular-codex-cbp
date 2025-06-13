@@ -1,0 +1,18 @@
+
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px', fullScreenBackdrop:true}"> Saving.....</ngx-loading>
+
+<app-top-nav  [documentType]="executionMode" [propertyDocument]="propertyDocument"  (closeCBPEwpEvent) = "exitExecutor()"></app-top-nav>
+<lib-form-execution
+ [fileType]="inputFile"
+ [executionType]="executeType"
+ *ngIf="cbpZip"
+ [cbpJsonZip]="cbpZip"
+ [userApiConfig]="userApi"
+ [menuConfig]="menuConfig"
+ [penInkJson]="penInkJson"
+ [saveDataSuccess]="saveSuccess"
+ (propertyDoc)="setPropertyDocument($event)"
+ (exitExecutorChange)="closeExecutor()"
+ [exitEwp] = "exitEwp"
+ (sendWholeCBP)="saveCbpBlobToServer($event)"
+></lib-form-execution>

@@ -1,0 +1,48 @@
+.sign-ex {
+  color: #8d8985;
+  padding: 5px;
+}
+
+.label-color {
+  color: #495057;
+}
+
+.disabled {
+  pointer-events: none;
+  background-color: #d5d5d5 !important;
+}
+
+.fix {
+  right: 0;
+  position: absolute;
+}
+
+.dis-cols {
+  background: #cbcdce !important;
+}
+
+.req-pos {
+  display: flex;
+}
+
+.sign-notes-wrapper {
+  border: 1px solid #ccc;
+  padding: 4px;
+  margin-right: 3px;
+  margin-left: 0px;
+  background: #e5eef3;
+  border-radius: 0px;
+  display: flex;
+  flex-direction: column;
+}
+
+.TextOverFLow {
+  overflow-y: auto;
+}
+
+.textOverflowControl.empty-placeholder:empty::before {
+  content: attr(data-placeholder);
+  color: #999;
+  font-style: italic;
+  pointer-events: none;
+}

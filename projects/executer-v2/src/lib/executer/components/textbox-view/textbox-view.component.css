@@ -1,0 +1,31 @@
+.pl12{
+    padding-left: 12px;
+}
+select{
+    margin: 0px;
+}
+select:focus{
+    min-width: auto;
+    width: 100%;
+}
+.disabled-entry{
+  pointer-events: none;
+  cursor: default;
+  background: rgb(233, 236, 239);
+}
+.form-control{
+    font-size: 14px;
+}
+.required{
+    color: #ff0000;
+}
+.txtbox{
+  padding-top: 5px !important;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  height: auto;
+  min-height: 28px;
+}
+.dis-coln{
+    pointer-events: none;
+}

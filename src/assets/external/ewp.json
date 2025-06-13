@@ -1,0 +1,20 @@
+{
+    "isSwitchUser" : false,
+    "isEmail":false,
+    "isCREnabled" :false,
+    "isMedia":true,
+    "isComments":true,
+    "isUndoStep":true,
+    "isReload":true,
+    "isSave":true,
+    "isAutoSave":true,
+    "isNavigation" :true,
+    "isPageHeader" :true,
+    "isPageFooter" :true,
+    "isDisableCircle" :true,
+    "isShowSectionStepIcon" :true,
+    "autoInterval": 120000,
+    "downloadUrl": "http://35.162.193.205:8090/dataglance/dgwebservices/fileservice/downloadStream",
+    "uploadUrl": "http://35.162.193.205:8090/dataglance/dgwebservices/fileservice/uploadStream"
+
+}

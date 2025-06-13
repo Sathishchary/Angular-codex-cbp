@@ -1,0 +1,24 @@
+<div class="pad">
+  <div class="col-lg-12 col-md-12 p-0 stop_draging mg-bt" (copy)="copyImage('copy')"
+  (cut)="copyImage('cut')" (paste)="copyImage('paste')"  *ngIf="field"
+  (click)="!field.isTableDataEntry && selectElement();$event.stopPropagation();
+   field.isTableDataEntry && selectedForTable($event)"
+   [ngClass]="{'section-border pl-2': cbpService.selectedUniqueId == field.dgUniqueID}">
+      <div [ngClass]="{'hover': cbpService.selectedElement.dgUniqueID  == field.dgUniqueID}" *ngIf="cbpService.sectionHover &&
+       cbpService.selectedElement?.dataType !== 'table'">
+         <app-step-option [field]="field"></app-step-option>
+      </div>
+      <dg-track-ui [field]="field" *ngIf="!hideTrackUi && !field.isTableDataEntry" (fieldChange)="field = $event"></dg-track-ui>
+     
+      <app-show-media  [media]="cbpService.media" [editCoverPage] ="cbpService.editCoverPage"
+      [hideButtonsImg] = "cbpService.hideButtonsImg" [coverPageViewEnable] = "cbpService.coverPageViewEnable"
+      [coverPageViewVal]="viewVal" [executer]="false" [builder]="true" [mediaFiles]="field?.images" [field]="field" [canSelectItem]="true"
+      [mediaType]="'mediaeditor'"
+      [refreshView]="refreshView" [propertyUpdated]="captionChanged"
+      (addFiles)="onChangeNewlyAddedFilesTest($event)" (selected)="selectedImage($event)" (copycutEvent)="copyImage($event)"
+      (deleteMedia)="removeImage($event)" (deleteEvent)="singleElement($event)"
+      (mediaUpdateFile)="mediaUpate($event)"
+      (setCaption) = "setCaption($event)"
+      ></app-show-media>
+    </div>
+</div>

@@ -1,0 +1,63 @@
+<ng-container *ngIf="!isBuilder">
+  <ng-container *ngIf="hide === 'footer'">
+    <nav class="navbar navbar-expand-sm navbar-light px-0 py-0 sticky-top"
+     [hidden]="cbpService.documentSelected && !isDocPage" aria-labelledby="navIdRes">
+      <div class="container-fluid mx-0 px-0" *ngIf="cbpJson?.documentInfo[0]?.header?.isHeaderEnabled">
+          <div class="{{default}} fixed_footer_builder   fixed_header mb-0 mt-0 f15">
+              <ng-container [ngTemplateOutlet]="viewTemp" [ngTemplateOutletContext]="{$implicit: cbpJson?.documentInfo[0]?.header?.children}"></ng-container>
+          </div>
+      </div>
+  </nav>
+  </ng-container>
+  <ng-container  *ngIf="hide === 'header'">
+    <nav [hidden]="cbpService.documentSelected && !isDocPage" aria-labelledby="navId"
+    class="navbar navbar-expand-sm sticky-btm navbar-light" [class.sticky-btm]="!isDocPage">
+     <!-- px-0 py-0 -->
+    <div class="container-fluid mx-0 px-0 fluied">
+          <div class="{{default}} fixed_footer_builder fixed_footer mb-0 mt-0 f15"
+          *ngIf="cbpJson?.documentInfo[0]?.footer?.isFooterEnabled">
+              <ng-container [ngTemplateOutlet]="viewTemp" [ngTemplateOutletContext]="{$implicit: cbpJson?.documentInfo[0]?.footer?.children}"></ng-container>
+          </div>
+      </div>
+    </nav>
+  </ng-container>
+  </ng-container>
+
+  <ng-container *ngIf="isBuilder">
+    <ng-container *ngIf="hide === 'footer'">
+      <div class="{{default}} fixed_footer_builder mb-2 mt-2"
+      *ngIf="cbpService.cbpJson.documentInfo[0]?.header?.isHeaderEnabled"
+      [class.selectedStep] = "cbpService.headerSelected"
+      [class.sticky-top]="!isDocPage"
+      droppable [dragOverClass]="'drag-target-border'"
+      [dropScope]="builderService.dragElements" [dragHintClass]="'drag-hint'"
+      (onDrop)="onDrop($event, 'header');"
+      (click)="changeHeader()">
+      <ng-container [ngTemplateOutlet]="viewTemp" [ngTemplateOutletContext]="{$implicit: cbpJson?.documentInfo[0]?.header?.children}"></ng-container>
+
+     </div>
+  </ng-container>
+  <ng-container  *ngIf="hide === 'header'">
+    <div class="{{default}} fixed_footer_builder mb-0 mt-2"
+      *ngIf="cbpService.cbpJson.documentInfo[0]?.footer?.isFooterEnabled"
+      [class.selectedStep] = "cbpService.footerSelected"
+      [class.sticky-btm]="!isDocPage" [ngClass]="{'sticky-docBtm':(!cbpService?.editorType?.cbpStandalone) , 'sticky-btm':(cbpService?.editorType?.cbpStandalone && !cbpService?.editorType?.cbpZipMode)}"
+      (click)="changeFooter()"
+      droppable [dragOverClass]="'drag-target-border'"
+      [dropScope]="builderService.dragElements" [dragHintClass]="'drag-hint'"
+      (onDrop)="onDrop($event, 'footer');">
+      <ng-container [ngTemplateOutlet]="viewTemp" [ngTemplateOutletContext]="{$implicit: cbpJson?.documentInfo[0]?.footer?.children}"></ng-container>
+  </div>
+  </ng-container>
+  </ng-container>
+
+  <ng-template #viewTemp let-children>
+     <div class="row pr-2 pl-2">
+        <ng-container *ngFor="let obj of children; let j = index;">
+          <div class="{{default}}" [class.pl-0]="cbpService.selectedUniqueId !==0"
+            *ngIf="obj?.dgType != DgTypes.Section && obj?.dgType != DgTypes.StepAction && obj?.dgType != DgTypes.StepInfo && obj?.dgType != DgTypes.DelayStep && obj?.dgType != DgTypes.Timed && obj?.dgType != DgTypes.Repeat">
+            <app-editor-table *ngIf="obj?.dgType === DgTypes.Table" [field]="obj"></app-editor-table>
+          </div>
+        </ng-container>
+      </div>
+  </ng-template>

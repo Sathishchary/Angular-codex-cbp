@@ -1,0 +1,10 @@
+export enum Components {
+  BUILDER = 'BUILDER',
+  READER = 'READER', 
+  EXECUTOR = 'EXECUTOR', 
+  ALARM = 'ALARM', 
+  RULE = 'RULE', 
+  BRANCHING_RULE = 'BRANCHING_RULE',
+  SPLIT_CHAR = '_',
+  SPECIAL_SPLIT_CHAR = 'x'
+}

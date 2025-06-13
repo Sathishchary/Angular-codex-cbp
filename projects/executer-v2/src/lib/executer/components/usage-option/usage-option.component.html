@@ -1,0 +1,80 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px', fullScreenBackdrop:false}"> </ngx-loading>
+<div class="modal" id="usageModal" tabindex="-1" role="dialog " data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <lib-modal-popup [title]="'Option'" (closeEvent)="closeModal()"
+        [footerList]="[{type:'Save', disabled : !usageReason || sectionDisabled }, {type:'Cancel'}]"
+        (submitButtons)="$event.type=== 'Save' && saveUsageOption(); $event.type=== 'Cancel' && closeModal();">
+        <div class="modal-body">
+          <div class="col-md-12 col-lg-12 pl-0 pt-0">
+            <div class="row">
+              <div class="col-lg-12 col-md-12 pr-0">
+                <label>Section</label>
+                <p class="fieldborder">{{sectionTitle}}</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12 col-lg-12 pl-3 pt-0">
+            <div class="row">
+              <div class="col-md-4 col-lg-4 col-sm-4 pl-0 pt-2 pr-0">
+                <label>Usage(Current)</label>
+                <input type="text" [hideColor]="true" disable name="usage" class="form-control ft13"
+                  [(ngModel)]="selectedUsage" disabled>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-4 pr-0  pt-2">
+                <label>Usage(New)</label>
+                <select class="form-control ft13 e-point" [(ngModel)]="selectedUsage"
+                  (ngModelChange)="setSelectUsage()">
+                  <option *ngFor="let usage of sectionUsage" [value]="usage">{{usage}}</option>
+                </select>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-4 pr-0 pt-4" [class.disabled]="changeOrder">
+                <button class="btn btn-default btn-sm  button-border btncs fright" type="button"
+                  (click)="executionService.showExecutionOrder = true">Change Order</button>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12 col-lg-12 pl-3 pt-0">
+            <div class="row">
+              <div class="col-md-4 col-lg-4 col-sm-4 pl-0 pt-2 pr-0">
+                <label>Dependency(Current)</label>
+                <input type="text" [hideColor]="true" disable name="Dependency" class="form-control ft13"
+                  [(ngModel)]="selectedDependency" disabled>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-4 pr-0 pt-2">
+                <label>Dependency(Current)</label>
+                <select class="form-control ft13 e-point" [(ngModel)]="selectedDependency">
+                  <option *ngFor="let dependency of sectionDependency" [value]="dependency" selected>{{dependency}}
+                  </option>
+                </select>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-4 pr-0 pt-4" *ngIf="selectedDependency === 'Section/Step'">
+                <button class="btn btn-default btn-sm button-border btncs fright" type="button"
+                  (click)="configureDependencyShow = true">Configure</button>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12 col-lg-12 pl-3 pt-0">
+            <div class="row">
+              <div class="col-md-12 col-lg-12 pl-0 pt-2 pr-0">
+                <label>Reason<span style="color:red">*</span></label>
+                <textarea name="Reason" class="form-control ft13" rows="3" cols="30"
+                  [(ngModel)]="usageReason"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+      </lib-modal-popup>
+    </div>
+  </div>
+</div>
+<notifier-container></notifier-container>
+<div *ngIf="configureDependencyShow">
+  <app-exe-section-dependency [selectedStepFromExecution]="selectedStep" [isExecutor]="true" [cbpJson]="cbpJson"
+    (closeEvent)="getSectionDependency($event)">
+  </app-exe-section-dependency>
+</div>
+
+<div *ngIf="executionService.showExecutionOrder">
+  <app-execution-order [selectedStep]="selectedStep" (closeEvent)="getResponseFromOrder($event)"></app-execution-order>
+</div>

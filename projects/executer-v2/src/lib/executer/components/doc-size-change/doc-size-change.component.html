@@ -1,0 +1,23 @@
+<div  [ngClass]="{'fixed': !multipleCbpTab }">
+  <button class="width-100 font-we black leftTabletbutton {{cssClass}}"
+   [ngClass]="{'e-point' : !tabletCheck}" *ngIf="executionType?.Read"
+  [disabled]="tabletCheck" (click)="changeSizeView(false, false, false, true)">
+  <span class="btn-icon-wrap" title="Zoom Out"></span>
+  <i class="fa fa-tablet white" (click)="changeSizeView(false, false, false, true)"></i>
+</button>
+  <button class="width-100 black leftbutton {{cssClass}} "  [ngClass]="{'e-point' : !checkedFirst}"
+    [disabled]="checkedFirst" (click)="changeSizeView(true, false, false, false)">
+    <span class="btn-icon-wrap" title="Zoom Out"></span>
+    <i class="fa fa-minus white" (click)="changeSizeView(true, false, false, false)"></i>
+  </button>
+  <button class="width-130 black centerbutton {{cssClass}} " [ngClass]="{'e-point' : !checkedDefault}"
+    [disabled]="checkedDefault" (click)="changeSizeView(false, true, false, false)">
+    <span class="btn-icon-wrap" title="Default"></span>
+    <i (click)="changeSizeView(false, true, false, false)" class="fa fa-file-word-o white"></i>
+  </button>
+  <button class=" width-150 black rightbutton {{cssClass}}" [ngClass]="{'e-point' : !checkedLast}"
+    [disabled]="checkedLast" (click)="changeSizeView(false, false, true, false)">
+    <span class="btn-icon-wrap" title="Zoom In"></span>
+    <i (click)="changeSizeView(false, false, true, false)" class="fa fa-plus white"></i>
+  </button>
+  </div>

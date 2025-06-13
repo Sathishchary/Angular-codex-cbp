@@ -1,0 +1,9 @@
+<div class="row mb-2">
+  <div class="col-md-12 col-lg-12 pl-0 pt-1 pr-1">
+    <lib-track-ui [field]="stepObject" *ngIf="!stepObject.isTableDataEntry"></lib-track-ui>
+    <div *ngIf="stepObject?.content.equation==''" class="pt-2 pb-2">
+    </div>
+    <ds-article-exe-math *ngIf="stepObject?.content?.equation !=''"
+      [content]="stepObject?.content"></ds-article-exe-math>
+  </div>
+</div>

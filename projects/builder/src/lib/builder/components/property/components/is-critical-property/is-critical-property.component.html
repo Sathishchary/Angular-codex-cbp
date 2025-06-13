@@ -1,0 +1,28 @@
+<div>
+    <div class="col-lg-12 col-md-12 pt-2">
+        <button class="btn btn-icon btn-outline-secondary btn-sm"
+             title="Action Text"
+            (click)="cbpService.isActionOpen = true"
+            [disabled]="(cbpService.selectedElement.isEmbededObject &&
+             cbpService.embeddedType) || cbpService.selectedElement?.dualStep">
+            Action Text
+        </button>
+    </div>
+    <div class="col-lg-12 col-md-12 pt-1 dp-flex" *ngIf="!(cbpService.selectedElement?.dgType == dgType.Information)
+                    && getSequenceType() == SequenceTypes.DGSEQUENCES">
+        <label class="checkbox-inline flexAlign">
+            <input type="checkbox" value="" (change)="checkAndChangesNumberedSteps($event)" (focus)="onFocusEvent()"
+                [checked]="cbpService.selectedElement.numberedChildren"> &nbsp;&nbsp;<span class="checkbox_lbleposition"
+                [class.disabled]="cbpService.selectedElement.isEmbededObject && cbpService.embeddedType">Numbered Sub
+                Steps</span>
+        </label>
+    </div>
+    <div class="col-lg-12 col-md-12 pt-1 dp-flex">
+        <label class="checkbox-inline flexAlign">
+            <input type="checkbox" value="" [(ngModel)]="cbpService.selectedElement.isCritical"
+                [checked]="cbpService.selectedElement.isCritical" (change)="setOrUnSetIcon()" (focus)="onFocusEvent()"
+                [class.disabled]="cbpService.selectedElement.isEmbededObject && cbpService.embeddedType">
+            &nbsp;&nbsp;<span class="checkbox_lbleposition"> Is Critical ? </span>
+        </label>
+    </div>
+</div>

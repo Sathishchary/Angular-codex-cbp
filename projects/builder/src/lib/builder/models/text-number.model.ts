@@ -1,0 +1,35 @@
+import { DgTypes } from "cbp-shared";
+import { Security } from "./security";
+export class TextNumber {
+  choice: any[] = [];
+  data: any[] = [];
+  allowOther: any;
+  dgUniqueID: any;
+  unnumbered: any;
+  prompt = '';
+  varname: any;
+  fieldName = '';
+  fieldNameUpdated = false;
+  required = false;
+  minimum = null;
+  maximum = null;
+  unitsRequired = false;
+  units: '' = "";
+  defaultValue = '';
+  type = 'data element';
+  dataType = 'Number';
+  valueType = 'Entered';
+  DisplayValue = '';
+  ParsedValue = '';
+  decimal = '';
+  format = '';
+  dgType: DgTypes = DgTypes.NumericDataEntry;
+  alarm = [];
+  rule = [];
+  isDataEntry = true;
+  showLabel = false;
+  labelSide = 'left';
+  showLablePrompt = '';
+  dataEntrySize = 100;
+  Security = new Security();
+}

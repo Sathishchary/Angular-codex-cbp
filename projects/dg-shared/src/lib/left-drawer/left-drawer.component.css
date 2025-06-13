@@ -1,0 +1,52 @@
+.show-side-bar {
+    display: block !important;
+    margin-top: -13px !important;
+    z-index: 2000 !important;
+  }
+  
+  .navbar-fixed-top {
+    z-index: 1000;
+  }
+  #approve:visited{
+     color:red;
+  }
+  .sidebar .metismenu a {
+    transition: .3s ease-in-out;
+    position: relative;
+    padding: 10px 15px;
+    outline-width: 0;
+    display: flex;
+    white-space: nowrap;
+  }
+  .blue {
+    color:#3eacff;
+  }
+  .backgroud-blue {
+    background: #3eacff;
+  }
+  .custom-check {
+    margin-top: -16.8px;
+  }
+  
+  .theme-blue .sidebar-nav .metismenu>li.active>a {
+    background-color: #5581c2!important;
+    color: #fff;
+  }
+  .pointer{
+    cursor: pointer;
+  }
+  .borders{
+    border-bottom: 2px solid #5581c2;
+  }
+  .pdtop1{
+    padding-top: 0px !important;
+  }
+  .disabled{
+    pointer-events: none;
+  }
+  .leftsidebarIconCustomization{
+    width: 16px;
+    height: 16px;
+    object-fit: fill;
+    margin-right: 10px;
+  }

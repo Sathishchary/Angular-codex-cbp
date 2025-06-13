@@ -1,0 +1,141 @@
+.alarmindex {
+  padding: 7px 5px 0px 21px !important;
+  height: 595px;
+  overflow-x: hidden;
+}
+.alarmindextop {
+  margin-top: -1px;
+}
+.alarmindexscroll {
+  height: 255px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+.setupdatascroll {
+  height: 255px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+.fieldnamesize {
+  border: 1px solid #fff;
+  margin-top: -10px;
+}
+.alignforalarm {
+  padding-bottom: 10px;
+  pointer-events: none;
+}
+/* .alarmscroll {
+  padding-bottom: 10px;
+  height: 118px;
+  height: 155px;
+  overflow-x: hidden;
+  overflow-y: hidden;
+} */
+.alarmtablecss {
+  width: 100%;
+  font-size: 13px !important;
+}
+.alarmcolor {
+  background: #f7f7f7;
+}
+.conditonalrm {
+  width: 60%;
+}
+.isAlaramEdit{
+  background-color: lightblue;
+}
+.alarmlabel {
+  width: 5%;
+  text-align: center;
+}
+.actionlabel {
+  width: 25%;
+  text-align: center;
+}
+.alarmalign {
+  text-align: center;
+}
+.addalarm {
+  margin-bottom: 2px !important;
+  /* height: 282px; */
+  height: 243px;
+}
+.addalarmfiled {
+  padding-bottom: 0px !important;
+}
+.alarmboolean {
+  padding: 5px;
+}
+.alarmbooleancss {
+  margin-top: 13px;
+  margin-left: 15px;
+}
+.addbutton {
+  border: 1px solid #eaeaea !important;
+}
+.addandbutton {
+  border: 2px solid #eaeaea !important;
+}
+.restbutton {
+  border: 1px solid #eaeaea !important;
+}
+.datafieldcss {
+  margin-top: -1px;
+}
+.datafieldscroll {
+  height: 539px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+a.tableIconEdit{
+  color: #26c6da !important;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 3px 6px;
+  margin: 2px;
+  background: #717c7d;
+  border: 1px solid #8CE1EB;
+  background-color: #e2f7f9;
+}
+a.tableIconEdit span i {font-size: 14px;}
+a.tableIconDelete span i {font-size: 14px;}
+a.tableIconDelete{
+  color: #fc573b !important;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 3px 7px;
+  margin: 2px;
+  background: #717c7d;
+  border: 1px solid #FD907E;
+  background-color: #ffe6e2;
+}
+a.tableIconArrow{
+  color: #26c6da !important;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 3px 6px;
+  margin: 2px;
+  background: #717c7d;
+  border: 1px solid #8CE1EB;
+  background-color: #e2f7f9;
+}
+a.tableIconArrow span i {font-size: 14px;}
+.customePaddings{padding: 4px 9px;}
+
+td.tableDataPadding {
+  padding: 9px 10px;
+}
+
+
+.table-height-auto {
+  height: 144px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.table-height-fixed {
+  height: 75px; 
+  overflow-x: hidden;
+  overflow-y: auto;
+}

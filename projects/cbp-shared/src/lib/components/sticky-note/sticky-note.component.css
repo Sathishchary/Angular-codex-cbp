@@ -1,0 +1,209 @@
+/* new added sticky */
+.sticky{
+    background: #fff;
+    min-height: 26px;
+    margin-bottom: 3px;
+  }
+  .time-ali{
+    display: flex;
+    align-items: center;
+  }
+  .time-ali p{
+    margin-left: 60px;
+    margin-top: 2px;
+    text-align: left;
+  }
+  .sticky__btn {
+    position: absolute;
+    /* bottom: -4px; */
+    right: 24px;
+    padding: 4px;
+    color: #000;
+    cursor: pointer;
+    border-radius: 20px;
+    font-size: 15px;
+    top: 0px
+  }
+  .sticky__btn :hover {
+    font-size: 16px !important;
+  }
+  .sticky-notoes{
+    position: absolute;
+    width: 320px;
+    background: #ffe66e;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    top: 32px;
+    right: 0;
+    max-height: 520px;
+    z-index: 99999;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+    overflow-y: auto;
+    padding: 8px 8px 0 8px;
+  }
+  .sub-head{
+    background: #fff;
+    height: 35px;
+    opacity: 0.5;
+    border-bottom: 1px solid #ddd;
+    display: none;
+  }
+  .icons-align{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 8px;
+    /* position: absolute;
+    top: 12px; */
+  }
+
+  .left-ic{
+    position: absolute;
+    top: 11px;
+    right: 12px;
+  }
+  .left-ic .fa-times{
+    margin-right: 12px;
+  }
+  .right-ic{
+    /* position: absolute;
+    top: 12px;
+    right: 0;
+    padding-right: 8px; */
+    display: flex;
+      align-items: center;
+      margin-left: 10px;
+  }
+  .icons-align .fa-trash-o{
+    margin-right: 8px;
+  }
+  .sticky-notoes textarea{
+    overflow: hidden;
+    resize: vertical;
+    background: #fff;
+    border: 1px solid #525252;
+    outline: none;
+    width: 100%;
+    min-height: 45px;
+    text-indent: 3px;
+  }
+  .sticky-notoes textarea::placeholder{
+    color: #525252;
+    padding-left: 2px;
+  }
+  .color-align{
+    display: flex;
+    position: absolute;
+    /* top: -10px;
+    left: 8px; */
+    top: -12px;
+    right: 45px;
+    background: #fff;
+    padding: 4px 8px;
+  }
+  .color-pa{
+    width: 25px;
+    height: 25px;
+    margin: 3px;
+    position: relative;
+    border: 1px solid #ddd;
+    transition: all .2s;
+  }
+  .text-area-wid{
+    width: 95%;
+    min-height: 26px;
+  }
+  .user-align{
+    padding: 0;
+  }
+  .user-icon-align{
+    display: flex;
+    align-items: center;
+    padding-bottom: 8px;
+  }
+  .u-icon{
+    /* background: #e50505; */
+    background: #e4f1fb;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 8px;
+    border: 1px solid #5480c2;
+    border-radius: 50%;
+  }
+  .user-icon-align .fa-user{
+    color: #5480c2;
+    font-size: 12px;
+  }
+  .user-name-align{
+    /* width: 100%; */
+    padding-bottom: 8px;
+  }
+  .comment-time{
+    font-size: 10px;
+    font-weight: 500;
+    padding-top: 0px;
+    color: #8b8b8b;
+  }
+  .user-name-align ul{
+    padding: 0 8px;
+    list-style-type: none;
+  }
+  .user-name-align  input{
+    width: 100%;
+    padding: 0 8px;
+    outline: none;
+  }
+  .para-space{
+    white-space: pre-wrap;
+    word-break: break-all;
+    text-align: left;
+  }
+  .user-icon-align  span{
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .bottom-btn{
+    float: right;
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+  .send-btn{
+    width: 30px;
+      /* padding: 0px 10px!important; */
+      padding: 0px !important;
+      border: 1px solid #1e90ff;
+      background: #f6fbff ;
+      height: 24px;
+  }
+  .send-btn .fa-paper-plane-o{
+    color: #1e90ff;
+    font-size: 12px;
+  }
+  .close-btn{
+    /* padding: 0px 9px!important; */
+    padding: 0px !important;
+      background: #ffe6e2;
+      margin-left: 5px;
+      width: 30px;
+      height: 24px;
+      border: 1px solid #fc573b;
+  }
+  .close-btn .fa-times{
+    color: #fc573b;
+    font-size: 12px;
+  }
+  .sub-child{
+    margin-left: 15px;
+    margin-top: 30px;
+  }
+  .sub-child-sub{
+    margin-left: 30px;
+    margin-top: 30px;
+  }
+  .black{
+    color:#000 !important;
+  }
+  /* new added sticky */

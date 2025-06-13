@@ -1,0 +1,51 @@
+.title-modal {
+    background-color: #5480c2;
+    border-radius: 0px;
+}
+
+.title {
+    font-size: 14px !important;
+    font-weight: 600;
+    margin-bottom: 0px;
+}
+
+.modal-content {
+    border-radius: 0;
+    border: none;
+}
+
+.modal-header {
+    /* border-radius: 0px !important; */
+    border-top-right-radius: 8px !important;
+    border-top-left-radius: 8px !important;
+    border-bottom-color: #3d5c8a !important;
+    padding: 10px 9px !important;
+    /* height: 30px; */
+}
+
+.e-close {
+    position: absolute;
+    right: 6px;
+    top: 6px !important;
+}
+
+.borderenable {
+    border: 1px solid #eaeaea !important;
+}
+
+.left {
+    position: absolute;
+    left: 0;
+}
+
+.colfont{
+    font-size: 20px;color: #ffff;
+}
+.fon{
+    color:#fff;margin-bottom: 0px;
+}
+
+defaultSign:active {
+    background-color: #5480c2;
+    color: white;
+}

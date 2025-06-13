@@ -1,0 +1,89 @@
+<ng-template #dateTemplate>
+  <lib-date-time *ngIf="documentInfo?.dateFormatNew"
+    [dateFormat]="documentInfo.dateFormatNew" [executer]="true"
+    [width]="stepObject?.dataEntrySize"  [dateIimeId]="stepObject.dgUniqueID"
+    [placeholder]="libDatePlaceholder"
+    [noCalender]="!stepObject.isDateDisplayOpen" [isEnableTime]="stepObject.isTimeDisplayOpen"
+    [minDate]="stepObject.minimum" [maxDate]="stepObject.maximum"
+    [(dataField)]="stepObject[propertyType]" (dataFieldChange)="checkValidation(stepObject, stepObject , stepObject[propertyType])">
+ </lib-date-time>
+  <i class="date-req" *ngIf="stepObject?.required">*</i>
+</ng-template>
+<ng-container *ngIf="!stepObject?.isTableDataEntry">
+  <div class="row" style="padding-left: 11px;">
+    <div class="col-md-12 pt-2 pl-0 mb-2" [ngClass]="{'pl-2': obj?.dualStep}">
+      <div class="row">
+        <lib-track-ui [field]="stepObject" *ngIf="!stepObject.isTableDataEntry"></lib-track-ui>
+          <div class="pl-1" [ngClass]="{'col-12 col-lg-12 col-md-12': obj?.dualStep && !cbpService.tabletCheck,
+           'col-md-8 col-lg-9 col-8': !obj?.dualStep && !cbpService.tabletCheck,
+            'col-lg-12': cbpService.tabletCheck}" id="stepAno{{stepObject.dgUniqueID}}"
+            (click)="cbpService.handleSelection( $event, stepObject,  'prompt' )"
+            [ngStyle]="styleObject" [innerHtml]="stepObject.prompt| innerhtml" style="word-wrap: break-word;">
+          </div>
+          <div style="display: flex;" [ngClass]="{'col-12 col-lg-12 col-md-12 pl-1': obj?.dualStep && !cbpService.tabletCheck,
+          'col-md-4 col-lg-3 col-4': !obj?.dualStep && !cbpService.tabletCheck,
+          'col-lg-12': cbpService.tabletCheck, 'pl-1': obj?.dualStep || cbpService.tabletCheck}"
+          [class.disabled]="stepObject?.protect || stepObject?.showLockIcon"
+          [class.dis-coln]="stepObject?.disableField"
+           (click)="stepObject.valueType === 'AutoPopulate' && setAutoPopulate(stepObject)">
+          <ng-container *ngTemplateOutlet="newDateTemplate"></ng-container>
+          </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+<ng-container *ngIf="stepObject?.isTableDataEntry">
+  <div class="col-md-12 col-lg-12 pl-0 pr-0">
+    <div class="row" [class.disabled]="stepObject?.protect || stepObject?.showLockIcon  || stepObject?.disableField">
+    <ng-container [ngTemplateOutlet]="dateviewNew" [ngTemplateOutletContext]="{$implicit: 'left'}"> </ng-container>
+    <div class="mb-2 ds-flex"  (click)="stepObject.valueType === 'AutoPopulate' && setAutoPopulate(stepObject)"
+     [class.disabled]="stepObject?.protect"
+     [class.dis-coln]="stepObject?.disableField"
+      [ngClass]="{'col-xs-12 col-sm-12' :!stepObject?.showLabel, 'col-xs-6 col-sm-6 pl-2' :stepObject?.showLabel }">
+      <ng-container *ngTemplateOutlet="newDateTemplate"></ng-container>
+   </div>
+   <ng-container [ngTemplateOutlet]="dateviewNew" [ngTemplateOutletContext]="{$implicit: 'right'}"> </ng-container>
+  </div>
+  </div>
+</ng-container>
+
+<ng-template #dateviewNew let-type>
+  <div *ngIf="stepObject?.showLabel && stepObject?.labelSide === type"
+   [ngClass]="{'col-xs-6 col-sm-6 pr-0' :stepObject?.showLabel }">
+   <p class="align-text" [ngStyle]="styleObject" id="stepAno{{stepObject.dgUniqueID}}"
+   (click)="cbpService.handleSelection( $event, stepObject,  'showLablePrompt' )"
+   [innerHTML]="stepObject.showLablePrompt | innerhtml"></p>
+  </div>
+</ng-template>
+
+<ng-template #newDateTemplate>
+  <div  class="input-group flat bordr date-hei dateAutoHeight"
+    (click)="(stepObject.valueType === 'AutoPopulate' && stepObject[propertyType] !== '') && openDate();
+       stepObject.valueType !== 'AutoPopulate' && openDate();" [style.width.%]="stepObject?.dataEntrySize">
+    <div class="flatpickr-wrapper calender-sy dateAutoHeight">
+      <input autocomplete="off" readonly  *ngIf="!stepObject[propertyType]"
+       [class.protect-col]="stepObject?.protect || stepObject?.showLockIcon || stepObject?.disableField"
+       [(ngModel)]="stepObject[propertyType]" name="date{{stepObject.dgUniqueID}}"
+       type="text" name="date" [title]="stepObject[propertyType]" class="form-control flat flatpicker"
+       [placeholder]="libDatePlaceholder" style="overflow: hidden; text-overflow: ellipsis; width: 100%; background-color: #e9ecef;
+        border: none !important;">
+        <!-- [style.font-size]="stepObject?.styleSet?.fontsize | fontSizePx" -->
+        <p *ngIf="stepObject[propertyType]" readonly [innerHtml]="stepObject[propertyType] | innerhtml"
+          [style.text-align]="stepObject?.styleSet?.textalign"
+          [style.font-family]="stepObject?.styleSet?.fontfamily"
+          [style.color]="stepObject?.styleSet?.fontColor"
+          [style.font-size]="stepObject?.styleSet?.fontsize | fontSizePx"
+          [class.protect-col]="stepObject?.protect || stepObject?.showLockIcon || stepObject?.disableField"
+          [title]="title" class="form-control flat flatpicker datefontSize date-v formControlAutoHeight"></p>
+        <span
+        [class.protect-col]="stepObject?.protect || stepObject?.showLockIcon || stepObject?.disableField"
+        class="calender-icon calenderIconAlignment" style="color:black"><i class="fa fa-calendar"></i></span>
+        <div class="input-group-prepend input-css"></div>
+      </div>
+       <!-- Role Icon -->
+       <lib-lockicon-exe [selectedElement]="stepObject" [type]="'dateRole'"></lib-lockicon-exe>
+      <!-- <i  *ngIf="stepObject?.showLockIcon" class="fa fa-lock role-set-date" aria-hidden="true"></i> -->
+       <!-- Role Icon -->
+    </div>
+    <span *ngIf="stepObject.required" class="required req ng-star-inserted">*</span>
+</ng-template>

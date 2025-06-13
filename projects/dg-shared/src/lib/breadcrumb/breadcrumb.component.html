@@ -1,0 +1,21 @@
+<div class="card breadcrumb-bg">
+    <div class="header" style="padding: 5px;">
+        <div class="block-header">
+            <div class="row dp-flex">
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="'/admin'"><i class="fa fa-home"  style="color: #fff;"></i></a></li>
+                        <li class="breadcrumb-item active"><a [routerLink]="'/datasource/source'" style="color: #fff;">Data Source</a></li>
+                        <li class="breadcrumb-item active"><a [routerLink]="'/datasource/library'" style="color: #fff;">Library</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 text-right">
+                    <ul class="breadcrumb justify-content-end">
+                       <ng-content></ng-content>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

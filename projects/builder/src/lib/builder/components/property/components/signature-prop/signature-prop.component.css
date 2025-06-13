@@ -1,0 +1,3 @@
+/* PRODFIX-1669 */
+label.flexAlign {display: flex;align-items: center;}
+/* PRODFIX-1669 End*/

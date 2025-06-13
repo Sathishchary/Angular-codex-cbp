@@ -1,0 +1,17 @@
+.disabled{
+  pointer-events: none;
+  background-color: #e5e5e5;
+}
+.modal-content{
+  max-height: 620px;
+}
+.modal-body{
+  max-height: 520px;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+.line{
+  width: 100%;
+  margin: 5px 0 7px 0;
+  border-bottom: 1px solid #e5e5e5;
+}

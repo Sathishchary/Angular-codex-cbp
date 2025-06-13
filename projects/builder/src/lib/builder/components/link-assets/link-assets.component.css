@@ -1,0 +1,121 @@
+select.form-control:not([size]):not([multiple]) {
+  height: 30px !important;
+  font-size: 12px !important;
+}
+.table td, .table th {
+  padding: 5px!important;
+  vertical-align: top;
+  border-top: 1px solid #dee2e6;
+}
+.form-control {
+  padding-left: 5px!important;
+  font-size: 13px;
+  height: 29px;
+}
+.modal-footer {
+  padding: 5px 10px !important;
+}
+.hover-action1 {
+  position: absolute;
+  top: 7px;
+  right: 0;
+  background: #fff;
+  transition: .5s ease-in-out;
+  display: none !important;
+}
+.btn-outline-secondary1 {
+  background-color: #007bff!important;
+  border-color: #007bff!important;
+  color: #fff;
+}
+.btn-outline-secondary2 {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  color: #fff;
+}
+.list-hover:hover .hover-action1 {
+  display: block !important;
+}
+.mail-inbox .mail-right .mail-list ul li .mail-detail-left, .mail-inbox .mail-right .mail-list ul li .mail-detail-right {
+  float: left;
+}
+.mail-inbox .mail-right .mail-list ul li .mail-detail-left {
+  max-width: 150px;
+  min-width: 150px;
+  width: 150px;
+  position: relative;
+  top: 13px;
+  left: 10px;
+}
+.mail-inbox .mail-right .mail-list ul li .mail-detail-left img {
+  width: 50px;
+  height: 50px;
+}
+.mail-inbox .mail-right .mail-list ul li .mail-detail-right {
+  position: relative;
+  padding-right: 60px;
+  width: calc(98% - 150px);
+  padding-left: 27px;
+  padding-top: 11px;
+}
+.mail-inbox .mail-right .mail-list ul li .hover-action1 {
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: 0!important;
+  padding: 22px 16px 23px;
+  background: #ffffff;
+  transition: all 0.5s ease-in-out;
+}
+.mail-inbox .mail-right .mail-list ul li .mail-detail-right span.time {
+  position: absolute;
+  top: 11px;
+  right: 0;
+}
+.mail-inbox .mail-right .mail-list ul li {
+  border-bottom: 1px solid #eaeaea;
+  width: 100%;
+  position: relative;
+}
+@media (min-width: 992px) {
+  .modal-lg {
+      max-width: 970px;
+ }
+}
+.tab-bg {
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 10px;
+  background: #fff;
+}
+/* htmlcss added */
+.linkassetscroll{
+  padding:0px 10px !important;
+  height: 430px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+.assettab{
+  border-bottom: 1px solid #eaeaea;
+}
+.dataimagecss{
+  border-radius: 3px;
+  width: 74%;
+  height: 74px;
+}
+.datecss{
+  margin-top: 9px;
+}
+.linkaddcss{
+  font-size:13px;
+  border: 1px solid #eaeaea!important;
+}
+.btn-outline-secondary {
+  color: #555555!important;
+  background-image: none!important;
+  background-color: #eaf6ff !important;
+  border-color: #d4d4d4!important;
+  margin-right: 6px;
+  margin-bottom: 5px;
+}

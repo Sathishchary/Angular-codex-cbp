@@ -1,0 +1,32 @@
+import { DgTypes } from "cbp-shared";
+import { Security } from "./security";
+export class DateDataEntry {
+  unnumbered: any;
+  prompt = '';
+  varname = '';
+  fieldName = '';
+  fieldNameUpdated = false;
+  tableName = '';
+  required = false;
+  dgUniqueID: any;
+  type = 'data element';
+  dataType = 'Date';
+  valueType = 'Entered';
+  autoPopulate = 'CurrentTimeStamp';
+  dgType: DgTypes = DgTypes.DateDataEntry;
+  storeValue: any;
+  alarm = [];
+  rule = [];
+  unit: any;
+  unitType: any;
+  minimum = '';
+  maximum = '';
+  isDateDisplayOpen = true;
+  isTimeDisplayOpen = false;
+  isDataEntry = true;
+  showLabel = false;
+  labelSide = 'left';
+  showLablePrompt = '';
+  dataEntrySize = 100;
+  security = new Security();
+}

@@ -1,0 +1,15 @@
+<div class="modal-content" >
+    <lib-modal-popup [title]="'Copy Data From Word'" (closeEvent)="cancel()"
+    [footerList]="[{type:'Save'}, {type:'Clear'}, {type:'Cancel'}]" (submitButtons)="$event.type=== 'Save' && save(); $event.type=== 'Cancel' && cancel();
+    $event.type=== 'Clear' && Clear();">
+    <div class="modal-body">
+      
+        <div id="wordData" contenteditable="true" (keydown)="onKeydown($event)"
+        style="    min-height: 200px;
+        border: 1px solid;"></div>
+    </div>
+    </lib-modal-popup>
+  </div>
+  
+ 
+  

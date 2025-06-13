@@ -1,0 +1,238 @@
+<div *ngIf="propertyDocument?.newCoverPageeEnabled">
+    <div class="{{ default }}" [ngClass]="{'fixed_footer_builder': !tableService.isBorderRemove}"
+      [class.selectedStep]="cbpService.headerSelected">
+      <div id="button-container" class="mb-2">
+
+        <button class="nobrdr editCoverPageIconCu" [disabled]="editorType?.viewMode"  [ngClass]="{'mr-2': windowWidth> 650, 'mr-1':  windowWidth< 650}"
+            (click)="!cbpService.showviewCoverPage ? editCoverPage() : viewCoverPage() " 
+            id="idValue{{cbpService.cbpJson.documentInfo[0]?.newCoverPageeEnabled}}">
+              <img [src]="cbpService.showviewCoverPage  ? ImagePath.coverPageNew :  ImagePath.coverPageOld"
+               width="34px" class="imageblue" title="Edit coverPage" alt="img">
+        </button>
+        <!-- <button class="button-style mr-1" value="Edit" (click)="editCoverPage()">
+          <i class="fa fa-edit" aria-hidden="true"></i>
+        </button> -->
+        <!-- <button class="button-style" value="View" (click)="viewCoverPage()">
+          <i class="fa fa-eye" aria-hidden="true"></i>
+        </button> -->
+      </div>
+      <ng-container [ngTemplateOutlet]="viewTemp"
+        [ngTemplateOutletContext]="{ $implicit: propertyDocument['coverPageData'] }">
+      </ng-container>
+    </div>
+    <ng-template #viewTemp let-obj>
+      <div class="row pr-0 pl-0">
+        <div class="{{ default }}">
+          <app-editor-table [field]="obj" [isCoverPage]="true"
+          (selectField)="selectedFieldEvent($event)"></app-editor-table>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+  <div *ngIf="!propertyDocument?.newCoverPageeEnabled">
+      <div class="row doc-ui">
+        <section class="jumbotron" [ngxWatermark]="cbpService.cbpJson.documentInfo[0]['waterMarkOptions']">
+
+           <!-- template id 1 -->
+           <ng-container *ngIf="propertyDocument['templateId'] =='1'">
+           <div class="col-md-12 col-lg-12 px-2">
+               <!-- <app-headerfooter [hide]="'footer'" [cbpJson]="cbpJson" [isDocPage]="true"></app-headerfooter> -->
+               <img [src]="ImagePath.dgImg"  (dragstart)="false" alt="Cinque Terre" class="imgalign">
+               <h5 class="text-center pt-40">{{propertyDocument.type}} {{propertyDocument.subtype}}</h5>
+               <h6 class="text-center pt-3">{{propertyDocument.title}}</h6>
+               <P class="text-center pt-3">{{propertyDocument.number}}</P>
+               <P class="text-center pt-3">{{propertyDocument.revision}}</P>
+               <P class="text-center pt-3">{{propertyDocument.objective}}</P>
+               <P class="text-center pt-3">Usage: {{propertyDocument.usage}}</P>
+               <p class="text-center pt-3">Unit(s):{{propertyDocument.units}}</p>
+           </div>
+           <div class="col-md-12 col-lg-12 px-0">
+               <div class="row text-center pb-75">
+                   <div class="col-md-4 col-lg-4">
+                       <div class="col-md-12 col-lg-12">
+                           <label>Approver</label>
+                       </div>
+                       <div class="col-md-12 col-lg-12">
+                           <label>{{propertyDocument.approver}}</label>
+                       </div>
+
+                   </div>
+                   <div class="col-md-4 col-lg-4">
+                       <div class="col-md-12 col-lg-12">
+                           <label>Reviewer</label>
+                       </div>
+                       <div class="col-md-12 col-lg-12">
+                           <label>{{propertyDocument.reviewer}}</label>
+                       </div>
+                   </div>
+                   <div class="col-md-4 col-lg-4">
+                       <div class="col-md-12 col-lg-12">
+                           <label>Effective Date</label>
+                       </div>
+                       <div class="col-md-12 col-lg-12">
+                           <label>{{propertyDocument.effectivedate}}</label>
+                       </div>
+                   </div>
+               </div>
+               <!-- <app-headerfooter [hide]="'header'" [cbpJson]="cbpJson" [isDocPage]="true"></app-headerfooter> -->
+           </div>
+          </ng-container>
+
+           <!-- template id 2 -->
+           <ng-container *ngIf="propertyDocument['templateId'] =='2'">
+           <div>
+               <div class="row">
+                   <div class="col-md-12 col-lg-12 px-4">
+                       <!-- <app-headerfooter [cbpJson]="cbpJson" [hide]="'footer'" [isDocPage]="true"></app-headerfooter> -->
+                       <div class="image-center">
+                           <img class="logo-img-right" [src]="ImagePath.dgImg" alt="logo" />
+                       </div>
+                       <div class="text-cent">
+                           <h4 class="procedure-text-bg">{{propertyDocument.type}} {{propertyDocument.subtype}}</h4>
+                           <p class="title-text-bg">{{propertyDocument.title}}</p>
+                           <p class="title-text-bg">{{propertyDocument.number}}</p>
+                           <p class="title-text-bg">{{propertyDocument.revision}}</p>
+                           <p class="title-text-bg">{{propertyDocument.objective}}</p>
+                           <p class="title-text-bg">Usage: {{propertyDocument.usage}}</p>
+                           <p class="title-text-bg">Unit(s):{{propertyDocument.units}}</p>
+                       </div>
+                       <div class="row row-footer-bg">
+                           <div class="col-md-3">
+                               <h4>Approver</h4>
+                               <p>{{propertyDocument.approver}}</p>
+                           </div>
+                           <div class="col-md-3">
+                               <h4>Reviewer</h4>
+                               <p>{{propertyDocument.reviewer}}</p>
+                           </div>
+                           <div class="col-md-3">
+                               <h4>Effective Date</h4>
+                               <p>{{propertyDocument.effectivedate}}</p>
+                           </div>
+                       </div>
+                       <!-- <app-headerfooter [hide]="'header'" [cbpJson]="cbpJson" [isDocPage]="true"></app-headerfooter> -->
+                   </div>
+               </div>
+           </div>
+           </ng-container>
+
+           <!-- template id 3 -->
+
+           <ng-container  *ngIf="propertyDocument['templateId'] =='3'">
+               <div class="center-bg-th">
+                   <div class="row">
+                       <div class="col-md-12 col-lg-12 px-4">
+                           <!-- <app-headerfooter [hide]="'footer'" [cbpJson]="cbpJson" [isDocPage]="true"></app-headerfooter> -->
+                           <div class="image-left">
+                               <img class="logo-img-right" [src]="ImagePath.dgImg"alt="logo" />
+                           </div>
+                           <div class="row ml-0 mr-0 align-item">
+                               <div class="col-md-8">
+                                   <div class="text-cent">
+
+                                       <h4 class="procedure-text-bg-th">{{propertyDocument.type}} {{propertyDocument.subtype}}</h4>
+                                       <div class="span-border"></div>
+                                       <p class="title-text-bg-th">Title :{{propertyDocument.title}}</p>
+                                       <div class="span-border"></div>
+                                       <p class="title-text-bg-th">Document Nbr :{{propertyDocument.number}}</p>
+                                       <div class="span-border"></div>
+                                       <p class="title-text-bg-th">Revision :{{propertyDocument.revision}}</p>
+                                       <div class="span-border"></div>
+                                       <p class="title-text-bg-th">Objective :{{propertyDocument.objective}}</p>
+                                       <div class="span-border"></div>
+                                       <p class="title-text-bg-th">Usage: {{propertyDocument.usage}}</p>
+                                       <div class="span-border"></div>
+                                   </div>
+                               </div>
+                               <div class="col-md-4">
+                                   <div class="row row-footer-bg">
+                                       <div class="col-md-12">
+                                           <h4>Approver</h4>
+                                           <p>{{propertyDocument.approver}}</p>
+                                           <div class="span-border"></div>
+                                       </div>
+                                       <div class="col-md-12">
+                                           <h4>Reviewer</h4>
+                                           <p>{{propertyDocument.reviewer}}</p>
+                                           <div class="span-border"></div>
+                                       </div>
+                                       <div class="col-md-12">
+                                           <h4>Effective Date</h4>
+                                           <p>{{propertyDocument.effectivedate}}</p>
+                                           <div class="span-border"></div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+
+
+                           <div class="row ">
+
+                           </div>
+                           <!-- <app-headerfooter [hide]="'header'"  [cbpJson]="cbpJson" [isDocPage]="true"></app-headerfooter> -->
+                       </div>
+                   </div>
+               </div>
+           </ng-container>
+
+          <!-- template id 4 -->
+
+           <ng-container *ngIf="propertyDocument['templateId'] =='4'">
+               <div>
+                   <div class="row">
+                       <div class="col-md-12 col-lg-12 px-4">
+                           <!-- <app-headerfooter [hide]="'footer'" [cbpJson]="cbpJson" [isDocPage]="true"></app-headerfooter> -->
+                           <div class="image-right">
+                               <img class="logo-img-right" [src]="ImagePath.dgImg"  alt="logo" />
+                           </div>
+                           <div class="row align-item">
+                               <div class="col-md-12">
+                                   <div class="text-cent">
+
+                                       <h4 class="procedure-text-bg-fr">{{propertyDocument.type}} {{propertyDocument.subtype}}</h4>
+                                       <div class="span-border"></div>
+                                       <p class="title-text-bg-fr">{{propertyDocument.title}}</p>
+                                       <div class="span-border"></div>
+                                       <p class="title-text-bg-fr">{{propertyDocument.number}}</p>
+                                       <div class="span-border"></div>
+                                       <p class="title-text-bg-fr">{{propertyDocument.revision}}</p>
+                                       <div class="span-border"></div>
+                                       <p class="title-text-bg-fr">{{propertyDocument.objective}}</p>
+                                       <div class="span-border"></div>
+                                       <p class="title-text-bg-fr">{{propertyDocument.usage}}</p>
+                                       <div class="span-border"></div>
+                                       <p class="title-text-bg-fr">{{propertyDocument.units}}</p>
+                                       <div class="span-border"></div>
+                                   </div>
+                               </div>
+                               <div class="col-md-12">
+                                   <div class="row row-footer-bg-fr">
+                                       <div class="col-md-3">
+                                           <h4>Approver</h4>
+                                           <p>{{propertyDocument.approver}}</p>
+                                           <div class="span-border-fr"></div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <h4>Reviewer</h4>
+                                           <p>{{propertyDocument.reviewer}}</p>
+                                           <div class="span-border-fr"></div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <h4>Effective Date</h4>
+                                           <p>{{propertyDocument.effectivedate}}</p>
+                                           <div class="span-border-fr"></div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+                           <!-- <app-headerfooter [hide]="'header'" [cbpJson]="cbpJson" [isDocPage]="true"></app-headerfooter> -->
+                       </div>
+                   </div>
+               </div>
+           </ng-container>
+
+
+         </section>
+       </div>
+
+  </div>

@@ -1,0 +1,75 @@
+btn:active {
+  color: green;
+}
+
+.sign-image {
+  height: auto;
+  padding-bottom: 4px;
+}
+
+.req {
+  font-size: 8px;
+  position: absolute;
+  color: #ff0000;
+  margin-left: 2px;
+}
+
+/* signature overflow in TAB  */
+@media (300px <=width <=992px) {
+  signature-pad.overflowWidthControl {
+    overflow: hidden;
+    box-sizing: border-box;
+    width: 100%;
+    display: inline-block;
+  }
+}
+
+/* signature overflow in TAB  End*/
+#textBox {
+  z-index: 1000;
+}
+
+.modal-open .modal {
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.sign-ex {
+  color: #8d8985;
+  padding: 5px;
+}
+
+.titleDatabreak {
+  padding-left: 0px !important;
+}
+
+.int {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 80%;
+  background-color: #e9ecef;
+  border: none !important;
+}
+
+.flatd {
+  width: 100%;
+  background: #e9ecef;
+  border: 1px solid #d4d4d4 !important;
+}
+
+.wra {
+  display: flex;
+  align-items: center;
+  justify-content: right;
+}
+.textOverflowControl.notes-height {
+  height: 70px !important;
+}
+.form-control.textOverflowControl {
+  height: 32px;
+  padding: 3px 5px !important;
+  overflow-y: auto;
+}
+.dis-cols{
+    background : #cbcdce !important;
+}

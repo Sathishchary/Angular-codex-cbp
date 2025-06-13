@@ -1,0 +1,110 @@
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 mb-1 pl-0 mr-0"
+[ngClass]="{'pr-0': cbpService.selectedUniqueId == field.dgUniqueID || !stepObject?.dualStep}">
+  <div class="stop_draging mt-1"
+    *ngIf="field" (click)="!field.isTableDataEntry && selectElement();$event.stopPropagation();
+     field.isTableDataEntry && selectedForTable($event)"
+     [ngClass]="{'section-border pr-1': cbpService.selectedUniqueId  == field.dgUniqueID,
+      'copyStep': cbpService.elementForCopyOrCut?.action == 'cut' && cbpService.elementForCopyOrCut?.element?.dgUniqueID == field.dgUniqueID,
+      'selectedStep': cbpService.selectedUniqueId == field.dgUniqueID && cbpService.elementForCopyOrCut?.element?.dgUniqueID !== field.dgUniqueID,
+       'row ml-0 brc' : stepObject?.dualStep, 'fb-row': !stepObject?.dualStep
+     }"
+    [class.noneBg]="field.isTableDataEntry">
+    <div [ngClass]="{'hover': cbpService.selectedElement.dgUniqueID  == field.dgUniqueID}" *ngIf="cbpService.sectionHover && !field.isTableDataEntry">
+      <app-step-option [field]="field"></app-step-option>
+    </div>
+    <ng-container *ngIf="!field.isTableDataEntry">
+      <ng-container *ngIf="field.dataType == 'Dropdown'">
+        <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 px-0 textareacont"
+          *ngIf="!cbpService.searchTemplate"
+          [ngClass]="{  'col-md-12 col-lg-12 pb-1': stepObject?.dualStep}">
+          <dg-track-ui [field]="field" *ngIf="!hideTrackUi && !field.isTableDataEntry" (fieldChange)="setField($event);"></dg-track-ui>
+          <lib-editor-text [field]="field" [placeholder]="'Please Enter the DropDown'" (fieldChange)="field = $event;"></lib-editor-text>
+         </div>
+        <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 px-0"
+        [ngClass]="{  'col-md-12 col-lg-12': stepObject?.dualStep}"
+        *ngIf="cbpService.searchTemplate">
+          <app-search-result [field]="field" [propName]="'prompt'" *ngIf="field.dataType == 'Dropdown'" [searchString]="cbpService.searchString"
+          [triggerReplace]="cbpService.triggerReplace">
+          </app-search-result>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 pr-0" style="display: flex;"
+        [ngClass]="{  'col-md-12 col-lg-12 pl-0': stepObject?.dualStep}">
+        <ng-container *ngTemplateOutlet="textDataTypeDrop"></ng-container>
+              <lib-lockicon [selectedElement]="field"></lib-lockicon>
+          <!-- <select class="form-control h28-imp"  [disabled]="true"></select> -->
+          <i class="drp-req" *ngIf="field.required">*</i>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="field.dataType === 'Text'">
+        <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 px-0 textareacont"
+        [ngClass]="{  'col-md-12 col-lg-12': stepObject?.dualStep}"
+         *ngIf="!cbpService.searchTemplate" >
+          <dg-track-ui [field]="field" *ngIf="!hideTrackUi && !field.isTableDataEntry" (fieldChange)="field = $event"></dg-track-ui>
+          <lib-editor-text [field]="field" (focus)="cbpService.selectedElement = field;cbpService.selectedUniqueId = field.dgUniqueID" [placeholder]="'Please Enter the Text'" (fieldChange)="field = $event;"></lib-editor-text>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 px-0"
+        [ngClass]="{  'col-md-12 col-lg-12': stepObject?.dualStep}"
+        *ngIf="cbpService.searchTemplate">
+          <app-search-result [field]="field" [propName]="'prompt'" [searchString]="cbpService.searchString"
+            [triggerReplace]="cbpService.triggerReplace" [triggerReplaceAll]="cbpService.triggerReplaceAll">
+          </app-search-result>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 pr-0 ds-flex"  style="display: flex; height: fit-content;"
+        [ngClass]="{  'col-md-12 col-lg-12 pl-0': stepObject?.dualStep}">
+          <ng-container *ngTemplateOutlet="textDataType"></ng-container>
+          <lib-lockicon [selectedElement]="field"></lib-lockicon>
+          <i class="drp-req" *ngIf="field.required">*</i>
+        </div>
+      </ng-container>
+    </ng-container>
+    <ng-container *ngIf="field.isTableDataEntry">
+      <ng-container [ngTemplateOutlet]="textTemp" [ngTemplateOutletContext]="{$implicit: 'left'}"></ng-container>
+        <div
+          [ngClass]="{
+            'col-xs-12 col-sm-12 col-md-12 setpr' :!field?.showLabel,
+            'col-xs-6 col-sm-6' :field?.showLabel,
+            'pl-2 pr-0': field?.showLabel && field?.labelSide === 'left',
+            'pl-0 pr-2': field?.showLabel && field?.labelSide === 'right'
+           }"
+          class="ds-flex" >
+         
+          <!-- <select *ngIf="field.dataType !== 'Text'" class="form-control" [id]="field.name"
+            [style.width.%]="field.dataEntrySize" [disabled]="true"></select> -->
+            <ng-container *ngIf="field.dataType !== 'Text'" >
+              <ng-container *ngTemplateOutlet="textDataTypeDrop"></ng-container>
+              <lib-lockicon [selectedElement]="field"></lib-lockicon>
+            </ng-container>
+         
+          <ng-container *ngIf="field.dataType === 'Text'" >
+            <ng-container *ngTemplateOutlet="textDataType"></ng-container>
+            <lib-lockicon [selectedElement]="field"></lib-lockicon>
+          </ng-container>
+          <i class="drp-req" *ngIf="field.required">*</i>
+        </div>
+        <ng-container [ngTemplateOutlet]="textTemp" [ngTemplateOutletContext]="{$implicit: 'right'}"></ng-container>
+    </ng-container>
+  </div>
+</div>
+<ng-template #textTemp let-type>
+  <div *ngIf="field?.showLabel && field?.labelSide === type && !cbpService.searchTemplate"
+   [ngClass]="{'pl-0 pr-0 col-xs-6 col-sm-6' :field?.showLabel && !cbpService.searchTemplate }">
+    <lib-showlabelprompt [(field)]="field"></lib-showlabelprompt>
+</div>
+<div  *ngIf="cbpService.searchTemplate && field?.showLabel && field?.labelSide === type" [ngClass]="{'pl-0 col-xs-6 col-sm-6' :field?.showLabel && cbpService.searchTemplate}">
+  <app-search-result [field]="field" [propName]="'showLablePrompt'" [searchString]="cbpService.searchString"
+    [triggerReplace]="cbpService.triggerReplace" [triggerReplaceAll]="cbpService.triggerReplaceAll">
+  </app-search-result>
+</div>
+</ng-template>
+
+<ng-template #textDataType>
+  <div class="empty-txt" [style.width.%]="field.dataEntrySize" 
+  [ngClass]="{'derived-background': field.valueType === 'Derived',
+  'autoPopulate-background':field.valueType === 'AutoPopulate'}"><span>Enter The Text</span>
+  </div>
+</ng-template>
+
+<ng-template #textDataTypeDrop>
+  <div class="empty-txt-drop customizeDropDown" [style.width.%]="field.dataEntrySize"><span>Select</span>
+  </div>
+</ng-template>

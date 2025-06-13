@@ -1,0 +1,49 @@
+<div class="row">
+    <div class="col-md-1 findrplacecss">
+        <i class="fa fa-angle-double-down" aria-hidden="true" *ngIf="hideReplaceTemplate" (click)="hideReplaceTemplate = false"></i>
+        <i class="fa fa-angle-double-up" aria-hidden="true" *ngIf="!hideReplaceTemplate" (click)="hideReplaceTemplate = true"></i>
+    </div>
+    <div class="col-xs-9 col-sm-11 col-md-11 pl-0 search-inputs">
+        <div class="row">
+            <div class="col-md-8 col-lg-8 pl-2 pr-0">
+                <div>
+                    <input type="text" class="form-control" id="find-input" [(ngModel)]="searchString" (keyup.enter)="search()" autofocus>
+                </div>
+            </div>
+            <div class="col-xs-4 col-sm-4 col-md-4 pl-0 pr-0 displ-flex just">
+                <span class=" search-result" *ngIf="cbpService.searchObj">
+                  {{cbpService.searchObj.totalOccurance > 0 ? cbpService.searchObj.currentActivePosition : 0}}/{{cbpService.searchObj.totalOccurance}}</span>
+                <div class="bordr">
+                    <i [class.disabled]="cbpService.searchObj.totalOccurance ===0" class="fa fa-angle-down findnext" aria-hidden="true" (click)="findNext()"></i>
+                    <i [class.disabled]="cbpService.searchObj.totalOccurance ===0" class="fa fa-angle-up findnext" aria-hidden="true" (click)="findPrev()"></i>
+                    <i class="fa fa-times findnext" (click)="close()"></i>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-2" *ngIf="!hideReplaceTemplate">
+            <div class="col-md-8 col-lg-8 pl-2 pr-0">
+                <input type="text" class="form-control" id="replace-input" [(ngModel)]="cbpService.replaceString" autofocus>
+            </div>
+            <div class="col-xs-4 col-sm-4 col-md-4  pr-0  displ-flex">
+                <i class="fa fa-gg replace" title="Replace" aria-hidden="true" (click)="replace()"></i>
+                <i class="fa fa-ioxhost replace-all" title="Replace All" aria-hidden="true" (click)="replaceAll()"></i>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="col-xs-2 col-sm-2 col-md-2 pl-2 pr-2">
+        <div class="row">
+            <div class="col-md-12 col-lg-12 displ-flex">
+                <span class=" search-result" *ngIf="cbpService.searchObj">{{cbpService.searchObj.totalOccurance > 0 ? cbpService.searchObj.currentActivePosition : 0}}/{{cbpService.searchObj.totalOccurance}}</span>
+                <i class="fa fa-angle-down findnext" aria-hidden="true" (click)="findNext()" *ngIf="cbpService.searchObj.totalOccurance > 0"></i>
+                <i class="fa fa-angle-up findnext" aria-hidden="true" (click)="findPrev()" *ngIf="cbpService.searchObj.totalOccurance > 0"></i>
+                <i class="fa fa-times findnext" (click)="close()"></i>
+            </div>
+        </div>
+        <div class="row" *ngIf="!hideReplaceTemplate">
+            <div class="col-md-12 col-lg-12 displ-flex">
+                <i class="fa fa-gg"  title="Replace" aria-hidden="true" (click)="replace()"></i>
+                <i class="fa fa-ioxhost" title="Replace All" aria-hidden="true" (click)="replaceAll()"></i>
+            </div>
+        </div>
+    </div> -->
+  </div>

@@ -1,0 +1,12 @@
+.form-control {
+  font-size: 12px !important;
+  height: 28px;
+  padding: 5px !important;
+}
+.form-control {
+  display: block;
+  width: 100%;
+  padding: 4px 4px !important;
+  line-height: 1.5 !important;
+  color: #555;
+}

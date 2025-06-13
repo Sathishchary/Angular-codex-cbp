@@ -1,0 +1,29 @@
+.propertyHead{
+    border: 1px solid #cacaca;
+    background: #ffff;
+    border-radius: 5px 5px 0 0;
+    height: 100vh;
+}
+
+.heading {
+    border-radius: 5px 5px 0 0 !important;
+    padding: 10px;
+    font-size: 14px;
+    background: #5480c2;
+    color: #fff !important;
+    margin-bottom: 0px !important;
+}
+.applied {
+  background-color:#37dd6c!important;
+}
+.disabled-dynamic{
+  pointer-events: none;
+  background-color: #ccc;
+}
+
+.disablebg{
+  pointer-events: none;
+}
+/* PRODFIX-1669 */
+label.flexAlign {display: flex;align-items: center;}
+/* PRODFIX-1669 End*/

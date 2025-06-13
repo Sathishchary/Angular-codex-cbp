@@ -1,0 +1,431 @@
+<div class="modal fade " id="Component-rule" tabindex="-1 " role="dialog " data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document"
+     [ngClass]="{'modal-lg': cbpService.selectedElement.dgType !== 'Form',  'modal-md': cbpService.selectedElement.dgType === 'Form'}">
+        <div class="modal-content">
+            <lib-modal-popup [title]="cbpService.selectedElement.dgType === 'Form'? 'Table Rule -' + cbpService.selectedElement?.tableName :rulesStepNo?rulesStepNo:'Rules -'" 
+             [footerList]="footerList"
+             (submitButtons)="$event.type === 'Reset' && resetRules(); $event.type === 'Undo' && undoRules();
+             $event.type === 'Save' && saveRules();$event.type === 'Update' && updateRules(); $event.type === 'Close' && hide();"
+             (closeEvent)="hide()">
+            <div class="modal-body"
+                style="padding:7px 5px 0px 21px !important;height: 640px;overflow-x: hidden;overflow-y: auto;">
+                <div class="col-md-12 col-lg-12 pl-0 pt-0">
+                    <div class="row">
+                        <div class="col-md-3 col-lg-3 px-0" *ngIf="cbpService.selectedElement.dgType !=='Form'">
+                            <div class="col-md-12 col-lg-12 pt-0 px-0">
+                                <div class="card mt-1">
+                                    <div class="header selected-asset">
+                                        <h6>Index
+                                            <a class="pointer" (click)="changeControl('index')"></a>
+                                        </h6>
+                                    </div>
+                                    <div class="px-0 py-0">
+                                        <div class="col-md-12 col-lg-12"
+                                            style="height:591px; overflow-x:hidden;overflow-y:auto">
+                                            <div class="row">
+
+                                                <div class="col-md-12 col-lg-12 py-1 pr-0 px-2 index-list">
+                                                    <span [ngClass]="{'indexColor': currentNodeSelected}">
+                                                        <lib-tree-structure *ngIf="isTree"
+                                                            [cbpJson]="cbpService.cbpJson"
+                                                            [updatedNode]="currentNodeSelected" [parent]="componentInfo"
+                                                            (selectedNode)="selectStepNode($event)">
+                                                        </lib-tree-structure>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="px-0"
+                         [ngClass]="{'col-md-6 col-lg-6': cbpService.selectedElement.dgType !=='Form',
+                         'col-md-12 col-lg-12 ': cbpService.selectedElement.dgType =='Form'}">
+                            <div class="card" style="border:1px solid #fff !important;">
+                                <div class="px-2 pt-0 pb-2">
+                                    <div class="col-md-12 col-lg-12 pt-0 px-0">
+                                        <div class="card" style="margin-top: -2px;">
+                                            <div class="header selected-asset">
+                                                <h6 style="color:fff">Rules</h6>
+                                            </div>
+                                            <div class="pt-2 pr-2 pl-2 pb-2"
+                                            [ngClass]="{'table-height-auto': ruleData.conditionDataInfo.length > 0, 'table-height-fixed': ruleData.conditionDataInfo.length === 0}">
+                                                <!-- style="height:118px; overflow-x:hidden;overflow-y:auto" -->
+                                                <table class="table-bordered mb-0"
+                                                    style=" font-size: 13px!important;"><!--margin-top: 6px;-->
+                                                    <thead style="background: #f7f7f7;">
+                                                        <tr>
+                                                            <th class="customePaddings" [style.width.px]="cbpService.selectedElement.dgType !=='Form' ? 500: 600">Condition</th>
+                                                            <th class="text-center customePaddings" [style.width.px]="cbpService.selectedElement.dgType !=='Form' ? 100: 160">Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr class="p-2" *ngFor="let info of ruleData.conditionDataInfo;let i = index; last as isLast"
+                                                         [class.isEditRule]="selectRuleObj?.dgUniqueID === info?.dgUniqueID && i === selectedIndex">
+                                                            <td class="p-2">{{info.DisplayValue}}</td>
+                                                            <td class="p-2" style="text-align: center;">
+                                                                <div class="text-center table-ds-flex">
+                                                                    <a class="tableIconArrow" *ngIf="i !== 0"><span (click)="fielddataUp(i)">
+                                                                      <i class="fa fa-arrow-up"></i></span>
+                                                                    </a>
+                                                                    <a class="tableIconArrow" [hidden]="isLast"><span (click)="fielddataDown(i)">
+                                                                      <i class="fa fa-arrow-down"></i></span>
+                                                                    </a>
+                                                                    <a class="tableIconEdit"><span (click)="ruleEdit(info,i)"><i class="fa fa-edit"></i></span></a>
+                                                                    <a class="tableIconDelete"><span (click)="fieldDataDelete(i)"><i class="fa fa-trash"></i></span></a>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 pt-2 px-0">
+                                        <div class="card">
+                                            <div class="header selected-asset">
+                                                <h6 style="color:fff">{{isRuleEdit ? 'Edit': 'Add'}} Rules</h6>
+                                            </div>
+                                            <div class="pt-0 pr-2 pl-2 pb-0" style="height: 419px;">
+                                                <div class="col-lg-12 col-md-12 pt-2 pr-0 pl-0 pb-2">
+                                                    <div class="row">
+                                                        <div class="col-md-4 col-lg-4"
+                                                            style="flex: 0 0 25.333333% !important;max-width: 25.333333% !important;">
+                                                            <label>Select Condition Type</label>
+                                                        </div>
+                                                        <div class="col-md-4 col-lg-4 ">
+                                                            <select class="form-control" [disabled]="isRuleEdit"
+                                                                [(ngModel)]="ruleData.conditionType">
+                                                                <option value="IF THEN ELSE" *ngIf="cbpService.selectedElement.dgType !=='Form'">IF THEN ELSE</option>
+                                                                <option value="IF THEN">IF THEN</option>
+                                                                <option value="GOTO" *ngIf="cbpService.selectedElement.dgType !=='Form'">GOTO</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-3 col-lg-3 px-0" *ngIf="ruleData.conditionType === 'REPEAT'">
+                                                          <div class="row">
+                                                            <div class="col-md-5 col-lg-5">
+                                                              <input class="form-control" placeholder="" [(ngModel)]="ruleData.DisplayValue" required="" type="text">
+                                                            </div>
+                                                            <div class="col-md-5 col-lg-5 pl-0">
+                                                            <label>Times</label>
+                                                            </div>
+                                                          </div>
+                                                      </div>
+                                                      <div class="col-md-3 col-lg-3 px-0" *ngIf="ruleData.conditionType === 'TIMED'">
+                                                        <div class="row">
+                                                          <div class="col-md-5 col-lg-5">
+                                                            <input class="form-control"  [(ngModel)]="ruleData.DisplayValue" required="" type="text">
+                                                          </div>
+                                                          <div class="col-md-5 col-lg-5 pl-0">
+                                                          <label>Minutes</label>
+                                                          </div>
+                                                        </div>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 pr-0 pt-2 pb-2"
+                                                *ngIf="!(ruleData.conditionType === 'REPEAT' || ruleData.conditionType === 'TIMED' ||
+                                                 ruleData.conditionType === 'GOTO' || ruleData.conditionType === 'END')"
+                                                 style="border: 1px solid #e4e4e4 !important;">
+                                                    <div class="row"
+                                                        *ngIf="ruleData.conditionType === 'IF THEN ELSE' || ruleData.conditionType === 'IF THEN' || ruleData.conditionType === 'WHILE'">
+                                                        <div class="col-md-1 col-lg-1 pl-4 pt-4 text-left pr-0" *ngIf="ruleData.conditionType !== 'WHILE'">
+                                                            <label>IF</label>
+                                                        </div>
+                                                        <div class="col-md-4 col-lg-4 pr-0">
+                                                            <label *ngIf="cbpService.selectedElement.dgType !=='Form'">Field Name</label>
+                                                            <label *ngIf="cbpService.selectedElement.dgType =='Form'">Column Name</label>
+                                                            <select class="form-control" *ngIf="cbpService.selectedElement.dgType !=='Form'" [disabled]="isRuleEdit"
+                                                                [(ngModel)]="ruleData.ParsedValue" (change)="fieldExpresion(ruleData.ParsedValue)">
+                                                                <option *ngFor="let fname of fieldsdata" [ngValue]="fname">{{fname.fieldName}}</option>
+                                                            </select>
+                                                            <select class="form-control" [disabled]="isRuleEdit"
+                                                             *ngIf="cbpService.selectedElement.dgType =='Form'"
+                                                             [(ngModel)]="ruleData['columnValue']"
+                                                             (ngModelChange)="changeColumn($event)">
+                                                             <option *ngFor="let col of columnList; let i=index;" [ngValue]="col.fieldName">
+                                                              Column-{{i+1}}
+                                                             </option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-3 col-lg-3"
+                                                         *ngIf="cbpService.selectedElement.dgType =='Form'">
+                                                         <label>Attribute List</label>
+                                                         <select class="form-control" id="attributeId" (ngModelChange)="getAttrValue($event)" [disabled]="isRuleEdit"
+                                                          [(ngModel)]="ruleData['attributeValue']">
+                                                          <option *ngFor="let attr of attributeList; let i = index"
+                                                                 [ngValue]="attr.fieldName">Attr-{{i+1}}</option>
+                                                         </select>
+                                                        </div>
+                                                        <div class="col-md-2 col-lg-2 pr-0 pl-2">
+                                                            <label>Operator</label>
+                                                            <select class="form-control" [(ngModel)]="ruleData.ComparisonOperator" [disabled]="isRuleEdit">
+                                                                <option value="" disabled>Select Operator</option>
+                                                                <option *ngFor="let option of operatorOptions" [value]="option.value">{{option.name}}</option>
+                                                            </select>
+                                                        </div>
+                                                        <div  class="col-md-4 col-lg-4 pr-0 pl-2"
+                                                         *ngIf="cbpService.selectedElement.dgType !== 'Form'">
+                                                            <div *ngIf="!(
+                                                                (ruleData?.ParsedValue && ruleData?.ParsedValue?.DgType === dgType.BooleanDataEntry ||
+                                                                ruleData?.ParsedValue?.DgType === dgType.CheckboxDataEntry)
+                                                                || ruleData.ParsedValue.DgType === dgType.DateDataEntry)">
+                                                                <label>Value</label>
+                                                                <input *ngIf="ruleData.ParsedValue.DgType !== dgType.NumericDataEntry" [disabled]="isRuleEdit"
+                                                                 class="form-control" placeholder="" [(ngModel)]="ruleData.DisplayValue" type="text">
+                                                                <input *ngIf="ruleData?.ParsedValue?.DgType === dgType.NumericDataEntry"[disabled]="isRuleEdit"
+                                                                numeric  decimals = "{{selectedElement?.decimal}}"  class="form-control" placeholder="Number"
+                                                                 [(ngModel)]="ruleData.DisplayValue" type="text">
+                                                            </div>
+                                                            <div class="row" *ngIf="ruleData?.ParsedValue && (ruleData?.ParsedValue?.DgType === dgType.BooleanDataEntry)"
+                                                                style="margin-top: 10px;margin-left: 15px;">
+                                                                <div class="radio-inline mr-3 pt-2">
+                                                                    <label><input type="radio" name="optradio" value="1" [disabled]="isRuleEdit"
+                                                                            [(ngModel)]="ruleData.DisplayValue"><span
+                                                                            style="padding: 5px;">{{ruleData.ParsedValue.object.TrueValue}}</span></label>
+                                                                </div>
+                                                                <div class="radio-inline mr-3 pt-2">
+                                                                    <label><input type="radio" name="optradio" value="0" [disabled]="isRuleEdit"
+                                                                            [(ngModel)]="ruleData.DisplayValue"><span
+                                                                            style="padding: 5px;">{{ruleData.ParsedValue.object.FalseValue}}
+                                                                          </span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row" *ngIf="ruleData?.ParsedValue && ruleData?.ParsedValue?.DgType === dgType.CheckboxDataEntry" 
+                                                            style="margin-top: 22px;margin-left: 29px;">
+                                                                <input type="checkbox"  name="checkbox" [(ngModel)]="ruleData.DisplayValue" [disabled]="isRuleEdit">
+                                                            </div>
+                                                            <div *ngIf="ruleData.ParsedValue?.DgType === dgType.DateDataEntry" >
+                                                              <label>Value</label>
+                                                               <lib-date-time [placeholder]="'Date'"  [disabled]="isRuleEdit"
+                                                                [position]="'above'" [noCalender]="!isDateTime.isDateDisplayOpen"
+                                                                [isEnableTime]="isDateTime.isTimeDisplayOpen" [(dataField)]="ruleData.DisplayValue">
+                                                               </lib-date-time>
+                                                          </div>
+                                                        </div>
+                                                        <div class="col-md-2 col-lg-2 pl-2" *ngIf="cbpService.selectedElement.dgType === 'Form'">
+                                                            <div>
+                                                              <label>Value</label>
+                                                              <input class="form-control" placeholder="" [disabled]="isRuleEdit"
+                                                              [(ngModel)]="ruleData.DisplayValue" type="text">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row"
+                                                        *ngIf="ruleData?.conditionType === 'IF THEN ELSE' || ruleData?.conditionType === 'IF THEN' ||
+                                                         ruleData?.conditionType === 'WHILE'">
+                                                        <div class="col-lg-6 col-md-6 pt-0 pl-4">
+                                                            <div class="row">
+                                                                <div class="col-md-12 col-lg-12 pt-2 pl-4">
+                                                                   <div class="row">
+                                                                    <button [disabled]="isRuleEdit"
+                                                                    class="btn btn-outline-secondary btn-sm hidden-sm button-border"
+                                                                    style="border: 1px solid #eaeaea!important;"  type="button"
+                                                                    (click)="refreshRuleInfo()">ADD</button>
+                                                                    <button [disabled]="isRuleEdit"
+                                                                    class="btn btn-outline-secondary btn-sm hidden-sm button-border"
+                                                                    style="border: 2px solid #eaeaea!important;"
+                                                                    type="button" (click)="and()">Add AND</button>
+                                                                    <button [disabled]="isRuleEdit"
+                                                                    class="btn btn-outline-secondary btn-sm hidden-sm button-border"
+                                                                    style="border: 2px solid #eaeaea!important;"
+                                                                    type="button" (click)="or()">Add OR</button>
+                                                                   </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 pr-0 pt-0 mt-2"
+                                                    style="border: 1px solid #e4e4e4 !important;"
+                                                    *ngIf="!(ruleData.conditionType === 'REPEAT' || ruleData.conditionType === 'TIMED' || ruleData.conditionType === 'END')">
+                                                    <div class="row">
+                                                        <div class="col-lg-12 col-md-12 pr-0 pt-2">
+                                                            <div class="row"
+                                                                *ngIf="!(ruleData.conditionType === 'WHILE' || ruleData.conditionType === 'GOTO') || ruleData.conditionType === 'IF THEN ELSE' || ruleData.conditionType === 'IF THEN' ">
+                                                                <div class="col-md-1 col-lg-1 pl-4 pt-4 text-left pr-0">
+                                                                    <label>THEN</label><br>
+                                                                </div>
+                                                                <div class="col-md-4 col-lg-4 pr-0">
+                                                                    <label>Action</label>
+                                                                    <select class="form-control" *ngIf="cbpService.selectedElement.dgType !=='Form'" 
+                                                                    [(ngModel)]="ruleData.thenaction">
+                                                                        <option value="Go To">Go To</option>
+                                                                    </select>
+
+                                                                    <select class="form-control"
+                                                                    *ngIf="cbpService.selectedElement.dgType ==='Form'"
+                                                                     [(ngModel)]="ruleData['messageInfo']">
+                                                                        <option value="Message">Message</option>
+                                                                        <option value="DisableNextSteps">DisableNextSteps</option>
+                                                                        <option value="Disable">Disable</option>
+                                                                        <option value="Enable">Enable</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-md-4 col-lg-4 pr-0 pl-2" *ngIf="cbpService.selectedElement.dgType !=='Form'">
+                                                                    <label>Section/Step</label>
+                                                                    <select class="form-control"
+                                                                        [(ngModel)]="ruleData.thenstep">
+                                                                        <option *ngFor="let fname of tempsectionnumbers"> {{fname}}</option>
+                                                                    </select>
+                                                                </div>
+
+                                                                <div class="col-md-4 col-lg-4 pr-0 pl-2"
+                                                                *ngIf="cbpService.selectedElement.dgType =='Form' && ruleData.messageInfo === 'Message'">
+                                                                  <label>Value</label>
+                                                                  <input type="text" *ngIf="ruleData.messageInfo === 'Message'" class="form-control" 
+                                                                    [(ngModel)]="ruleData['showMessage']">
+                                                               </div>
+                                                               <ng-container *ngIf="cbpService.selectedElement.dgType =='Form' &&
+                                                                (ruleData.messageInfo === 'Disable' || ruleData.messageInfo === 'Enable' ||
+                                                                ruleData.messageInfo === 'DisableNextSteps')">
+                                                                <div class="col-md-2 col-lg-2 pr-0 pl-2">
+                                                                  <label>Columns</label>
+                                                                  <select class="form-control"  [(ngModel)]="ruleData['disableColumn']"
+                                                                  (ngModelChange)="ruleData.messageInfo !== 'DisableNextSteps' && getDisableAttrList();">
+                                                                  <option *ngFor="let col of columnList; let i=index;" [ngValue]="i">
+                                                                   Column-{{i+1}}
+                                                                  </option>
+                                                                 </select>
+                                                              </div>
+                                                              <div class="col-md-2 col-lg-2 pr-0 pl-2" *ngIf="ruleData.messageInfo !== 'DisableNextSteps'">
+                                                                  <label>Attributes</label>
+                                                                  <select class="form-control" id="attributeId" 
+                                                                  [(ngModel)]="ruleData['disableAttrValue']">
+                                                                  <option *ngFor="let attr of attributeDisableList; let i = index"
+                                                                      [ngValue]="i">Attr-{{i+1}}</option>
+                                                                 </select>
+                                                              </div>
+                                                               </ng-container>
+                                                            </div>
+                                                            <div class="col-md-4 col-lg-4 pr-0 pl-0" *ngIf="ruleData.conditionType === 'WHILE'">
+                                                              <label>Action</label>
+                                                              <select class="form-control"  [(ngModel)]="ruleData.action" >
+                                                                  <option value="Continue()" selected>Continue()</option>
+                                                                  <option value="ConfirmContinue()">ConfirmContinue() </option>
+                                                              </select>
+                                                      </div>
+                                                      <div class="col-lg-12 col-md-12 pt-2 px-0" *ngIf="ruleData.action === 'ConfirmContinue()'">
+                                                        <div class="row ">
+                                                            <div class="col-md-5 col-lg-5 pr-0">
+                                                                <label>Message Code</label>
+                                                                <input class="form-control" placeholder="" [(ngModel)]="ruleData.messageCode" required="" type="text">
+                                                            </div>
+                                                            <div class="col-md-5 col-lg-5 pr-0">
+                                                                <label>Message</label>
+                                                                <input class="form-control" placeholder="" [(ngModel)]="ruleData.message" type="text">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 pr-0 pt-2">
+                                                            <div class="row"
+                                                                *ngIf="cbpService.selectedElement.dgType !=='Form' && (!(ruleData.conditionType !== 'WHILE' || ruleData.conditionType === 'IF THEN' ||
+                                                                 ruleData.conditionType !== 'GOTO') || ruleData.conditionType === 'IF THEN ELSE')">
+                                                                <div class="col-md-1 col-lg-1 pl-4 pt-4 text-left pr-0">
+                                                                    <label>ELSE</label><br>
+                                                                </div>
+                                                                <div class="col-md-4 col-lg-4 pr-0">
+                                                                    <label>Action</label>
+                                                                    <select class="form-control" *ngIf="cbpService.selectedElement.dgType !=='Form'" 
+                                                                        [(ngModel)]="ruleData.elseaction">
+                                                                        <option value="Go To">Go To</option>
+                                                                    </select>
+                                                                    <select class="form-control"
+                                                                    *ngIf="cbpService.selectedElement.dgType ==='Form'"
+                                                                     [(ngModel)]="ruleData.elseaction">
+                                                                        <option value="Message">Message</option>
+                                                                        <option value="Warning">Warning</option>
+                                                                        <option value="Color">Color</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-md-4 col-lg-4 pr-0 pl-2"  *ngIf="cbpService.selectedElement.dgType !=='Form' && ruleData.conditionType !== 'GOTO'">
+                                                                    <label>Section/Step</label>
+                                                                    <select class="form-control"
+                                                                        [(ngModel)]="ruleData.elsestep">
+                                                                        <option *ngFor="let fname of tempsectionnumbers">{{fname}}</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-md-4 col-lg-4 pr-0 pl-2" *ngIf="cbpService.selectedElement.dgType =='Form'">
+                                                                  <label>Value</label>
+                                                                  <input type="text" class="form-control" name="value"  [(ngModel)]="ruleData.elsestep">
+                                                              </div>
+
+                                                            </div>
+                                                            <div class="row"
+                                                                *ngIf="ruleData.conditionType === 'IF THEN ELSE' || ruleData.conditionType === 'IF THEN'">
+                                                                <div class="col-md-1 col-lg-1 pl-4 pt-4 text-left pr-0">
+                                                                    <label></label>
+                                                                </div>
+                                                                <div class="col-lg-4 col-md-4 pt-0">
+                                                                    <div class="row">
+                                                                        <div class="col-md-2 col-lg-2 pt-2">
+                                                                            <button
+                                                                                class="btn btn-outline-secondary btn-sm hidden-sm button-border bt"
+                                                                                type="button"
+                                                                                (click)="cbpService.selectedElement.dgType !=='Form' && addThenelse();
+                                                                                cbpService.selectedElement.dgType =='Form' && !isRuleEdit && addTableRule();
+                                                                                cbpService.selectedElement.dgType =='Form' && isRuleEdit && addUpdateTableRule();">
+                                                                               {{isRuleEdit ? 'UPDATE' : 'ADD' }}
+                                                                              </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row" style= "padding-bottom: 25px !important;"
+                                                            *ngIf="ruleData && ruleData.conditionType === 'GOTO'">
+                                                            <div class="col-md-4 col-lg-4 pr-0 pl-2" >
+                                                              <label>Section/Step</label>
+                                                              <select class="form-control" [(ngModel)]="ruleData.elsestep">
+                                                                  <option *ngFor="let numText of tempsectionnumbers">{{numText}}</option>
+                                                              </select>
+                                                          </div>
+                                                        </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="col-lg-12 col-md-12 pt-1 px-0"
+                                                    *ngIf="ruleData.conditionType === 'IF THEN ELSE' || ruleData.conditionType === 'IF THEN' || ruleData.conditionType === 'WHILE'">
+                                                    <textarea name="rule" class="form-control" [minRows]="4" autosize
+                                                         [(ngModel)]="ruleData.ruleInfo" (change)="changeRule()"> </textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-lg-3 px-0" *ngIf="cbpService.selectedElement.dgType !=='Form'">
+                            <div class="col-md-12 col-lg-12 pt-0 px-0">
+                                <div class="card" style="margin-top: -1px;">
+                                    <div class="header selected-asset">
+                                        <h6>Data Field</h6>
+                                    </div>
+                                    <div class="px-0 py-0">
+                                        <div class="col-md-12 col-lg-12 data-fields">
+                                            <div class="row" *ngFor="let adata of fieldsdata" [class.disabled]="isRuleEdit">
+                                                <div class="col-md-12 col-lg-12 py-1 index-list"
+                                                    (click)="ruleFieldData(adata)"
+                                                    [class.lightcolor]="adata.fieldName === datField">
+                                                    <label class="mb-2"><a (click)="ruleFieldData(adata)">{{adata.fieldName}}</a></label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </lib-modal-popup>
+        </div>
+    </div>
+</div>

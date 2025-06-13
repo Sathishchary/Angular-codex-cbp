@@ -1,0 +1,11 @@
+<div class="input-group flat valueEditor{{ dateIimeId }}" [style.width.%]="width"
+    [ngClass]="{'hidden': hidden, 'disabled': disabled, 'opacity': opacity}">
+    <input autocomplete="off" type="text" data-input
+     class="form-control flat flatpicker DateFlatpickr" [readonly]="readonly"
+     [ngClass]="{'colorWhite': isColor, 'readonly': readonly}" [style.background]="customColor"
+     [(ngModel)]="dataField" name="date" (ngModelChange)="change()"
+     [placeholder]="placeholder">
+    <div class="input-group-prepend input-css" data-toggle>
+        <span class="calender-icon"><i class="fa fa-calendar"></i></span>
+    </div>
+</div>

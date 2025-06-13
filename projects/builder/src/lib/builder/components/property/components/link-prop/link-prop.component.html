@@ -1,0 +1,95 @@
+<div class="col-lg-12 col-md-12 px-2 propertyLinkHeight">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 pt-2">
+            <label>Source</label>
+            <select class="form-control" [(ngModel)]="selectedElement.source" (focus)="onFocusEvent()"
+             (change)="changeUI(selectedElement.source);createAuditEntry(AuditTypes.PROPERTY_SOURCE,{propName: 'source'})"
+            [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType" >
+             <option *ngFor="let elem of sourceList" [value]="elem" selected>{{elem}}</option>
+        </select>
+        </div>
+        <div class="col-lg-12 col-md-12 pt-2">
+            <label>Action</label>
+            <select class="form-control" [(ngModel)]="selectedElement.action" 
+            (ngModelChange)="viewUpdateTrack()"
+            (focus)="onFocusEvent()" (change)="createAuditEntry(AuditTypes.PROPERTY_ACTION,{propName: 'action'})"
+              [disabled]="selectedElement.source ==='Local' || selectedElement.source ==='URL' || selectedElement.source ==='eMedia'">
+              <option *ngIf="selectedElement.source === 'URL' || selectedElement.source === 'eMedia'" value="N/A">N/A</option>
+              <option value="Execute">Execute</option>
+              <option value="Reference">Reference</option>
+            </select>
+        </div>
+        <div class="col-lg-12 col-md-12 pt-2" *ngIf="selectedElement.source !== 'Attach'">
+            <label>Caption</label>
+              <!-- <input class="form-control"  [(ngModel)]="selectedElement.caption" required="" type="text"
+            [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType" (focus)="onFocusEvent()" (focusout)="createAuditEntry(AuditTypes.CAPTION,{propName: 'caption'})"> -->
+            <!-- replaced the input field with div as the html tags were displayed in the input field -->
+            <div class="caption-div" autosize [attr.contenteditable]= "false" 
+             style="font-size: 12px !important;"
+             [class.dis-col]='true' [innerHtml]="selectedElement.caption"></div>
+        </div>
+        <div class="col-lg-12 col-md-12 pt-2" *ngIf="selectedElement.source !== 'Attach'">
+            <label>Description</label>
+            <textarea class="form-control" rows="5" [(ngModel)]="selectedElement.description"
+            (ngModelChange)="viewUpdateTrack()"
+            [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType" 
+            (focus)="onFocusEvent()" 
+            (focusout)="createAuditEntry(AuditTypes.PROPERTY_DESC,{propName: 'description'})"></textarea>
+        </div>
+        <div class="col-lg-12 col-md-12 pt-2">
+            <app-dg-unique-idproperty [(dgUniqueID)]="selectedElement.dgUniqueID"></app-dg-unique-idproperty>
+        </div>
+        <div class="col-lg-12 col-md-12 pt-2">
+            <label> Link</label>
+            <input class="form-control" placeholder="" required=""
+            [(ngModel)]="selectedElement.displayText"
+            type="text" (ngModelChange)="updateLink();viewUpdateTrack()"
+            [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType"
+            (focus)="onFocusEvent()"
+            (focusout)="createAuditEntry(AuditTypes.PROPERTY_DISPLAY_TEXT,{propName: 'displayText'});updateLink()">
+        </div>
+        <div class="col-lg-12 col-md-12 pt-2" *ngIf="selectedElement.source === 'Local'">
+            <label>Section/Step</label>
+            <select class="form-control" [(ngModel)]="selectedElement['sectionNumber']"
+            (focus)="onFocusEvent()" (change)="sectionId(selectedElement['sectionNumber']);createAuditEntry(AuditTypes.PROPERTY_LINK_SECTION_OR_STEP,{propName: 'sectionNumber'})" [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType">
+              <option *ngFor="let fname of tempsectionnumbers" [value]="fname.number">{{fname?.text}}</option>
+            </select>
+        </div>
+        <div class="col-lg-12 col-md-12 pt-2 mb-2" *ngIf="selectedElement.source === 'Attach'">
+            <label class="attch" [ngClass]="{'applied': cbpService.selectedElement?.uri}"> Attach <input type="file" size="60" id='file' (change)="onNewFileSelected($event)"/></label>
+        </div>
+        <div class="col-lg-12 col-md-12 pt-2 mb-2" *ngIf="selectedElement.source === 'eDocument'">
+            <button class="btn btn-icon btn-outline-secondary btn-outline-secondary btn-sm" 
+            (click)="cbpService.isEdocLink = true" title="URL" 
+            [ngClass]="{'applied': this.cbpService.selectedElement?.uri}"
+            [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType">
+            Configure Link
+          </button>
+
+        </div>
+        <div class="col-lg-12 col-md-12 pt-2 mb-2" *ngIf="selectedElement.source === 'eMedia'">
+            <button class="btn btn-icon btn-outline-secondary btn-outline-secondary btn-sm"
+            (click)="cbpService.isLinkAssetsOpen = true" title="URL" [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType">
+          Configure Link
+        </button>
+        </div>
+        <div class="col-lg-12 col-md-12 pt-2 mb-2" *ngIf="selectedElement.source === 'URL'">
+            <button class="btn btn-icon btn-outline-secondary btn-outline-secondary btn-sm"  (click)=" cbpService.issetupURLOpen = true"
+            [class.disabled] = "!selectedElement.displayText"
+            [ngClass]="{'applied': cbpService.setUpStyle &&  this.cbpService.selectedElement.uri}" title="URL" [disabled]="selectedElement.isEmbededObject &&  cbpService.embeddedType">
+             Setup URL
+          </button>
+        </div>
+        <!-- <div class="col-lg-12 col-md-12 pt-2" *ngIf="selectedElement.source !== 'Local' || selectedElement.source !== ''">
+            <input class="form-control" required="" type="text" [(ngModel)]="selectedElement.uri" (focusout)="renderEdocumentConfigure()" [disabled]="true">
+        </div> -->
+        <div class="col-lg-12 col-md-12" *ngIf="selectedElement.source === 'eDocument' || selectedElement.source === 'Attach'">
+            <label>Target</label>
+            <input class="form-control" placeholder="" [(ngModel)]="selectedElement.target" 
+            (ngModelChange)="viewUpdateTrack()"
+            [disabled]="selectedElement.isEmbededObject && cbpService.embeddedType" required="" type="text"
+            (focusout)="createAuditEntry(AuditTypes.PROPERTY_LINK_TARGET,{propName: 'target'})">
+        </div>
+
+    </div>
+</div>

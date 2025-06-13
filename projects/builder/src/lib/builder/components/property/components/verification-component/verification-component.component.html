@@ -1,0 +1,78 @@
+<!-- <h5 class="heading propertyBorder">Property Verification</h5> -->
+<div class="col-lg-12 col-md-12 px-2 propertyDataHeight">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 pr-0 pt-2">
+            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 pl-0">
+                <label>Type</label>
+                <select class="form-control" [(ngModel)]="cbpService.selectedElement.VerificationType" (focus)="onFocusEvent()"
+                 (focusout)="createAuditEntry(AuditTypes.PROPERTY_VERIFICATION,{propName: 'VerificationType'})"
+                  (change)="changeVerificationUi(cbpService.selectedElement.VerificationType);">
+                  <option *ngFor="let type of typeList" [value]="type" selected>{{type}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-lg-12 col-md-12 pt-2">
+            <label>Prompt</label>
+            <!-- <input class="form-control" placeholder="" [disabled]="cbpService.selectedElement.isEmbededObject && cbpService.embeddedType"  name="text" [(ngModel)]="cbpService.selectedElement.prompt" required="" type="text" readonly (focusout)="createAuditEntry(AuditTypes.PROMPT)"> -->
+            <!-- replaced the input field with div as the html tags were displayed in the input field -->
+            <div class="caption-div" autosize [attr.contenteditable]= "false"  style="font-size: 12px!important;"
+             [class.dis-col]='true' [innerHtml]="cbpService.selectedElement.prompt"></div>
+        </div>
+        <div class="card card-body bg-light p-0 height-bd" *ngIf="cbpService.selectedElement.type == 'procedure'" >
+            <h5 class="heading propertyBorder">Property Procedure</h5>
+
+            <div class="col-lg-12 col-md-12">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 pt-2">
+                        <label> Procedure Action</label>
+                        <select class="form-control" [disabled]="cbpService.selectedElement.isEmbededObject && cbpService.embeddedType" >
+                            <option value="PERFORM" ng-reflect-value="PERFORM">PERFORM</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-12 col-md-12 pt-2">
+                        <label>Caption</label>
+                        <input class="form-control" [disabled]="cbpService.selectedElement.isEmbededObject && cbpService.embeddedType"  placeholder="" [(ngModel)]="cbpService.selectedElement.Prompt" required="" type="text" (focusout)="createAuditEntry(AuditTypes.PROMPT)">
+                    </div>
+                    <div class="col-md-12 col-lg-12 col-sm-12 pt-2 col-xs-12">
+                        <label> UniqueID</label>
+                        <input class="form-control numb" [(ngModel)]="cbpService.selectedElement.dgUniqueID"  disabled  type="text">
+                    </div>
+                    <div class="col-lg-12 col-md-12 pt-2">
+                        <label>Description</label>
+                        <textarea class="form-control" rows="5" [disabled]="cbpService.selectedElement.isEmbededObject && cbpService.embeddedType" (focusout)="createAuditEntry(AuditTypes.PROPERTY_DESC ,{propName:'description'})"></textarea>
+                    </div>
+                    <div class="col-lg-12 col-md-12 pt-2">
+                        <label>Link</label>
+                        <input class="form-control" placeholder="" [disabled]="cbpService.selectedElement.isEmbededObject && cbpService.embeddedType"  [(ngModel)]="cbpService.selectedElement.value" required="" type="text" (focusout)="createAuditEntry(AuditTypes.PROPERTY_VALUE ,{propName:'value'})">
+                    </div>
+
+                    <div class="col-lg-12 col-md-12 pt-2">
+                        <button class="btn btn-icon btn-outline-secondary btn-outline-secondary btn-sm" data-placement="top" title="Indent Right" [disabled]="cbpService.selectedElement.isEmbededObject && cbpService.embeddedType">
+                        Additional Parameter
+                        </button>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 col-md-12 pt-2 dp-flex">
+            <label class="checkbox-inline flexAlign">
+            <input type="checkbox" value="" [disabled]="cbpService.selectedElement.isEmbededObject && cbpService.embeddedType" 
+                [(ngModel)]="cbpService.selectedElement.required" (ngModelChange)="viewUpdateTrack()"
+                [checked]="cbpService.selectedElement.required" (click)="checkBoxAudit($event, AuditTypes.PROPERTY_REQ,{propName: 'required'})"> 
+                &nbsp;&nbsp;<span class="checkbox_lbleposition">Required</span>
+                <!-- (focus)="onFocusEvent()" (click)="checkBoxAudit($event, AuditTypes.PROPERTY_REQ,{propName: 'required'})" -->
+            </label>
+        </div>
+        <div class="pt-1">
+        <app-rule-info
+          [selectedElement]="cbpService.selectedElement"
+          [showAlarm]="false"
+          [hideComponent]="true"
+          [hideApplicablityRule]="true"
+          [hideConditionalRule] ="true"
+          [hideRoleQual]="false"
+          [hideRamaining]="false"></app-rule-info>
+        </div>
+    </div>
+</div>

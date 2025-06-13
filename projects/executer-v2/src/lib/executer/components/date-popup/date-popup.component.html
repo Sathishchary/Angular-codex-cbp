@@ -1,0 +1,26 @@
+<div class="modal-content">
+    <lib-modal-popup [title]="dateTitle" (closeEvent)="cancel()"
+    [footerList]="footerList"
+    (submitButtons)="$event.type=== 'Clear' && clearDate(); $event.type=== 'Save' && save(); $event.type=== 'Cancel' && cancel();">
+    <div class="modal-body" id="date-popup">
+      <input type="text" hidden>
+     <lib-date-time *ngIf="!signatureView"
+        [dateFormat]="dateFormat" [inline]="true" [disabled]="true" [execution]="execution"
+        [width]="stepObject?.dataEntrySize"  [dateIimeId]="stepObject.dgUniqueID"
+        [placeholder]="(stepObject?.isDateDisplayOpen && stepObject?.isTimeDisplayOpen) ? 'Date & Time' :
+        (stepObject?.isDateDisplayOpen && !stepObject?.isTimeDisplayOpen ? 'Date' : 'Select Time')"
+        [noCalender]="!stepObject?.isDateDisplayOpen" [isEnableTime]="stepObject?.isTimeDisplayOpen || stepObject?.timePromptDisplay"
+        [minDate]="stepObject?.minimum" [maxDate]="stepObject?.maximum"
+        [(dataField)]="stepObject.storeValue" (dataFieldChange)="changeDate($event)">
+     </lib-date-time>
+     <lib-date-time *ngIf="signatureView"  [disabled]="true"
+        [dateFormat]="dateFormat" [inline]="true" [execution]="execution"
+        [dateIimeId]="stepObject?.dgUniqueID"
+        [placeholder]="(stepObject?.datePromptDispaly && stepObject?.timePromptDisplay) ? 'Date & Time' :
+        (stepObject?.datePromptDispaly && !stepObject?.timePromptDisplay ? 'Date' : 'Select Time')"
+        [noCalender]="!stepObject?.datePromptDispaly" [isEnableTime]="stepObject?.timePromptDisplay"
+        [(dataField)]="stepObject.signatureDate" (dataFieldChange)="changeDate($event)">
+     </lib-date-time>
+    </div>
+    </lib-modal-popup>
+  </div>

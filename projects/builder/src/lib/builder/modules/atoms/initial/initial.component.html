@@ -1,0 +1,94 @@
+
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pr-0 pt-0" 
+ [ngClass]="{'pb-0 pl-0 mb-1': field.isTableDataEntry, 'pl-1': !field.isTableDataEntry,'notesInitial':field.isTableDataEntry && field.notesPromptDispaly}">
+  <div class="fb-row NotesSign" *ngIf="field"
+    (click)="!field.isTableDataEntry && selectElement();$event.stopPropagation();
+      field.isTableDataEntry && selectedForTable($event)"
+     [ngClass]="{'section-border': cbpService.selectedUniqueId == field.dgUniqueID}"
+     [class.noneBg]="field.isTableDataEntry" style="position: relative;">
+    <div [ngClass]="{'hover': cbpService.selectedElement.dgUniqueID  == field.dgUniqueID}" *ngIf="cbpService.sectionHover && !field.isTableDataEntry">
+        <app-step-option [field]="field"></app-step-option>
+    </div>
+    <ng-container *ngIf="!field?.isTableDataEntry">
+      <div class="row">
+      <dg-track-ui [field]="field" *ngIf="!hideTrackUi" (fieldChange)="setField($event);"></dg-track-ui>
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 px-0 textareacont pr-1 pt-18 pb-2"  style="padding-top: 18px !important;" *ngIf="!cbpService.searchTemplate" [ngClass]="{'col-xs-12 col-sm-12 col-md-8 col-lg-8 px-0 textareacont pr-2 pad-t20 pl-3':field.nameDisplay}">   
+             <lib-editor-text [field]="field" [placeholder]="'Requires Initials'" (fieldChange)="field = $event"></lib-editor-text>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5 px-0 pad-t20"  *ngIf="cbpService.searchTemplate">
+        <app-search-result [field]="field" [propName]="'prompt'" [searchString]="cbpService.searchString"
+        [triggerReplace]="cbpService.triggerReplace"   [triggerReplaceAll]="cbpService.triggerReplaceAll" ></app-search-result>
+
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 pad-t20 pl-2 pr-2"  *ngIf="!field.nameDisplay" style="display: flex;">
+        <div style="width: 100%;" class="custom-placeholder">
+          <input class="form-control h28-imp" type="text" [disabled]="true"  name="{{field.dgUniqueID}}" id="{{field.dgUniqueID}}"
+          placeholder="Enter the Name"
+          [class.selectedField]="field?.dgUniqueID == cbpService.selectedElement?.dgUniqueID && cbpService.propertyDocument?.waterMarkOptions?.isWaterMarkEnabled"
+        [class.notSelectedField]="field?.dgUniqueID != cbpService.selectedElement?.dgUniqueID && cbpService.propertyDocument?.waterMarkOptions?.isWaterMarkEnabled">
+          <label for="{{field.dgUniqueID}}" class="clr-b labelBackground"  [ngStyle]="styleObject"
+          style="width: 100%; overflow-wrap: anywhere">{{field.Varname}}</label>
+        </div>
+          <lib-lockicon [selectedElement]="field" [type]="'InitialName'"></lib-lockicon>
+          <i class="drp-req" *ngIf="field.required">*</i>
+      </div>
+      <!-- <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 "  *ngIf="cbpService.selectedElement.nameDisplay">
+      </div> -->
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 pl-1 pr-3" *ngIf="!cbpService.selectedElement.initialDisplay">
+        <div style="display: flex;">
+        <div style="width: 100%;" class="custom-placeholder">
+        <input class="form-control  h50-imp"   type="text" [disabled]="true"  name="{{field.dgUniqueID}}" id="{{field.dgUniqueID}}"
+          placeholder="Initial">
+        <label for="{{field.dgUniqueID}}" class="clr-b labelBackground"  [ngStyle]="styleObject"
+        style="width: 100%; overflow-wrap: anywhere;">{{field.initial}}</label>
+        </div>
+        <lib-lockicon [selectedElement]="field" [type]="'InitialSign'" class="lockIcon"></lib-lockicon>
+        <i class="drp-req" *ngIf="field.required">*</i>
+      </div>
+      </div>
+    </div>
+            <!-- New Notes/Annotation Textarea -->
+            <!-- <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pl-1 pr-0 mt-2 custom-placeholder" *ngIf="!cbpService.selectedElement.notesPromptDispaly">
+              <textarea class="form-control OF-hid rs-n" placeholder="Enter Notes/Annotation" rows="3" readonly>
+              </textarea>
+              <lib-lockicon [selectedElement]="field" [type]="'InitialSign'"></lib-lockicon>
+              <i class="drp-req" *ngIf="field.required">*</i>
+            </div>
+            </div> -->
+         
+    </ng-container>
+    <ng-container *ngIf="field?.isTableDataEntry">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 mt-1 pl-0 pr-0 NotesSign" >
+        <div *ngIf="field.notesPromptDispaly" class="sign-notes-wrapper">
+        <div class="SignDisplay custom-placeholder">
+      <textarea  name="{{field.dgUniqueID}}" id="{{field.dgUniqueID}}" class="pos-rel form-control" rows="2" cols="50" readonly
+      placeholder="Initial" required=""
+      [class.selectedField]="field?.dgUniqueID == cbpService.selectedElement?.dgUniqueID && cbpService.propertyDocument?.waterMarkOptions?.isWaterMarkEnabled"
+      [class.notSelectedField]="field?.dgUniqueID != cbpService.selectedElement?.dgUniqueID && cbpService.propertyDocument?.waterMarkOptions?.isWaterMarkEnabled"> </textarea>
+      <span class="pos-abs text-hidden custom-placeholder">Initial</span>
+      <lib-lockicon [selectedElement]="field" [type]="'InitialSign'"></lib-lockicon>
+      <i class="drp-req" *ngIf="field.required">*</i>
+    </div>
+      <!-- Notes/Annotation Field -->
+        <div class="notesDisplay pt-1 mt-0 custom-placeholder" *ngIf="field.notesPromptDispaly" >
+          <textarea class="form-control OF-hid rs-n notesTableHeight" placeholder="Enter Notes/Annotation" rows="3" readonly></textarea>
+          <lib-lockicon [selectedElement]="field" [type]="'InitialSign'"></lib-lockicon>
+          <i class="drp-req" *ngIf="field.required">*</i>
+        </div>
+        
+      </div>
+     
+      <div *ngIf="!field.notesPromptDispaly" class="SignDisplay custom-placeholder">  
+        <textarea  name="{{field.dgUniqueID}}" id="{{field.dgUniqueID}}" class="pos-rel form-control" rows="2" cols="50" readonly
+        placeholder="Initial" required=""
+        [class.selectedField]="field?.dgUniqueID == cbpService.selectedElement?.dgUniqueID && cbpService.propertyDocument?.waterMarkOptions?.isWaterMarkEnabled"
+        [class.notSelectedField]="field?.dgUniqueID != cbpService.selectedElement?.dgUniqueID && cbpService.propertyDocument?.waterMarkOptions?.isWaterMarkEnabled"> </textarea>
+        <span class="pos-abs text-hidden custom-placeholder">Initial</span>
+        <lib-lockicon [selectedElement]="field" [type]="'InitialSign'"></lib-lockicon>
+        <i class="drp-req" *ngIf="field.required">*</i>
+      </div>
+    </div>
+    </ng-container>
+  </div>
+</div>

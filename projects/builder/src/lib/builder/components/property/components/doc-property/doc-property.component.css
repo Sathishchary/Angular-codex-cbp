@@ -1,0 +1,119 @@
+.disableviewNew {
+    pointer-events: none;
+}
+
+.propertydocscroll {
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.propertydoc {
+    padding-bottom: 300px;
+}
+
+.d-doc {
+    position: absolute;
+    top: 8px;
+    left: 33px;
+}
+
+.checkbox_lbleposition {
+    position: absolute;
+    top: 7px;
+}
+
+.heading {
+    color: #fff !important;
+}
+
+.input-css {
+    right: 1px !important;
+    position: absolute;
+}
+
+.btn-outline-secondary {
+    color: #555555;
+    background-image: none !important;
+    background-color: #eaf6ff !important;
+    border-color: #d4d4d4 !important;
+    margin-right: 6px;
+}
+
+.indexColor {
+    background: #5480c2 !important;
+    color: #eaf6ff !important;
+}
+.indexColor {
+    background: #5480c2 !important;
+    color: #eaf6ff !important;
+}
+.propertyScroll {
+  overflow-y: auto;
+    height: 100vh;
+    padding-bottom: 180px;
+}
+
+.side_side_tabs{
+    display: flex;
+    margin: 4px;
+    /* border: 1px solid #dddddd; */
+    padding: 0px 0px 0 0px;
+    text-align: center;
+    border-radius: 3px;
+    border-bottom: 1px solid #dee2e6;
+}
+span.tab_1_style {
+    width: 48%;
+    cursor: pointer;
+    margin-right: 10px;
+    color: #555;
+    font-family: Poppins !important;
+    font-weight: 600;
+    border-radius: 3px;
+}
+span.tab_2_style {
+    width: 48%;
+    cursor: pointer;
+    color: #555;
+    font-family: Poppins !important;
+    font-weight: 600;
+    border-radius: 3px;
+}
+
+.checkactive {
+    background-color: #537fc2 !important;
+    color: #fff !important;
+}
+.fontSize-Index{
+    padding: 9px;
+    font-size: 13px;
+}
+
+.side_side_tabs ul.nav.nav-tabs li{
+    border-top: 1px solid #dee2e6;
+    border-left: 1px solid #dee2e6;
+    border-right: 1px solid #dee2e6;
+    margin-right: 2px;
+    border-radius: 4px 4px 0 0;
+}
+.nav-tabs {
+    border-bottom: 0px solid #dee2e6 !important;
+}
+.nav-tabs .nav-link {
+    border: 0px solid transparent !important;
+}
+.disabled{
+    pointer-events: none;
+    background: #e9ecef;
+}
+.disabled-col {
+    pointer-events: none;
+    opacity: 0.8 !important;
+  }
+@media ( 992px <= width <= 1275px) {
+    .fontSize-Index { padding: 6px;font-size: 11px;}
+}
+/* PRODFIX-1669 */
+label.flexAlign {display: flex;align-items: center;}
+/* PRODFIX-1669 End*/

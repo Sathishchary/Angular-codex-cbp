@@ -1,0 +1,19 @@
+.selectedField{
+  background-color: #ffffff;
+}
+/* .notSelectedField{
+  background: transparent;
+} */
+::ng-deep font{
+  line-height: normal !important;
+}
+.feedback__btn {
+  right: 10px;
+  padding: 10px;
+}
+.form-control{
+  font-size: 14px;
+}
+.dis-coln{
+  pointer-events: none;
+}

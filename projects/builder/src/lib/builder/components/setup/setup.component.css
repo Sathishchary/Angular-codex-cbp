@@ -1,0 +1,75 @@
+ul.tree, ul.tree ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+ul.tree ul {
+  margin-left: 10px;
+}
+ul.tree li {
+  margin: 0;
+  padding: 0 7px;
+  line-height: 23px;
+  color: #5a5858;
+  font-weight: normal;
+  border-left: 1px solid rgb(100, 100, 100);
+}
+ul.tree li:last-child {
+  border-left: none;
+}
+ul.tree li:before {
+  position: relative;
+  top: -0.3em;
+  height: 1em;
+  width: 12px;
+  color: white;
+  border-bottom: 1px solid rgb(100, 100, 100);
+  content: "";
+  display: inline-block;
+  left: -7px;
+}
+ul.tree li:last-child:before {
+  border-left: 1px solid rgb(100, 100, 100);
+}
+.pad-h-OF{
+  padding:7px 5px 0px  21px !important;height:590px;overflow-x: hidden;overflow-y: scroll;
+}
+.h-OF{
+  height:255px; overflow-x:hidden;overflow-y:scroll
+}
+.mg-t{
+  margin-top: -1px;
+}
+.h250-OF{
+  height:250px; overflow-x:hidden;overflow-y:scroll
+}
+.bd1-white{
+  border:1px solid #fff !important;
+}
+.mg-t2{
+  margin-top: -2px;
+}
+.h125{
+  height:125px;
+}
+.image.png{
+  height: 437px;
+}
+.clr-fff{
+  color:fff
+}
+.mg-t8{
+  margin-top: -8px; 
+}
+.h150-OF{
+  height:150px; overflow-x:hidden;overflow-y:scroll
+}
+.h317-OF{
+  height:317px!important; overflow-x:hidden;overflow-y:scroll
+}
+.h317px-OF{
+  height:317px; overflow-x:hidden;overflow-y:scroll
+}
+.disabled{
+  pointer-events: none;
+}

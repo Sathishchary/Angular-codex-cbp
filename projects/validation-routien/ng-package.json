@@ -1,0 +1,10 @@
+{
+  "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "../../dist/validation-routien",
+  "assets": [
+    "./data/ework/validation-routiens"
+  ],
+  "lib": {
+    "entryFile": "src/public-api.ts"
+  }
+}

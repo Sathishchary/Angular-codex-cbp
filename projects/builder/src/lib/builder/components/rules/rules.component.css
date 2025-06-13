@@ -1,0 +1,74 @@
+.rule-css {
+  color: #fff !important;
+  padding: 0 !important;
+  font-size: 14px !important;
+}
+.index-list{
+  /* height: 591px; */
+  border-bottom: none !important;
+  background: #fff !important;
+}
+.data-fields{
+  height: 591px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background: #fff;
+}
+.bt{
+  border: 1px solid #eaeaea!important;
+}
+.isEditRule{
+  background-color: lightblue;
+}
+
+a.tableIconEdit{
+  color: #26c6da !important;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 3px 6px;
+  margin: 2px;
+  background: #717c7d;
+  border: 1px solid #8CE1EB;
+  background-color: #e2f7f9;
+}
+a.tableIconEdit span i {font-size: 14px;}
+a.tableIconDelete span i {font-size: 14px;}
+a.tableIconDelete{
+  color: #fc573b !important;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 3px 7px;
+  margin: 2px;
+  background: #717c7d;
+  border: 1px solid #FD907E;
+  background-color: #ffe6e2;
+}
+a.tableIconArrow{
+  color: #26c6da !important;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 3px 6px;
+  margin: 2px;
+  background: #717c7d;
+  border: 1px solid #8CE1EB;
+  background-color: #e2f7f9;
+}
+a.tableIconArrow span i {font-size: 14px;}
+.customePaddings{padding: 4px 9px;}
+.table-ds-flex{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.table-height-auto {
+  height: 137px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding-bottom: 5px !important;
+}
+
+.table-height-fixed {
+  height: 90px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}

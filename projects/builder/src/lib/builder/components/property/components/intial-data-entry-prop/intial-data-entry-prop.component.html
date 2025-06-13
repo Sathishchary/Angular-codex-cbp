@@ -1,0 +1,67 @@
+<div class="row">
+    <div class="col-lg-12 col-md-12 pt-2">
+        <label>Name Prompt</label>
+        <input class="form-control" placeholder=""
+            [disabled]="cbpService.selectedElement.isEmbededObject && cbpService.embeddedType" required=""
+            (ngModelChange)="updateLink()" [(ngModel)]="cbpService.selectedElement.Varname" type="text"
+            (focus)="onFocusEvent()" (focusout)="createAuditEntry(AuditTypes.INITIAL_NAME ,{propName:'Varname'})">
+    </div>
+    <div class="col-lg-12 col-md-12 pt-2 dp-flex">
+        <label class="checkbox-inline flexAlign">
+            <input type="checkbox" value="" [(ngModel)]="cbpService.selectedElement.nameDisplay"
+                [checked]="cbpService.selectedElement.nameDisplay"
+                [disabled]="cbpService.selectedElement.isEmbededObject && cbpService.embeddedType"
+                (click)="checkBoxAudit($event, AuditTypes.PROPERTY_INITIAL_NAME_DISPLAY ,{propName:'nameDisplay'})"
+                (focus)="onFocusEvent()"> &nbsp;&nbsp;
+            <span>Do not display?</span>
+        </label>
+    </div>
+    <div class="col-lg-12 col-md-12 pt-2">
+        <app-dg-unique-idproperty [(dgUniqueID)]="cbpService.selectedElement.dgUniqueID"></app-dg-unique-idproperty>
+    </div>
+
+    <div class="col-lg-12 col-md-12 pt-2">
+        <label>Initial</label>
+        <input class="form-control" placeholder="Initial" (ngModelChange)="updateLink()"
+            [disabled]="cbpService.selectedElement.isEmbededObject && cbpService.embeddedType"
+            [(ngModel)]="cbpService.selectedElement.initial" required="" type="text" (focus)="onFocusEvent()"
+            (focusout)="createAuditEntry( AuditTypes.PROPERTY_INITIAL ,{propName:'initial'})">
+    </div>
+    <div class="col-lg-12 col-md-12 pt-1 mt-2">
+        <label>Value</label>
+        <select class="form-control" [(ngModel)]="cbpService.selectedElement.valueType"
+            [disabled]="cbpService.selectedElement.isEmbededObject && cbpService.embeddedType" (focus)="onFocusEvent()"
+            (ngModelChange)="createAuditEntry(AuditTypes.PROPERTY_VALUE,{propName: 'valueType'})">
+            <option value="Entered" selected>Entered</option>
+            <option value="AutoPopulate">AutoPopulate</option>
+        </select>
+    </div>
+    <div class="col-lg-12 col-md-12 pt-2 mt-2" *ngIf="cbpService.selectedElement.valueType === 'AutoPopulate'">
+        <label>Value Option</label>
+        <select class="form-control" [(ngModel)]="cbpService.selectedElement.autoPopulate"
+            [disabled]="cbpService.selectedElement.isEmbededObject && cbpService.embeddedType">
+            <option value="CurrenInitial" selected>Current Initial</option>
+        </select>
+    </div>
+    <div class="col-lg-12 col-md-12 pt-2 dp-flex">
+        <label class="checkbox-inline flexAlign">
+            <input type="checkbox" value=""
+                [disabled]="cbpService.selectedElement.isEmbededObject && cbpService.embeddedType"
+                [(ngModel)]="cbpService.selectedElement.required" [checked]="cbpService.selectedElement.required"
+                (focus)="onFocusEvent()"
+                (click)="checkBoxAudit($event, AuditTypes.PROPERTY_REQ,{propName: 'required'})"> &nbsp;&nbsp;<span
+                class="checkbox_lbleposition">Required</span>
+        </label>
+    </div>
+    
+    <div class="pt-2">
+      <app-rule-info
+      [selectedElement]="cbpService.selectedElement"
+      [showAlarm]="false"
+      [hideComponent]="true"
+      [hideApplicablityRule]="true"
+      [hideConditionalRule] ="true"
+      [hideRoleQual]="false"
+      [hideRamaining]="false"></app-rule-info>
+    </div>
+</div>

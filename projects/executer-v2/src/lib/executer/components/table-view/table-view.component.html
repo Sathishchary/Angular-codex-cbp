@@ -1,0 +1,84 @@
+<ng-container *ngIf="stepObject.calstable?.length>0 && stepObject?.calstable[0]?.table?.tgroup?.tbody[0]?.row?.length>0">
+  <div class="row" [ngClass]="{'subtablerow': stepObject?.subTabe && !stepObject.withoutLines }">
+    <lib-track-ui [field]="stepObject" *ngIf="!stepObject?.subTabe && !isCoverPage"></lib-track-ui>
+    <div class="{{sharedviewService.col12}}" (click)="setTable()"
+   [ngClass]="{ 'overTab': !stepObject?.subTabe && !sharedviewService.showComments &&
+                !executionService.selectedNewEntry?.commentsEnabled,
+                'subtbale': stepObject?.subTabe && !stepObject.withoutLines,
+                'pt-0 pl-0 mb-2': !stepObject.subTabe}">
+  
+  <table class="table table-unbordered" [id]="stepObject?.dgUniqueID">
+    <caption *ngIf="stepObject?.captionText"
+      [ngClass]="{'topCap': stepObject?.captionPosition === 'top',
+      'bottomCap': stepObject?.captionPosition === 'bottom'}"
+       id="stepAno{{stepObject.dgUniqueID}}"
+      (click)="cbpService.handleSelection( $event, stepObject,  'captionText' )"
+      [innerHtml]="stepObject.captionText | innerhtml"
+     ></caption>
+    <thead *ngIf="!stepObject.withoutHeaders">
+      <tr>
+        <th class="text-center colorth nocolor" id="tabless"
+          *ngFor="let header of stepObject.calstable[0].table.tgroup.thead;let i=index; let last = last"
+          [ngClass]="{
+          'vertical-exe-test':header?.cellTextType === 'verticalTB',
+          'verticalbt': header?.cellTextType === 'verticalBT',
+          'prelative': header?.SecurityRole }"
+          [ngStyle]="{
+            'width': header?.columnSize,
+            'font-size': header?.styleSet?.fontSize,
+            'font-family': header?.styleSet?.fontName,
+            'font-weight': header?.styleSet?.fontWeight,
+            'text-align': header?.styleSet?.textalign,
+            'color': header?.styleSet?.color,
+            'border': !stepObject.withoutLines && !stepObject?.coverPageTable ? '1px solid' + stepObject?.colorhead : 'none'}"
+          [style.width.%]="header?.columnSize">
+          <div class="tabelHeaderFlex">
+            <span class="TableHeaderFlex">{{header?.title}}</span>
+            <span class="iconSpace"> 
+              <i class="fa fa-lock role" *ngIf="header?.SecurityRole" aria-hidden="true"></i>
+              <i class="fa fa-cog" style="float: right; cursor: pointer;padding-top: 3px;" (click)="showRulesPopup()" *ngIf="stepObject?.tableRules?.length>0 && last" aria-hidden="true"></i>
+           </span>
+          </div>
+        </th>
+      </tr>
+    </thead>
+      <tbody>
+        <div class="rule-icon" *ngIf="stepObject.withoutHeaders && stepObject?.tableRules?.length>0">
+          <i (click)="showRulesPopup()" class="fa fa-cog white"></i>
+       </div>
+        <tr *ngFor="let rows of stepObject.calstable[0].table.tgroup.tbody[0].row;let i=index"
+         (click)="storeRow(rows, i); $event.stopPropagation();" >
+          <ng-container *ngFor="let headerObj of rows.entry;let k=index; trackBy: trackByName" >
+          <td class="nocolor"
+              [ngStyle]="{'border': !stepObject.withoutLines ? '1px solid' + stepObject?.colorhead : 'none'}"
+              [style.width.%]="stepObject?.calstable[0].table.tgroup.thead[k]?.columnSize"
+              *ngIf="!headerObj?.deleted"  [attr.colspan]="headerObj?.colspan" [attr.rowspan]="headerObj?.rowspan"
+              [ngClass]="{ 'borderRightHide': headerObj?.hideRightBorder === true,
+              'borderLeftHide' :headerObj?.hideLeftBorder === true,
+              'borderTopHide' :headerObj?.hideTopBorder === true,
+              'borderBottomHide': headerObj?.hideBottomBorder === true,
+              'tableTextAlign':cbpService.documentSelected }"
+              (click)="cellProperty(headerObj,i,k, $event, rows?.entry, headerObj?.children);"
+              [class.selectedCol]="!cbpService.coverPageSelected && (stepObject === cbpService.selectedTable) && isRowOrColSelected(headerObj, i, k)">
+            <div class="alignment"
+              [style.min-height.px]="headerObj?.rowspan ? headerObj?.rowspan*40 : 40">
+              <ng-container *ngFor="let header of headerObj.children;let l=index; trackBy: trackByName">
+                <app-table-dataentry-form [stepObject]="header" [obj]="obj" [tableStep]="true"
+                   [headerwidth]="stepObject?.calstable[0].table.tgroup.thead[k]?.columnSize"
+                   (dynamicFormValidationEvent)="checkValidation($event.event, $event.stepObj, $event.value,i, k,l)"
+                   (dynamicFormRefEvent)="openReferenceInLinkTab($event)" [isCoverPage]="isCoverPage"
+                   (focusEvent)="focusDataEntry($event,i, k,l, headerObj?.children)"
+                   (setEntryDataJson)="saveDataJsonItem($event)" (isHeaderFooterTable)="setHeaderFooterTable()"
+                   (pasteDataJson)="pasteData(headerObj,i,k, $event, rows?.entry, headerObj?.children)"
+                   (protectAllFields)="protectDataFields()" (tableEvent)="storeTableCell(i,k)">
+                </app-table-dataentry-form>
+              </ng-container>
+            </div>
+          </td>
+          </ng-container>
+        </tr>
+      </tbody>
+  </table>
+  </div>
+</div>
+</ng-container>

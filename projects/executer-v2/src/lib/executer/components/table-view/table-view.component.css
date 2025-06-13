@@ -1,0 +1,52 @@
+.table tbody th td, .table tbody tr td{
+    vertical-align: top !important;
+}
+.role{
+  position: absolute;
+  right: 11px;
+  text-align: center;
+  top: 12px;
+  font-size: 14px;
+  color: #000;
+}
+.prelative{
+  position: relative;
+}
+
+/* .tabelHeaderFlex {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+} */
+span.iconSpace {
+  padding-left: 4px;
+}
+/* .rule-icon {
+  position: absolute;
+  right: 18px;
+  z-index: 1;
+  border: 1px solid #26c6da;
+  border-radius: 5px;
+  padding: 0px 4px;
+  background-color: #e3f8fa;
+  color: #26c6da;
+  cursor: pointer;
+} */
+
+.rule-icon {
+  position: absolute;
+  right: 8px;
+  z-index: 1;
+  border-radius: 25px;
+  padding: 2px 3px;
+  background-color: #e3f8fa;
+  color: #26c6da;
+  cursor: pointer;
+  top: 0px;
+  font-size: 10px;
+  line-height: 0;
+}
+.tableTextAlign{
+  text-wrap: auto;
+    line-break: anywhere;
+}

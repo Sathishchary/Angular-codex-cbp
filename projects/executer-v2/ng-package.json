@@ -1,0 +1,25 @@
+{
+  "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "../../dist/executer-v2",
+  "lib": {
+    "entryFile": "src/public-api.ts",
+    "umdModuleIds": {
+      "jszip": "jszip",
+      "ngx-watermark": "ngx-watermark",
+      "angular-notifier": "angular-notifier",
+      "dg-shared": "dg-shared",
+      "ngx-device-detector": "ngx-device-detector",
+      "ngx-loading": "ngx-loading",
+      "ngx-color-picker": "ngx-color-picker",
+      "cbp-shared": "cbp-shared",
+      "ngx-countdown": "ngx-countdown",
+      "angular2-signaturepad/signature-pad": "angular2-signaturepad/signature-pad",
+      "angular2-signaturepad": "angular2-signaturepad",
+      "@ng-bootstrap/ng-bootstrap": "@ng-bootstrap/ng-bootstrap",
+      "ngx-autosize": "ngx-autosize",
+      "ngxAutosize" : "ngxAutosize",
+      "angular-editor": "angular-editor"
+
+    }
+  }
+}

@@ -1,0 +1,42 @@
+<div class="alignment1 form-group" [class.formGroup]="rowcolInfo"
+*ngIf="field?.dgType != 'Section' && field?.dgType != 'StepAction'">
+<div class="col-md-12 px-0 pt-0" [ngSwitch]="field?.dgType">
+  <ng-container
+    *ngIf="field.dgType === DgTypes.Warning || field.dgType === DgTypes.Caution || field.dgType === DgTypes.Note || field.dgType === DgTypes.Alara">
+    <app-alerts [stepObject]="stepObject" [field]="field"></app-alerts>
+  </ng-container>
+  <app-label *ngSwitchCase="DgTypes.LabelDataEntry" [field]="field" [rowcolInfo]="rowcolInfo" [coverpage]="isCoverPage"
+    (tableEvent)="getTableInfoFromDataEntries($event)"></app-label>
+  <app-paragraph *ngSwitchCase="DgTypes.Para" [field]="field" [rowcolInfo]="rowcolInfo"[coverpage]="isCoverPage"
+    (tableEvent)="getTableInfoFromDataEntries($event)"></app-paragraph>
+  <app-formula *ngSwitchCase="DgTypes.FormulaDataEntry" [field]="field"></app-formula>
+  <app-textbox [stepObject]="stepObject" *ngSwitchCase="DgTypes.TextDataEntry" [field]="field"
+    [rowcolInfo]="rowcolInfo" (tableEvent)="getTableInfoFromDataEntries($event)"></app-textbox>
+  <app-textarea *ngSwitchCase="DgTypes.TextAreaDataEntry" [field]="field" [rowcolInfo]="rowcolInfo"
+    (tableEvent)="getTableInfoFromDataEntries($event)"></app-textarea>
+  <app-number [stepObject]="stepObject" *ngSwitchCase="DgTypes.NumericDataEntry" [field]="field"
+    [rowcolInfo]="rowcolInfo" (tableEvent)="getTableInfoFromDataEntries($event)"></app-number>
+  <app-date [stepObject]="stepObject" *ngSwitchCase="DgTypes.DateDataEntry" [field]="field"
+    [rowcolInfo]="rowcolInfo" (tableEvent)="getTableInfoFromDataEntries($event)"></app-date>
+  <app-boolean [headerWidth]= "headerWidth" [stepObject]="stepObject" *ngSwitchCase="DgTypes.BooleanDataEntry" [field]="field"
+    [rowcolInfo]="rowcolInfo" (tableEvent)="getTableInfoFromDataEntries($event)"></app-boolean>
+  <app-checkbox *ngSwitchCase="DgTypes.CheckboxDataEntry" [field]="field" [rowcolInfo]="rowcolInfo"
+    (tableEvent)="getTableInfoFromDataEntries($event)"></app-checkbox>
+  <app-editor-table [stepObject]="stepObject" [media]="media" *ngSwitchCase="DgTypes.Table"
+    [field]="field" (getNotifyParent)="notfyParentTable($event)"></app-editor-table>
+  <app-media [media]="media" [rowcolInfo]="rowcolInfo" (tableEvent)="getTableInfoFromDataEntries($event)"
+    *ngSwitchCase="DgTypes.Figures" [field]="field" [isCoverPage]="isCoverPage"></app-media>
+  <app-link [stepObject]="stepObject" [rowcolInfo]="rowcolInfo" (tableEvent)="getTableInfoFromDataEntries($event)"
+    *ngSwitchCase="DgTypes.Link" [field]="field" (getLinAtom)="getInfoFromLink($event)"></app-link>
+  <app-verification [stepObject]="stepObject" *ngSwitchCase="DgTypes.VerificationDataEntry"
+    [field]="field"></app-verification>
+  <app-signature [rowcolInfo]="rowcolInfo" (tableEvent)="getTableInfoFromDataEntries($event)"
+    *ngSwitchCase="DgTypes.SignatureDataEntry" [field]="field"></app-signature>
+  <app-initial [rowcolInfo]="rowcolInfo" (tableEvent)="getTableInfoFromDataEntries($event)"
+    *ngSwitchCase="DgTypes.InitialDataEntry" [field]="field"></app-initial>
+
+  <lib-attribute-component [field]="field"  *ngIf ="field?.property" [coverpage]="true"
+  (notifyParent)="notifyParentEvent(field)"
+  ></lib-attribute-component>
+</div>
+</div>

@@ -1,0 +1,104 @@
+<notifier-container></notifier-container>
+<div class="modal fade " id="layoutModel" tabindex="-1 " role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg layoutsize" role="document">
+        <div class="modal-content">
+          <lib-modal-popup [title]="'Layout'" [class]="'display-inline btn-color'" 
+          [footerList]="footerList" (submitButtons)=" $event.type === 'Reset' && resetLayout(); $event.type === 'Apply' && save(); $event.type === 'Cancel' && hide();" (closeEvent)="hide()">
+            <div class="modal-body pt-0 px-2 pb-0">
+                <div class="col-md-12 col-lg-12 pl-0 pt-1 pr-0 mb-3">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Margin Styles </label>
+                            <select class="form-control" [(ngModel)]="selectedLayout" (ngModelChange)="onChange($event)" name="sel2">
+                            <option [value]="item" *ngFor="let item of layoutService.layOutTypes">{{item}}<span *ngIf="item!=='default'">px</span></option>
+                          </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label>Margin Top </label>
+                            <select class="form-control" [(ngModel)]="marginTop" (ngModelChange)="onMarginTopChange($event)" name="marginTop">
+                              <option [value]="30">30px</option>
+                              <option [value]="40">40px</option>
+                              <option [value]="50">50px</option>
+                              <option [value]="60">60px</option>
+                              <option [value]="70">70px</option>
+                              <option [value]="80">80px</option>
+                              <option [value]="90">90px</option>
+                              <option [value]="100">100px</option>
+                          </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label>Margin Bottom </label>
+                            <select class="form-control" [(ngModel)]="marginBottom" (ngModelChange)="onMarginBottomChange($event)" name="marginBottom">
+                              <option [value]="30">30px</option>
+                              <option [value]="40">40px</option>
+                              <option [value]="50">50px</option>
+                              <option [value]="60">60px</option>
+                              <option [value]="70">70px</option>
+                              <option [value]="80">80px</option>
+                              <option [value]="90">90px</option>
+                              <option [value]="100">100px</option>
+                          </select>
+                        </div>
+                        <div class="col-md-3 pr-0">
+                          <label>Enable Auto Scroll </label>
+                          <label class="fancy-checkbox plc form-group col-md-12">
+                            <input [(ngModel)]="enableAutoScroll" (ngModelChange)="onEnableAutoScrollChange($event)"
+                            data-parsley-errors-container="#error-checkbox"  name="enableAutoScroll" required="" type="checkbox" >
+                            <span></span>
+                          </label>
+                        </div>
+                        <div class="col-md-3 pr-0 pt-2">
+                          <label>Enable data protection </label>
+                          <label class="fancy-checkbox plc form-group col-md-12">
+                            <input [(ngModel)]="enableDataProtection" (ngModelChange)="onEnableDataProtectionChange($event)"
+                            data-parsley-errors-container="#error-checkbox"  name="enableDataProtection" required="" type="checkbox" >
+                            <span></span>
+                          </label>
+                        </div>
+                        <div class="col-md-3 pr-0 pt-2">
+                          <label>Show Icons </label>
+                          <label class="fancy-checkbox plc form-group col-md-12">
+                            <input [(ngModel)]="showIcon" (ngModelChange)="onIconChange($event)"
+                            data-parsley-errors-container="#error-checkbox"  name="checkbox" required="" type="checkbox" >
+                            <span></span>
+                          </label>
+                        </div>
+                        <div class="col-md-2 pr-0 pt-2">
+                          <label>Indentation </label>
+                          <label class="fancy-checkbox plc form-group col-md-12">
+                            <input [(ngModel)]="showIndendation" (ngModelChange)="onIndendationChange($event)"
+                            data-parsley-errors-container="#error-checkbox"  name="checkbox" required="" type="checkbox" >
+                            <span></span>
+                          </label>
+                        </div>
+                        <div class="col-md-3 pr-0 pt-2">
+                          <label>Disable Circle Slash </label>
+                          <label class="fancy-checkbox plc form-group col-md-12">
+                            <input [(ngModel)]="disableCircle" (ngModelChange)="onDisableCircleChange($event)"
+                            data-parsley-errors-container="#error-checkbox"  name="checkbox" required="" type="checkbox" >
+                            <span></span>
+                          </label>
+                        </div>
+                        <div class="col-md-3 pr-0 pt-2">
+                          <label>Disable Number </label>
+                          <label class="fancy-checkbox plc form-group col-md-12">
+                            <input [(ngModel)]="disableNumber" (ngModelChange)="onDisableNumberChange($event)"
+                            data-parsley-errors-container="#error-checkbox"  name="checkbox" required="" type="checkbox" >
+                            <span></span>
+                          </label>
+                        </div>
+                        <div class="col-md-3 pr-0 pt-2">
+                          <label>Cover Page</label>
+                          <label class="fancy-checkbox plc form-group col-md-12">
+                            <input [(ngModel)]="coverPage"
+                            data-parsley-errors-container="#error-checkbox"  name="checkbox" required="" type="checkbox" >
+                            <span></span>
+                          </label>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </lib-modal-popup>
+        </div>
+    </div>
+</div>

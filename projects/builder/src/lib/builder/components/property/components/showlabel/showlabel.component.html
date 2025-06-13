@@ -1,0 +1,35 @@
+<div>
+    <div class="col-md-12 col-lg-12 pl-0 pr-0 dp-flex">
+        <label class="checkbox-inline flexAlign">
+       <input type="checkbox" (ngModelChange)="updateLinkSubTable()" [(ngModel)]="cbpService.tableDataEntrySelected.showLabel"
+        [checked]="cbpService.tableDataEntrySelected?.showLabel" (focus)="onFocusEventTable()"
+         (click)="checkBoxTableAudit($event, AuditTypes.PROPERTY_TABLE_SHOWLABEL,{propName: 'showLabel'})" name="checkbox">
+        <span class="checkbox_lbleposition"> &nbsp;&nbsp;Show Label</span>
+       </label>
+     </div>
+     <div class="col-md-12 col-lg-12 pl-0 pr-0 pt-2">
+         <label> Size</label>
+         <input type="number"  min="0"  max="100" [(ngModel)]="cbpService.tableDataEntrySelected.dataEntrySize"
+          (focus)="onFocusEventTable()"  (focusout)="tablePropertyCreateAuditEntry(AuditTypes.PROPERTY_TABLE_DATAENTRYSIZE,{propName: 'dataEntrySize'})"
+            class="form-control" name="table" />
+     </div>
+    <div class="col-lg-12 col-md-12 pt-2 pl-0 pr-0" >
+      <div class="row" *ngIf="selectedElement?.dgType === dgType.CheckboxDataEntry">
+          <div class="col-md-6 col-lg-6 dp-flex">
+              <label class="checkbox-inline flexAlign">
+              <input type="radio" [checked]="cbpService.tableDataEntrySelected.labelSide === 'right' ? true: false"  name="samename" id="customTop" (focus)="onFocusEventTable()"
+              (click)="checkBoxTableAudit($event, AuditTypes.PROPERTY_TABLE_RIGHT_LABEL,{propName: 'labelSide'})"
+               (change)="setCheckBoxSide('right')">&nbsp;<span class="radioCustom">Right</span>
+              </label>
+          </div>
+          <div class="col-md-6 col-lg-6 dp-flex">
+              <label class="checkbox-inline flexAlign">
+              <input type="radio" [checked] ="cbpService.tableDataEntrySelected.labelSide === 'left' ? true: false"
+               name="samename" id="custombottom" (focus)="onFocusEventTable()"
+               (click)="checkBoxTableAudit($event, AuditTypes.PROPERTY_TABLE_LEFT_LABEL,{propName: 'labelSide'})"
+               (change)="setCheckBoxSide('left')">&nbsp; <span class="radioCustom">Left</span>
+              </label>
+          </div>
+      </div>
+      </div>
+  </div>

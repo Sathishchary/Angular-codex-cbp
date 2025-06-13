@@ -1,0 +1,32 @@
+<ng-container *ngIf="hide === 'footer'">
+  <nav class="navbar navbar-expand-sm navbar-light sticky-top" style="background: #fff;" aria-labelledby="navIdRes">
+    <ng-container [ngTemplateOutlet]="headerFooter" [ngTemplateOutletContext]="{$implicit: cbpJson?.documentInfo[0]?.header,
+        isEnabled:  cbpJson?.documentInfo[0]?.header?.isHeaderEnabled}"></ng-container>
+  </nav>
+</ng-container>
+<ng-container *ngIf="hide === 'header'">
+  <nav aria-labelledby="navId" [ngClass]="{'mobilesticky-btm': isMobile,'sticky-btm ' : (standalone), 'sticky-btm-edoc':(!standalone)}" class="navbar navbar-expand-sm  navbar-light" [class.sticky-btm]="!isDocPage"
+    style="background: #fff;">
+    <ng-container [ngTemplateOutlet]="headerFooter" [ngTemplateOutletContext]="{$implicit: cbpJson?.documentInfo[0]?.footer,
+        isEnabled:  cbpJson?.documentInfo[0]?.footer?.isFooterEnabled}"></ng-container>
+  </nav>
+</ng-container>
+
+<ng-template #headerFooter let-headerfooterobj let-isEnabled="isEnabled">
+  <div class="container-fluid mx-0 px-0 fluied" [class.disabled]="stopCbpExecution"  [class.disabledHeader]="freezePage">
+    <div class="col-xs-12 col-md-12 col-lg-12 min_height  fixed_footer mb-0 mt-0" *ngIf="isEnabled"
+      style="font-size:15px !important">
+      <div class="row pr-2 pl-2">
+        <div class="col-md-12 col-lg-12 pr-0 pt-2">
+          <ng-container *ngFor="let obj of headerfooterobj.children; let j = index;">
+            <app-para-label-view *ngIf="obj?.dgType === DgTypes.LabelDataEntry" [stepObject]="obj"
+              [obj]="obj"></app-para-label-view>
+            <app-table-view *ngIf="obj?.dgType === DgTypes.Table" [stepObject]="obj" [obj]="obj"
+              (isHeaderFooterTable)="setHeaderFooterObj()" (setEntryDataJson)="saveDataJsonItem($event)"
+              (closeEvent)="checkValidation($event.event, $event.stepObj, $event.value)"></app-table-view>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

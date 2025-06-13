@@ -1,0 +1,14 @@
+<div class="row" *ngIf="mediaFiles?.length>0" [ngClass]="{'pl-3' : stepObject?.isTableDataEntry}">
+  <div class="col-md-12 col-lg-12 pl-0 pb-2">
+    <lib-track-ui [field]="stepObject" *ngIf="!stepObject?.isTableDataEntry"></lib-track-ui>
+    <app-show-media *ngIf="media?.length!==0 || isMobile || coverPageImage" [executer]="true" [builder]="false"
+      [mediaFiles]="mediaFiles" [canSelectItem]="true" [mediaType]="'executor'"
+      [mediaPath]="dataSharingService.getMediaPath()" [isMobile]="isMobile" [selectedTbl]="cbpService.selectedTable"
+      (mobileEvent)="mobileEvent($event)" [obj]="obj" [stepObject]="stepObject" [field]="stepObject" [media]="media"
+      [isBackground]="cbpService.isBackGroundDocument"
+      (deleteEvent)="deleteImage($event.item, $event.stepObj, $event.index)"
+      (setDataJsonEvent)="setDataEntryJson.emit($event)" (setCaption)="saveCaptionMedia($event)"
+      (updateView)="refreshView()" (mediaUpdateFile)="updateMediaFiles($event)">
+    </app-show-media>
+  </div>
+</div>

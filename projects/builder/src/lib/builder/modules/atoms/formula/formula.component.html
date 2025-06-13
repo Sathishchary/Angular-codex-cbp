@@ -1,0 +1,28 @@
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pr-0 colorcc">
+  <div class="row stop_draging pr-3 mt-0" *ngIf="field"
+    (click)="selectElement();$event.stopPropagation()"
+    [ngClass]="{'section-border': cbpService.selectedUniqueId  == field.dgUniqueID}">
+    <div [ngClass]="{'hover': cbpService.selectedElement.dgUniqueID  == field.dgUniqueID}" *ngIf="cbpService.sectionHover">
+      <app-step-option [field]="field"></app-step-option>
+    </div>
+    <dg-track-ui [field]="field"></dg-track-ui>
+      <div *ngIf="cbpService.selectedElement !== field" class="col-md-12 col-lg-12 pl-0 formula">
+        <ds-article-exe-math #mathFormula (click)="formulaOpened()" [content]="field?.content" ></ds-article-exe-math>
+    </div>
+      <div *ngIf="cbpService.selectedElement === field" class="col-xs-12 col-sm-12 pad-t-mg-l"
+        [ngClass]="{'pr-0': cbpService.selectedUniqueId  == field.dgUniqueID}">
+        <textarea  *ngIf="!cbpService.searchTemplate " name="{{field.dgUniqueID}}" id="{{field.dgUniqueID}}" class="form-control bordernone"
+         [(ngModel)]="field.content.equation"  (click)="formulaOpened()" 
+         (focusout)="createAuditEntry(AuditTypes.FORMULA,'equation')" rows="1" cols="150"
+          placeholder="Formula..." required="" (ngModelChange)="updateViewTrack()"
+          [class.selectedField]="field?.dgUniqueID == cbpService.selectedUniqueId"
+          [class.notSelectedField]="field?.dgUniqueID != cbpService.selectedUniqueId"> </textarea>
+          <div  *ngIf="cbpService.searchTemplate " [ngClass]="{'pl-0 col-xs-6 col-sm-6' :field?.showLabel && cbpService.searchTemplate}">
+            <app-search-result [field]="field" [propName]="'content.equation'" [searchString]="cbpService.searchString"
+              [triggerReplace]="cbpService.triggerReplace" [triggerReplaceAll]="cbpService.triggerReplaceAll">
+            </app-search-result>
+          </div>
+      </div>
+  </div>
+</div>
+

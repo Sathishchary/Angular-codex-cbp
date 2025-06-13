@@ -1,0 +1,67 @@
+<div class="sticky-notoes" [style.background]="stickyNote.bgColor"
+[style.color]="(stickyNote.bgColor == '#FF0000'|| stickyNote.bgColor == '#4e4ec3') ? '#fff': '#000'"
+ *ngIf="stickyNote?.show">
+  <div class="sub-head"></div>
+  <div class="icons-align">
+    <div class="left-ic">
+      <i class="fa fa-times" aria-hidden="true" (click)="stickyNote.show = false;"
+      [style.color]="(stickyNote.bgColor == '#FF0000'|| stickyNote.bgColor == '#4e4ec3') ? '#fff': '#000'"></i>
+      <i class="fa fa-ellipsis-h" (click)="stickyNote.showColor = !stickyNote.showColor"
+      aria-hidden="true" [style.color]="(stickyNote.bgColor == '#FF0000'|| stickyNote.bgColor == '#4e4ec3') ? '#fff': '#000'"></i>
+      <div class="color-align" *ngIf="stickyNote?.showColor" [style.background]="stickyNote.bgColor">
+        <ng-container *ngFor="let colorSticky of stickyColors">
+          <div class="color-pa"
+            [class.borderSticky]="stickyNote.bgColor === colorSticky"
+            (click)="stickyNote.bgColor = colorSticky; stickyNote.showColor = false;setSticky(true)"
+            [style.background]="colorSticky">
+          </div>
+        </ng-container>
+         <div class="right-ic">
+          <i class="fa fa-trash-o black" (click)="stickyNote.show = false;clearSticky()" aria-hidden="true"></i>
+         </div>
+      </div>
+    </div>
+  </div>
+  <ng-container *ngFor="let messageItem of stickyNote.messageArray;let m = index;let last = last">
+    <div class="user-align" (click)="stickyNote.showColor = false">
+      <div class="user-icon-align"  [style.margin-left]="m!=0 ? '0px': 'none'">
+        <div style="display: flex; align-items: baseline;">
+        <div>
+        <span class="u-icon"><i class="fa fa-user" aria-hidden="true"></i></span>
+        </div>
+        <div *ngIf="messageItem?.messageAdded" >
+          <div class="time-ali">
+            <span>{{messageItem.userName}}</span>
+            <p *ngIf="messageItem?.messageAdded" class="comment-time"
+            [ngStyle]="{ 'margin-left': m!=0 ? '60px': 'none'}"
+            [style.color]="(stickyNote.bgColor == '#FF0000'|| stickyNote.bgColor == '#4e4ec3') ? '#fff': '#000'">
+            {{messageItem.currentDate | date:'short'}}</p>
+          </div>
+          <div>
+            <p *ngIf="messageItem?.messageAdded" class="para-space" [innerHTML]="messageItem.message"> </p>
+          </div>
+        </div>
+
+        <div *ngIf="!messageItem?.messageAdded" >
+          <span>{{userName}}</span>
+        </div>
+      </div>
+      </div>
+      <div class="user-name-align"  [style.margin-left]="m!=0 ? '10px': 'none'" *ngIf="!messageItem?.messageAdded">
+        <textarea autofocus  autosize placeholder="Enter your comments here" [(ngModel)]="messageItem.message">
+        </textarea>
+      <div class="bottom-btn">
+        <button class="btn btn-icon btn-outline-secon send-btn"
+         [disabled]="!messageItem.message" title="submit"
+        (click)="messageItem.message && setMessage(m, messageItem)">
+          <i class="fa fa-paper-plane-o" aria-hidden="true"></i>
+        </button>
+        <button class="btn btn-icon btn-outline-secon close-btn"
+         (click)="clearMessage(m, messageItem)" title="clear">
+          <i class="fa fa-times" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+    </div>
+  </ng-container>
+</div>

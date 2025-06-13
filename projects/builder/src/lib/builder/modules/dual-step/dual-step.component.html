@@ -1,0 +1,52 @@
+<ng-container *ngFor="let itemchildren of childObj;let i= index">
+  <ng-container *ngFor="let dualstep of dualStepObj;let j= index">
+    <div
+      *ngIf="itemchildren?.dgSequenceNumber === dualstep?.dgSequenceNumber && 
+        (itemchildren?.dgType == DgTypes.Section || itemchildren?.dgType == DgTypes.StepAction || itemchildren?.dgType == DgTypes.StepInfo || 
+        itemchildren?.dgType == DgTypes.DelayStep || itemchildren?.dgType == DgTypes.Timed || itemchildren?.dgType == DgTypes.Repeat ||
+        dualstep?.dgType == DgTypes.Section || dualstep?.dgType == DgTypes.StepAction || dualstep?.dgType == DgTypes.StepInfo || 
+        dualstep?.dgType == DgTypes.DelayStep || dualstep?.dgType == DgTypes.Timed || dualstep?.dgType == DgTypes.Repeat)"
+      class="dual">
+      <div class="col-md-12 px-0">
+        <div class="row">
+          <div class="col-md-6 pl-2" name="childrenstep">
+            <app-editor *ngIf="itemchildren" [dualStepAlign]="true" [section]="[itemchildren]"
+              [styleLevelObj]="styleLevelObj" (emitParent)="selecteItem(itemchildren)" (deleteStep)="_deleteStep()"
+              class="embeded-section"></app-editor>
+
+            <div *ngIf="itemchildren?.children?.length>0">
+              <ng-container *ngFor="let obj of itemchildren.children; let j = index; trackBy:trackDgUniqueID">
+                <div droppable [dragOverClass]="'drag-target-border'" [dropScope]="builderService.dragElements"
+                  [dragHintClass]="'drag-hint'" (onDrop)="dataEntryDrop($event, itemchildren,j);"
+                  *ngIf="obj?.dgType != 'Section' && obj?.dgType != 'StepAction' && obj?.dgType != 'StepInfo' &&
+                          obj?.dgType != 'DelayStep' && obj?.dgType != 'Timed' && obj?.dgType != 'Repeat' && obj?.dgType !='DualAction'">
+                  <dynamic-form-builder [stepObject]="obj" [field]="dualstep" (linkCall)="getLinkSection($event)">
+                  </dynamic-form-builder>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+          <div class="col-md-6 pl-2" name="dualstep">
+            <app-editor *ngIf="dualstep" [dualStepAlign]="true" [section]="[dualstep]" [styleLevelObj]="styleLevelObj"
+              (emitParent)="selecteItem(dualstep)" (deleteStep)="_deleteStep()" class="embeded-section"></app-editor>
+
+            <div *ngIf="dualstep?.children?.length>0">
+              <ng-container *ngFor="let obj of dualstep.children; let j = index; trackBy:trackDgUniqueID">
+                <div droppable [dragOverClass]="'drag-target-border'" [dropScope]="builderService.dragElements"
+                  [dragHintClass]="'drag-hint'" (onDrop)="dataEntryDrop($event, dualstep,j);"
+                  *ngIf="obj?.dgType != 'Section' && obj?.dgType != 'StepAction' && obj?.dgType != 'StepInfo' &&
+                          obj?.dgType != 'DelayStep' && obj?.dgType != 'Timed' && obj?.dgType != 'Repeat' && obj?.dgType !='DualAction'">
+                  <dynamic-form-builder [stepObject]="obj" [field]="dualstep" (linkCall)="getLinkSection($event)">
+                  </dynamic-form-builder>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="itemchildren?.children?.length>0 || dualstep?.children?.length>0">
+      <app-dual-step [childObj]="itemchildren?.children" [dualStepObj]="dualstep?.children"></app-dual-step>
+    </div>
+  </ng-container>
+</ng-container>

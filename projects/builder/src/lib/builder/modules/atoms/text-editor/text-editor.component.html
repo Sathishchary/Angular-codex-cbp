@@ -1,0 +1,12 @@
+
+<div class="col-md-12 col-lg-12 pt-2 pl-0 pr-0" style="word-break: break-all;"
+   [class.disabled]="cbpService.embeddedType">
+  <angular-editor *ngIf="updateView || item?.isTableDataEntry" [stepObject]="item" [(ngModel)]="input" [config]="config"
+  [readonly]="readonlyV" (focusout)="emithtml($event)" [class.disabled]="cbpService.embeddedType"
+  [index]="cbpService.triggerHyperLink" (keyup)="checkChange($event)" [hyperLink] = "hyperLink"
+  [id]="'editor-'+item.dgUniqueID" (update)="updateEvent.emit($event)"
+  (data)="createHyperLink($event)"   name="editor-{{item.dgUniqueID}}"
+  (position)="createHyperLinkWithPosition($event)" (close)="closeEvent($event)" (blur)="closeEditor($event)"></angular-editor>
+</div>
+
+<!-- [foreColor]="'#000000'"  -->

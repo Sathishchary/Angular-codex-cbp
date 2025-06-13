@@ -1,0 +1,213 @@
+<div class="modal fade " id="Action-text" tabindex="-1 " role="dialog " data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg  modalsize" role="document">
+        <div class="modal-content ">
+            <lib-modal-popup [title]="'Step Action Builder'"  [footerList]="[{type:'Save', disabled:selectedElement.actionStepType === '' || selectedElement.actionStepType === undefined},{type:'Close'}]"
+            (submitButtons)="$event.type === 'Save' && saveAction(); $event.type === 'Close' && hide();" (closeEvent)="hide()">
+            <div class="modal-body" class="actionhead heightauto" >
+                <div class="col-md-12 col-lg-12 px-1 pt-2">
+                    <div class="row">
+                        <div class="col-md-3 col-lg-3 px-2">
+                            <div class="col-md-12 col-lg-12 pt-0 px-0">
+                                <div class="card actionindex">
+                                    <div class="header selected-asset">
+                                        <h6>Index
+                                            <a class="pointer" (click)="changeControl('index')"></a>
+                                        </h6>
+                                    </div>
+                                    <div class="px-0 py-0">
+                                        <div class="col-md-12 col-lg-12 actionscroll">
+                                            <div class="row" [class.disabled]='true'>
+                                              <div class="col-md-12 col-lg-12 py-1 pr-0 px-2 index-list disabled">
+                                                <lib-tree-structure  *ngIf="isTree" [cbpJson]="actionCbpJson" 
+                                                    [parent]="componentInfo" [updatedNode]="currentNodeSelected"  
+                                                    (selectedNode)="selectStepNode($event)"
+                                                    ></lib-tree-structure>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-9 col-lg-9 pl-0">
+                            <div class="card">
+                                <div class=" px-2 pt-0 pb-2">
+                                    <div class="col-lg-12 col-md-12 pt-2 px-0">
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-4 pr-0">
+                                                <label>Step Number</label>
+                                                <input class="form-control" disabled [(ngModel)]="selectedElement.number" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col-lg-12 col-md-12 pt-2">
+                                              <div class="form-control height50"  contenteditable="true" [innerHtml]="selectedElement.action"  [class.disabled]="true"></div>
+                                          </div>
+                                      </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 pt-2 px-0">
+                                        <div class="card">
+                                            <div class="header selected-asset">
+                                                <h6>Step Action Details</h6>
+                                            </div>
+                                            <div class="row">
+                                              <div class="col-md-4 col-lg-4 pl-4 pt-2">
+                                                  <label>Step Type</label>
+                                                  <select  class="form-control" [(ngModel)]="selectedElement.actionStepType"  (change)="refreshActionInfo()">
+                                                   <option value="Simple Action" >Simple Action</option>
+                                                   <option value="IF THEN">IF THEN</option>
+                                                   <option value="IF THEN ELSE" >IF THEN ELSE</option>
+                                                   <option value="WHEN THEN">WHEN THEN</option>
+                                                   <option value="WHILE">WHILE</option>
+                                                </select>
+                                              </div>
+                                            </div>
+  
+                                            <div class="pt-0 pr-2 pl-2 pb-0">
+                                                <div class="col-lg-12 col-md-12 pt-2 px-0">
+  
+                                                  <div class="row" *ngIf="selectedElement.actionStepType === 'IF THEN' || selectedElement.actionStepType === 'IF THEN ELSE'">
+                                                    <div class="col-lg-12 col-md-12">
+                                                        <label class="steptype">IF Condition</label>
+                                                        <input class="form-control"  [(ngModel)]="actiontext.ifCondition" (input)="refreshActionInfo()" type="text">
+                                                    </div>
+                                                </div>
+                                                <div class="row" *ngIf="selectedElement.actionStepType === 'WHEN THEN'">
+                                                  <div class="col-lg-12 col-md-12">
+                                                      <label class="steptype">WHEN Condition</label>
+                                                      <input class="form-control"  [(ngModel)]="actiontext.whenCondition" (input)="refreshActionInfo()" type="text">
+                                                  </div>
+                                              </div>
+                                                <div class="row" *ngIf="selectedElement.actionStepType === 'IF THEN' || selectedElement.actionStepType === 'WHEN THEN' || selectedElement.actionStepType === 'IF THEN ELSE'">
+                                                  <div class="col-lg-12 col-md-12 pt-2">
+                                                      <label class="steptype">THEN Action</label>
+                                                  </div>
+                                              </div>
+                                              <div class="row" *ngIf="selectedElement.actionStepType === 'WHILE'">
+                                                <div class="col-lg-12 col-md-12">
+                                                    <label class="steptype">WHILE</label>
+                                                </div>
+                                            </div>
+                                               <div class="row" *ngIf="selectedElement.actionStepType === 'WHILE'">
+  
+                                                <div class="col-md-4 col-lg-4 pr-0">
+                                                    <label>Action</label>
+                                                    <select class="form-control " [(ngModel)]="actiontext.whileaction" (change)="refreshActionInfo()">
+                                                      <option value="CAREFULLY">CAREFULLY</option>
+                                                    <option value="REMOVE">REMOVE</option>
+                                                    <option value="START">START</option>
+                                                  </select>
+                                                </div>
+                                                <div class="col-md-4 col-lg-4 pr-0">
+                                                    <label>Action Modifier</label>
+                                                    <select class="form-control" [(ngModel)]="actiontext.whileactionModifier" (change)="refreshActionInfo()">
+                                                    <option value="SLOWLY">SLOWLY</option>
+                                                    <option value="MONITORING">MONITORING</option>
+                                                  </select>
+                                                </div>
+                                            </div>
+                                            <div class="row" *ngIf="selectedElement.actionStepType === 'WHILE'">
+                                              <div class="col-lg-12 col-md-12">
+                                                  <label>Condition</label>
+                                                  <input class="form-control"  [(ngModel)]="actiontext.whileCondition" (input)="refreshActionInfo()" type="text">
+                                              </div>
+  
+                                          </div>
+                                          <div class="row" *ngIf="selectedElement.actionStepType === 'WHILE'">
+                                                <div class="col-lg-12 col-md-12 pt-2">
+                                                    <label class="steptype">WHILE Action</label>
+                                                </div>
+    
+                                            </div>
+                                                    <div class="row" *ngIf="selectedElement.actionStepType !== 'WHILE'">
+                                                        <div class="col-lg-12 col-md-12">
+                                                            <label>Critical Location</label>
+                                                            <input class="form-control"  [(ngModel)]="actiontext.criticalLocation" (input)="refreshActionInfo()" type="text">
+                                                        </div>
+  
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12  pt-2 px-0">
+                                                    <div class="row">
+  
+                                                        <div class="col-md-4 col-lg-4 pr-0">
+                                                            <label>Action</label>
+                                                            <select class="form-control" [(ngModel)]="actiontext.action" (change)="refreshActionInfo()">
+                                                            <option value="REMOVE">REMOVE</option>
+                                                            <option value="START">START</option>
+                                                          </select>
+                                                        </div>
+                                                        <div class="col-md-4 col-lg-4 pr-0">
+                                                            <label>Action Modifier</label>
+                                                            <select class="form-control" [(ngModel)]="actiontext.actionModifier" (change)="refreshActionInfo()">
+                                                            <option value="SLOWLY">SLOWLY</option>
+                                                            <option value="MONITORING">MONITORING</option>
+                                                          </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 pt-2 px-0">
+                                                    <label>Object</label>
+                                                    <input class="form-control" [(ngModel)]="actiontext.object" (input)="refreshActionInfo()" type="text">
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 pt-2 px-0">
+                                                    <label>Critical Supplemental Information</label>
+                                                    <textarea class="form-control" rows="2" [(ngModel)]="actiontext.criticalInfo" (input)="refreshActionInfo()" ng-reflect-model="  "></textarea>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12  pt-2 px-0">
+                                                    <label>Additional Information</label>
+                                                    <textarea class="form-control" rows="2" [(ngModel)]="actiontext.additionalInfo" (input)="refreshActionInfo()" ng-reflect-model="  "></textarea>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12  pt-2 px-0" *ngIf="selectedElement.actionStepType === 'IF THEN ELSE'">
+                                                  <div class="row" >
+                                                      <div class="col-lg-12 col-md-12">
+                                                          <label class="steptype">ELSE Action</label>
+                                                      </div>
+                                                  </div>
+                                               <div class="row" >
+                                                <div class="col-lg-12 col-md-12">
+                                                  <label>Critical Location</label>
+                                                  <input class="form-control"  [(ngModel)]="actiontext.elsecriticalLocation" (input)="refreshActionInfo()" type="text">
+                                                  </div>
+  
+                                              </div>
+                                                  <div class="row">
+                                                      <div class="col-md-4 col-lg-4 pt-2 pr-0">
+                                                          <label>Action</label>
+                                                          <select class="form-control" [(ngModel)]="actiontext.elseaction" (change)="refreshActionInfo()">
+                                                          <option value="REMOVE">REMOVE</option>
+                                                          <option value="START">START</option>
+                                                        </select>
+                                                      </div>
+                                                      <div class="col-md-4 col-lg-4 pt-2 pr-0">
+                                                          <label>Action Modifier</label>
+                                                          <select class="form-control" [(ngModel)]="actiontext.elseactionModifier" (change)="refreshActionInfo()">
+                                                          <option value="SLOWLY">SLOWLY</option>
+                                                          <option value="MONITORING">MONITORING</option>
+                                                        </select>
+                                                      </div>
+                                                  </div>
+                                                  <div class="col-lg-12 col-md-12 pt-2 px-0">
+                                                      <label>Object</label>
+                                                      <input class="form-control" [(ngModel)]="actiontext.elseobject" (input)="refreshActionInfo()" type="text">
+                                                  </div>
+                                              </div>
+                                                <div class="col-lg-12 col-md-12 pt-2 px-0 pb-1" >
+                                                    <label>Final Action Text</label>
+                                          <div class="form-control height60" contenteditable="true" [innerHtml]="actiontext.finalActionText" >
+                                        </div>
+                                                  </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           </lib-modal-popup>
+        </div>
+    </div>
+  </div>
+  

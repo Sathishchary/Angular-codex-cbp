@@ -1,0 +1,15 @@
+<div class="popup">
+    <div class="d-flex justify-content-between pd" style="align-items: center;">
+      <div class="circle">
+        {{stepObject?.approveList?.at(-1)?.by.charAt(0)}}
+      </div>
+      <div class="pl-0 pt-0">
+          <span class="by">{{stepObject?.approveList?.at(-1)?.by}}</span>
+          <span class="date"> {{stepObject?.approveList?.at(-1)?.date | date: 'short'}}</span>
+      </div>
+      <div class="pl-0 pt-0 pr-0">
+          <span (click)="closePopup($event)"><i class="fa fa-times close-tracker"></i></span>
+      </div>
+    </div>
+    <p class="comments">{{stepObject?.comments}}</p>
+</div>

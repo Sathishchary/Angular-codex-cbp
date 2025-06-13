@@ -1,0 +1,175 @@
+<div class="modal-content">
+    <lib-modal-popup [title]="'Document Information'" (closeEvent)="closeModal('close')"
+    [footerList]="footerlist"
+    (submitButtons)="$event.type === 'Update' && updateSave('save'); $event.type === 'Cancel' && closeModal('close')">
+    <div class="modal-body p-0">
+        <div class="col-md-12 col-lg-12 px-2">
+            <div class="row">
+                <div class="col-md-3 col-lg-3 pt-1 menu-border">
+                    <div class="nav flex-column nav-pills" >
+                        <a class="nav-link pointer" [class.active]="showOption.info"
+                         (click)="changeTabs(true, false)">Info</a>
+                        <a class="nav-link pointer" [class.active]="showOption.option"
+                          (click)="changeTabs(false, true)">Option</a>
+                    </div>
+                </div>
+                <div class="col-md-9 col-lg-9 pt-1 pb-3">
+                    <div id="v-pills-tabContent">
+                        <div class="tab-pane disable" *ngIf="showOption?.info">
+                            <div class="col-md-12 col-lg-12">
+                                <div class="row">
+                                    <p style="font-size: 1rem">Property</p>
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-lg-12 pt-2 px-0">
+                                <div class="row">
+                                    <div class="col-lg-9 col-md-9 pr-0 rowpad-ri">
+                                        <label>Document Number</label>
+                                        <input type="text" readonly class="form-control"  [placeholder]="propertyDocument?.documentNo" required>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 pr-3">
+                                        <label>Revision</label>
+                                        <input type="text" readonly name="companycode" class="form-control" [placeholder]="propertyDocument?.revision" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <ng-container [ngTemplateOutlet]="menuBarTemp" [ngTemplateOutletContext]="{$implicit: 'title'}"></ng-container>
+
+                            <!-- <ng-container [ngTemplateOutlet]="menuBarTemp" [ngTemplateOutletContext]="{$implicit: 'author'}"></ng-container>
+                            <ng-container [ngTemplateOutlet]="menuBarTemp" [ngTemplateOutletContext]="{$implicit: 'reviewer'}"></ng-container>
+                            <ng-container [ngTemplateOutlet]="menuBarTemp" [ngTemplateOutletContext]="{$implicit: 'approver'}"></ng-container>
+                          -->
+                          <div class="col-md-12 col-lg-12 pt-2 px-0">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 pr-3">
+                                    <label>Author</label>
+                                    <input type="text" readonly [value]="propertyDocument?.author" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-lg-12 pt-2 px-0">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 pr-3">
+                                    <label>Reviewer</label>
+                                    <input type="text" readonly [value]="propertyDocument?.reviewer" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-lg-12 pt-2 px-0">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 pr-3">
+                                    <label>Approver</label>
+                                    <input type="text" readonly [value]="propertyDocument?.approver" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                            <div class="col-md-12 col-lg-12 pt-2 px-0">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 pr-0 rowpad-ri">
+                                        <label>Type</label>
+                                        <input type="text" readonly class="form-control" [placeholder]="propertyDocument?.type">
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 pr-3">
+                                        <label>Sub Type</label>
+                                        <input type="text" readonly name="companycode" class="form-control" [placeholder]="propertyDocument?.subType" >
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-lg-12 pt-2 pl-3">
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="form-check">
+                                            <input class="form-check-input mt-8" [checked]="propertyDocument?.dynamicDocument" type="checkbox" id="gridCheck">
+                                            <label class="form-check-label pt-2" for="gridCheck">
+                                            Dynamic Document
+                                        </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="tab-pane" *ngIf="showOption?.option">
+                            <div class="col-md-12 col-lg-12">
+                                <div class="row">
+                                    <p style="font-size: 1rem">Display Option</p>
+                                </div>
+                            </div>
+                            <ng-container *ngFor="let item of menuBarItems;let i = index">
+                                <div class="col-md-12 col-lg-12 pt-2">
+                                    <div class="row">
+                                        <div class="card p-2">
+                                            <div class="row">
+                                                <div class="col-sm-10 col-md-10 col-lg-10">
+                                                    <label>{{item.displayName}}</label>
+                                                </div>
+                                                <div class="col-sm-2 col-md-2 col-lg-2 text-center">
+                                                    <div class="custom-control custom-switch"
+                                                    *ngIf="item.name != 'marginTop' && item.name != 'marginBottom'">
+                                                        <input type="checkbox" [(ngModel)]="item.checked"
+                                                        (ngModelChange)="itemChange(item,i)" class="custom-control-input"
+                                                         id="customSwitch{{i}}">
+                                                        <label class="custom-control-label" for="customSwitch{{i}}"></label>
+                                                    </div>
+                                                    <div class=""
+                                                    *ngIf="item.name == 'marginTop'">
+                                                        <select  [(ngModel)]="item.marginTop"
+                                                        (change)="marginTopChange(item,i)" class="form-control"
+                                                         id="customSwitch{{i}}">
+                                                         <option [value]="30">30px</option>
+                                                         <option [value]="40">40px</option>
+                                                         <option [value]="50">50px</option>
+                                                         <option [value]="60">60px</option>
+                                                         <option [value]="70">70px</option>
+                                                         <option [value]="80">80px</option>
+                                                         <option [value]="90">90px</option>
+                                                         <option [value]="100">100px</option>
+                                                         </select>
+                                                    </div>
+                                                    <div class=""
+                                                    *ngIf="item.name == 'marginBottom'">
+                                                        <select  [(ngModel)]="item.marginBottom"
+                                                        (change)="marginBottomChange(item,i)" class="form-control"
+                                                         id="customSwitch{{i}}">
+                                                         <option [value]="30">30px</option>
+                                                         <option [value]="40">40px</option>
+                                                         <option [value]="50">50px</option>
+                                                         <option [value]="60">60px</option>
+                                                         <option [value]="70">70px</option>
+                                                         <option [value]="80">80px</option>
+                                                         <option [value]="90">90px</option>
+                                                         <option [value]="100">100px</option>
+                                                         </select>
+                                                   
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </lib-modal-popup>
+</div>
+
+
+<ng-template #menuBarTemp let-fieldItem>
+    <div class="col-md-12 col-lg-12 pt-2 px-0">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 pr-3">
+                <label>{{fieldItem | capital}}</label>
+                <ng-container *ngIf="fieldItem === 'title'">
+                    <textarea readonly class="form-control" [placeholder]="propertyDocument?.title" row="5"></textarea>
+                </ng-container>
+                <ng-container *ngIf="fieldItem !== 'title'">
+                    <input type="text" readonly [name]="fieldItem" class="form-control" [placeholder]="propertyDocument['fieldItem']">
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</ng-template>

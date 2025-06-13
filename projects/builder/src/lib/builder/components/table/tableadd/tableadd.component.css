@@ -1,0 +1,26 @@
+.up-arrow {
+  position: absolute;
+  right: 24px;
+  top: 1px;
+  font-size: 20px!important;
+  cursor: pointer;
+}
+.down-arrow {
+  position: absolute;
+  right: 24px;
+  top: 10px;
+  font-size: 20px!important;
+  cursor: pointer;
+}
+/* .modal-content{
+  border-radius: 0px !important;
+} */
+.form-control{
+  font-size: 12px !important;
+}
+.disabled {
+  pointer-events: none;
+}
+.max-wid-mg{
+  max-width: 540px; margin-top: 113px;
+}

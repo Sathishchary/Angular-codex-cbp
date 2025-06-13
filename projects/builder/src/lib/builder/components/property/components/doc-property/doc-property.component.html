@@ -1,0 +1,287 @@
+
+<div class="side_side_tabs" *ngIf="cbpService.cbpJson.documentInfo[0]?.newCoverPageeEnabled">
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a href="javascript:void(0);" 
+         [ngClass]="{'checkactive': attribute == 0 }"
+         (click)="attributeValueShow();changeControl(0)" 
+         class="nav-link fontSize-Index mb-0 pl-3 pr-3 remove_Bg tab_1_style">{{tab1Name }}</a>
+    </li>
+    <li class="nav-item">
+      <a href="javascript:void(0);" 
+         [ngClass]="{'checkactive': attribute == 1}" 
+         (click)="attributePropertyShow();changeControl(1)" 
+         class="nav-link fontSize-Index mb-0 pl-3 pr-3 remove_Bg tab_2_style">{{tab2Name }}</a>
+    </li>
+  </ul>
+</div>
+<div *ngIf="!cbpService.cbpJson.documentInfo[0]?.newCoverPageeEnabled" >
+  <h5 class="heading mb-0">Attribute Value</h5>
+  <div class="col-lg-12 col-md-12 pt-2 px-2 propertydocscroll">
+    <div class="row propertydoc" [class.disableviewNew]="isRead">
+      <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+        <label> Type</label>
+        <select class="form-control" [(ngModel)]="cbpService.cbpJson.documentInfo[0].type"
+          [disabled]="tableService.oldProperty" (keydown)="coverpageProperty()"
+          (change)="createAuditEntry(AuditTypes.PROPERTY_DOC_TYPE, {propName: 'type'})">
+          <option value="Procedure">Procedure</option>
+          <option value="Work Instruction">Work Instruction</option>
+        </select>
+      </div>
+      <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 pt-2">
+        <label>Sub Type</label>
+        <select class="form-control" [(ngModel)]="cbpService.cbpJson.documentInfo[0].subtype"
+          [disabled]="tableService.oldProperty" (keydown)="coverpageProperty()"
+          (change)="createAuditEntry(AuditTypes.PROPERTY_DOC_SUBTYPE, {propName: 'subtype'})">
+          <option value="Maintenance">Maintenance</option>
+          <option value="Operation">Operation</option>
+        </select>
+      </div>
+      <div class="col-lg-12 col-md-12 pt-2">
+        <label>Title</label>
+        <input class="form-control" placeholder="" name="text" [disabled]="tableService.oldProperty"
+          [(ngModel)]="cbpService.cbpJson.documentInfo[0].title" required="" type="text"
+          (ngModelChange)="setProperty($event)" (keydown)="coverpageProperty()"
+          (focusout)="createAuditEntry(AuditTypes.PROPERTY_DOC_TITLE, {propName: 'title'})">
+      </div>
+      <div class="col-lg-12 col-md-12 pt-2">
+        <label>Number</label>
+        <input class="form-control" placeholder="" [(ngModel)]="cbpService.cbpJson.documentInfo[0].number"
+          [disabled]="tableService.oldProperty" type="text" (ngModelChange)="setProperty($event)"
+          (keydown)="coverpageProperty()"
+          (focusout)="createAuditEntry(AuditTypes.PROPERTY_DOC_NUMBER, {propName: 'number'})">
+      </div>
+      <div class="col-lg-12 col-md-12 pt-2">
+        <label>Revision</label>
+        <input class="form-control" placeholder="" [(ngModel)]="cbpService.cbpJson.documentInfo[0].revision"
+          [disabled]="tableService.oldProperty" type="text" (ngModelChange)="setProperty($event)"
+          (keydown)="coverpageProperty()"
+          (focusout)="createAuditEntry(AuditTypes.PROPERTY_DOC_REVISION, {propName: 'revision'})">
+      </div>
+      <div class="col-lg-12 col-md-12 pt-2">
+        <label>Description</label>
+        <textarea class="form-control" placeholder="" [(ngModel)]="cbpService.cbpJson.documentInfo[0].description"
+          [disabled]="tableService.oldProperty" (ngModelChange)="setProperty($event)" (keydown)="coverpageProperty()"
+          (focusout)="createAuditEntry(AuditTypes.PROPERTY_DOC_DESCRIPTION, {propName: 'description'})"></textarea>
+      </div>
+      <div class="col-lg-12 col-md-12 pt-2 pb-2">
+        <label>Objective</label>
+        <input class="form-control" placeholder="" [(ngModel)]="cbpService.cbpJson.documentInfo[0].objective"
+          [disabled]="tableService.oldProperty" (ngModelChange)="setProperty($event)" type="text" (keydown)="coverpageProperty()"
+          (focusout)="createAuditEntry(AuditTypes.PROPERTY_DOC_OBJECTIVE, {propName: 'objective'})">
+      </div>
+      <div class="col-lg-12 col-md-12 pt-2 dp-flex">
+        <label class="checkbox-inline flexAlign">
+          <input type="checkbox" [(ngModel)]="cbpService.cbpJson.documentInfo[0]['dynamicDocument']"
+            [disabled]="tableService.oldProperty" (ngModelChange)="setProperty($event)"
+            (change)="createAuditEntry(AuditTypes.PROPERTY_DOC_DYNAMIC_DOCUMENT, {propName: 'dynamicdocument'})">
+          &nbsp;<span>Dynamic Document</span>
+        </label>
+      </div>
+      <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 pt-2">
+        <label>Usage</label>
+        <select class="form-control" [(ngModel)]="cbpService.cbpJson.documentInfo[0].usage"
+          [disabled]="tableService.oldProperty" (keydown)="coverpageProperty()"
+          (change)="createAuditEntry(AuditTypes.PROPERTY_DOC_USAGE, {propName: 'usage'});sectionUsage(cbpService.cbpJson.documentInfo[0].usage)">
+          <option *ngFor="let usage of sectionUsages" [value]="usage" selected>{{usage}}</option>
+        </select>
+      </div>
+      <div class="col-lg-12 col-md-12 pt-2">
+        <label>Facility</label>
+  
+        <input class="form-control" placeholder="" [(ngModel)]="cbpService.cbpJson.documentInfo[0].facility"
+          [disabled]="tableService.oldProperty" type="text" (ngModelChange)="setProperty($event)"
+          (focusout)="createAuditEntry(AuditTypes.PROPERTY_DOC_FACILITY, {propName: 'facility'})">
+      </div>
+      <div class="col-lg-12 col-md-12 pt-2">
+        <label>Unit</label>
+        <input class="form-control" placeholder="" [(ngModel)]="cbpService.cbpJson.documentInfo[0].units"
+          [disabled]="tableService.oldProperty" type="text" (keydown)="coverpageProperty()"
+          (ngModelChange)="setProperty($event)" (focusout)="createAuditEntry(AuditTypes.PROPERTY_DOC_UNIT, {propName: 'units'})">
+      </div>
+      <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 pt-2">
+        <label> Responsible Department</label>
+        <select class="form-control" [(ngModel)]="cbpService.cbpJson.documentInfo[0].responsibleDepartment"
+          [disabled]="tableService.oldProperty"
+          (change)="createAuditEntry(AuditTypes.PROPERTY_DOC_RES_DEPT, {propName: 'responsibleDepartment'})">
+          <option value="Operation">Operation</option>
+          <option value="Maintenance">Maintenance</option>
+        </select>
+      </div>
+      <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 pt-2">
+        <label> Safety Class</label>
+        <select class="form-control" [(ngModel)]="cbpService.cbpJson.documentInfo[0].safetyClass"
+          [disabled]="tableService.oldProperty"
+          (change)="createAuditEntry(AuditTypes.PROPERTY_DOC_SAFTEY_CLASS, {propName: 'safetyClass'})">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+      </div>
+      <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 pt-2">
+        <label>Author</label>
+        <input class="form-control" placeholder="" [(ngModel)]="cbpService.cbpJson.documentInfo[0].author"
+          [disabled]="tableService.oldProperty" type="text" (keydown)="coverpageProperty()"
+          (ngModelChange)="setProperty($event)"(focusout)="createAuditEntry(AuditTypes.PROPERTY_DOC_AUTHOR, {propName: 'author'});">
+      </div>
+      <div class="col-lg-12 col-md-12 pt-2">
+        <label>Reviewer</label>
+  
+        <input class="form-control" placeholder="" [(ngModel)]="cbpService.cbpJson.documentInfo[0].reviewer"
+          [disabled]="tableService.oldProperty" type="text" (keydown)="coverpageProperty()" (ngModelChange)="setProperty($event)"
+          (focusout)="createAuditEntry(AuditTypes.PROPERTY_DOC_REVIEWER, {propName: 'reviewer'})">
+      </div>
+  
+      <div class="col-lg-12 col-md-12 pt-2">
+        <label>Approver</label>
+        <input class="form-control" placeholder="" [(ngModel)]="cbpService.cbpJson.documentInfo[0].approver"
+          (keydown)="coverpageProperty()" (ngModelChange)="setProperty($event)"[disabled]="tableService.oldProperty"
+          (focusout)="createAuditEntry(AuditTypes.PROPERTY_DOC_APPROVER, {propName: 'approver'})">
+     </div>
+  
+      <div class="col-lg-12 col-md-12 pt-2" *ngIf="controlService?.cbp_track_changes">
+        <label>DocumentID</label>
+        <input class="form-control" placeholder="" [(ngModel)]="controlService.cbp_track_changes['DGC_DOCUMENT_ID']"
+          [disabled]="tableService.oldProperty" type="text"
+          (focusout)="createAuditEntry(AuditTypes.PROPERTY_DOC_APPROVER, {propName: 'approver'})">
+      </div>
+      <div class="col-lg-12 col-md-12 pt-2">
+        <label>Effective Date</label>
+        <lib-date-time [dateFormat]="cbpService.cbpJson.documentInfo[0].dateFormat"
+          [placeholder]="cbpService.cbpJson.documentInfo[0].effectivedate"
+          [(dataField)]="cbpService.cbpJson.documentInfo[0].effectivedate"
+          (focusout)="createAuditEntry(AuditTypes.PROPERTY_DOC_EFFECTIVE_DATE, {propName: 'effectivedate'})"
+          [disabled]="tableService.oldProperty">
+        </lib-date-time>
+      </div>
+      <div class="col-lg-12 col-md-12 pt-2">
+        <label>Unique Id</label>
+        <input class="form-control" [(ngModel)]="cbpService.cbpJson.documentInfo[0].UniqueID" (change)="selectedProperty"
+          [disabled]="tableService.oldProperty" type="text"
+          (focusout)="createAuditEntry(AuditTypes.PROPERTY_DOC_UNIQUE_ID, {propName: 'UniqueID'})">
+      </div>
+      <div class="col-lg-12 col-md-12 pt-2">
+        <label>Date Format</label>
+        <div class="row">
+          <div class="col-md-8">
+            <select class="form-control" [(ngModel)]="cbpService.cbpJson.documentInfo[0].dateFormat"
+             [disabled]="tableService.isBorderRemove" name="datevees">
+              <option value="mm/dd/yyyy"> mm/dd/yyyy</option>
+              <option value="dd/mm/yyyy"> dd/mm/yyyy</option>
+              <option value="dd/mon/yyyy"> dd/mon/yyyy</option>
+              <option value="yyyy/mon/dd"> yyyy/mon/dd</option>
+              <option value="mm-dd-yyyy"> mm-dd-yyyy</option>
+              <option value="dd-mm-yyyy"> dd-mm-yyyy</option>
+              <option value="dd-mon-yyyy"> dd-mon-yyyy</option>
+              <option value="yyyy-mon-dd"> yyyy-mon-dd</option>
+            </select>
+          </div>
+          <div class="col-md-4">
+          </div>
+        </div>
+      </div>
+  
+      <div class="pt-1">
+        <app-rule-info [selectedElement]="cbpService.cbpJson.documentInfo[0]" [hideApplicablityRule]="true"
+          [hideConditionalRule]="true" [hideComponent]="true"></app-rule-info>
+      </div>
+  
+    </div>
+  </div>
+  </div>
+<!-- attribute property coverPage -->
+<div   *ngIf="cbpService.cbpJson.documentInfo[0]?.newCoverPageeEnabled && !attributeValueEnable && attributePropertyEnable" [ngClass]="{'disabled-col':cbpService.isDisabledControl}">
+  <lib-table-properties [selectedElement]="cbpService.selectedElement" 
+  [isCoverPage] ="cbpService.cbpJson.documentInfo[0]?.newCoverPageeEnabled"></lib-table-properties>
+</div>
+<div class="propertyScroll" *ngIf="cbpService.cbpJson.documentInfo[0]?.newCoverPageeEnabled && attributeValueEnable && !attributePropertyEnable">
+<div *ngFor="let item of cbpService.listProperties" class="col-lg-12 col-md-12 pt-2 px-2" >
+  <ng-container *ngIf="item.dataType === 1000">
+    <label>{{item.display}}</label>
+    <input class="form-control" placeholder="" 
+    [ngClass]="{
+      'disabled' : 
+      (item.isEditable == 1)
+    }"
+    [readonly]="tableService.isPropertyDisable"
+    name="text" [(ngModel)]="item[item['property']]"
+    (focusout)="setValues(item,item[item['property']])" [value] = "item[item['property']]"  type="text">
+  </ng-container>
+  <ng-container *ngIf="item.dataType === 5000">
+    <label>{{item.display}}</label>
+      <select class="form-control" [(ngModel)]="item[item['property']]" (click)="getDropDown(item,item[item['property']])"
+      [class.disabled]="tableService.isPropertyDisable ||  (item.isEditable == 1)" (change)="setValues(item,item[item['property']])" >
+        <option *ngFor="let data of item.options" [ngValue]="data.DISPLAY">{{data.DISPLAY}}</option>
+     </select>
+  </ng-container>
+  <!-- <ng-container *ngIf="item.dataType === 5000 && (item.attributeName === 'DGC_DOCUMENT_USAGE' || item.attributeName ==='DGC_DOCUMENT_DATE_FORMAT') ">
+    <label>{{item.display}}</label>
+      <select class="form-control" [(ngModel)]="item['prompt']" (click)="getDropDown(item)"
+      [disabled]="tableService.isPropertyDisable" (change)="setValues(item,item['prompt'])" >
+        <option *ngFor="let data of item.options" [ngValue]="data.DISPLAY" selected>{{data.DISPLAY}}</option>
+     </select>
+  </ng-container> -->
+  <ng-container *ngIf="item.dataType === 4000">
+    <div  class="col-lg-12 col-md-12 pt-2 pl-0 dp-flex" >
+      <label class="checkbox-inline flexAlign">
+        <input  type="checkbox" name="checkbox" 
+        (change)="setDocInfoValues(item, $event)" [(ngModel)]="item[item['property']]"
+        [disabled]="tableService.isPropertyDisable  || (item.isEditable == 1)">
+        &nbsp;&nbsp;<span>{{item.display}}</span>
+      </label>
+    </div>
+  </ng-container>
+    <!--Date-->
+  <ng-container *ngIf="item.dataType === 3000">
+    <label> <span>{{item.display}}</span></label>
+    <div class="input-group flat" style="width: 100%;"   (click)="item.isEditable != 1 && openDate(item)">
+      <div class="flatpickr-wrapper">
+        <input autocomplete="off" type="text"  [(ngModel)]="item[item['property']]"
+          name="date" 
+          class="form-control flat flatpicker flatpickr-input"   placeholder="mm/dd/yyyy"
+             [ngClass]="{'disabled' : (item.isEditable == 1)}" 
+             [readonly]="item.isEditable === 1"
+             >
+      </div>
+      <div class="input-group-prepend input-css">
+        <span class="calender-icon"><i class="fa fa-calendar"></i>
+        </span>
+      </div>
+    </div>
+  </ng-container>
+    <!--timeStamp-->
+ <ng-container *ngIf="item.dataType === 2000" >
+      <label> <span>{{item.display}}</span></label>
+      <div  class="input-group flat" style="width: 100%;"  (click)="item.isEditable != 1 &&  openDate(item)">
+        <div class="flatpickr-wrapper">
+          <input  autocomplete="off" type="text"   
+          name="date" [(ngModel)]="item[item['property']]"
+          class="form-control flat flatpicker flatpickr-input"
+            placeholder="mm/dd/yyyy"
+            [ngClass]="{'disabled' : (item.isEditable == 1)}"
+             [readonly]="item.isEditable === 1"
+            >
+        </div>
+          <div class="input-group-prepend input-css">
+          <span  class="calender-icon"><i class="fa fa-calendar"></i>
+          </span>
+        </div>
+      </div>
+  </ng-container>
+  
+</div>
+
+  <div class="col-lg-12 col-md-12 pt-2 px-2">
+      <button class="btn btn-icon btn-sm btn-test" [ngClass]="{'indexColor': cbpService.tableDataEntrySelected?.Security?.Role?.length>0 || cbpService.tableDataEntrySelected?.Security?.Qualification?.length>0 || cbpService.tableDataEntrySelected?.Security?.QualificationGroup?.length>0,
+  'btn-outline-secondary': cbpService.tableDataEntrySelected?.Security?.Role?.length ==0 && cbpService.tableDataEntrySelected?.Security?.Qualification?.length == 0 && cbpService.tableDataEntrySelected?.Security?.QualificationGroup?.length ==0
+  }" (click)="cbpService.isRoleQualOpen = true" data-placement="top" data-toggle="tooltip"
+          title="Role/Qualification"
+          [disabled]="cbpService.tableDataEntrySelected?.isEmbededObject && cbpService.embeddedType"
+          [class.disabled]="!cbpService.tableDataEntrySelected" >
+          Role/Qualification
+      </button>
+  </div>
+</div>
+

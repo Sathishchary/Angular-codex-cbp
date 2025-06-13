@@ -1,0 +1,46 @@
+<div class="col-lg-12 col-md-12 pt-2" *ngIf="showAlarm">
+  <button class="btn btn-icon btn-test btn-sm"
+       [ngClass]="{'indexColor': selectedElement?.alarm?.length>0,
+       'btn-outline-secondary' : selectedElement?.alarm?.length == 0}"
+      (click)="cbpService.isAlaramOpen = true" title="Alarm"
+      [disabled]="selectedElement?.property?.type == 'Dynamic' && selectedElement?.children?.length > 0 "><!-- [disabled]="selectedElement?.isEmbededObject && cbpService.embeddedType"-->
+  Alarm
+</button>
+</div>
+<ng-container *ngIf="!hideRamaining">
+<div class="col-lg-12 col-md-12 pt-2" *ngIf="!hideComponent">
+  <button class="mb-0 btn btn-icon btn-test btn-sm"
+      [ngClass]="{'indexColor': selectedElement?.componentInformation?.length>0,
+      'btn-outline-secondary' : selectedElement?.componentInformation?.length == 0}" (click)="cbpService.iscomponentInfo = true"
+      [disabled]="selectedElement?.property?.type == 'Dynamic' && selectedElement?.children?.length > 0 "  title="Component"><!-- [disabled]="selectedElement?.isEmbededObject && cbpService.embeddedType"-->
+      Component
+  </button>
+</div>
+<div class="col-lg-12 col-md-12 pt-2" *ngIf="!hideApplicablityRule">
+  <button class="btn btn-icon btn-sm btn-test"
+      [ngClass]="{'indexColor': selectedElement?.applicabilityRule?.length>0,
+      'btn-outline-secondary' : selectedElement?.applicabilityRule?.length == 0 }"
+      (click)="cbpService.isApplicabiltyOpen = true" title="Applicability Rule"
+      [disabled]="selectedElement?.property?.type == 'Dynamic' && selectedElement?.children?.length > 0 "><!-- [disabled]="selectedElement?.isEmbededObject && cbpService.embeddedType"-->
+      Applicability Rules
+  </button>
+</div>
+<div class="col-lg-12 col-md-12 pt-1" *ngIf="!hideConditionalRule">
+  <button class="btn btn-icon  btn-sm btn-test"
+      [ngClass]="{'indexColor': selectedElement?.rule?.length>0,
+      'btn-outline-secondary' : selectedElement?.rule?.length == 0}" (click)="cbpService.isRulesOpen = true" title="Conditional Rule"
+      [disabled]="selectedElement?.property?.type == 'Dynamic' && selectedElement?.children?.length > 0 " ><!-- [disabled]="selectedElement?.isEmbededObject && cbpService.embeddedType"-->
+      Conditional Rules
+  </button>
+</div>
+<div class="col-lg-12 col-md-12 pt-1" *ngIf="!hideRoleQual">
+  <button class="btn btn-icon btn-sm btn-test"
+      [ngClass]="{'indexColor': selectedElement?.Security?.Role?.length>0 || selectedElement?.Security?.Qualification?.length>0 || selectedElement?.Security?.QualificationGroup?.length>0,
+      'btn-outline-secondary': selectedElement?.Security?.Role?.length ==0 && selectedElement?.Security?.Qualification?.length == 0 && selectedElement?.Security?.QualificationGroup?.length ==0
+      }"
+      (click)="cbpService.isRoleQualOpen = true" data-placement="top" data-toggle="tooltip" title="Role/Qualification"
+      [disabled]="selectedElement?.property?.type == 'Dynamic' && selectedElement?.children?.length > 0 " ><!-- [disabled]="selectedElement?.isEmbededObject && cbpService.embeddedType"-->
+      Role/Qualification
+  </button>
+</div>
+</ng-container>

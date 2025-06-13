@@ -1,0 +1,11 @@
+:host ::ng-deep .angular-editor-toolbar{
+  overflow: inherit;
+}
+@media (min-width: 1400px) and (max-width: 1920px)  {
+ .modal-content{
+  width: 834px;
+ }
+}
+:host ::ng-deep .modal-dialog-centered{
+  min-height: unset !important;
+}

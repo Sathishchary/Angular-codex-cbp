@@ -1,0 +1,15 @@
+<ng-container *ngIf="!cbpZip">
+    <input type="file" (change)="getCbp($event)">
+    <button (click)="getData()">DataJson</button>
+    <button (click)="CBPEditor()">Editor</button>
+</ng-container>
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px', fullScreenBackdrop:true}"> Saving.....</ngx-loading>
+<lib-executer-wrapper [fileType]="inputFile" [executionType]="executeType"
+    [executerModes]="executerModes"
+     [executionDataObj]="true" *ngIf="cbpZip"
+     [cbpJsonZip]="cbpZip" [userApiConfig]="userApi" 
+     [menuConfig]="menuConfig" 
+     [penInkJson]="penInkJson"
+     (exitExecutorChange)="closeExecutor()"
+    (saveDataJson)="saveDataJson($event)" (getSaveDataJson)="saveDataObj($event)">
+</lib-executer-wrapper>

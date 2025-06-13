@@ -1,0 +1,37 @@
+.text-area-border {
+    resize: none;
+}
+
+.content-label {
+    -moz-appearance: textfield-multiline;
+    -webkit-appearance: textarea;
+    border: none;
+    font: medium -moz-fixed;
+    font: -webkit-small-control;
+    min-height: 28px;
+    background: #fff;
+    overflow: auto;
+    padding: 5px;
+    width: 100%;
+    resize: none;
+}
+
+textarea::placeholder {
+    color: #7a7a7a !important;
+}
+.disabled{
+    pointer-events: none;
+}
+
+.pdd-0{
+    padding: 0px !important;
+    margin-right: 0px;
+  }
+  .btnAlign{
+    position: absolute;
+    right: 47px !important;
+    bottom: 4px;
+  }
+  .labelHeight{
+    height: auto !important;
+  }

@@ -1,0 +1,28 @@
+.form-control.numberfontSizeHeight  {
+    height: auto;
+    min-height:34px;
+}
+.alignContent{
+    justify-content: flex-end;
+    margin-bottom: 7px;
+}
+.errorWidth{
+    right: 0px !important;
+    box-sizing: content-box;
+}
+.ErrorMsg {
+    position: relative;
+    top: -12px;
+    /* display: block; */
+}
+.errorMessage{
+    background: #eef3fc;
+    left: 0px;
+    padding: 6px 10px;
+    border-radius: 0px;
+    z-index: 10;
+    position: relative;
+    top: 9px;
+    width: 100%;
+    /* box-sizing: content-box; */
+}

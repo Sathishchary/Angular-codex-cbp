@@ -1,0 +1,29 @@
+<div class="pt-2">
+    <label> Usage</label>
+    <select class="form-control" [(ngModel)]="cbpService.selectedElement.usage"
+        [disabled]="cbpService.embeddedType || !cbpService.selectedElement.numberedChildren"
+        (change)="levelOfUsage(cbpService.selectedElement.usage)">
+        <option *ngFor="let usage of sectionUsage" [value]="usage" selected>{{usage}}</option>
+    </select>
+</div>
+<div class="pt-2">
+    <label> Dependency</label>
+    <select class="form-control" [(ngModel)]="cbpService.selectedElement.dependency"
+        [disabled]="cbpService.embeddedType || !cbpService.selectedElement.numberedChildren"
+        (change)="createAuditEntry(AuditTypes.PROPERTY_DEPENDENCY, {propName: 'dependency'})">
+        <option *ngFor="let dependency of sectionDependency" [value]="dependency" selected>{{dependency}}</option>
+    </select>
+</div>
+<div class="row">
+    <div class="col-lg-7 col-md-7 pt-2" *ngIf="cbpService.selectedElement.dependency === 'Section/Step'">
+        <input class="form-control" [value]="modifyDependency(cbpService.selectedElement.configureDependency)"
+            type="text" [disabled]="true">
+    </div>
+    <div class="col-lg-5 col-md-5 pt-2 pl-0 pr-2" *ngIf="cbpService.selectedElement.dependency === 'Section/Step'">
+        <button class="btn btn-icon btn-outline-secondary btn-outline-secondary btn-full btn-sm float-r" title="Configure"
+            (click)="cbpService.configureDependency = true"
+            [disabled]="cbpService.selectedElement.isEmbededObject && cbpService.embeddedType">
+            Configure
+        </button>
+    </div>
+</div>

@@ -1,0 +1,10 @@
+ <i class="fa fa-lock role" *ngIf="selectedElement?.showLockIcon"
+    [title]="selectedElement?.showLockMessage"
+    [ngClass]="{'role-set-sign': type === 'initialName', 'dateicon': type ==='dateRole', 'role-set-intial': type ==='initialSign',
+      'role-signature-sign': type === 'signatureSign', 'role-signature-initial': type === 'signatureIntial',
+      'signature-sign': type === 'signatureName', 'signature-date': type === 'signatureDateName',
+      'nummeric-temp': type === 'nummericTemp' && dataType,
+      'nummeric20': type === 'nummericTemp' && !dataType, 'tp9':dataTypeItem.includes(selectedElement.dgType) && selectedElement?.isTableDataEntry,
+      'rt25': dataTypeItem.includes(selectedElement.dgType) && selectedElement.required,'boolean-role': type === 'booleanRole',
+      'req-units': type === 'requiredUnits'}" aria-hidden="true">
+ </i>

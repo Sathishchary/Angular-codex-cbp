@@ -1,0 +1,6 @@
+:host ::ng-deep .execution-scroll-hide {
+    position: fixed;
+    top: 60px;
+    width: 100%;
+    z-index: 100;
+}

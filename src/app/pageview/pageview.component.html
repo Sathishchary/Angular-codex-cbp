@@ -1,0 +1,26 @@
+<!-- <ng-container *ngIf="!cbpZip">
+<input type="file" (change)="getCbp($event)">
+<button (click)="getData()">DataJson</button>
+ </ng-container>
+  -->
+<!-- <ngx-loading [show]="loading" [cbpJsonZip]="cbpZip" [config]="{ backdropBorderRadius: '3px', fullScreenBackdrop:true}"> Saving.....</ngx-loading> -->
+
+<lib-form-execution [fileType]="inputFile" 
+[executionType]="executeType"
+ [menuConfig]="menuConfig"
+ [cbp_Indv_File]="cbp_Individual_Files"
+  [isDynamicSection]="isDynamicSection"
+ [userApiConfig]="userApi" [penInkJson]="penInkJson"
+ (exitExecutorChange)="closeExecutor($event)"
+  (saveDataJson)="saveDataJson($event)"
+  (mobilePluginEvents)="mobilePluginEvents($event)"
+ [authenticatorConfig]="authenticatorConfig">
+</lib-form-execution>
+
+<!-- <lib-form-execution  *ngIf="!cbpZip" [fileType]="inputFile" [executionType]="executeType"
+[cbp_Indv_File]="cbp_Individual_Files"
+[menuConfig]="menuConfig"
+(exitExecutorChange)="closeExecutor()"
+(saveDataJson)="saveDataJson($event)"
+(propertyDoc)="getProperty($event)"
+></lib-form-execution> -->

@@ -1,0 +1,18 @@
+<div class="modal-content">
+    <lib-modal-popup [title]="dateTitle" (closeEvent)="cancel()"
+    [footerList]="footerList"
+    (submitButtons)="$event.type=== 'Clear' && clearDate(); $event.type=== 'Save' && save(); $event.type=== 'Cancel' && cancel();">
+    <div class="modal-body">
+       <input type="text" hidden>
+        <lib-date-time
+        [dateFormat]="dateFormat" [inline]="true" [disabled]="true"
+        [width]="stepObject?.dataEntrySize"  [dateIimeId]="stepObject.dgUniqueID"
+        [placeholder]="stepObject?.isDateDisplayOpen && stepObject?.isTimeDisplayOpen ? 'Date & Time' :
+        (stepObject?.isDateDisplayOpen && !stepObject?.isTimeDisplayOpen ? 'Date' : 'Select Time')"
+        [noCalender]="!stepObject?.isDateDisplayOpen" [isEnableTime]="stepObject?.isTimeDisplayOpen"
+        [minDate]="stepObject?.minimum" [maxDate]="stepObject?.maximum"
+        [(dataField)]="stepObject.dateFieldValue" (dataFieldChange)="changeDate($event)">
+     </lib-date-time>
+    </div>
+    </lib-modal-popup>
+  </div>

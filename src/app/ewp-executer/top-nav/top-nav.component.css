@@ -1,0 +1,26 @@
+.btn-toggle-fullwidth {
+  z-index: 99;
+  margin-top: -6px;
+  padding-left: 0!important;
+  color: #e76d38!important;
+}
+
+.e-point {
+  cursor: pointer!important;
+}
+
+.navbar-fixed-top .navbar-brand a {
+  display: inline-block !important;
+  line-height: 60px;
+  z-index: 99999;
+}
+.hiddenNav{
+display: none;
+}
+.navbar-nav .dropdown-menu {
+  position: absolute!important;
+  float: none;
+}
+.navbar-nav .icon-menu{
+  padding:5px !important
+}

@@ -1,0 +1,31 @@
+<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 pt-2" id="selectedDgType"
+[class.disabled]="(cbpService.selectedElement?.isEmbededObject && cbpService.selectedElement?.property?.type == 'Dynamic')">
+    <span> Type</span>
+    <select class="form-control" [(ngModel)]="cbpService.selectedDgType" (focus)="onFocusEvent()"
+    (change)="changeSubType(cbpService.selectedDgType)"
+    [disabled]="cbpService.selectedElement?.dgType == dgType.Timed || cbpService.selectedElement?.dualStep||
+    cbpService.selectedElement?.dgType == dgType.Repeat || cbpService.embeddedType">
+    <ng-container  *ngFor="let item of typearrayList">
+        <option [value]="item.type"> {{item.display}} </option>
+        <option *ngIf="cbpService.selectedDgType == dgType.Timed" [value]="dgType.Timed">Step</option>
+        <option *ngIf="cbpService.selectedDgType == dgType.Repeat" [value]="dgType.Repeat">Step</option>
+        <option *ngIf="cbpService.selectedDgType == dgType.StepInfo" [value]="dgType.StepInfo">Step</option>
+        <option *ngIf="cbpService.selectedDgType == dgType.DelayStep" [value]="dgType.DelayStep">Step</option>
+    </ng-container>
+    </select>
+</div>
+<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 pt-2">
+    <span> Step Type</span>
+    <!-- <select class="form-control" [(ngModel)]="selectType"
+     (focus)="onFocusEvent()" (ngModelChange)="onChange($event);"
+     [disabled]="cbpService.selectedElement.isEmbededObject && cbpService.embeddedType" >
+        <ng-container *ngFor="let item of actionstypes;">
+            <option [ngValue]="item.type">{{item.name}}</option>
+        </ng-container>
+    </select> -->
+    <ng-content></ng-content>
+</div>
+<div class="col-lg-12 col-md-12 pt-2">
+    <span>Number</span>
+    <p class="form-control mg-bg overflowControle" disabled [innerHtml]="cbpService.selectedElement.number"  > </p>
+</div>

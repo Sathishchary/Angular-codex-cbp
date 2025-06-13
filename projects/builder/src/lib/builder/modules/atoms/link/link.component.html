@@ -1,0 +1,47 @@
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pl-0 pb-0"
+[ngClass]="{'pr-0': cbpService.selectedUniqueId == field.dgUniqueID || !stepObject?.dualStep}">
+  <div class="stop_draging mt-1" *ngIf="field"
+    (click)="!field.isTableDataEntry && selectElement();selectedLink();$event.stopPropagation();
+    field.isTableDataEntry && selectedForTable($event)"
+    [ngClass]="{'section-border': cbpService.selectedUniqueId == field.dgUniqueID,
+    'row ml-0 brc' : stepObject?.dualStep, 'fb-row': !stepObject?.dualStep}">
+    <div [ngClass]="{'hover': cbpService.selectedElement.dgUniqueID  == field.dgUniqueID}" *ngIf="cbpService.sectionHover">
+        <app-step-option [field]="field"></app-step-option>
+    </div>
+    <ng-container *ngIf="!field.isTableDataEntry">
+    <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 px-0 textareacont" *ngIf="!cbpService.searchTemplate"
+      [ngClass]="{'pr-0': cbpService.selectedUniqueId == field.dgUniqueID, 'col-md-12 col-lg-12': stepObject?.dualStep}"  >
+      <dg-track-ui [field]="field" *ngIf="!hideTrackUi" (fieldChange)="setField($event);"></dg-track-ui>
+      <lib-editor-text [field]="field"  [placeholder]="'Please Enter the Link'" (linkDataEntry)="selectedLink()"
+       (fieldChange)="field = $event"></lib-editor-text>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 px-0" 
+    [ngClass]="{'col-md-12 col-lg-12': stepObject?.dualStep}"
+    *ngIf="cbpService.searchTemplate"
+      [ngClass]="{'pr-0': cbpService.selectedUniqueId  == field.dgUniqueID}">
+      <app-search-result [field]="field" [propName]="'caption'" [searchString]="cbpService.searchString"
+      [triggerReplace]="cbpService.triggerReplace"   [triggerReplaceAll]="cbpService.triggerReplaceAll" ></app-search-result>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 disabledlink"
+    [ngClass]="{'col-md-12 col-lg-12 pt-6 pl-0': stepObject?.dualStep,
+      'pr-0 pl-0': stepObject?.isTableDataEntry,
+      'pr-0': !stepObject?.isTableDataEntry}">
+      <ng-container *ngTemplateOutlet="linkTempalte"></ng-container>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="field.isTableDataEntry">
+    <div class="pl-0 col-xs-12 col-sm-12 pr-0 disabledlink">
+    <!-- <ng-container *ngTemplateOutlet="linkTempalte"></ng-container> -->
+    <a class="atb" title="{{field.displayText}}"
+      name="displayText">{{field.displayText | slice:0: 20}}
+    <span *ngIf="field.displayText?.length > 20">...</span></a>
+    </div>
+  </ng-container>
+  </div>
+</div>
+<ng-template #linkTempalte>
+  <label class="checkbox-inline mr-0 pt-0 mg-t4" >
+    <a class="clr-blue"  title="{{field.displayText}}"
+    name="displayText">{{field.displayText | slice:0: 20}}<span *ngIf="field.displayText?.length > 20">...</span></a>
+  </label>
+</ng-template>

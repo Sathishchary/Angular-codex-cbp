@@ -1,0 +1,72 @@
+<div  class="col-xs-12 col-sm-12 col-md-12 col-lg-12 px-0 mb-1 mt-1 ds-flex">
+  
+  <div *ngIf="displayType == 'Text Box'"  class="property-bg tableColSize" [class.property-bd]="!tableService.isBorderRemove">
+      <div class="dp-flex" (click)="selectedForTable()">
+      <p name="property" *ngIf="displayType == 'Text Box'"  id="textarea{{field.dgUniqueID}}"
+      [ngStyle]="styleObject"
+      [style.font-size]="field?.styleSet?.fontSize"
+      [style.font-family]="field?.styleSet?.fontName"
+      [style.color]="field?.styleSet?.color"
+      [style.text-align]="field?.styleSet?.textalign"
+      (focusout)="createAuditEntry(AuditTypes.PROMPT)"
+      [class.text-area-border]="tableService.isBorderRemove"
+      [innerHTML]="field[field['property']]"
+      class="form-control resize" rows="2" cols="50" [attr.readonly]="field['editorOpened']"></p>
+      </div>
+   </div>
+
+   <!-- <div *ngIf="displayType == 'Check Box'"  class="property-bg tableColSize" [class.property-bd]="!tableService.isBorderRemove">
+    <div  [ngClass]="{'boolean-bor': !field.isTableDataEntry}">
+    <label class="ml-1 plc form-group disabled"  [ngClass]="{'fancy-checkbox' : type, 'pt-7' : !type}">
+      <input data-parsley-errors-container="#error-checkbox" [checked]="field.selected"  name="{{field.dgUniqueID}}" id="{{field.dgUniqueID}}" required="" type="checkbox" disabled>
+      <span></span>
+    </label>
+    </div>
+  </div> -->
+
+  
+   <div *ngIf="displayType== 'Drop Down'"  (click)="selectedForTable()"
+   class="property-bg"[class.property-bd]="!tableService.isBorderRemove">
+    <p 
+    [ngStyle]="styleObject"
+    [style.resize]="'none'"
+    [style.font-size]="field?.styleSet?.fontSize"
+    [style.font-family]="field?.styleSet?.fontName"
+    [style.color]="field?.styleSet?.color"
+    [style.text-align]="field?.styleSet?.textalign"
+    [class.text-area-border]="tableService.isBorderRemove"
+    [innerHtml]="field[field['property']]" class="form-control resize" rows="2" cols="50"
+    [attr.readonly]="field['editorOpened']"> </p>
+   </div>
+
+ <div *ngIf="displayType== 'Time Stamp' || displayType== 'Date'" class="property-bg" [class.property-bd]="!tableService.isBorderRemove">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pl-0 mr-0"
+  (click)="selectedForTable()"
+    [ngClass]="{'pr-0': cbpService.selectedUniqueId  == field.dgUniqueID}">
+      <div class="stop_draging mt-1 mb-1" *ngIf="field"
+        [ngClass]="{'section-border pr-0': cbpService.selectedUniqueId == field.dgUniqueID }"
+        [class.tablebottom]="field.isTableDataEntry" [class.noneBg]="field.isTableDataEntry">
+      <ng-container *ngIf="field.isTableDataEntry">
+        <!-- <ng-container [ngTemplateOutlet]="dateLabelTempltae" [ngTemplateOutletContext]="{ $implicit: 'left' }"></ng-container> -->
+        <div  [ngClass]="{'col-xs-12 col-sm-12' :!field?.showLabel,
+        'col-xs-6 col-sm-6 pl-2' :field?.showLabel }" class="pr-0 pl-0 disflex">
+          <ng-container *ngTemplateOutlet="dateTemplate"></ng-container>
+          <lib-lockicon [selectedElement]="field"></lib-lockicon>
+        </div>
+        <!-- <ng-container [ngTemplateOutlet]="dateLabelTempltae" [ngTemplateOutletContext]="{ $implicit: 'right' }"></ng-container> -->
+      </ng-container>
+      </div>
+    </div>
+    <ng-template #dateTemplate>
+      <div class="empty-txt pointer tableColSizeDate" [style.width.%]="field.dataEntrySize"     
+      [ngStyle]="styleObject"
+      [style.resize]="'none'" (click)="selectedForTable()"
+      [style.font-size]="field?.styleSet?.fontSize"
+      [style.font-family]="field?.styleSet?.fontName"
+      [style.color]="field?.styleSet?.color">
+      {{ field[field['property']] ? (field[field['property']] | datePlaceholder ): (cbpService.cbpJson?.documentInfo[0].dateFormat | datePlaceholder) }}
+    </div>
+    <i class="drp-req" *ngIf="field.required">*</i>
+    </ng-template>
+  </div> 
+  

@@ -1,0 +1,268 @@
+<ng-container *ngIf="!stepObject?.isTableDataEntry">
+  <div class="row pt-2 css-sign">
+    <lib-track-ui [field]="stepObject"></lib-track-ui>
+      <div class="col-md-4 col-lg-4 px-0 pr-2 h77" [hidden]="stepObject.promptDisplay">
+        <div style="display: flex;">
+        <ng-container *ngTemplateOutlet="signatureTemplate"></ng-container>
+        <span class="required req" *ngIf="stepObject?.required">*</span>
+        </div>
+        <div *ngIf="stepObject.prompt" style="color:#5581c2; width: 100%; overflow-wrap: anywhere;"
+         [ngStyle]="styleObject" id="stepprompt{{stepObject.dgUniqueID}}"
+         (click)="cbpService.handleSelection( $event, stepObject,  'prompt' )"
+         [innerHtml]="stepObject.prompt | innerhtml">
+        </div>
+      </div>
+      <div class="col-xs-12 col-md-2 col-lg-2 px-0 pr-2 h77 custom-placeholder" style="padding-top: 18px;"
+       [hidden]="stepObject.namePromptDisplay" >
+          <input type="text" *ngIf="!stepObject?.innerHtmlView"
+          class="form-control form-control-height" placeholder="Enter the Name"
+          name="textDataEntry{{stepObject.dgUniqueID}}"
+          (click)="selectElement('signatureName')"
+          [(ngModel)]="stepObject['signatureName']" id="namepromptDemo{{stepObject.dgUniqueID}}"
+          (focusout)="saveSignature(stepObject, $event, 'signatureName')"
+          [class.dis-cols] ="(stepObject?.protect && stepObject.signatureName && stepObject.signatureNameProtect ) ||
+           stepObject.signatureNameDisable|| stepObject?.disableField || (executionService.authenticatorConfig?.signature?.username_iseditable == 0)"
+          [readonly]="((stepObject?.protect || stepObject?.showLockIcon) && stepObject.signatureName && stepObject.signatureNameProtect) ||
+           stepObject.signatureNameDisable || stepObject?.disableField || (executionService.authenticatorConfig?.signature?.username_iseditable == 0)"
+          />
+          <lib-lockicon-exe [selectedElement]="stepObject" [type]="'signatureName'"></lib-lockicon-exe>
+          <!-- <span class="required req" *ngIf="stepObject?.required">*</span> -->
+         <ng-container *ngIf="stepObject?.innerHtmlView">
+          <div *ngIf="(!executionService.isPopupOpened) && stepObject.editorOpened && !stepObject.signatureNameProtect; else textview"
+           name="TextArea" id="textbox{{stepObject.dgUniqueID}}"
+           (click)="selectElement('signatureName')"
+           [ngClass]="{'black':stepObject.isTableDataEntry}" style="margin-top:-6px">
+            <lib-text-editor [hidePopup]="true" [input]="stepObject.signatureName" [stepObject]="stepObject"
+             [foreColor]="stepObject['styleSet']?.fontcolor" (blur)="stepObject.editorOpened = false;saveSignature(stepObject, $event, 'signatureName')"
+             [config]="config"  (updateTitle)="stepObject.signatureName = $event;"
+             [signatureConfig]="'signatureName'"
+             (close)="stepObject.signatureName = $event;saveSignature(stepObject, $event, 'signatureName')">
+            </lib-text-editor>
+          </div>
+         <ng-template #textview>
+            <div style="display: flex;">
+              <div class="form-control hiddens textOverflowControl" (click)="selectElement('signatureName')"
+               id="textbox{{stepObject.dgUniqueID}}" [innerHtml]="stepObject.signatureName | innerhtml"
+               (click)="(!stepObject.signatureNameDisable || (executionService.authenticatorConfig?.signature?.username_iseditable == 1)) && stepObject.editorOpened = true;"
+               [class.dis-cols]="((stepObject?.protect || stepObject?.showLockIcon) && stepObject?.signatureNameProtect)|| 
+               stepObject.signatureNameDisable || stepObject?.disableField|| (executionService.authenticatorConfig?.signature?.username_iseditable == 0)"
+               [class.empty-placeholder]="!stepObject.signatureName"
+               [attr.data-placeholder]="'Enter Name'">
+              </div>
+          </div>
+          </ng-template>
+         </ng-container>
+         <span class="required req pos-Alignment" *ngIf="stepObject?.required">*</span>
+        <label for="favorite-animal" style="color:#5581c2"  [ngStyle]="styleObject">
+          <p class="titleDatabreak" [ngStyle]="styleObject"  style="position: absolute;top: 55px;" id="stepnamePrompt{{stepObject.dgUniqueID}}"
+          (click)="cbpService.handleSelection( $event, stepObject,  'namePrompt' )"
+          [innerHtml]="stepObject.namePrompt | innerhtml"
+          ></p>
+        </label>
+      </div>
+      <div class="col-xs-12 col-md-2 col-lg-2 pl-0 pr-2 h77" style="padding-top: 18px;"
+         [hidden]="!stepObject.datePromptDispaly && !stepObject.timePromptDisplay">
+        <ng-container *ngTemplateOutlet="newDateTemplate"></ng-container>
+        <lib-lockicon-exe [selectedElement]="stepObject" [type]="'signatureDateName'"></lib-lockicon-exe>
+         <label for="favorite-animal" style="color:#5581c2"  [ngStyle]="styleObject">
+           <p class="titleDatabreak" [ngStyle]="styleObject"
+           style="position: absolute;top: 55px;"  id="stepdateTimePrompt{{stepObject.dgUniqueID}}"
+           (click)="cbpService.handleSelection( $event, stepObject,  'dateTimePrompt' )"
+           [innerHtml]="stepObject.dateTimePrompt | innerhtml"
+           ></p>
+         </label>
+      </div>
+      <div class="col-xs-12 col-md-2 col-lg-2 px-0 pr-3 setZindex h77"
+         style="margin-top: 0px;z-index: 9;"
+        *ngIf="!stepObject.initialPromptDispaly">
+        <div>
+          <div style="display: flex;">
+            <fieldset class="fieldSet"  (click)="!stepObject.showLockIcon && getSignatureData(stepObject, 'initial');"
+            [ngClass]="{'dual-right': stepObject.dualStep}" style="display: flex;justify-content: flex-start;"
+            [class.dis-cols] ="(stepObject?.protect  && stepObject?.initial && stepObject?.initialProtect) || stepObject?.disableField"
+            [class.disabled]="((stepObject?.protect || stepObject?.showLockIcon ) && stepObject?.initial && stepObject?.initialProtect)|| stepObject?.disableField">
+              <span *ngIf="!stepObject?.initial ||executionService.isPlaceDispaly" class="sign-ex custom-placeholder" alt="">Initial</span>
+              <img *ngIf="stepObject?.initial" [src]="initialValue"  alt=""
+              style="height: 45px; width:100%;margin:0 auto;object-fit: contain;">
+              <lib-lockicon-exe [selectedElement]="stepObject" [type]="'signatureIntial'"></lib-lockicon-exe>
+            </fieldset>
+            <span class="required req" *ngIf="stepObject?.required">*</span>
+        </div>
+         <label for="favorite-animal" style="color:#5581c2"  [ngStyle]="styleObject">
+            <p class="titleDatabreak" style="position: absolute;top: 55px;" [ngStyle]="styleObject" id="stepinitialPrompt{{stepObject.dgUniqueID}}"
+            (click)="cbpService.handleSelection( $event, stepObject,  'initialPrompt' )"
+            [innerHtml]="stepObject.initialPrompt | innerhtml"></p>
+        </label>
+      </div>
+      </div>
+    <div class="col-xs-12 col-md-2 col-lg-2 px-0 pr-3 h77 custom-placeholder" style="padding-top: 18px;"
+        [hidden]="stepObject.userIdPromptDisplay">
+        <input type="text" *ngIf="!stepObject?.userIdHtmlView"
+        class="form-control form-control-height" placeholder="Enter User Id"
+        [class.dis-cols] ="((stepObject?.protect) && stepObject.signatureUserId && stepObject.signatureUserIdProtect) || 
+        stepObject.signatureUserIdDisable || stepObject?.disableField|| (executionService.authenticatorConfig?.signature?.userid_iseditable == 0)"
+        [readonly]="((stepObject?.protect || stepObject?.showLockIcon) && stepObject.signatureUserId &&
+         stepObject.signatureUserIdProtect) || stepObject.signatureUserIdDisable || stepObject?.disableField || (executionService.authenticatorConfig?.signature?.userid_iseditable == 0)"
+        name="textDataEntry{{stepObject.dgUniqueID}}"    (click)="selectElement('signatureUserId')"
+        [(ngModel)]="stepObject['signatureUserId']" id="userIdInputDemo{{stepObject.dgUniqueID}}"
+        (focusout)="saveSignature(stepObject, $event, 'signatureUserId')"/>
+        <lib-lockicon-exe [selectedElement]="stepObject" [type]="'signatureUserId'"></lib-lockicon-exe>
+        <!-- <span class="required req" *ngIf="stepObject?.required">*</span> -->
+       <ng-container *ngIf="stepObject?.userIdHtmlView">
+        <div *ngIf="(!executionService.isPopupOpened) && stepObject.userIdEditorOpened && !stepObject.signatureUserIdProtect; else textUserIdview"
+         name="TextArea" id="textbox{{stepObject.dgUniqueID}}" (click)="selectElement('signatureUserId')"
+        [ngClass]="{'black':stepObject.isTableDataEntry}" style="margin-top:-6px">
+          <lib-text-editor [hidePopup]="true" [input]="stepObject.signatureUserId" [stepObject]="stepObject"
+           [foreColor]="stepObject['userIdStyleSet']?.fontcolor" (blur)="stepObject.userIdEditorOpened = false;saveSignature(stepObject, $event, 'signatureUserId')"
+           [config]="userIdconfig"  (updateTitle)="stepObject.signatureUserId = $event;"
+           [signatureConfig]="'signatureUserId'"
+           (close)="stepObject.signatureUserId = $event;saveSignature(stepObject, $event, 'signatureUserId')">
+          </lib-text-editor>
+        </div>
+     <ng-template #textUserIdview>
+          <div style="display: flex;">
+            <div class="form-control hiddens textOverflowControl" (click)="selectElement('signatureUserId')"
+             id="textbox{{stepObject.dgUniqueID}}" [innerHtml]="stepObject.signatureUserId | innerhtml"
+             (click)="(!stepObject.signatureUserIdDisable && (executionService.authenticatorConfig?.signature?.userid_iseditable == 1)) && stepObject.userIdEditorOpened = true;"
+             [class.dis-cols]="((stepObject?.protect || stepObject?.showLockIcon) && stepObject?.signatureUserIdProtect)|| stepObject.signatureUserIdDisable || stepObject?.disableField || (executionService.authenticatorConfig?.signature?.userid_iseditable == 0)"
+             [class.empty-placeholder]="!stepObject.signatureUserId"
+             [attr.data-placeholder]="'Enter UserId'">
+            </div>
+        </div>
+        </ng-template>
+       </ng-container>
+       <span class="required req pos-Alignment" *ngIf="stepObject?.required">*</span>
+      <label for="favorite-animal" style="color:#5581c2"  [ngStyle]="styleObject">
+        <p class="titleDatabreak" style="position: absolute;top: 55px;" [ngStyle]="styleObject"  id="suserIdPrompt{{stepObject.dgUniqueID}}"
+        (click)="cbpService.handleSelection( $event, stepObject,  'userIdPrompt' )"
+        [innerHtml]="stepObject.userIdPrompt | innerhtml"
+        ></p>
+      </label>
+    </div>
+
+    <div class="col-xs-12 col-md-12 col-lg-12 px-0 pr-3 custom-placeholder" [hidden]="stepObject.notesPromptDispaly">
+      <textarea placeholder="Enter Notes/Annotation" *ngIf="!stepObject?.notesHtmlView" autosize
+      [minRows]="3"
+      [class.dis-cols] ="(stepObject?.protect && stepObject.signatureNotes && stepObject?.signatureNotesProtect)|| stepObject?.disableField"
+      [readonly]="((stepObject?.protect || stepObject?.showLockIcon ) && stepObject.signatureNotes && stepObject?.signatureNotesProtect)|| stepObject?.disableField"
+      class="form-control resize" name="textDatassEntry{{stepObject.dgUniqueID}}"
+      (click)="selectElement('signatureNotes')"
+      [(ngModel)]="stepObject['signatureNotes']" id="TestnotesDemo{{stepObject.dgUniqueID}}"
+      (resize)="resizeEvent($event)" (focusout)="saveSignature(stepObject, $event,'signatureNotes')"
+      ></textarea>
+      <lib-lockicon-exe [selectedElement]="stepObject" [type]="'signatureNotes'"></lib-lockicon-exe>
+      <!-- <span class="required req" *ngIf="stepObject?.required">*</span> -->
+     <ng-container *ngIf="stepObject?.notesHtmlView">
+      <div *ngIf="(!executionService.isPopupOpened) && stepObject.notesEditorOpened && !stepObject.signatureNotesProtect; else textNotesview"
+       name="TextArea" id="textbox{{stepObject.dgUniqueID}}" (click)="selectElement('signatureNotes')"
+       [ngStyle]="{'min-height' : stepObject?.height ? (stepObject?.height)+'px' : '40px'}"
+       [ngClass]="{'black':stepObject.isTableDataEntry}" style="margin-top:-6px;height: auto;">
+        <lib-text-editor [hidePopup]="true" [input]="stepObject.signatureNotes" [stepObject]="stepObject"
+         [signatureType]="'notes'" [signatureConfig]="'signatureNotes'"
+         [foreColor]="stepObject['notesStyleSet'].fontcolor" (blur)="stepObject.notesEditorOpened = false;saveSignature(stepObject, $event,'signatureNotes')"
+         [config]="notesConfig"  (updateTitle)="stepObject.signatureNotes = $event;"
+         (close)="stepObject.signatureNotes = $event;saveSignature(stepObject, $event,'signatureNotes')">
+        </lib-text-editor>
+      </div>
+      <ng-template #textNotesview>
+        <div style="display: flex;">
+          <div class="form-control resizable-dv-div wrdcs pos-rel"  style="height: auto;"
+          [ngStyle]="{'min-height' :'70px'}"
+           id="textbox{{stepObject.dgUniqueID}}" [innerHtml]="stepObject.signatureNotes | innerhtml"
+           (click)="stepObject.notesEditorOpened = true;selectElement('signatureNotes')"
+           [class.dis-cols]="((stepObject?.protect || stepObject?.showLockIcon) && stepObject?.signatureNotesProtect) || stepObject?.disableField">
+          </div>
+          <!-- <span class="required req" *ngIf="stepObject?.required">*</span> -->
+      </div>
+      </ng-template>
+     </ng-container>
+     <span class="required req pos-text-align" *ngIf="stepObject?.required">*</span>
+    <label for="favorite-animal" style="color:#5581c2"  [ngStyle]="styleObject">
+      <p class="titleDatabreak" style="position: absolute;top: 75px;" [ngStyle]="styleObject"  id="stepnsignatureNotesrompt{{stepObject.dgUniqueID}}"
+      (click)="cbpService.handleSelection($event, stepObject, 'notesPrompt' )"
+      [innerHtml]="stepObject.notesPrompt | innerhtml"
+      ></p>
+    </label>
+    </div>
+  </div>
+</ng-container>
+<ng-container *ngIf="stepObject?.isTableDataEntry">
+  <div *ngIf="!stepObject.notesPromptDispaly"  style="display: flex;">
+   <ng-container *ngTemplateOutlet="signatureTemplate"></ng-container>
+   <span class="required req" *ngIf="stepObject?.required && stepObject?.isTableDataEntry">*</span>
+  </div>
+  <div *ngIf="stepObject.notesPromptDispaly" class="col-xs-12 col-md-12 col-lg-12 px-0 pr-2 pl-2 mb-2  sign-notes-wrapper">
+    <div class="signNote-req">
+    <ng-container *ngTemplateOutlet="signatureTemplate"></ng-container>
+   <span class="required req" *ngIf="stepObject?.required && stepObject?.isTableDataEntry">*</span>
+  </div>
+   <div class="signNote-req custom-placeholder">
+    <textarea placeholder="Enter Notes/Annotation" *ngIf="!stepObject?.notesHtmlView" autosize
+    [minRows]="3"
+    [class.dis-cols] ="(stepObject?.protect && stepObject.signatureNotes && stepObject?.signatureNotesProtect)|| stepObject?.disableField"
+    [readonly]="((stepObject?.protect || stepObject?.showLockIcon) && stepObject.signatureNotes && stepObject?.signatureNotesProtect)|| stepObject?.disableField"
+    class="form-control resize" name="textDatassEntry{{stepObject.dgUniqueID}}"
+    (click)="selectElement('signatureNotes')"
+    [(ngModel)]="stepObject['signatureNotes']" id="TestnotesDemo{{stepObject.dgUniqueID}}"
+    (resize)="resizeEvent($event)" (focusout)="saveSignature(stepObject, $event,'signatureNotes')"
+    ></textarea>
+      <ng-container *ngIf="stepObject?.notesHtmlView">
+      <div *ngIf="(!executionService.isPopupOpened) && stepObject.notesEditorOpened && !stepObject.signatureNotesProtect; else textNotesview"
+       name="TextArea" id="textbox{{stepObject.dgUniqueID}}" (click)="selectElement('signatureNotes')"
+       [ngStyle]="{'min-height' : stepObject?.height ? (stepObject?.height)+'px' : '40px'}"
+       [ngClass]="{'black':stepObject.isTableDataEntry}" style="margin-top:-6px;height: auto;width: 100%;">
+        <lib-text-editor [hidePopup]="true" [input]="stepObject.signatureNotes" [stepObject]="stepObject"
+         [signatureType]="'notes'" [signatureConfig]="'signatureNotes'"
+         [foreColor]="stepObject['notesStyleSet'].fontcolor" (blur)="stepObject.notesEditorOpened = false;saveSignature(stepObject, $event,'signatureNotes')"
+         [config]="notesConfig"  (updateTitle)="stepObject.signatureNotes = $event;"
+         (close)="stepObject.signatureNotes = $event;saveSignature(stepObject, $event,'signatureNotes')">
+        </lib-text-editor>
+      </div>
+      <ng-template #textNotesview>
+        <div style="display: flex;width:100%">
+          <div class="form-control resizable-dv-div wrdcs pos-rel"  style="height: auto;"
+          [ngStyle]="{'min-height' :'70px'}"
+           id="textbox{{stepObject.dgUniqueID}}" [innerHtml]="stepObject.signatureNotes | innerhtml"
+           (click)="stepObject.notesEditorOpened = true;selectElement('signatureNotes')"
+           [class.dis-cols]="((stepObject?.protect || stepObject?.showLockIcon) && stepObject?.signatureNotesProtect)|| stepObject?.disableField">
+          </div>
+          <!-- <span class="required req" *ngIf="stepObject?.required">*</span> -->
+      </div>
+      </ng-template>
+     </ng-container>
+    <lib-lockicon-exe [selectedElement]="stepObject" [type]="'signatureNotes'"></lib-lockicon-exe>
+   <span class="required req" *ngIf="stepObject?.required && stepObject?.isTableDataEntry">*</span>
+  </div>
+  </div>
+
+</ng-container>
+<ng-template #signatureTemplate>
+  <fieldset class="fieldSetTable" id="signature{{stepObject.dgUniqueID}}-{{stepObject?.showLockIcon}}"
+   [class.dis-cols] ="(stepObject?.protect && signatureValue) || stepObject?.disableField"
+   [class.disabled]="((stepObject?.protect || stepObject?.showLockIcon ) && signatureValue) || stepObject?.disableField"
+   (click)="getSignatureData(stepObject, 'signature');"
+   [class.role-p]="stepObject?.showLockIcon" style="display: flex;justify-content: flex-start;">
+   <span *ngIf="!stepObject?.signatureValue || executionService.isPlaceDispaly" class="sign-ex custom-placeholder" alt="">Sign</span>
+   <img *ngIf="stepObject?.signatureValue"
+   [src]="signatureValue"
+   style="height: 45px; width:100%;margin:0 auto;object-fit: contain;" alt="">
+   <lib-lockicon-exe [selectedElement]="stepObject"[type]="'signatureSign'"></lib-lockicon-exe>
+ </fieldset>
+</ng-template>
+
+<ng-template #newDateTemplate>
+  <div  style="display: flex;">
+  <div  class="input-group flat flatd">
+    <div class="flatpickr-wrapper wra"
+      (click)="(stepObject.valueType === 'AutoPopulate' && stepObject.signatureDate !== '') && openDate();
+      stepObject.valueType !== 'AutoPopulate' && openDate(); "
+      [class.dis-cols] ="(stepObject?.protect && stepObject?.dateTimeProtect)|| stepObject?.disableField"
+      [class.disabled]="((stepObject?.protect || stepObject?.showLockIcon) && stepObject?.dateTimeProtect)|| stepObject?.disableField">
+       <p class="date custom-placeholder" [innerHtml]="stepObject.signatureDate | innerhtml"></p>
+      <div class="input-group-prepend"><span class="calender-icon">
+        <i class="fa fa-calendar"></i></span></div>
+      </div>
+    </div>
+    <span *ngIf="stepObject.required" class="required req">*</span>
+  </div>
+</ng-template>

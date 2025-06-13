@@ -1,0 +1,27 @@
+{
+    "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+    "dest": "../../dist/builder",
+    "lib": {
+        "entryFile": "src/public-api.ts",
+        "umdModuleIds": {
+            "jszip": "jszip",
+            "ngx-watermark": "ngx-watermark",
+            "angular-notifier": "angular-notifier",
+            "cbp-shared": "cbp-shared",
+            "dg-shared": "dg-shared",
+            "ngx-loading": "ngx-loading",
+            "@ng-bootstrap/ng-bootstrap": "@ng-bootstrap/ng-bootstrap",
+            "ngx-autosize": "ngx-autosize",
+            "ngxAutosize": "ngxAutosize",
+            "angular-editor": "angular-editor",
+            "ngx-device-detector": "ngx-device-detector",
+            "ng-drag-drop": "ng-drag-drop",
+            "ngx-scroll-event": "ngx-scroll-event",
+            "ngx-color-picker": "ngx-color-picker",
+            "flatpickr": "flatpickr",
+            "angular-gridster2": "angular-gridster2",
+            "AlphanumericEncoder": "AlphanumericEncoder",
+            "alphanumeric-encoder": "alphanumeric-encoder"
+        }
+    }
+}

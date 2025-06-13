@@ -1,0 +1,45 @@
+.jstree-default .jstree-clicked {
+  background-color: deepskyblue !important;
+}
+
+.jstree-children {
+  background-color: white !important;
+}
+
+.jstree-default > .jstree-container-ul > .jstree-node {
+  background-color: deepskyblue !important;
+}
+
+:host ::ng-deep .jstree-default .jstree-anchor {
+  line-height: 24px;
+  height: 27px !important;
+  line-height: 24px;
+  font-size: 12px !important;
+  height: 24px !important;
+  text-transform: none !important;
+  color: #555555 !important;
+  width: 100% !important;
+}
+
+:host ::ng-deep .jstree-wholerow {
+  border: 1px solid #cccbcb;
+  border-radius: 1px;
+  font-size: 12px;
+  background-color: #f8f9fa;
+}
+
+:host ::ng-deep .jstree-default .jstree-node {
+  min-height: 24px;
+  line-height: 24px;
+  margin-left: 8px !important;
+  min-width: 24px;
+}
+
+:host ::ng-deep.jstree-default .jstree-icon:empty {
+  width: 17px !important;
+  height: 24px;
+  line-height: 24px;
+}
+/* .padding {
+  padding-bottom: 430px;
+} */

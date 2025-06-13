@@ -1,0 +1,50 @@
+<div class="modal " id="mediaUpload" tabindex="-1" role="dialog " data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog" style="max-width: 800px;" role="document">
+    <div class="modal-content">
+      <lib-modal-popup [title]="'Upload Media'" (closeEvent)="cancel()"
+      [footerList]="[{type:'Save', disabled : uploadMedia?.length<1}, {type:'Cancel'}]"
+      (submitButtons)="$event.type=== 'Save' && savedataInfos(); $event.type=== 'Cancel' && cancel();">
+      <div class="modal-body">
+        <!-- style="height:auto;overflow-x:hidden;overflow-y:scroll;" -->
+        <div class="col-md-12 col-lg-12 pl-0 pt-0">
+          <div class="row">
+            <div class="col-lg-2 col-md-3 pr-0 pt-0">
+              <label>Step Number</label>
+              <input type="text" [(ngModel)]="cbpService.selectedElement.number" name="fsstff"
+               class="form-control" placeholder="" disable>
+            </div>
+            <div class="col-lg-3 col-md-3 pr-0 pt-0">
+              <label>Type</label>
+              <input type="text" [value]="selectedItemFile.file?.type ? selectedItemFile.file?.type : '' " name="fsstff" class="form-control"
+                placeholder="" required="" disable>
+            </div>
+            <div class="col-lg-7 col-md-6 pr-0 pt-0" [class.disabled]="uploadMedia?.length==0">
+              <label>Caption</label>
+              <input type="text" [readonly]="!selectedItemFile" (ngModelChange)="changeEvent($event)"
+              [(ngModel)]="selectedItemFile.caption" name="fssff" class="form-control" placeholder=""
+                required="">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 col-lg-12 pr-0 pt-1" [class.disabled]="uploadMedia?.length==0">
+              <label>Description</label>
+              <input type="text" [(ngModel)]="selectedItemFile.description" name="fssff" class="form-control"
+                placeholder="" required="">
+            </div>
+          </div>
+        </div>
+        <div class="pt-2" *ngIf="cbpService.refresh">
+          <app-gallery-view
+            [media]="mediaBlobs"
+            [doubleClickDisable]="true" [mediaType]="'executorUpload'"
+            [mediaFiles]="uploadMedia" [eventType]="source" [canSelectItem]="true"
+            (addFiles)="changeRequestAddedFiles($event)"
+            [selected]="selectedItemFile" (selectedChange)="selectedChange($event)"
+            (mediaUpdateFile)="mediaUpdateFile($event)"
+            (deleteMedia)="deleteMediaFiles($event)"></app-gallery-view>
+        </div>
+      </div>
+      </lib-modal-popup>
+    </div>
+  </div>
+</div>

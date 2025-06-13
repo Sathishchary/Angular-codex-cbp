@@ -1,0 +1,53 @@
+<style>
+textarea::placeholder {
+  color: #7a7a7a !important;  
+}
+</style>
+
+<div class="pr-0 mb-1" [class.disable-static]="field.isEmbededObject && field?.property?.type == 'Dynamic'"
+id="dataEntry{{field.dgUniqueID}}">
+  <div *ngIf="field" (click)="selectElement();$event.stopPropagation();field.isTableDataEntry && selectedForTable($event)"
+  [ngClass]="{'section-border': cbpService.selectedUniqueId  == field.dgUniqueID}">
+    <div class="pl-0 stop_dragingpara" [ngClass]="{'pt-1': field.isTableDataEntry}">
+      <div [ngClass]="{'hoverpara': cbpService.selectedElement.dgUniqueID  == field.dgUniqueID}" *ngIf="cbpService.sectionHover && !field.isTableDataEntry">
+        <app-step-option [field]="field"></app-step-option>
+      </div>
+      <dg-track-ui [field]="field" *ngIf="!hideTrackUi && !field.isTableDataEntry" (fieldChange)="setField($event);"></dg-track-ui>
+      <ng-container *ngIf="!cbpService.searchTemplate">
+        <ng-container *ngIf="!field['editorOpened'] && field.text === ''">
+          <textarea col="50" autosize [minRows] ="1"  name="{{field.dgUniqueID}}" id="{{field.dgUniqueID}}"
+          class="form-control bordernone paraHeight" (click)="editorOpened()" type="text" placeholder="Paragraph"
+          [class.selectedField]="field?.dgUniqueID == cbpService.selectedUniqueId" [ngStyle]="styleObject"
+          [class.notSelectedField]="field?.dgUniqueID != cbpService.selectedUniqueId"></textarea>
+        </ng-container>
+        <ng-container *ngIf="field['editorOpened']">
+        <div  *ngIf="cbpService.selectedElement?.dgUniqueID === field?.dgUniqueID  ||
+        cbpService.tableDataEntrySelected?.dgUniqueID === field?.dgUniqueID && !cbpService.searchTemplate" >
+        <app-text-editor [selectedElement]="field" [input]="field.text" (click)="editorOpened()" 
+          (close)="outputhtml($event, field,'text');field['editorOpened'] = false;"
+          droppable [dragOverClass]="'drag-target-border'" [item]="field" (editorClose)="cbpService.tableDataEntrySelected?.dgUniqueID === field?.dgUniqueID&& editorClose($event)"
+          (updateEvent)="field.text = $event;" (blur)="cbpService.checkEditorOpenInTable(false, field)"
+          [ngStyle]="styleObject"
+          [dropScope]="DgTypes.Hyperlink" [dragHintClass]="'drag-hint'"  (onDrop)="hLService.onLinkDrop($event, field)"></app-text-editor>
+        </div>
+      </ng-container>
+      <div *ngIf="!field['editorOpened'] && field.text !== ''">
+         <div class="content-editable" autosize contenteditable=true
+          id="textarea" [ngStyle]="styleObject" autosize [innerHtml]="(field?.text ? field?.text : '') | innerhtml" (click)="editorOpened()" (input)="onChangeEvent($event)"
+          *ngIf="!cbpService.searchTemplate && !(field?.veriticalTB || field?.veriticalBT)">
+        </div>
+        <div *ngIf="!cbpService.searchTemplate && (field?.veriticalTB || field?.veriticalBT)"
+          [class.aligntextcenter]="field?.veriticalTB || field?.veriticalBT">
+          <p class="color" [ngClass]="{'vertical-exe-test' : field?.veriticalTB, 'verticalbt': field?.veriticalBT }"
+          (click)="editorOpened()" (input)="onChangeEvent($event)"
+          [innerHTML]="(field?.text ? field?.text : '') | innerhtml"></p>
+        </div>
+      </div>
+    </ng-container>
+      <ng-container *ngIf="cbpService.searchTemplate">
+        <app-search-result [field]="field" [propName]="'text'" [searchString]="cbpService.searchString"
+        [triggerReplace]="cbpService.triggerReplace" [triggerReplaceAll]="cbpService.triggerReplaceAll" ></app-search-result>
+      </ng-container>
+    </div>
+  </div>
+</div>

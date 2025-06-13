@@ -1,0 +1,5 @@
+<span> {{name}}</span>
+<input *ngIf="name === 'UniqueID'" class="form-control numb" [(ngModel)]="dgUniqueID" (ngModelChange)="change()"
+ disabled  type="text">
+
+<p *ngIf="name !== 'UniqueID'" class="form-control numb" [innerHtml]="dgUniqueID" ></p>

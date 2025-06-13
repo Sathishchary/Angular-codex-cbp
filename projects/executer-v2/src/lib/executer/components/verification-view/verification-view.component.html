@@ -1,0 +1,30 @@
+<div class="row">
+    <div class="col-md-12 pl-2">
+        <div class="row" style="margin-bottom: 2px;">
+            <lib-track-ui [field]="stepObject" *ngIf="!stepObject.isTableDataEntry"></lib-track-ui>
+            <div [ngClass]="{'col-12 col-lg-12 col-md-12': obj?.dualStep}"
+                class="col-md-9 col-lg-9 col-9 pl-1 pt-1" [ngStyle]="styleObject"
+                id="stepAno{{stepObject.dgUniqueID}}"
+                (click)="cbpService.handleSelection( $event, stepObject,  'prompt' )"
+                [innerHtml]="stepObject.prompt | innerhtml">
+            </div>
+            <div [ngClass]="{'col-12 col-lg-12 col-md-12': obj?.dualStep,
+             'role-p': stepObject?.showLockIcon,'verification-pading':stepObject?.storeValue}"
+                class="col-md-3 col-lg-3 col-3 pl-3 pt-1"
+                (click)="cbpService.selectedStepObject = stepObject; openVerification(stepObject)">
+                <div style="display: flex;" *ngIf="!stepObject?.storeValue">
+                    <span [ngClass]="{'showicon-bg': stepObject?.showLockIcon, 'withoutbg': !stepObject?.showLockIcon}">
+                        <hr *ngIf="!stepObject?.storeValue" class="lineCss text-right"
+                    (click)="openVerification(stepObject)">
+                    </span>
+                    <span class="required req" *ngIf="stepObject.required">*</span>
+                </div>
+                <span style="text-decoration: underline;"
+                   *ngIf="stepObject?.storeValue" [innerHtml]="stepObject?.storeValue | innerhtml"></span>
+               <lib-lockicon-exe [selectedElement]="stepObject"></lib-lockicon-exe>
+               
+               
+            </div>
+        </div>
+    </div>
+</div>

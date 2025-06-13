@@ -1,0 +1,83 @@
+.upload-items-container {
+  margin:10px
+}
+.upload-items {
+   display: flex;
+   overflow-x: scroll;
+   margin-bottom: 0px;
+   height: 143px;
+}
+.file-name {
+  font-size: 13px;
+   color: #4d4d4f
+}
+.item-close-hover:hover .item-close {
+   display: block;
+   cursor: pointer;
+}
+.upload-item-plus {
+   position: relative;
+   background: #FFF;
+   width: 142px;
+   min-width: 142px;
+   height: 112px;
+   display: block;
+   border: 3px dashed #989898;
+   text-align: center;
+   color: #6a6a6a;
+   padding: 10px;
+   margin-bottom: 15px;
+   top: 2px;
+   border-radius: 5px;
+}
+.upload-btn-text{
+   font-size: 13px;
+   position: absolute;
+   left: 15px;
+   top: 9px;
+   line-height: 90px;
+}
+.input-upload {
+  font-size:14px;
+  font-weight: bold;
+  opacity: 0.0;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  filter: alpha(opacity=0);
+  -moz-opacity: 0.0;
+  -khtml-opacity: 0.0;
+  top: 0;
+  left: 0;
+  width: 90px;
+  height: 90px;
+  cursor: pointer;
+}
+#scrollbarStyle::-webkit-scrollbar-track {
+   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+   border-radius: 10px;
+   background-color: #F5F5F5;
+   cursor: pointer;
+}
+#scrollbarStyle::-webkit-scrollbar {
+   width: 8px !important;
+   background-color: #F5F5F5;
+   cursor: pointer;
+}
+#scrollbarStyle::-webkit-scrollbar-thumb {
+   border-radius: 10px;
+   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+   background-color: #555;
+   cursor: pointer;
+}
+.card {
+   border: 1px solid rgba(0, 0, 0, 0.125);
+   margin-bottom: 0px !important;
+   border-radius:0px !important;
+}
+.card-body {
+   padding:0px 0px 0px 0px !important;
+}
+.btn {
+   font-size: 12px!important;
+   padding: 5px 8px!important;
+}
+

@@ -1,0 +1,189 @@
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"
+ [ngClass]="{ 'pt-1' : field?.isTableDataEntry,
+              'px-2': cbpService.selectedUniqueId === field.dgUniqueID && field?.isTableDataEntry,
+              'pr-0 pt-1 pl-0': !field?.isTableDataEntry,'notesInitial':(field.isTableDataEntry && field.notesPromptDispaly) || (field.isTableDataEntry && !field.notesPromptDispaly)}">
+  <div class="row pr-0 stop_draging" *ngIf="field"
+    (click)="!field.isTableDataEntry && selectElement();$event.stopPropagation();
+     field.isTableDataEntry && selectedForTable($event)"
+      [ngClass]="{'section-border': cbpService.selectedUniqueId  == field.dgUniqueID}"
+      [class.noneBg]="field.isTableDataEntry"
+    >
+    <div [ngClass]="{'hover': cbpService.selectedElement.dgUniqueID  == field.dgUniqueID}" *ngIf="cbpService.sectionHover && !field.isTableDataEntry">
+      <app-step-option [field]="field"></app-step-option>
+    </div>
+    <ng-container *ngIf="!field?.isTableDataEntry">
+      <dg-track-ui [field]="field" *ngIf="!hideTrackUi" (fieldChange)="setField($event);"></dg-track-ui>
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 pr-1" *ngIf="!field.promptDisplay"
+      [ngClass]="{'pl-2': cbpService.selectedUniqueId  == field.dgUniqueID}">
+      <div style="display: flex;">
+        <div style="width: 100%;" class="custom-placeholder">
+      <textarea name="s1-{{field.dgUniqueID}}" id="s1-{{field.dgUniqueID}}" class="form-control OF-hid rs-n" rows="3" readonly
+        placeholder="Sign" (focus)= "selectElement();"></textarea>
+      <label for="s1-{{field.dgUniqueID}}" class="clr-blue labelBackground"
+        [ngStyle]="styleObject" style="width: 100%; overflow-wrap: anywhere;">{{field.prompt}}</label>
+      </div>
+        <lib-lockicon [selectedElement]="field" [type]="'SignatureSign'"></lib-lockicon>
+        <i class="drp-req" *ngIf="field.required">*</i>
+        </div>
+    </div>
+    <div class="col-xs-12 col-md-2 col-lg-2 pad-t-26imp prZeroPlTwo" *ngIf="!field.namePromptDisplay"
+      [ngClass]="{'pr-0 pl-2': cbpService.selectedUniqueId  == field.dgUniqueID}">
+      <div style="display: flex;">
+      <div style="width: 100%;" class="custom-placeholder">
+      <input class="form-control  mb-0 h28"  type="text" name="text" [disabled]="true"
+        placeholder="Enter the Name"
+        [class.selectedField]="field?.dgUniqueID == cbpService.selectedElement?.dgUniqueID && cbpService.propertyDocument?.waterMarkOptions?.isWaterMarkEnabled"
+        [class.notSelectedField]="field?.dgUniqueID != cbpService.selectedElement?.dgUniqueID && cbpService.propertyDocument?.waterMarkOptions?.isWaterMarkEnabled">
+      <label for="{{field.dgUniqueID}}" class="clr-blue labelBackground"
+        [ngStyle]="styleObject" style="width: 100%; overflow-wrap: anywhere;">{{field.namePrompt}}</label>
+      </div>
+        <lib-lockicon [selectedElement]="field" [type]="'SignatureName'"></lib-lockicon>
+        <i class="drp-req" *ngIf="field.required">*</i>
+      </div>
+    </div>
+    <div  class="col-xs-12 col-md-2 col-lg-2 prZeroPlTwo pad-t-26imp"
+      *ngIf="field.datePromptDispaly && field.timePromptDisplay"
+      [ngClass]="{'pr-0 pl-2': cbpService.selectedUniqueId  == field.dgUniqueID}">
+      <div style="display: flex;">
+      <div style="width: 100%;">
+        <div class="input-group flat custom-placeholder">
+        <input autocomplete="off" type="text"   name="s2-{{field.dgUniqueID}}" id="s2-{{field.dgUniqueID}}"
+        [placeholder]="field?.datePromptDispaly && !field.timePromptDisplay ?
+        (cbpService.cbpJson?.documentInfo[0].dateFormat | datePlaceholder) :
+        !field?.datePromptDispaly && field.timePromptDisplay ? 'HH:MM' :
+        (cbpService.cbpJson?.documentInfo[0].dateFormat | datePlaceholder) + ' HH:MM'" readonly
+           class="form-control pad-ft-imp">
+
+           <!-- <label for="s2-{{field.dgUniqueID}}" class="clr-blue"
+           class="form-control pad-ft-imp"
+           [class.selectedField]="field?.dgUniqueID == cbpService.selectedUniqueId"
+          [class.notSelectedField]="field?.dgUniqueID != cbpService.selectedUniqueId"></label> -->
+      </div>
+      <label for="s2-{{field.dgUniqueID}}" class="clr-blue labelBackground"
+        [ngStyle]="styleObject" style="width: 100%; overflow-wrap: anywhere;">{{field.dateTimePrompt}}</label>
+        </div>
+        <lib-lockicon [selectedElement]="field" [type]="'SignatureDate'"></lib-lockicon>
+      <i class="drp-req" *ngIf="field.required">*</i>
+      </div>
+    </div>
+    <div  class="col-xs-12 col-md-2 col-lg-2 prZeroPlTwo pad-t-26imp"
+      *ngIf="!field.timePromptDisplay && field.datePromptDispaly"
+      [ngClass]="{'pr-0 pl-2': cbpService.selectedUniqueId  == field.dgUniqueID}">
+      <div style="display: flex;">
+        <div>
+      <div class="input-group flat custom-placeholder">
+        <input autocomplete="off" type="text"  name="s3-{{field.dgUniqueID}}" id="s3-{{field.dgUniqueID}}"
+        [placeholder]="cbpService.cbpJson.documentInfo[0].dateFormat === 'm/j/Y' ? 'mm/dd/yyyy': (
+          cbpService.cbpJson.documentInfo[0].dateFormat === 'j/m/Y'? 'dd/mm/yyyy' : (
+            cbpService.cbpJson.documentInfo[0].dateFormat === 'Y/M/j'? 'yyy/mon/dd' : 'dd/mon/yyyy'))"  readonly
+           class="form-control pad-ft-imp"
+           [class.selectedField]="field?.dgUniqueID == cbpService.selectedElement?.dgUniqueID && cbpService.propertyDocument?.waterMarkOptions?.isWaterMarkEnabled"
+        [class.notSelectedField]="field?.dgUniqueID != cbpService.selectedElement?.dgUniqueID && cbpService.propertyDocument?.waterMarkOptions?.isWaterMarkEnabled">
+      </div>
+      <label for="s3-{{field.dgUniqueID}}" class="clr-blue labelBackground"
+        [ngStyle]="styleObject">{{field.dateTimePrompt}}</label>
+        </div>
+        <div>  <i class="drp-req" *ngIf="field?.required">*</i></div> </div>
+    </div>
+    <div  class="col-xs-12 col-md-2 col-lg-2 prZeroPlTwo pad-t-26imp"
+      *ngIf="!field.datePromptDispaly && field.timePromptDisplay"
+      [ngClass]="{'pr-0 pl-2': cbpService.selectedUniqueId  == field.dgUniqueID}">
+      <div style="display: flex;">
+        <div>
+      <div class="input-group flat">
+        <input autocomplete="off" type="text" placeholder="HH:MM" readonly
+           class="form-control pad-ft-imp"  name="s4-{{field.dgUniqueID}}" id="s4-{{field.dgUniqueID}}"
+           [class.selectedField]="field?.dgUniqueID == cbpService.selectedElement?.dgUniqueID && cbpService.propertyDocument?.waterMarkOptions?.isWaterMarkEnabled"
+        [class.notSelectedField]="field?.dgUniqueID != cbpService.selectedElement?.dgUniqueID && cbpService.propertyDocument?.waterMarkOptions?.isWaterMarkEnabled">
+      </div>
+      <label for="s4-{{field.dgUniqueID}}" class="clr-blue labelBackground"
+        [ngStyle]="styleObject">{{field.dateTimePrompt}}</label>
+        </div>
+        <div>  <i class="drp-req" *ngIf="field?.required">*</i></div> </div>
+    </div>
+
+
+    <div class="col-xs-12 col-md-2 col-lg-2 pl-2 paddingTextarea" *ngIf="!field.initialPromptDispaly"
+      [ngClass]="{'pr-0 pl-2': cbpService.selectedUniqueId  == field.dgUniqueID}">
+      <!-- [ngClass]="{'pr-0 pl-2': cbpService.selectedUniqueId  == field.dgUniqueID, 'pr-3': cbpService.selectedUniqueId  !== field.dgUniqueID}"> -->
+    <div style="display: flex;">
+      <div style="width: 100%;" class="custom-placeholder">
+      <textarea  name="s5-{{field.dgUniqueID}}" id="s5-{{field.dgUniqueID}}" class="form-control OF-hid rs-n" rows="3"  [disabled]="true"
+        placeholder="Initial"></textarea>
+      <!-- <input class="form-control  mb-0" style="height: 28px;" type="text" name="text" [disabled]="true" placeholder="Initial"> -->
+
+      <label for="s5-{{field.dgUniqueID}}" class="clr-blue labelBackground"
+      [ngStyle]="styleObject" style="width: 100%; overflow-wrap: anywhere;">{{field.initialPrompt}}</label>
+      </div>
+      <lib-lockicon [selectedElement]="field" [type]="'SignatureIntial'"></lib-lockicon>
+      <i class="drp-req" *ngIf="field.required">*</i>
+    </div>
+    </div>
+    <div class="col-xs-12 col-md-2 col-lg-2 UserpaddingRight pad-t-26imp UserpaddingLeft"
+    *ngIf="!field.userIdPromptDisplay"
+       [ngClass]="{'paddingRightCun': cbpService.selectedUniqueId == field.dgUniqueID,
+        'pl-2': cbpService.selectedUniqueId == field.dgUniqueID}">
+      <div style="display: flex;">
+        <div style="width: 100%;" class="custom-placeholder">
+          <input placeholder="User ID" class="form-control  mb-0 h28"  type="text" name="text" readonly>
+        </div>
+        <lib-lockicon [selectedElement]="field" [type]="'SignatureName'"></lib-lockicon>
+        <i class="drp-req" *ngIf="field.required">*</i>
+      </div>
+      <label for="slss-{{field.dgUniqueID}}" class="clr-blue labelBackground"
+      [ngStyle]="styleObject">{{field.userIdPrompt}}</label>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 NotespaddingLeft NotespaddingRight pb-0"
+     *ngIf="!field.notesPromptDispaly"
+     [ngClass]="{'paddingRightCun': cbpService.selectedUniqueId == field.dgUniqueID, 
+     'paddingLefttCun': cbpService.selectedUniqueId == field.dgUniqueID, 
+     'pb-2': cbpService.selectedUniqueId == field.dgUniqueID}">
+      <div style="display: flex;">
+          <div style="width: 100%;" class="custom-placeholder">
+            <textarea placeholder="Enter Notes/Annotation" class="form-control OF-hid rs-n" rows="3"
+             readonly ></textarea>
+          </div>
+          <lib-lockicon [selectedElement]="field" [type]="'SignatureSign'"></lib-lockicon>
+          <i class="drp-req" *ngIf="field.required">*</i>
+      </div>
+      <label for="stex-{{field.dgUniqueID}}" class="clr-blue labelBackground"
+      [ngStyle]="styleObject">{{field.notesPrompt}}</label>
+   </div>
+  </ng-container>
+  <ng-container *ngIf="field?.isTableDataEntry">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pl-0 mt-1 pr-0 NotesSign" >
+        <div *ngIf="field.notesPromptDispaly" class="sign-notes-wrapper mt-1">
+        <div class="SignDisplay">
+        <textarea class="pos-rel form-control" rows="2" readonly
+        name="{{field.dgUniqueID}}" id="{{field.dgUniqueID}}"
+        [class.selectedField]="field?.dgUniqueID == cbpService.selectedElement?.dgUniqueID && cbpService.propertyDocument?.waterMarkOptions?.isWaterMarkEnabled"
+        [class.notSelectedField]="field?.dgUniqueID != cbpService.selectedElement?.dgUniqueID && cbpService.propertyDocument?.waterMarkOptions?.isWaterMarkEnabled"></textarea>
+        <span class="pos-abs text-hidden">Sign</span>
+        <lib-lockicon [selectedElement]="field" [type]="'SignatureSign'"></lib-lockicon>
+        <i class="drp-req" *ngIf="field.required">*</i>
+      </div>
+    
+      <div *ngIf="field.notesPromptDispaly"  class="notesDisplay pt-1 custom-placeholder">
+        <textarea  class="form-control OF-hid rs-n notesTableHeight" placeholder="Enter Notes/Annotation"  rows="3" readonly>
+        </textarea>
+        <span class="pos-abs text-hidden notesPlaceholder">Enter Notes/Annotation</span>
+        <lib-lockicon [selectedElement]="field" [type]="'SignatureSign'"></lib-lockicon>
+        <i class="drp-req" *ngIf="field.required">*</i>
+      </div>
+   
+    </div>
+    <div *ngIf="!field.notesPromptDispaly" class="SignDisplay">
+      <textarea class="pos-rel form-control" rows="2" readonly
+        [name]="field.dgUniqueID" [id]="field.dgUniqueID"
+        [class.selectedField]="field?.dgUniqueID == cbpService.selectedElement?.dgUniqueID && cbpService.propertyDocument?.waterMarkOptions?.isWaterMarkEnabled"
+        [class.notSelectedField]="field?.dgUniqueID != cbpService.selectedElement?.dgUniqueID && cbpService.propertyDocument?.waterMarkOptions?.isWaterMarkEnabled">
+      </textarea>
+      <span class="pos-abs text-hidden custom-placeholder">Sign</span>
+      <lib-lockicon [selectedElement]="field" [type]="'SignatureSign'"></lib-lockicon>
+        <i class="drp-req" *ngIf="field.required">*</i>
+    </div>
+      </div>
+  </ng-container>
+
+  </div>
+</div>

@@ -1,0 +1,2192 @@
+{
+    "template-1": {
+      "prompt": "",
+      "dataType": "table",
+      "tableName": "Table1",
+      "tableNameUpdated": true,
+      "captionText": "",
+      "captionPosition": "top",
+      "colorhead": "#ccc",
+      "tableNo": 0,
+      "withoutHeaders": true,
+      "withoutLines": false,
+      "referenceOnly": false,
+      "selectTable": false,
+      "tableDataEntry": false,
+      "coverPageTable": true,
+      "dgType": "Form",
+      "calstable": [
+        {
+          "table": {
+            "tgroup": {
+              "colspec": [],
+              "thead": [
+                {
+                  "columnSize": 33.33,
+                  "fieldName": "Column1",
+                  "align": "left",
+                  "position": 1
+                },
+                {
+                  "columnSize": 33.33,
+                  "fieldName": "Column2",
+                  "align": "left",
+                  "position": 2
+                },
+                {
+                  "columnSize": 33.33,
+                  "fieldName": "Column3",
+                  "align": "left",
+                  "position": 3
+                }
+              ],
+              "tfoot": [],
+              "tbody": [
+                {
+                  "row": [
+                    {
+                      "entry": [
+                        {
+                          "children": [
+                            {
+                            "caption": "",
+                            "dgType": "Figures",
+                            "type": "media",
+                            "dataType": "image",
+                            "subType": "",
+                            "name": "image",
+                            "label": "Figure",
+                            "images": [
+                              {
+                                "fileName": "DataGlancePng.png",
+                                "dgUniqueID": "3",
+                                "dgType": "Figure",
+                                "name": "DataGlancePng.png",
+                                "source": "Local",
+                                "caption": "",
+                                "fileType": "Image",
+                                "action": 8100,
+                                "type": "builder",
+                                "typeImage": "section",
+                                "align": "left",
+                                "isTableDataEntry": true,
+                                "mediaType": "single",
+                                "resolution": "true",
+                                "mediaUrl": "assets/cbp/images/DataGlancePng.png",
+                                "height": 71,
+                                "width": 397
+                              }
+                            ],
+                            "isDataEntry": true,
+                            "captionText": false,
+                            "dgUniqueID": 2,
+                            "row": 1,
+                            "column": 2,
+                            "level": 1,
+                            "state": {
+                              "hidden": true
+                            },
+                            "mediaType": "single",
+                            "isTableDataEntry": true,
+                            "promt": "Title",
+                            "createdBy": "dataglance",
+                            "createdDate": "2023-05-17T10:39:05.931Z",
+                            "updatedBy": "dataglance",
+                            "updatedDate": "2023-05-17T10:39:05.975Z"
+                          }]
+                        },
+                        {
+                          "children": [
+
+                          ]
+                        },
+                        {
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "entry": [
+                        {
+                          "children": []
+                        },
+                        {
+                          "children": [
+                            {
+                              "choice": [],
+                              "alarm": [],
+                              "rule": [],
+                              "data": [],
+                              "prompt": "<b style=\"\"><font size=\"5\">Procedure Maintainance</font></b>",
+                              "fieldName": "LabelDataEntry",
+                              "fieldNameUpdated": true,
+                              "required": false,
+                              "dataType": "label",
+                              "dgType": "LabelDataEntry",
+                              "isDataEntry": false,
+                              "showLabel": false,
+                              "dataEntrySize": 100,
+                              "isTableDataEntry": true,
+                              "isDefaultTableAdd": true,
+                              "dgUniqueID": 4,
+                              "row": 2,
+                              "column": 2,
+                              "promt": "Title",
+                              "editorOpened": false,
+                              "createdBy": "dataglance",
+                              "createdDate": "2023-05-17T10:39:33.257Z",
+                              "updatedBy": "dataglance",
+                              "updatedDate": "2023-05-17T10:39:33.257Z",
+                              "isHtmlText": true
+                            }
+                          ]
+                        },
+                        {
+                          "children": []
+                        }
+                      ],
+                      "createdBy": "dataglance",
+                      "createdDate": "2023-05-17T10:39:33.217Z",
+                      "updatedBy": "dataglance",
+                      "updatedDate": "2023-05-17T10:39:33.217Z"
+                    },
+                    {
+                      "entry": [
+                        {
+                          "children": []
+                        },
+                        {
+                          "children": [
+                            {
+                              "data": [],
+                              "prompt": "",
+                              "dgType": "TitleEntry",
+                              "dataEntrySize": 100,
+                              "dataType": "Text",
+                              "isTableDataEntry": true,
+                              "fieldName": "TitleEntry",
+                              "fieldNameUpdated": true,
+                              "isDefaultTableAdd": true,
+                              "dgUniqueID": 5,
+                              "row": 3,
+                              "column": 2,
+                              "promt": "Title"
+                            }
+                          ]
+                        },
+                        {
+                          "children": []
+                        }
+                      ],
+                      "createdBy": "dataglance",
+                      "createdDate": "2023-05-17T10:40:12.945Z",
+                      "updatedBy": "dataglance",
+                      "updatedDate": "2023-05-17T10:40:12.945Z"
+                    },
+                    {
+                      "entry": [
+                        {
+                          "children": []
+                        },
+                        {
+                          "children": [
+                            {
+                              "data": [],
+                              "prompt": "",
+                              "dataEntrySize": 100,
+                              "dataType": "Text",
+                              "dgType": "NumberEntry",
+                              "isTableDataEntry": true,
+                              "fieldName": "NumberEntry",
+                              "fieldNameUpdated": true,
+                              "isDefaultTableAdd": true,
+                              "dgUniqueID": 6,
+                              "row": 4,
+                              "column": 2,
+                              "promt": "Title"
+                            }
+                          ]
+                        },
+                        {
+                          "children": []
+                        }
+                      ],
+                      "createdBy": "dataglance",
+                      "createdDate": "2023-05-17T10:40:14.962Z",
+                      "updatedBy": "dataglance",
+                      "updatedDate": "2023-05-17T10:40:14.962Z"
+                    },
+                    {
+                      "entry": [
+                        {
+                          "children": []
+                        },
+                        {
+                          "children": [
+                            {
+                              "data": [],
+                              "prompt": "",
+                              "dgType": "Revision",
+                              "dataEntrySize": 100,
+                              "dataType": "Text",
+                              "isTableDataEntry": true,
+                              "fieldName": "Revision",
+                              "fieldNameUpdated": true,
+                              "isDefaultTableAdd": true,
+                              "dgUniqueID": 7,
+                              "row": 5,
+                              "column": 2,
+                              "promt": "Title"
+                            }
+                          ]
+                        },
+                        {
+                          "children": []
+                        }
+                      ],
+                      "createdBy": "dataglance",
+                      "createdDate": "2023-05-17T10:40:19.414Z",
+                      "updatedBy": "dataglance",
+                      "updatedDate": "2023-05-17T10:40:19.414Z"
+                    },
+                    {
+                      "entry": [
+                        {
+                          "children": []
+                        },
+                        {
+                          "children": [
+                            {
+                              "data": [],
+                              "prompt": "",
+                              "dgType": "Objective",
+                              "dataEntrySize": 100,
+                              "dataType": "Text",
+                              "isTableDataEntry": true,
+                              "fieldName": "Objective",
+                              "fieldNameUpdated": true,
+                              "isDefaultTableAdd": true,
+                              "dgUniqueID": 8,
+                              "row": 6,
+                              "column": 2,
+                              "promt": "Title"
+                            }
+                          ]
+                        },
+                        {
+                          "children": []
+                        }
+                      ],
+                      "createdBy": "dataglance",
+                      "createdDate": "2023-05-17T10:40:23.205Z",
+                      "updatedBy": "dataglance",
+                      "updatedDate": "2023-05-17T10:40:23.205Z"
+                    },
+                    {
+                      "entry": [
+                        {
+                          "children": []
+                        },
+                        {
+                          "children": [
+                            {
+                              "data": [],
+                              "prompt": "",
+                              "dgType": "Usage",
+                              "dataEntrySize": 100,
+                              "dataType": "Text",
+                              "isTableDataEntry": true,
+                              "fieldName": "Usage",
+                              "fieldNameUpdated": true,
+                              "isDefaultTableAdd": true,
+                              "dgUniqueID": 9,
+                              "row": 7,
+                              "column": 2,
+                              "promt": "Title"
+                            }
+                          ]
+                        },
+                        {
+                          "children": []
+                        }
+                      ],
+                      "createdBy": "dataglance",
+                      "createdDate": "2023-05-17T10:40:27.030Z",
+                      "updatedBy": "dataglance",
+                      "updatedDate": "2023-05-17T10:40:27.030Z"
+                    },
+                    {
+                      "entry": [
+                        {
+                          "children": []
+                        },
+                        {
+                          "children": [
+                            {
+                              "data": [],
+                              "prompt": "",
+                              "dgType": "Unit",
+                              "dataEntrySize": 100,
+                              "dataType": "Text",
+                              "isTableDataEntry": true,
+                              "fieldName": "Unit",
+                              "fieldNameUpdated": true,
+                              "isDefaultTableAdd": true,
+                              "dgUniqueID": 10,
+                              "row": 8,
+                              "column": 2,
+                              "promt": "Title"
+                            }
+                          ]
+                        },
+                        {
+                          "children": []
+                        }
+                      ],
+                      "createdBy": "dataglance",
+                      "createdDate": "2023-05-17T10:40:32.121Z",
+                      "updatedBy": "dataglance",
+                      "updatedDate": "2023-05-17T10:40:32.121Z"
+                    },
+                    {
+                      "entry": [
+                        {
+                          "children": []
+                        },
+                        {
+                          "children": []
+                        },
+                        {
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "entry": [
+                        {
+                          "children": [
+                            {
+                              "data": [],
+                              "prompt": "",
+                              "dgType": "Approver",
+                              "dataEntrySize": 100,
+                              "dataType": "Text",
+                              "isTableDataEntry": true,
+                              "fieldName": "Approver",
+                              "fieldNameUpdated": true,
+                              "isDefaultTableAdd": true,
+                              "dgUniqueID": 11,
+                              "row": 10,
+                              "column": 1,
+                              "promt": "Title"
+                            }
+                          ]
+                        },
+                        {
+                          "children": [
+                            {
+                              "data": [],
+                              "prompt": "",
+                              "dgType": "Reviewer",
+                              "dataEntrySize": 100,
+                              "dataType": "Text",
+                              "isTableDataEntry": true,
+                              "fieldName": "Reviewer",
+                              "fieldNameUpdated": true,
+                              "isDefaultTableAdd": true,
+                              "dgUniqueID": 12,
+                              "row": 10,
+                              "column": 2,
+                              "promt": "Title"
+                            }
+                          ]
+                        },
+                        {
+                          "children": [
+                            {
+                              "data": [],
+                              "prompt": "",
+                              "dgType": "Author",
+                              "dataEntrySize": 100,
+                              "dataType": "Text",
+                              "isTableDataEntry": true,
+                              "fieldName": "Author",
+                              "fieldNameUpdated": true,
+                              "isDefaultTableAdd": true,
+                              "dgUniqueID": 13,
+                              "row": 10,
+                              "column": 3,
+                              "promt": "Title"
+                            }
+                          ]
+                        }
+                      ],
+                      "createdBy": "dataglance",
+                      "createdDate": "2023-05-17T10:40:50.418Z",
+                      "updatedBy": "dataglance",
+                      "updatedDate": "2023-05-17T10:40:50.418Z"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "dgUniqueID": "",
+          "dgType": "CALSTable"
+        }
+      ],
+      "isDataEntry": true,
+      "maxTableColumn": 4,
+      "columnSize": 4,
+      "rowSize": 10,
+      "level": null
+    },
+
+    "template-2": {
+      "prompt": "",
+      "dataType": "table",
+      "tableName": "Table1",
+      "tableNameUpdated": true,
+      "captionText": "",
+      "captionPosition": "top",
+      "colorhead": "#ccc",
+      "tableNo": 0,
+      "withoutHeaders": true,
+      "withoutLines": true,
+      "referenceOnly": false,
+      "selectTable": false,
+      "tableDataEntry": false,
+      "coverPageTable": true,
+      "dgType": "Form",
+      "calstable": [
+        {
+          "table": {
+            "tgroup": {
+              "colspec": [],
+              "thead": [
+                {
+                  "columnSize": 33.33,
+                  "fieldName": "Column1",
+                  "align": "left",
+                  "position": 1
+                },
+                {
+                  "columnSize": 33.33,
+                  "fieldName": "Column2",
+                  "align": "left",
+                  "position": 2
+                },
+                {
+                  "columnSize": 33.33,
+                  "fieldName": "Column3",
+                  "align": "left",
+                  "position": 3
+                }
+              ],
+              "tfoot": [],
+              "tbody": [
+                {
+                  "row": [
+                    {
+                      "entry": [
+                        {
+                          "children": [
+
+                          ]
+                        },
+                        {
+                          "children": [   {
+                            "caption": "",
+                            "dgType": "Figures",
+                            "type": "media",
+                            "dataType": "image",
+                            "subType": "",
+                            "name": "image",
+                            "label": "Figure",
+                            "images": [
+                              {
+                                "fileName": "DataGlancePng.png",
+                                "dgUniqueID": "3",
+                                "dgType": "Figure",
+                                "name": "DataGlancePng.png",
+                                "source": "Local",
+                                "caption": "",
+                                "fileType": "Image",
+                                "action": 8100,
+                                "type": "builder",
+                                "typeImage": "section",
+                                "align": "left",
+                                "isTableDataEntry": true,
+                                "mediaType": "single",
+                                "resolution": "true",
+                                "mediaUrl": "assets/cbp/images/DataGlancePng.png",
+                                "height": 71,
+                                "width": 397
+                              }
+                            ],
+                            "isDataEntry": true,
+                            "captionText": false,
+                            "dgUniqueID": 2,
+                            "row": 1,
+                            "column": 1,
+                            "level": 1,
+                            "state": {
+                              "hidden": true
+                            },
+                            "mediaType": "single",
+                            "isTableDataEntry": true,
+                            "promt": "Title",
+                            "createdBy": "dataglance",
+                            "createdDate": "2023-05-17T10:46:15.869Z",
+                            "updatedBy": "dataglance",
+                            "updatedDate": "2023-05-17T10:46:15.893Z"
+                          }]
+                        },
+                        {
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "entry": [
+                        {
+                          "children": []
+                        },
+                        {
+                          "children": [
+                            {
+                              "choice": [],
+                              "alarm": [],
+                              "rule": [],
+                              "data": [],
+                              "prompt": "<b style=\"\"><font size=\"5\">Procedure Maintenance</font></b>",
+                              "fieldName": "LabelDataEntry",
+                              "fieldNameUpdated": true,
+                              "required": false,
+                              "dataType": "label",
+                              "dgType": "LabelDataEntry",
+                              "isDataEntry": false,
+                              "showLabel": false,
+                              "dataEntrySize": 100,
+                              "isTableDataEntry": true,
+                              "isDefaultTableAdd": true,
+                              "dgUniqueID": 4,
+                              "row": 2,
+                              "column": 2,
+                              "promt": "Title",
+                              "editorOpened": false,
+                              "createdBy": "dataglance",
+                              "createdDate": "2023-05-17T10:46:23.415Z",
+                              "updatedBy": "dataglance",
+                              "updatedDate": "2023-05-17T10:46:23.415Z",
+                              "isHtmlText": true
+                            }
+                          ]
+                        },
+                        {
+                          "children": []
+                        }
+                      ],
+                      "createdBy": "dataglance",
+                      "createdDate": "2023-05-17T10:46:23.325Z",
+                      "updatedBy": "dataglance",
+                      "updatedDate": "2023-05-17T10:46:23.325Z"
+                    },
+                    {
+                      "entry": [
+                        {
+                          "children": []
+                        },
+                        {
+                          "children": [
+                            {
+                              "data": [],
+                              "prompt": "",
+                              "dgType": "TitleEntry",
+                              "dataEntrySize": 100,
+                              "dataType": "Text",
+                              "isTableDataEntry": true,
+                              "fieldName": "TitleEntry",
+                              "fieldNameUpdated": true,
+                              "isDefaultTableAdd": true,
+                              "dgUniqueID": 5,
+                              "row": 3,
+                              "column": 2,
+                              "promt": "Title"
+                            }
+                          ]
+                        },
+                        {
+                          "children": []
+                        }
+                      ],
+                      "createdBy": "dataglance",
+                      "createdDate": "2023-05-17T10:46:30.423Z",
+                      "updatedBy": "dataglance",
+                      "updatedDate": "2023-05-17T10:46:30.423Z"
+                    },
+                    {
+                      "entry": [
+                        {
+                          "children": []
+                        },
+                        {
+                          "children": [
+                            {
+                              "data": [],
+                              "prompt": "",
+                              "dataEntrySize": 100,
+                              "dataType": "Text",
+                              "dgType": "NumberEntry",
+                              "isTableDataEntry": true,
+                              "fieldName": "NumberEntry",
+                              "fieldNameUpdated": true,
+                              "isDefaultTableAdd": true,
+                              "dgUniqueID": 6,
+                              "row": 4,
+                              "column": 2,
+                              "promt": "Title"
+                            }
+                          ]
+                        },
+                        {
+                          "children": []
+                        }
+                      ],
+                      "createdBy": "dataglance",
+                      "createdDate": "2023-05-17T10:46:32.393Z",
+                      "updatedBy": "dataglance",
+                      "updatedDate": "2023-05-17T10:46:32.393Z"
+                    },
+                    {
+                      "entry": [
+                        {
+                          "children": []
+                        },
+                        {
+                          "children": [
+                            {
+                              "data": [],
+                              "prompt": "",
+                              "dgType": "Revision",
+                              "dataEntrySize": 100,
+                              "dataType": "Text",
+                              "isTableDataEntry": true,
+                              "fieldName": "Revision",
+                              "fieldNameUpdated": true,
+                              "isDefaultTableAdd": true,
+                              "dgUniqueID": 7,
+                              "row": 5,
+                              "column": 2,
+                              "promt": "Title"
+                            }
+                          ]
+                        },
+                        {
+                          "children": []
+                        }
+                      ],
+                      "createdBy": "dataglance",
+                      "createdDate": "2023-05-17T10:46:37.500Z",
+                      "updatedBy": "dataglance",
+                      "updatedDate": "2023-05-17T10:46:37.500Z"
+                    },
+                    {
+                      "entry": [
+                        {
+                          "children": []
+                        },
+                        {
+                          "children": [
+                            {
+                              "data": [],
+                              "prompt": "",
+                              "dgType": "Objective",
+                              "dataEntrySize": 100,
+                              "dataType": "Text",
+                              "isTableDataEntry": true,
+                              "fieldName": "Objective",
+                              "fieldNameUpdated": true,
+                              "isDefaultTableAdd": true,
+                              "dgUniqueID": 8,
+                              "row": 6,
+                              "column": 2,
+                              "promt": "Title"
+                            }
+                          ]
+                        },
+                        {
+                          "children": []
+                        }
+                      ],
+                      "createdBy": "dataglance",
+                      "createdDate": "2023-05-17T10:46:41.734Z",
+                      "updatedBy": "dataglance",
+                      "updatedDate": "2023-05-17T10:46:41.734Z"
+                    },
+                    {
+                      "entry": [
+                        {
+                          "children": []
+                        },
+                        {
+                          "children": [
+                            {
+                              "data": [],
+                              "prompt": "",
+                              "dgType": "Usage",
+                              "dataEntrySize": 100,
+                              "dataType": "Text",
+                              "isTableDataEntry": true,
+                              "fieldName": "Usage",
+                              "fieldNameUpdated": true,
+                              "isDefaultTableAdd": true,
+                              "dgUniqueID": 10,
+                              "row": 7,
+                              "column": 2,
+                              "promt": "Title"
+                            }
+                          ]
+                        },
+                        {
+                          "children": []
+                        }
+                      ],
+                      "createdBy": "dataglance",
+                      "createdDate": "2023-05-17T10:47:09.277Z",
+                      "updatedBy": "dataglance",
+                      "updatedDate": "2023-05-17T10:47:09.277Z"
+                    },
+                    {
+                      "entry": [
+                        {
+                          "children": []
+                        },
+                        {
+                          "children": [
+                            {
+                              "data": [],
+                              "prompt": "",
+                              "dgType": "Unit",
+                              "dataEntrySize": 100,
+                              "dataType": "Text",
+                              "isTableDataEntry": true,
+                              "fieldName": "Unit",
+                              "fieldNameUpdated": true,
+                              "isDefaultTableAdd": true,
+                              "dgUniqueID": 11,
+                              "row": 8,
+                              "column": 2,
+                              "promt": "Title"
+                            }
+                          ]
+                        },
+                        {
+                          "children": []
+                        }
+                      ],
+                      "createdBy": "dataglance",
+                      "createdDate": "2023-05-17T10:47:12.436Z",
+                      "updatedBy": "dataglance",
+                      "updatedDate": "2023-05-17T10:47:12.436Z"
+                    },
+                    {
+                      "entry": [
+                        {
+                          "children": []
+                        },
+                        {
+                          "children": []
+                        },
+                        {
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "entry": [
+                        {
+                          "children": [
+                            {
+                              "data": [],
+                              "prompt": "",
+                              "dgType": "Approver",
+                              "dataEntrySize": 100,
+                              "dataType": "Text",
+                              "isTableDataEntry": true,
+                              "fieldName": "Approver",
+                              "fieldNameUpdated": true,
+                              "isDefaultTableAdd": true,
+                              "dgUniqueID": 12,
+                              "row": 10,
+                              "column": 1,
+                              "promt": "Title"
+                            }
+                          ]
+                        },
+                        {
+                          "children": [
+                            {
+                              "data": [],
+                              "prompt": "",
+                              "dgType": "Reviewer",
+                              "dataEntrySize": 100,
+                              "dataType": "Text",
+                              "isTableDataEntry": true,
+                              "fieldName": "Reviewer",
+                              "fieldNameUpdated": true,
+                              "isDefaultTableAdd": true,
+                              "dgUniqueID": 13,
+                              "row": 10,
+                              "column": 2,
+                              "promt": "Title"
+                            }
+                          ]
+                        },
+                        {
+                          "children": [
+                            {
+                              "data": [],
+                              "prompt": "",
+                              "dgType": "Author",
+                              "dataEntrySize": 100,
+                              "dataType": "Text",
+                              "isTableDataEntry": true,
+                              "fieldName": "Author",
+                              "fieldNameUpdated": true,
+                              "isDefaultTableAdd": true,
+                              "dgUniqueID": 14,
+                              "row": 10,
+                              "column": 3,
+                              "promt": "Title"
+                            }
+                          ]
+                        }
+                      ],
+                      "createdBy": "dataglance",
+                      "createdDate": "2023-05-17T10:47:33.434Z",
+                      "updatedBy": "dataglance",
+                      "updatedDate": "2023-05-17T10:47:33.434Z"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "dgUniqueID": "",
+          "dgType": "CALSTable"
+        }
+      ],
+      "isDataEntry": true,
+      "maxTableColumn": 4,
+      "columnSize": 4,
+      "rowSize": 10,
+      "level": null
+    },
+
+    "template-3": {
+      "prompt": "",
+      "dataType": "table",
+      "tableName": "Table1",
+      "tableNameUpdated": true,
+      "captionText": "",
+      "captionPosition": "top",
+      "colorhead": "#ccc",
+      "tableNo": 0,
+      "withoutHeaders": true,
+      "withoutLines": false,
+      "referenceOnly": false,
+      "selectTable": false,
+      "tableDataEntry": false,
+      "coverPageTable": true,
+      "dgType": "Form",
+      "calstable": [
+        {
+          "table": {
+            "tgroup": {
+              "colspec": [],
+              "thead": [
+                {
+                  "columnSize": 33.33,
+                  "fieldName": "Column1",
+                  "align": "left",
+                  "position": 1
+                },
+                {
+                  "columnSize": 33.33,
+                  "fieldName": "Column2",
+                  "align": "left",
+                  "position": 2
+                },
+                {
+                  "columnSize": 13.13,
+                  "fieldName": "Column3",
+                  "align": "left",
+                  "position": 3
+                }
+              ],
+              "tfoot": [],
+              "tbody": [
+                {
+                  "row": [
+                    {
+                      "entry": [
+                        {
+                          "children": [
+                            {
+                              "caption": "",
+                              "dgType": "Figures",
+                              "type": "media",
+                              "dataType": "image",
+                              "subType": "",
+                              "name": "image",
+                              "label": "Figure",
+                              "images": [
+                                {
+                                  "fileName": "DataGlancePng.png",
+                                  "dgUniqueID": "3",
+                                  "dgType": "Figure",
+                                  "name": "DataGlancePng.png",
+                                  "source": "Local",
+                                  "caption": "",
+                                  "fileType": "Image",
+                                  "action": 8100,
+                                  "type": "builder",
+                                  "typeImage": "section",
+                                  "align": "left",
+                                  "isTableDataEntry": true,
+                                  "mediaType": "single",
+                                  "resolution": "true",
+                                  "mediaUrl": "assets/cbp/images/DataGlancePng.png",
+                                  "height": 71,
+                                  "width": 397
+                                }
+                              ],
+                              "isDataEntry": true,
+                              "captionText": false,
+                              "dgUniqueID": 4,
+                              "row": 1,
+                              "column": 3,
+                              "level": 1,
+                              "state": {
+                                "hidden": true
+                              },
+                              "mediaType": "single",
+                              "isTableDataEntry": true,
+                              "promt": "Title",
+                              "createdBy": "dataglance",
+                              "createdDate": "2023-05-17T11:09:29.376Z",
+                              "updatedBy": "dataglance",
+                              "updatedDate": "2023-05-17T11:27:19.322Z"
+                            }
+                          ]
+                        },
+                        {
+                          "children": []
+                        },
+                        {
+                          "children": [
+                            
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "entry": [
+                        {
+                          "children": [
+                             {
+                              "choice": [],
+                              "alarm": [],
+                              "rule": [],
+                              "data": [],
+                              "prompt": "<b style=\"\"><font size=\"5\">Procedure Maintenance</font></b>",
+                              "fieldName": "LabelDataEntry",
+                              "fieldNameUpdated": true,
+                              "required": false,
+                              "dataType": "label",
+                              "dgType": "LabelDataEntry",
+                              "isDataEntry": false,
+                              "showLabel": false,
+                              "dataEntrySize": 100,
+                              "isTableDataEntry": true,
+                              "isDefaultTableAdd": true,
+                              "dgUniqueID": 4,
+                              "row": 2,
+                              "column": 1,
+                              "promt": "Title",
+                              "editorOpened": false,
+                              "createdBy": "dataglance",
+                              "createdDate": "2023-05-17T10:49:33.179Z",
+                              "updatedBy": "dataglance",
+                              "updatedDate": "2023-05-17T10:49:33.179Z",
+                              "isHtmlText": true
+                            }
+                          ]
+                        },
+                        {
+                          "children": []
+                        },
+                        {
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "entry": [
+                        {
+                          "children": [
+                            {
+                              "choice": [],
+                              "alarm": [],
+                              "rule": [],
+                              "data": [],
+                              "prompt": "<b style=\"\"><font size=\"3\"> Title :</font></b>",
+                              "fieldName": "LabelDataEntry",
+                              "fieldNameUpdated": true,
+                              "required": false,
+                              "dataType": "label",
+                              "dgType": "LabelDataEntry",
+                              "isDataEntry": false,
+                              "showLabel": false,
+                              "dataEntrySize": 100,
+                              "isTableDataEntry": true,
+                              "isDefaultTableAdd": true,
+                              "dgUniqueID": 13,
+                              "row": 3,
+                              "column": 1,
+                              "promt": "Title",
+                              "editorOpened": false,
+                              "createdBy": "dataglance",
+                              "createdDate": "2023-05-17T11:17:32.372Z",
+                              "updatedBy": "dataglance",
+                              "updatedDate": "2023-05-17T11:17:32.372Z",
+                              "isHtmlText": true
+                            }
+                          ]
+                        },
+                        {
+                          "children": [
+                            {
+                              "data": [],
+                              "prompt": "",
+                              "dgType": "TitleEntry",
+                              "dataEntrySize": 100,
+                              "dataType": "Text",
+                              "isTableDataEntry": true,
+                              "fieldName": "TitleEntry",
+                              "fieldNameUpdated": true,
+                              "isDefaultTableAdd": true,
+                              "dgUniqueID": 14,
+                              "row": 3,
+                              "column": 2,
+                              "promt": "Title"
+                            }
+                          ]
+                        },
+                        {
+                          "children": [
+                            {
+                              "choice": [],
+                              "alarm": [],
+                              "rule": [],
+                              "data": [],
+                              "prompt": "<b style=\"\"><font size=\"3\">Approver</font></b>",
+                              "fieldName": "LabelDataEntry",
+                              "fieldNameUpdated": true,
+                              "required": false,
+                              "dataType": "label",
+                              "dgType": "LabelDataEntry",
+                              "isDataEntry": false,
+                              "showLabel": false,
+                              "dataEntrySize": 100,
+                              "isTableDataEntry": true,
+                              "isDefaultTableAdd": true,
+                              "dgUniqueID": 7,
+                              "row": 3,
+                              "column": 3,
+                              "promt": "Title",
+                              "editorOpened": false,
+                              "createdBy": "dataglance",
+                              "createdDate": "2023-05-17T11:10:12.914Z",
+                              "updatedBy": "dataglance",
+                              "updatedDate": "2023-05-17T11:10:12.914Z",
+                              "isHtmlText": true
+                            }
+                          ]
+                        }
+                      ],
+                      "createdBy": "dataglance",
+                      "createdDate": "2023-05-17T11:18:47.985Z",
+                      "updatedBy": "dataglance",
+                      "updatedDate": "2023-05-17T11:18:47.985Z"
+                    },
+                    {
+                      "entry": [
+                        {
+                          "children": []
+                        },
+                        {
+                          "children": []
+                        },
+                        {
+                          "children": [
+                            {
+                              "data": [],
+                              "prompt": "",
+                              "dgType": "Approver",
+                              "dataEntrySize": 100,
+                              "dataType": "Text",
+                              "isTableDataEntry": true,
+                              "fieldName": "Approver",
+                              "fieldNameUpdated": true,
+                              "isDefaultTableAdd": true,
+                              "dgUniqueID": 6,
+                              "row": 4,
+                              "column": 3,
+                              "promt": "Title"
+                            }
+                          ]
+                        }
+                      ],
+                      "createdBy": "dataglance",
+                      "createdDate": "2023-05-17T11:20:39.714Z",
+                      "updatedBy": "dataglance",
+                      "updatedDate": "2023-05-17T11:20:39.714Z"
+                    },
+                    {
+                      "entry": [
+                        {
+                          "children": [
+                            {
+                              "choice": [],
+                              "alarm": [],
+                              "rule": [],
+                              "data": [],
+                              "prompt": "<b style=\"\"><font size=\"3\">Document nbr</font><font size=\"2\"> :</font></b>",
+                              "fieldName": "LabelDataEntry",
+                              "fieldNameUpdated": true,
+                              "required": false,
+                              "dataType": "label",
+                              "dgType": "LabelDataEntry",
+                              "isDataEntry": false,
+                              "showLabel": false,
+                              "dataEntrySize": 100,
+                              "isTableDataEntry": true,
+                              "isDefaultTableAdd": true,
+                              "dgUniqueID": 16,
+                              "row": 5,
+                              "column": 1,
+                              "promt": "Title",
+                              "editorOpened": false,
+                              "createdBy": "dataglance",
+                              "createdDate": "2023-05-17T11:20:59.719Z",
+                              "updatedBy": "dataglance",
+                              "updatedDate": "2023-05-17T11:20:59.719Z",
+                              "isHtmlText": true
+                            }
+                          ]
+                        },
+                        {
+                          "children": [
+                            {
+                              "data": [],
+                              "prompt": "",
+                              "dataEntrySize": 100,
+                              "dataType": "Text",
+                              "dgType": "NumberEntry",
+                              "isTableDataEntry": true,
+                              "fieldName": "NumberEntry",
+                              "fieldNameUpdated": true,
+                              "isDefaultTableAdd": true,
+                              "dgUniqueID": 17,
+                              "row": 5,
+                              "column": 2,
+                              "promt": "Title"
+                            }
+                          ]
+                        },
+                        {
+                          "children": [
+                            {
+                              "choice": [],
+                              "alarm": [],
+                              "rule": [],
+                              "data": [],
+                              "prompt": "<b style=\"\"><font size=\"3\">Reviewer</font></b>",
+                              "fieldName": "LabelDataEntry",
+                              "fieldNameUpdated": true,
+                              "required": false,
+                              "dataType": "label",
+                              "dgType": "LabelDataEntry",
+                              "isDataEntry": false,
+                              "showLabel": false,
+                              "dataEntrySize": 100,
+                              "isTableDataEntry": true,
+                              "isDefaultTableAdd": true,
+                              "dgUniqueID": 10,
+                              "row": 5,
+                              "column": 3,
+                              "promt": "Title",
+                              "editorOpened": false,
+                              "createdBy": "dataglance",
+                              "createdDate": "2023-05-17T11:11:02.429Z",
+                              "updatedBy": "dataglance",
+                              "updatedDate": "2023-05-17T11:11:02.429Z",
+                              "isHtmlText": true
+                            }
+                          ]
+                        }
+                      ],
+                      "createdBy": "dataglance",
+                      "createdDate": "2023-05-17T11:21:59.556Z",
+                      "updatedBy": "dataglance",
+                      "updatedDate": "2023-05-17T11:21:59.556Z"
+                    },
+                    {
+                      "entry": [
+                        {
+                          "children": []
+                        },
+                        {
+                          "children": []
+                        },
+                        {
+                          "children": [
+                            {
+                              "data": [],
+                              "prompt": "",
+                              "dgType": "Reviewer",
+                              "dataEntrySize": 100,
+                              "dataType": "Text",
+                              "isTableDataEntry": true,
+                              "fieldName": "Reviewer",
+                              "fieldNameUpdated": true,
+                              "isDefaultTableAdd": true,
+                              "dgUniqueID": 8,
+                              "row": 6,
+                              "column": 3,
+                              "promt": "Title"
+                            }
+                          ]
+                        }
+                      ],
+                      "createdBy": "dataglance",
+                      "createdDate": "2023-05-17T11:10:50.603Z",
+                      "updatedBy": "dataglance",
+                      "updatedDate": "2023-05-17T11:10:50.603Z"
+                    },
+                    {
+                      "entry": [
+                        {
+                          "children": [
+                            {
+                              "choice": [],
+                              "alarm": [],
+                              "rule": [],
+                              "data": [],
+                              "prompt": "<b style=\"\"><font size=\"3\">Revision :</font></b>",
+                              "fieldName": "LabelDataEntry",
+                              "fieldNameUpdated": true,
+                              "required": false,
+                              "dataType": "label",
+                              "dgType": "LabelDataEntry",
+                              "isDataEntry": false,
+                              "showLabel": false,
+                              "dataEntrySize": 100,
+                              "isTableDataEntry": true,
+                              "isDefaultTableAdd": true,
+                              "dgUniqueID": 19,
+                              "row": 7,
+                              "column": 1,
+                              "promt": "Title",
+                              "editorOpened": false,
+                              "createdBy": "dataglance",
+                              "createdDate": "2023-05-17T11:22:39.760Z",
+                              "updatedBy": "dataglance",
+                              "updatedDate": "2023-05-17T11:22:39.760Z",
+                              "isHtmlText": true
+                            }
+                          ]
+                        },
+                        {
+                          "children": [
+                            {
+                              "data": [],
+                              "prompt": "",
+                              "dgType": "Revision",
+                              "dataEntrySize": 100,
+                              "dataType": "Text",
+                              "isTableDataEntry": true,
+                              "fieldName": "Revision",
+                              "fieldNameUpdated": true,
+                              "isDefaultTableAdd": true,
+                              "dgUniqueID": 21,
+                              "row": 7,
+                              "column": 2,
+                              "promt": "Title"
+                            }
+                          ]
+                        },
+                        {
+                          "children": [
+                            {
+                              "choice": [],
+                              "alarm": [],
+                              "rule": [],
+                              "data": [],
+                              "prompt": "<b style=\"\"><font size=\"3\">Author</font></b>",
+                              "fieldName": "LabelDataEntry",
+                              "fieldNameUpdated": true,
+                              "required": false,
+                              "dataType": "label",
+                              "dgType": "LabelDataEntry",
+                              "isDataEntry": false,
+                              "showLabel": false,
+                              "dataEntrySize": 100,
+                              "isTableDataEntry": true,
+                              "isDefaultTableAdd": true,
+                              "dgUniqueID": 11,
+                              "row": 7,
+                              "column": 3,
+                              "promt": "Title",
+                              "editorOpened": false,
+                              "createdBy": "dataglance",
+                              "createdDate": "2023-05-17T11:11:05.607Z",
+                              "updatedBy": "dataglance",
+                              "updatedDate": "2023-05-17T11:11:05.607Z",
+                              "isHtmlText": true
+                            }
+                          ]
+                        }
+                      ],
+                      "createdBy": "dataglance",
+                      "createdDate": "2023-05-17T11:22:56.920Z",
+                      "updatedBy": "dataglance",
+                      "updatedDate": "2023-05-17T11:22:56.920Z"
+                    },
+                    {
+                      "entry": [
+                        {
+                          "children": []
+                        },
+                        {
+                          "children": []
+                        },
+                        {
+                          "children": [
+                            {
+                              "data": [],
+                              "prompt": "",
+                              "dgType": "Author",
+                              "dataEntrySize": 100,
+                              "dataType": "Text",
+                              "isTableDataEntry": true,
+                              "fieldName": "Author",
+                              "fieldNameUpdated": true,
+                              "isDefaultTableAdd": true,
+                              "dgUniqueID": 9,
+                              "row": 8,
+                              "column": 3,
+                              "promt": "Title"
+                            }
+                          ]
+                        }
+                      ],
+                      "createdBy": "dataglance",
+                      "createdDate": "2023-05-17T11:11:07.331Z",
+                      "updatedBy": "dataglance",
+                      "updatedDate": "2023-05-17T11:11:07.331Z"
+                    },
+                    {
+                      "entry": [
+                        {
+                          "children": [
+                            {
+                              "choice": [],
+                              "alarm": [],
+                              "rule": [],
+                              "data": [],
+                              "prompt": "<font size=\"2\"><b>Objective :</b></font>",
+                              "fieldName": "LabelDataEntry",
+                              "fieldNameUpdated": true,
+                              "required": false,
+                              "dataType": "label",
+                              "dgType": "LabelDataEntry",
+                              "isDataEntry": false,
+                              "showLabel": false,
+                              "dataEntrySize": 100,
+                              "isTableDataEntry": true,
+                              "isDefaultTableAdd": true,
+                              "dgUniqueID": 20,
+                              "row": 9,
+                              "column": 1,
+                              "promt": "Title",
+                              "editorOpened": false,
+                              "createdBy": "dataglance",
+                              "createdDate": "2023-05-17T11:22:42.105Z",
+                              "updatedBy": "dataglance",
+                              "updatedDate": "2023-05-17T11:22:42.105Z",
+                              "isHtmlText": true
+                            }
+                          ]
+                        },
+                        {
+                          "children": [
+                            {
+                              "data": [],
+                              "prompt": "",
+                              "dgType": "Objective",
+                              "dataEntrySize": 100,
+                              "dataType": "Text",
+                              "isTableDataEntry": true,
+                              "fieldName": "Objective",
+                              "fieldNameUpdated": true,
+                              "isDefaultTableAdd": true,
+                              "dgUniqueID": 22,
+                              "row": 9,
+                              "column": 2,
+                              "promt": "Title"
+                            }
+                          ]
+                        },
+                        {
+                          "children": []
+                        }
+                      ],
+                      "createdBy": "dataglance",
+                      "createdDate": "2023-05-17T11:23:08.376Z",
+                      "updatedBy": "dataglance",
+                      "updatedDate": "2023-05-17T11:23:08.376Z"
+                    },
+                    {
+                      "entry": [
+                        {
+                          "children": []
+                        },
+                        {
+                          "children": []
+                        },
+                        {
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "entry": [
+                        {
+                          "children": []
+                        },
+                        {
+                          "children": []
+                        },
+                        {
+                          "children": []
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "dgUniqueID": "",
+          "dgType": "CALSTable"
+        }
+      ],
+      "isDataEntry": true,
+      "maxTableColumn": 4,
+      "columnSize": 4,
+      "rowSize": 10,
+      "level": null,
+      "columnProperties": []
+
+    },
+    "template-4": {
+      "prompt": "",
+      "dataType": "table",
+      "tableName": "Table1",
+      "tableNameUpdated": true,
+      "captionText": "",
+      "captionPosition": "top",
+      "colorhead": "#ccc",
+      "tableNo": 0,
+      "withoutHeaders": true,
+      "withoutLines": true,
+      "referenceOnly": false,
+      "selectTable": false,
+      "tableDataEntry": false,
+      "coverPageTable": true,
+      "dgType": "Form",
+      "calstable": [
+        {
+          "table": {
+            "tgroup": {
+              "colspec": [],
+              "thead": [
+                {
+                  "columnSize": 33.33,
+                  "fieldName": "Column1",
+                  "align": "left",
+                  "position": 1
+                },
+                {
+                  "columnSize": 33.33,
+                  "fieldName": "Column2",
+                  "align": "left",
+                  "position": 2
+                },
+                {
+                  "columnSize": 33.33,
+                  "fieldName": "Column3",
+                  "align": "left",
+                  "position": 3
+                }
+              ],
+              "tfoot": [],
+              "tbody": [
+                {
+                  "row": [
+                    {
+                      "entry": [
+                        {
+                          "children": []
+                        },
+                        {
+                          "children": []
+                        },
+                        {
+                          "children": [
+                            {
+                              "caption": "",
+                              "dgType": "Figures",
+                              "type": "media",
+                              "dataType": "image",
+                              "subType": "",
+                              "name": "image",
+                              "label": "Figure",
+                              "images": [
+                                {
+                                  "fileName": "DataGlancePng.png",
+                                  "dgUniqueID": "3",
+                                  "dgType": "Figure",
+                                  "name": "DataGlancePng.png",
+                                  "source": "Local",
+                                  "caption": "",
+                                  "fileType": "Image",
+                                  "action": 8100,
+                                  "type": "builder",
+                                  "typeImage": "section",
+                                  "align": "left",
+                                  "isTableDataEntry": true,
+                                  "mediaType": "single",
+                                  "resolution": "true",
+                                  "mediaUrl": "assets/cbp/images/DataGlancePng.png",
+                                  "height": 71,
+                                  "width": 397
+                                }
+                              ],
+                              "isDataEntry": true,
+                              "captionText": false,
+                              "dgUniqueID": 14,
+                              "row": 1,
+                              "column": 3,
+                              "level": 1,
+                              "state": {
+                                "hidden": true
+                              },
+                              "mediaType": "single",
+                              "isTableDataEntry": true,
+                              "promt": "Title",
+                              "createdBy": "dataglance",
+                              "createdDate": "2023-05-17T10:50:28.300Z",
+                              "updatedBy": "dataglance",
+                              "updatedDate": "2023-05-17T10:50:28.318Z"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "entry": [
+                        {
+                          "children": [
+                            {
+                              "choice": [],
+                              "alarm": [],
+                              "rule": [],
+                              "data": [],
+                              "prompt": "<b style=\"\"><font size=\"5\">Procedure Maintenance</font></b>",
+                              "fieldName": "LabelDataEntry",
+                              "fieldNameUpdated": true,
+                              "required": false,
+                              "dataType": "label",
+                              "dgType": "LabelDataEntry",
+                              "isDataEntry": false,
+                              "showLabel": false,
+                              "dataEntrySize": 100,
+                              "isTableDataEntry": true,
+                              "isDefaultTableAdd": true,
+                              "dgUniqueID": 4,
+                              "row": 2,
+                              "column": 1,
+                              "promt": "Title",
+                              "editorOpened": false,
+                              "createdBy": "dataglance",
+                              "createdDate": "2023-05-17T10:49:33.179Z",
+                              "updatedBy": "dataglance",
+                              "updatedDate": "2023-05-17T10:49:33.179Z",
+                              "isHtmlText": true
+                            }
+                          ]
+                        },
+                        {
+                          "children": []
+                        },
+                        {
+                          "children": []
+                        }
+                      ],
+                      "createdBy": "dataglance",
+                      "createdDate": "2023-05-17T10:49:33.083Z",
+                      "updatedBy": "dataglance",
+                      "updatedDate": "2023-05-17T10:49:33.083Z"
+                    },
+                    {
+                      "entry": [
+                        {
+                          "children": [
+                            {
+                              "data": [],
+                              "prompt": "",
+                              "dgType": "TitleEntry",
+                              "dataEntrySize": 100,
+                              "dataType": "Text",
+                              "isTableDataEntry": true,
+                              "fieldName": "TitleEntry",
+                              "fieldNameUpdated": true,
+                              "isDefaultTableAdd": true,
+                              "dgUniqueID": 5,
+                              "row": 3,
+                              "column": 1,
+                              "promt": "Title"
+                            }
+                          ]
+                        },
+                        {
+                          "children": []
+                        },
+                        {
+                          "children": []
+                        }
+                      ],
+                      "createdBy": "dataglance",
+                      "createdDate": "2023-05-17T10:49:40.418Z",
+                      "updatedBy": "dataglance",
+                      "updatedDate": "2023-05-17T10:49:40.418Z"
+                    },
+                    {
+                      "entry": [
+                        {
+                          "children": [
+                            {
+                              "data": [],
+                              "prompt": "",
+                              "dataEntrySize": 100,
+                              "dataType": "Text",
+                              "dgType": "NumberEntry",
+                              "isTableDataEntry": true,
+                              "fieldName": "NumberEntry",
+                              "fieldNameUpdated": true,
+                              "isDefaultTableAdd": true,
+                              "dgUniqueID": 6,
+                              "row": 4,
+                              "column": 1,
+                              "promt": "Title"
+                            }
+                          ]
+                        },
+                        {
+                          "children": []
+                        },
+                        {
+                          "children": []
+                        }
+                      ],
+                      "createdBy": "dataglance",
+                      "createdDate": "2023-05-17T10:49:42.223Z",
+                      "updatedBy": "dataglance",
+                      "updatedDate": "2023-05-17T10:49:42.223Z"
+                    },
+                    {
+                      "entry": [
+                        {
+                          "children": [
+                            {
+                              "data": [],
+                              "prompt": "",
+                              "dgType": "Revision",
+                              "dataEntrySize": 100,
+                              "dataType": "Text",
+                              "isTableDataEntry": true,
+                              "fieldName": "Revision",
+                              "fieldNameUpdated": true,
+                              "isDefaultTableAdd": true,
+                              "dgUniqueID": 7,
+                              "row": 5,
+                              "column": 1,
+                              "promt": "Title"
+                            }
+                          ]
+                        },
+                        {
+                          "children": []
+                        },
+                        {
+                          "children": []
+                        }
+                      ],
+                      "createdBy": "dataglance",
+                      "createdDate": "2023-05-17T10:49:46.706Z",
+                      "updatedBy": "dataglance",
+                      "updatedDate": "2023-05-17T10:49:46.706Z"
+                    },
+                    {
+                      "entry": [
+                        {
+                          "children": [
+                            {
+                              "data": [],
+                              "prompt": "",
+                              "dgType": "Objective",
+                              "dataEntrySize": 100,
+                              "dataType": "Text",
+                              "isTableDataEntry": true,
+                              "fieldName": "Objective",
+                              "fieldNameUpdated": true,
+                              "isDefaultTableAdd": true,
+                              "dgUniqueID": 8,
+                              "row": 6,
+                              "column": 1,
+                              "promt": "Title"
+                            }
+                          ]
+                        },
+                        {
+                          "children": []
+                        },
+                        {
+                          "children": []
+                        }
+                      ],
+                      "createdBy": "dataglance",
+                      "createdDate": "2023-05-17T10:49:48.529Z",
+                      "updatedBy": "dataglance",
+                      "updatedDate": "2023-05-17T10:49:48.529Z"
+                    },
+                    {
+                      "entry": [
+                        {
+                          "children": [
+                            {
+                              "data": [],
+                              "prompt": "",
+                              "dgType": "Usage",
+                              "dataEntrySize": 100,
+                              "dataType": "Text",
+                              "isTableDataEntry": true,
+                              "fieldName": "Usage",
+                              "fieldNameUpdated": true,
+                              "isDefaultTableAdd": true,
+                              "dgUniqueID": 9,
+                              "row": 7,
+                              "column": 1,
+                              "promt": "Title"
+                            }
+                          ]
+                        },
+                        {
+                          "children": []
+                        },
+                        {
+                          "children": []
+                        }
+                      ],
+                      "createdBy": "dataglance",
+                      "createdDate": "2023-05-17T10:49:56.712Z",
+                      "updatedBy": "dataglance",
+                      "updatedDate": "2023-05-17T10:49:56.712Z"
+                    },
+                    {
+                      "entry": [
+                        {
+                          "children": [
+                            {
+                              "data": [],
+                              "prompt": "",
+                              "dgType": "Unit",
+                              "dataEntrySize": 100,
+                              "dataType": "Text",
+                              "isTableDataEntry": true,
+                              "fieldName": "Unit",
+                              "fieldNameUpdated": true,
+                              "isDefaultTableAdd": true,
+                              "dgUniqueID": 10,
+                              "row": 8,
+                              "column": 1,
+                              "promt": "Title"
+                            }
+                          ]
+                        },
+                        {
+                          "children": []
+                        },
+                        {
+                          "children": []
+                        }
+                      ],
+                      "createdBy": "dataglance",
+                      "createdDate": "2023-05-17T10:50:00.669Z",
+                      "updatedBy": "dataglance",
+                      "updatedDate": "2023-05-17T10:50:00.669Z"
+                    },
+                    {
+                      "entry": [
+                        {
+                          "children": [
+                            {
+                              "choice": [],
+                              "alarm": [],
+                              "rule": [],
+                              "data": [],
+                              "prompt": "<b style=\"\"><font size=\"3\">     Approver</font></b>",
+                              "fieldName": "LabelDataEntry",
+                              "fieldNameUpdated": true,
+                              "required": false,
+                              "dataType": "label",
+                              "dgType": "LabelDataEntry",
+                              "isDataEntry": false,
+                              "showLabel": false,
+                              "dataEntrySize": 100,
+                              "isTableDataEntry": true,
+                              "isDefaultTableAdd": true,
+                              "dgUniqueID": 16,
+                              "row": 9,
+                              "column": 1,
+                              "promt": "Title",
+                              "editorOpened": false,
+                              "createdBy": "dataglance",
+                              "createdDate": "2023-05-17T10:51:41.205Z",
+                              "updatedBy": "dataglance",
+                              "updatedDate": "2023-05-17T10:51:41.205Z",
+                              "isHtmlText": true
+                            }
+                          ]
+                        },
+                        {
+                          "children": [
+                            {
+                              "choice": [],
+                              "alarm": [],
+                              "rule": [],
+                              "data": [],
+                              "prompt": "<b style=\"\"><font size=\"3\">     Reviewer</font></b>",
+                              "fieldName": "LabelDataEntry",
+                              "fieldNameUpdated": true,
+                              "required": false,
+                              "dataType": "label",
+                              "dgType": "LabelDataEntry",
+                              "isDataEntry": false,
+                              "showLabel": false,
+                              "dataEntrySize": 100,
+                              "isTableDataEntry": true,
+                              "isDefaultTableAdd": true,
+                              "dgUniqueID": 17,
+                              "row": 9,
+                              "column": 2,
+                              "promt": "Title",
+                              "editorOpened": false,
+                              "createdBy": "dataglance",
+                              "createdDate": "2023-05-17T10:51:45.556Z",
+                              "updatedBy": "dataglance",
+                              "updatedDate": "2023-05-17T10:51:45.556Z",
+                              "isHtmlText": true
+                            }
+                          ]
+                        },
+                        {
+                          "children": [
+                            {
+                              "choice": [],
+                              "alarm": [],
+                              "rule": [],
+                              "data": [],
+                              "prompt": "<b style=\"\"><font size=\"3\">   Author</font></b>",
+                              "fieldName": "LabelDataEntry",
+                              "fieldNameUpdated": true,
+                              "required": false,
+                              "dataType": "label",
+                              "dgType": "LabelDataEntry",
+                              "isDataEntry": false,
+                              "showLabel": false,
+                              "dataEntrySize": 100,
+                              "isTableDataEntry": true,
+                              "isDefaultTableAdd": true,
+                              "dgUniqueID": 18,
+                              "row": 9,
+                              "column": 3,
+                              "promt": "Title",
+                              "editorOpened": false,
+                              "createdBy": "dataglance",
+                              "createdDate": "2023-05-17T10:51:48.600Z",
+                              "updatedBy": "dataglance",
+                              "updatedDate": "2023-05-17T10:51:48.600Z",
+                              "isHtmlText": true
+                            }
+                          ]
+                        }
+                      ],
+                      "createdBy": "dataglance",
+                      "createdDate": "2023-05-17T10:51:48.574Z",
+                      "updatedBy": "dataglance",
+                      "updatedDate": "2023-05-17T10:51:48.574Z"
+                    },
+                    {
+                      "entry": [
+                        {
+                          "children": [
+                            {
+                              "data": [],
+                              "prompt": "",
+                              "dgType": "Author",
+                              "dataEntrySize": 100,
+                              "dataType": "Text",
+                              "isTableDataEntry": true,
+                              "fieldName": "Author",
+                              "fieldNameUpdated": true,
+                              "isDefaultTableAdd": true,
+                              "dgUniqueID": 11,
+                              "row": 10,
+                              "column": 1,
+                              "promt": "Title"
+                            }
+                          ]
+                        },
+                        {
+                          "children": [
+                            {
+                              "data": [],
+                              "prompt": "",
+                              "dgType": "Reviewer",
+                              "dataEntrySize": 100,
+                              "dataType": "Text",
+                              "isTableDataEntry": true,
+                              "fieldName": "Reviewer",
+                              "fieldNameUpdated": true,
+                              "isDefaultTableAdd": true,
+                              "dgUniqueID": 12,
+                              "row": 10,
+                              "column": 2,
+                              "promt": "Title"
+                            }
+                          ]
+                        },
+                        {
+                          "children": [
+                            {
+                              "data": [],
+                              "prompt": "",
+                              "dgType": "Approver",
+                              "dataEntrySize": 100,
+                              "dataType": "Text",
+                              "isTableDataEntry": true,
+                              "fieldName": "Approver",
+                              "fieldNameUpdated": true,
+                              "isDefaultTableAdd": true,
+                              "dgUniqueID": 13,
+                              "row": 10,
+                              "column": 3,
+                              "promt": "Title"
+                            }
+                          ]
+                        }
+                      ],
+                      "createdBy": "dataglance",
+                      "createdDate": "2023-05-17T10:50:09.150Z",
+                      "updatedBy": "dataglance",
+                      "updatedDate": "2023-05-17T10:50:09.150Z"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "dgUniqueID": "",
+          "dgType": "CALSTable"
+        }
+      ],
+      "isDataEntry": true,
+      "maxTableColumn": 4,
+      "columnSize": 4,
+      "rowSize": 10,
+      "level": null
+    },
+    "template-cp": {
+      "prompt": "",
+      "dataType": "table",
+      "tableName": "CoverPageTable",
+      "tableNameUpdated": true,
+      "captionText": "",
+      "captionPosition": "top",
+      "colorhead": "#ccc",
+      "tableNo": 0,
+      "withoutHeaders": true,
+      "withoutLines": true,
+      "referenceOnly": false,
+      "selectTable": false,
+      "tableDataEntry": false,
+      "coverPageTable": true,
+      "dgType": "Form",
+      "calstable": [
+        {
+          "table": {
+            "tgroup": {
+              "colspec": [],
+              "thead": [
+                {
+                  "title":"Column1",
+                  "columnSize": 100,
+                  "fieldName": "Column1",
+                  "align": "left",
+                  "position": 1
+                }
+              ],
+              "tfoot": [],
+              "tbody": [
+                {
+                  "row": [
+                    {
+                      "entry": [
+                        {
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "entry": [
+                        {
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "entry": [
+                        {
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "entry": [
+                        {
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "entry": [
+                        {
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "entry": [
+                        {
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "entry": [
+                        {
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "entry": [
+                        {
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "entry": [
+                        {
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "entry": [
+                        {
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "entry": [
+                        {
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "entry": [
+                        {
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "entry": [
+                        {
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "entry": [
+                        {
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "entry": [
+                        {
+                          "children": []
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "dgUniqueID": "1",
+          "dgType": "CALSTable"
+        }
+      ],
+      "isDataEntry": true,
+      "maxTableColumn": 1,
+      "dgUniqueID" : "0",
+      "parentDgUniqId" : "0",
+      "parentID" : "0",
+      "columnSize": 1,
+      "rowSize": 15,
+      "level": null
+    }
+    
+  }

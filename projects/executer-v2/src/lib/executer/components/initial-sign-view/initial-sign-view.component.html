@@ -1,0 +1,140 @@
+<ng-container *ngIf="!stepObject?.isTableDataEntry">
+  <lib-track-ui [field]="stepObject"></lib-track-ui>
+  <div class="row" style="padding-right: 18px;">
+    <div class="col-xs-12 col-md-4 col-lg-4 px-0 pl-2 pr-2" style="padding-top: 20px; overflow-x: auto;"
+      id="stepAno{{stepObject.dgUniqueID}}" [ngClass]="{'col-lg-8 col-md-8 col-xs-12 px-0':stepObject.nameDisplay}"
+      [ngStyle]="styleObject" (click)="cbpService.handleSelection( $event, stepObject,  'prompt' )"
+      [innerHtml]="stepObject.prompt| innerhtml">
+    </div>
+    <div class="col-xs-12 col-md-4 col-lg-4 px-2" style="padding-top: 18px;" [hidden]="stepObject.nameDisplay">
+      <ng-container *ngIf="!stepObject.nameDisplay">
+        <div style="display: flex;" class="custom-placeholder">
+          <input type="text" *ngIf="!stepObject?.innerHtmlView" class="form-control form-control-height"
+            placeholder="Enter the Name" name="textaEntry{{stepObject.dgUniqueID}}"
+            [(ngModel)]="stepObject['initialName']" id="initalInputDemo{{stepObject.dgUniqueID}}"
+            (focusout)="saveInitial(stepObject)"
+            [readonly]="((stepObject?.protect || stepObject?.showLockIcon) && stepObject.initialNameProtect) || stepObject.initialNameDisable || stepObject?.disableField" />
+          <lib-lockicon-exe [selectedElement]="stepObject" [type]="'initialName'"></lib-lockicon-exe>
+          <span class="required req" *ngIf="stepObject?.required">*</span>
+        </div>
+        <ng-container *ngIf="stepObject?.innerHtmlView">
+          <div
+            *ngIf="(!executionService.isPopupOpened) && stepObject.editorOpened && !stepObject.initialNameProtect; else textview"
+            name="TextArea" id="textbox{{stepObject.dgUniqueID}}" [ngClass]="{'black':stepObject.isTableDataEntry}"
+            style="margin-top:-6px">
+            <lib-text-editor [hidePopup]="true" [input]="stepObject.initialName" [stepObject]="stepObject"
+              [foreColor]="stepObject.color" (blur)="stepObject.editorOpened = false;saveInitial(stepObject)"
+              [config]="config" (updateTitle)="stepObject.initialName = $event;"
+              (close)="stepObject.initialName = $event;saveInitial(stepObject)">
+            </lib-text-editor>
+          </div>
+          <ng-template #textview>
+            <div class="form-control hiddens TextOverFLow" style="padding-top: 5px !important;"
+              id="textbox{{stepObject.dgUniqueID}}" [innerHtml]="stepObject.initialName | innerhtml"
+              (click)="!stepObject.initialNameDisable && stepObject.editorOpened = true;"
+              [class.dis-cols]="((stepObject?.protect || stepObject?.showLockIcon) && stepObject.initialNameProtect)|| stepObject.initialNameDisable || stepObject?.disableField"
+              [class.empty-placeholder]="!stepObject.initialName" [attr.data-placeholder]="'Enter Name'">
+            </div>
+          </ng-template>
+        </ng-container>
+        <label for="favorite-animal" class="label-color">{{stepObject.Varname}}</label>
+      </ng-container>
+    </div>
+    <div class="col-xs-12 col-md-4 col-lg-4 px-0 setZindex" style="margin-top: 0px;z-index: 9;">
+      <div style="display: flex;">
+        <div style="display: flex; width: 100%;">
+          <fieldset style="display: flex;justify-content:flex-start;" class="fieldSet"
+            (click)="!stepObject.showLockIcon && getSignatureData(stepObject, 'initialStore');"
+            [class.dis-cols]="(stepObject?.protect && stepObject.initialStore )|| stepObject?.disableField"
+            [class.disabled]="((stepObject?.protect || stepObject?.showLockIcon) && stepObject.initialStore) || stepObject?.disableField">
+            <span *ngIf="!stepObject?.initialStore || executionService.isPlaceDispaly"
+              class="sign-ex custom-placeholder" alt="">Initial</span>
+            <img *ngIf="stepObject?.initialStore" [src]="initialValue" class="setHeight" alt=""
+              style="height: 45px; width:auto;margin:0 auto;object-fit: contain;">
+            <lib-lockicon-exe [selectedElement]="stepObject" [type]="'initialSign'"></lib-lockicon-exe>
+          </fieldset>
+          <span class="required req" *ngIf="stepObject?.required">*</span>
+        </div>
+      </div>
+      <label for="favorite-animal" class="label-color">{{stepObject.initial}}</label>
+    </div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="stepObject?.isTableDataEntry">
+  <div *ngIf="stepObject.notesPromptDispaly"
+    class="col-xs-12 col-md-12 col-lg-12 px-0 pr-2 pl-2 mb-2  sign-notes-wrapper">
+    <div class="req-pos">
+      <fieldset class="fieldSetTable"
+        [class.dis-cols]="stepObject?.protect || stepObject?.showLockIcon || stepObject?.disableField"
+        [class.disabled]="stepObject?.protect || stepObject?.showLockIcon || stepObject?.disableField"
+        id="initial{{stepObject.dgUniqueID}}"
+        (click)="!stepObject?.disableField && getSignatureData(stepObject,'initialStore');"
+        [class.role-p]="stepObject?.showLockIcon" style="display: flex;justify-content: flex-start;">
+        <span *ngIf="!stepObject?.initialStore || executionService.isPlaceDispaly"
+          style="height: 50px; width:100%;color: #8d8985;" alt="" class="custom-placeholder">Initial</span>
+        <img *ngIf="stepObject?.initialStore" [src]="initialValue" class="setHeight" alt=""
+          style="height: 45px; width:auto;margin:0 auto;object-fit: contain;">
+        <lib-lockicon-exe [selectedElement]="stepObject" [type]="'initialSign'"></lib-lockicon-exe>
+      </fieldset>
+      <span class="required req" *ngIf="stepObject?.required">*</span>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pb-0 notesDisplay pt-0 req-pos custom-placeholder">
+        <textarea *ngIf="!stepObject?.notesHtmlView" class="form-control OF-hid rs-n" id="textboxNotes{{stepObject.dgUniqueID}}"
+          placeholder="Enter Notes/Annotation" rows="3" [(ngModel)]="stepObject['initialNotes']"
+          (focusout)="saveInitial(stepObject)" (resize)="resizeEvent($event)"
+          [class.dis-cols]="(stepObject?.protect && stepObject.initialNotes && stepObject?.initialNotesProtect) || stepObject?.disableField"
+          [class.disabled]="((stepObject?.protect || stepObject?.showLockIcon) && stepObject.initialNotes && stepObject?.initialNotesProtect) || stepObject?.disableField"></textarea>
+        <lib-lockicon-exe [selectedElement]="stepObject" [type]="'initialSign'"></lib-lockicon-exe>
+        <ng-container *ngIf="stepObject?.notesHtmlView">
+          <div
+            *ngIf="(!executionService.isPopupOpened) && stepObject.notesEditorOpened && !stepObject.initialNotesProtect; else textNotesview"
+            name="TextArea" id="textboxNotes{{stepObject.dgUniqueID}}"
+            [ngStyle]="{'min-height' : stepObject?.height ? (stepObject?.height)+'px' : '40px'}"
+            [ngClass]="{'black':stepObject.isTableDataEntry}" style="margin-top:-6px;height: auto;width: 100%;">
+            <lib-text-editor [hidePopup]="true" [input]="stepObject['initialNotes']" [stepObject]="stepObject"
+              [signatureType]="'notes'" [foreColor]="stepObject.color"
+              (blur)="stepObject.notesEditorOpened = false; saveInitial(stepObject);" [config]="notesConfig"
+              (updateTitle)="stepObject['initialNotes'] = $event;"
+              (close)="stepObject.initialNotes = $event;saveInitial(stepObject);">
+            </lib-text-editor>
+          </div>
+          <ng-template #textNotesview>
+            <div style="display: flex; width: 100%;">
+              <div class="form-control resizable-dv-div wrdcs pos-rel" style="height: auto;" [ngStyle]="{'min-height' :'70px'}"
+                id="textboxNotes{{stepObject.dgUniqueID}}" [innerHtml]="stepObject.initialNotes | innerhtml"
+                (click)="stepObject.notesEditorOpened = true" [class.empty-placeholder]="!stepObject.initialNotes"
+                [attr.data-placeholder]="'Enter Notes'"
+                [class.dis-cols]="((stepObject?.protect || stepObject?.showLockIcon) && stepObject?.initialNotesProtect) || stepObject?.disableField"
+                [class.disabled]="((stepObject?.protect || stepObject?.showLockIcon) && stepObject.initialNotes && stepObject?.initialNotesProtect )|| stepObject?.disableField">
+              </div>
+            </div>
+          </ng-template>
+        </ng-container>
+        <i class="required req drp-req" *ngIf="stepObject.required">*</i>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!stepObject.notesPromptDispaly" style="display: flex;">
+    <fieldset class="fieldSetTable"
+      [class.dis-cols]="stepObject?.protect || stepObject?.showLockIcon || stepObject?.disableField"
+      [class.disabled]="stepObject?.protect || stepObject?.showLockIcon || stepObject?.disableField"
+      id="initial{{stepObject.dgUniqueID}}"
+      (click)="!stepObject?.disableField && getSignatureData(stepObject,'initialStore');"
+      [class.role-p]="stepObject?.showLockIcon" style="display: flex;justify-content: flex-start;">
+      <span *ngIf="!stepObject?.initialStore || executionService.isPlaceDispaly"
+        style="height: 50px; width:100%;padding: 5px;" alt="" class="custom-placeholder">Initial</span>
+      <img *ngIf="stepObject?.initialStore" [src]="initialValue" class="setHeight" alt=""
+        style="height: 45px; width:auto;margin:0 auto;object-fit: contain;">
+      <lib-lockicon-exe [selectedElement]="stepObject" [type]="'initialSign'"></lib-lockicon-exe>
+    </fieldset>
+    <span class="required req" *ngIf="stepObject?.required">*</span>
+  </div>
+</ng-container>
+
+
+<ngx-loading [show]="cbpService.loading" [config]="{ backdropBorderRadius: '3px', fullScreenBackdrop:true}">
+</ngx-loading>

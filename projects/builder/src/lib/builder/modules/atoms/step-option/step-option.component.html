@@ -1,0 +1,16 @@
+<ng-container *ngIf="cbpService.selectedElement.dgUniqueID == field?.dgUniqueID && cbpService.selectedElement.dgType == field?.dgType ">
+  <button type="button" class="btn-width mar-0 mar-2 btn-icon faArrowCu btn-sm mr-1" 
+*ngIf="mode != 'edit' " [hidden]="auditService.isUpArrowVisible"
+  title="Up" data-toggle="collapse" data-target="#demo" (click)="upArrow(field.dgUniqueID)">
+  <i class="fa fa-arrow-up"></i>
+</button>
+<button type="button" class="btn-width mar-0 mar-2 btn btn-icon faArrowCu btn-sm mr-1"
+ *ngIf="mode != 'edit' "  [hidden]="auditService.isDownArrowVisible"
+  title="Down" data-toggle="collapse" data-target="#demo" (click)="downArrow(field.dgUniqueID)">
+  <i class="fa fa-arrow-down"></i>
+</button>
+<button type="button" class="btn-width mar-0 mar-2 btn btn-icon faDeleteCu btn-sm" *ngIf="mode != 'edit'"
+  title="Delete" (click)="deleteListAlert(field)">
+  <i class="fa fa-trash clr-red" ></i>
+</button>
+</ng-container>

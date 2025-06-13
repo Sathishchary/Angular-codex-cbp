@@ -1,0 +1,153 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px', fullScreenBackdrop:true}">
+</ngx-loading>
+<div class="modal fade " id="Role-Qual" tabindex="-1 " role="dialog " data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-lg " role="document ">
+      <div class="modal-content " style="width: 56%">
+        <lib-modal-popup [title]="'Role/Qualification'"  [footerList]="footerList"
+        (submitButtons)="$event.type === 'Reset' && reset(); $event.type === 'Ok' && save(); $event.type === 'Cancel' && hide();" (closeEvent)="hide();">
+        <div class="modal-body">
+              <div class="#">
+                  <ul class="nav nav-tabs pt-0">
+                      <li class="nav-item" (click)="activeTab = 0"><a class="nav-link active show" data-toggle="tab" href="#rq1" ><i
+                                  class="fa fa-file-text-o"></i> Role</a></li>
+                      <li class="nav-item" (click)="activeTab = 1"><a class="nav-link" data-toggle="tab" href="#rq2"><i
+                                  class="fa fa-file-powerpoint-o mr-1"></i>Qualification</a></li>
+                  </ul>
+                  <div class="tab-content tab-bg">
+                      <div class="tab-pane active show" id="rq1">
+                          <div class="col-md-12 col-lg-12 px-0 pt-0">
+                            <div  style="height: 300px;overflow-x: hidden;overflow-y: auto;">
+                              <table class="table table-striped table-bordered">
+                                  <thead style="background: #f7f7f7;">
+                                      <tr>
+                                          <th style="text-align: center;width: 50px;">S</th>
+                                          <th style="width: 120px;">Role</th>
+                                          <th style="width: 400px;">Description</th>
+                                      </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr *ngFor="let rlist of rolesList;let i=index">
+                                      <td class="text-center " ><label >
+                                          <input type="checkbox" class="e-point" name="rolenames" [(ngModel)]="rlist.isChecked"
+                                          (ngModelChange)="updateBtns($event,'rolesList',i)"
+                                            data-parsley-errors-container="#error-checkbox" data-parsley-multiple="checkbox">
+                                          <span></span>
+                                          </label>
+                                      </td>
+                                      <td>{{rlist.role}}</td>
+                                      <td>{{rlist.description}}</td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="tab-pane" id="rq2">
+                          <div class="#">
+                              <ul class="nav nav-tabs pt-0">
+                                  <li class="nav-item" (click)="activeTab = 1"><a class="nav-link active show" data-toggle="tab"
+                                          href="#rq3"><i class="fa fa-file-text-o"></i> Qualification</a></li>
+                                  <li class="nav-item" (click)="activeTab = 2"><a class="nav-link" data-toggle="tab" href="#rq4"><i
+                                              class="fa fa-file-powerpoint-o mr-1"></i>Qualification Group</a></li>
+                              </ul>
+                              <div class="tab-content tab-bg">
+                                  <div class="tab-pane active show" id="rq3">
+
+                                      <div class="col-md-12 col-lg-12 pl-0 pt-0 pr-0">
+                                          <div class="row">
+                                              <div class="col-lg-4 col-md-4 pr-0 pb-2">
+                                                  <label>Qualification</label>
+                                                  <input class="form-control ng-untouched ng-pristine ng-invalid"
+                                                      required="" (keydown)="searchQualName($event)" [(ngModel)]="qualName" type="text">
+                                              </div>
+                                              <div class="col-lg-4 col-md-4 pr-0"></div>
+                                              <div class="col-lg-4 col-md-4 pr-0 pt-3 pr-3"
+                                                  style="text-align: right;">
+                                                  <button
+                                                      class="btn btn-outline-secondary btn-sm hidden-sm button-border"
+                                                      style="border: 1px solid #eaeaea!important;" type="button" (click)="getQualList()">Refresh</button>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="col-md-12 col-lg-12 px-0 pt-0">
+                                        <div  style="height: 246px;overflow-x: hidden;overflow-y: auto;">
+                                          <table class="table table-striped table-bordered mb-0">
+                                              <thead style="background: #f7f7f7;">
+                                                  <tr>
+                                                      <th style="text-align: center;width: 50px;">S</th>
+                                                      <th style="width: 120px;">Qualification</th>
+                                                      <th style="width: 400px;">Description</th>
+                                                  </tr>
+                                              </thead>
+                                              <tbody>
+                                                <tr *ngFor="let qlist of qualList;let i=index">
+                                                  <td class="text-center " ><label >
+                                                      <input type="checkbox" class="e-point" name="rolenames"
+                                                      (ngModelChange)="updateBtns($event,'qualList',i)"
+                                                      [(ngModel)]="qlist.isChecked" data-parsley-errors-container="#error-checkbox" data-parsley-multiple="checkbox">
+                                                      <span></span>
+                                                      </label>
+                                                  </td>
+                                                  <td>{{qlist.qual}}</td>
+                                                  <td><span style=" white-space: initial;">{{qlist.description}}</span></td>
+                                              </tr>
+                                              </tbody>
+                                          </table>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="tab-pane" id="rq4">
+                                      <div class="col-md-12 col-lg-12 pl-0 pt-0 pr-0 pb-1">
+                                          <div class="row">
+                                              <div class="col-lg-4 col-md-4 pr-0">
+                                                  <label>Qualification Group</label>
+                                                  <input class="form-control ng-untouched ng-pristine ng-invalid"
+                                                      required="" (keydown)="searchQualGroupName($event)" [(ngModel)]="qualGroupName" type="text">
+                                              </div>
+                                              <div class="col-lg-4 col-md-4 pr-0"></div>
+                                              <div class="col-lg-4 col-md-4 pr-0 pt-3 pr-3"
+                                                  style="text-align: right;">
+                                                  <button
+                                                      class="btn btn-outline-secondary btn-sm hidden-sm button-border"
+                                                      style="border: 1px solid #eaeaea!important;" type="button" (click)="getQualGrpList()">Refresh</button>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="col-md-12 col-lg-12 px-0 pt-0">
+                                        <div  style="height: 210px;overflow-x: hidden;overflow-y: auto;">
+                                          <table class="table table-striped table-bordered mb-0">
+                                              <thead style="background: #f7f7f7;">
+                                                  <tr>
+                                                      <th style="text-align: center;width: 50px;">S</th>
+                                                      <th style="width: 120px;">Qualification Group</th>
+                                                      <th style="width: 400px;">Description</th>
+                                                  </tr>
+                                              </thead>
+                                              <tbody>
+                                                <tr *ngFor="let qglist of qualGrpList;let i=index">
+                                                  <td class="text-center " ><label >
+                                                      <input type="checkbox" class="e-point" name="rolenames"
+                                                      [(ngModel)]="qglist.isChecked" 
+                                                      (ngModelChange)="updateBtns($event,'qualGrpList',i)"
+                                                      data-parsley-errors-container="#error-checkbox" data-parsley-multiple="checkbox">
+                                                      <span></span>
+                                                      </label>
+                                                  </td>
+                                                  <td>{{qglist.qualGroup}}</td>
+                                                  <td><span style=" white-space: initial;">{{qglist.description}}</span></td>
+                                              </tr>
+                                              </tbody>
+                                          </table>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </lib-modal-popup>
+      </div>
+  </div>
+</div>

@@ -1,0 +1,25 @@
+export enum StyleTypes{
+  Heading1 = 'Heading1',
+  Heading2 = 'Heading2',
+  Heading3 = 'Heading3',
+  Heading4 = 'Heading4',
+  Heading5 = 'Heading5',
+  Normal = 'Normal',
+  Alara = 'Alara',
+  Warning = 'Warning',
+  Caution = 'Caution',
+  Note = 'Note',
+  AlaraTitle = 'AlaraTitle',
+  WarningTitle = 'WarningTitle',
+  CautionTitle = 'CautionTitle',
+  NoteTitle = 'NoteTitle',
+  Header = 'Header',
+  HeaderTitle = 'HeaderTitle',
+  Footer = 'Footer',
+  FooterTitle = 'FooterTitle',
+  WaterMark = 'WaterMark',
+  Attachment= 'Attachment',
+  AttachmentTitle= 'AttachmentTitle',
+  Link = 'Link'
+
+}

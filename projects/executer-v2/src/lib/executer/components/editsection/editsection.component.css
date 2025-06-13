@@ -1,0 +1,78 @@
+.dp-flex {
+    align-items: center;
+    display: flex;
+}
+
+.p-mar {
+    margin: 0;
+    font-size: 14px;
+}
+
+.input-control {
+    height: 16px;
+}
+
+.approval {
+    margin: 0;
+    background: #5480c2;
+    padding: 6px;
+    color: #fff;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.req {
+    font-size: 8px;
+    position: absolute;
+    color: #ff0000;
+    margin-left: 2px;
+}
+
+.btn-ali {
+    position: absolute;
+    width: 88%;
+    bottom: 0;
+    padding: 5px !important;
+    background: #5480c2;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.LineMiddleToText del,
+font {
+    display: flex;
+}
+
+.fieldSetTable {
+    width: 100%;
+    height: 50px;
+    border: 1px solid #ccc;
+    z-index: 0;
+    cursor: pointer;
+    margin-bottom: 5px;
+    background-color: #e9ecef;
+}
+
+.modal {
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.dis-cols {
+    background: #cbcdce !important;
+}
+
+.hide {
+    display: none !important;
+}
+
+.textOverflowControl.notes-height {
+    height: 70px !important;
+}
+
+.form-control.textOverflowControl {
+    height: 32px;
+    padding: 3px 5px !important;
+    overflow-y: auto;
+}

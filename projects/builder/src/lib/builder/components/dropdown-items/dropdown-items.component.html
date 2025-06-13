@@ -1,0 +1,77 @@
+<div class="modal fade " id="largeModal2" tabindex="-1 " role="dialog " data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg " role="document ">
+        <div class="modal-content dropdownmodal">
+            <lib-modal-popup [title]="'Drop Down Value'" [footerList]="[{type:'Save',disabled:dropDownItems ===undefined || dropDownItems.length === 0 || updateModalPopup},{type:'Cancel'}]"
+            (submitButtons)="$event.type === 'Save' && saveDropdown(); $event.type === 'Cancel' && hide();" (closeEvent)="hide()">
+            <div class="modal-body pb-0 pt-2 dropdownscroll" >
+                <div class="col-md-12 col-lg-12 pt-0 pl-0 pr-0">
+                    <div class="row" >
+                        <div class="row col-md-12 col-lg-12 pr-0" *ngIf="!updateModalPopup">
+                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                                <input class="form-control" [(ngModel)]="filedDropDownName" (keydown)="enterKeyAdd($event);" required="" type="text">
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-right pr-0">
+                                <button class="btn btn-outline-secondary btn-sm hidden-sm button-border dg-btn-border"  (click)="addOrUpdateItems()"
+                                [disabled]="!filedDropDownName" type="button">Add</button>
+                            </div>
+                            <div *ngIf="error" class="col-md-12" class="valuealrdycss">Value already exist</div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pt-2 pl-0 pr-0 ">
+                        <table class="table table-striped table-bordered mb-1">
+                            <thead class="background: #f7f7f7;">
+                                <tr>
+                                  <th>O</th>
+                                  <th>Value</th>
+                                  <th class="text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody cdkDropList (cdkDropListDropped)="onDrop($event)">
+                                <tr *ngFor="let item of dropDownItems; let i = index;"
+                                 cdkDrag cdkDragLockAxis="y" (cdkDragStarted)="onDragStart($event)">
+                                  <td class="drag"> {{i+1}} </td>
+                                    <td>
+                                        <ng-container *ngIf="i !== editeditem">
+                                            {{item}} 
+                                          </ng-container>
+                                          <ng-container *ngIf="i == editeditem && updateModalPopup">
+                                            <input class="form-control" [(ngModel)]="filedDropDownName"
+                                            (keydown)="enterKeyAdd($event);" required="" type="text">
+                                          </ng-container>
+                                    </td>                                 
+                                    <td class="droptablealign tableDataPadding">
+                                        <ng-container *ngIf="i !== editeditem">
+                                            <i class="fa fa-edit tableIconEdit" title="Edit" (click)="UpdateItem(item, i,newdata)"></i>
+                                            <i class="fa fa-trash-o tableIconDelete" title="Delete" (click)="deleteItem(item, i)"></i>
+                                            <i *ngIf="i!=dropDownItems.length-1" class="fa fa-arrow-down tableIconArrow" (click)="fielddataDown(i)"></i>
+                                            <i *ngIf="i!=0" class="fa fa-arrow-up tableIconArrow" (click)="fielddataUp(i)"></i>
+                                        </ng-container>
+                                        <ng-container *ngIf="i == editeditem">
+                                            <button *ngIf="i == editeditem" class="btn btn-outline-secondary btn-sm hidden-sm button-border dg-btn-border"
+                                                (click)="addOrUpdateItems()" [disabled]="!filedDropDownName" type="button">Update</button>
+                                        </ng-container>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8"  *ngIf = "updateModalPopup">
+                    <div class="row">
+                        <div class="row col-md-12 col-lg-12 pr-0">
+                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                                <input class="form-control" [(ngModel)]="filedDropDownName" (keydown)="enterKeyAdd($event);" required="" type="text">
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-right pr-0">
+                                <button class="btn btn-outline-secondary btn-sm hidden-sm button-border dg-btn-border"  (click)="addupdateItems()"
+                                [disabled]="!filedDropDownName" type="button">Update</button>
+                            </div>
+                            <div *ngIf="error" class="col-md-12" class="valuealrdycss">Value already exist</div>
+                        </div>
+                    </div> 
+                </div>-->
+            </div>
+        </lib-modal-popup>
+        </div>
+    </div>
+</div>

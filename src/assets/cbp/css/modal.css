@@ -1,0 +1,220 @@
+.modal-content {
+  position: relative;
+  background-color: #fefefe;
+  margin: auto;
+  padding: 0;
+  border: 1px solid #888;
+  width: 85%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s
+}
+.close {
+  color: white!important;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+.close:hover, .close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+.modal-footer {
+  padding: 9px 16px;
+  background-color: #ffffff;
+  color: white;
+}
+.modal-body {
+  padding: 2px 16px;
+}
+.modal-backdrop.show {
+  opacity: 0 !important;
+}
+.modal-body {
+  position: relative;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  padding: 10px!important;
+}
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #ffffff;
+  min-width: 200px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  border: 1px solid #dadada;
+  border-radius: 3px;
+}
+.dropdown-content a {
+  color: 878788;
+  padding: 5px 6px 6px 10px;
+  text-decoration: none;
+  display: block;
+  font-size: 13px !important;
+}
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {
+  background-color: #f1f1f1
+}
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+  background-color: #f9f9f9;
+}
+.table td, .table th {
+  padding: 5px!important;
+  vertical-align: top;
+  border-top: 1px solid #dee2e6;
+}
+.modal-md {
+  max-width: 900px !important;
+}
+.modal-lg {
+  max-width: 1264px!important;
+}
+.card .header {
+  box-shadow: none;
+  color: #000;
+  padding: 20px;
+  position: relative;
+}
+.card {
+  margin-bottom: 0px !important;
+  border-radius: 5px!important;
+}
+label {
+  font-weight: 600;
+  font-size: 13px!important;
+  margin-bottom: 0px !important;
+}
+.card {
+  margin-bottom: 0px !important;
+  border-radius: 0px!important;
+}
+.form-control {
+  padding: 4px!important;
+  font-size: 11px!important;
+  border-radius: 2px!important;
+}
+h6 {
+  font-size: 14px !important;
+  font-weight: 600;
+  margin-bottom: 0px;
+}
+input[type=checkbox], input[type=radio] {
+  box-sizing: border-box;
+  padding-top: 10px !important;
+  height: 15px !important;
+  width: 15px !important;
+  margin-top: 4px;
+}
+.btn-outline-secondary {
+  color: #575759!important;
+  background-image: none!important;
+  background-color: #f6f9fb !important;
+  border-color: #dfdfdf!important;
+  margin-right: 6px;
+  margin-bottom: 5px;
+}
+.btn {
+  padding: 5px 7px!important;
+}
+.modal-content {
+  border-radius: 0 !important;
+  border: none;
+}
+.modal-header {
+  border-radius: 0px !important;
+}
+
+.selected-asset {
+  border-bottom: 1px solid #ddd;
+  padding: 5px 10px!important;
+  background: #d7edf9;
+  border-radius: 0!important;
+}
+.card .header {
+  box-shadow: none;
+  color: #000;
+  padding: 20px;
+  position: relative;
+}
+.index-list {
+  border-bottom: 1px solid #eaeaea;
+  background: #fbfbfb;
+}
+
+.lightcolor{
+  background-color: #eae8e8!important;
+}
+a{
+  color: grey!important;
+}
+
+@media (min-width: 768px) {
+  .col-md-2 {
+      -ms-flex: 0 0 16.666667%;
+      flex: 0 0 18.666667%!important;
+      max-width: 18.666667%!important;
+  }
+  .col-md-10 {
+      -ms-flex: 0 0 83.333333%;
+      flex: 0 0 81.333333%;
+      max-width: 81.333333%;
+  }
+}
+
+
+/* @media only screen and (min-device-width: 1024) and (max-device-width: 1366px) { */
+
+@media (max-width: 576px) {
+  .btn-outline-secondary {
+      color: #878788!important;
+      background-image: none!important;
+      background-color: #fff!important;
+      border-color: #d4d4d4!important;
+      margin-right: 6px;
+      margin-bottom: 10px;
+  }
+  .btn-align {
+      text-align: left!important;
+  }
+  .top-margin {
+      margin-top: 180px!important;
+  }
+}
+
+@media (min-width: 992px) {
+  .col-lg-3{
+      -ms-flex: 0 0 20%;
+      flex: 0 0 20%;
+      max-width: 20%;
+  }
+  .col-lg-9 {
+      -ms-flex: 0 0 80%;
+      flex: 0 0 80%;
+      max-width: 80%;
+  }
+  .col-lg-6 {
+    -ms-flex: 0 0 60%;
+    flex: 0 0 60%;
+    max-width: 60%;
+}
+  .top-margin {
+      margin-top: 48px!important;
+  }
+}
+
+@media only screen and (min-device-width: 991px) and (max-device-width: 1024px) {
+  .top-margin {
+      margin-top: 90px!important;
+  }
+}

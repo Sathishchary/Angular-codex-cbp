@@ -1,0 +1,222 @@
+  <div class="pl-0 pb-0 pr-0" [ngClass]="{'pt-1': field?.typeImage === 'header', 'pt-2': field?.typeImage !== 'header'}">
+    <div id="{{galleryId}}"></div>
+      <div class="card-body">
+        <div class="upload-items-container mt-0" [ngClass]="{'marginfix':  mediaType === 'executor'}">
+          <div class="upload-items" id="scrollbarStyle" *ngIf="field.mediaType === 'multipleImages'">
+            <div *ngFor="let item of mediaFiles; let i = index" class="item-close-hover pl-0 mr-2">
+            <div class="card card-css thumbnail-wrapper"
+              (dblclick)="!doubleClickDisable && showImagePreview(item, i)"
+              (click)="canSelectItem && selectedImage(item, i);"  [class.selected-media]="item === selectedItem">
+                <div class="file" style="border-radius:5px !important;">
+                  <div class="hover" *ngIf="(mediaType !== 'executor' && !coverPageViewVal) || mediaType === 'mediaeditor'">
+                    <div style="display: flex;">
+                      <span *ngIf="item.fileType !== 'Audio' && item.fileType !== 'Video'"
+                          class="btn btn-icon btn-success mr-1" (click)="editImage(item, i);">
+                          <i class="fa fa-pencil wt"></i>
+                      </span>
+                      <span class="btn btn-icon btn-danger" (click)="removeImage(item, i);">
+                        <i class="fa fa-trash wt" ></i>
+                      </span>
+                    </div>
+                </div>
+                <ng-container *ngIf="mediaType === 'executor' || mediaType === 'executorUpload'">
+                    <div class="hover">
+                      <div style="display: flex;">
+                        <span class="btn-green btn btn-icon btn-success mar-rg mar-tp"
+                        [hidden]="isBackground"
+                        *ngIf="item.fileType !== 'Audio' && item.fileType !== 'Video'"
+                        (click)="editImage(item, i);">
+                        <i class="fa fa-pencil wt"></i></span>
+                        <span class="btn-dngr btn btn-icon btn-danger mar-rg mar-tp"
+                          *ngIf="item?.type === 'executor'" (click)="deleteImage(item, stepObject, i)">
+                            <i class="fa fa-trash white-col"></i>
+                          </span>
+                      </div>
+                    </div>
+                </ng-container>
+                  <div class="image">
+                    <img *ngIf="item.fileType === 'Image' || item.fileName.indexOf('.png') > -1 ||
+                      item.fileName.indexOf('.jpg') > -1 || item.fileName.indexOf('.PNG') > -1 || item.fileName.indexOf('.JPG') > -1"
+                      [src]="setImage(item)" [alt]="item.fileName ? item.fileName: item.fileType"
+                      class="img-fluid img-width img-h" (error)="setLoader($event)">
+
+                    <ng-template [ngTemplateOutlet]="AudioVideo"
+                    [ngTemplateOutletContext]="{'$implicit': item}"></ng-template>
+
+                </div>
+                  <ng-container  *ngIf="mediaType !== 'executor' || item?.type === 'executor'; else other">
+                    <div class="file-name" *ngIf="!item.captionText">
+                      <p class="m-b-5 overflow-text text-muted" title="{{item.caption}}">
+                        <span class="btn-trans btn btn-icon" style="padding: 3px 0px!important;"
+                        (click)="textEdit(item); item.captionText=true">{{item.caption | slice:0: 12}}&nbsp;&nbsp;<i class="fa fa-pencil"></i>
+                          <span *ngIf="item?.caption?.length>12">...</span></span>
+                      </p>
+                  </div>
+                  <div *ngIf="item.captionText">
+                    <input class="form-control" #myInput (focusout)="textBox(item, i)" type="text"
+                     [(ngModel)]="item.caption" (ngModelChange)="item.caption = $event;changeCaption(item.caption,i )">
+                  </div>
+                  </ng-container>
+                  <ng-template #other>
+                    <div class="file-name">
+                      <p class="m-b-5 overflow-text text-muted" title="{{item.caption}}">
+                        <span>{{item.caption | slice:0: 12}}&nbsp;&nbsp;</span>
+                      </p>
+                  </div>
+                  </ng-template>
+                </div>
+            </div>
+            </div>
+            <div class="upload-item-plus" *ngIf="mediaType !== 'executor'">
+              <div class="upload-btn-text">
+                <span style="position: absolute; top: 44%;"><i class="fa fa-upload ng-star-inserted"></i>&nbsp;&nbsp;Add Media</span>
+                <input class="input-upload" #fileInput type="file" id="files" multiple (click)="fileInput.value = '';"
+              (change)="onChangeNewlyAddedFilesTest($event)" [accept]="acceptImages" title=" ">
+              </div>
+            </div>
+            <ng-container *ngIf="galleryView">
+            <div class="upload-item-plus" *ngIf="mediaType !== 'executor' && !isMobile"
+            [hidden]="mediaFiles?.length>0 && mediaType === 'single'">
+            <div class="upload-btn-text"><i class="fa fa-upload ng-star-inserted"></i>&nbsp;&nbsp;Add Media</div>
+            <input class="input-upload" #fileInputNew type="file" multiple (click)="fileInputNew.value = '';"
+              *ngIf="mediaType !== 'single'" (change)="onChangeNewlyAddedFilesTest($event)"
+              [accept]="acceptImages" title=" ">
+            <input class="input-upload" #fileInputDem type="file" *ngIf="mediaType === 'single'"
+              (click)="fileInputDem.value = '';"
+              (change)="onChangeNewlyAddedFilesTest($event)" [accept]="accept" title=" ">
+            </div>
+
+            <!-- Mobile Function -->
+            <div (click)="gallerView.emit('openImageChange')" class="upload-item-plus cursor" *ngIf="mediaType !== 'executor' && isMobile"
+              [hidden]="mediaFiles?.length>0 && mediaType === 'single'">
+              <div class="upload-btn-text"  ><i class="fa fa-upload ng-star-inserted"></i>
+                Add Media</div>
+            </div>
+            <div (click)="gallerView.emit('captureMedia')" *ngIf="isMobile" class="upload-item-plus col-lg-2 col-md-4 col-sm-12 ml-1 cursor">
+              <div class="upload-btn-text"><i class="fa fa-camera ng-star-inserted"></i> Capture
+                Media</div>
+            </div>
+          </ng-container>
+          </div>
+          <div *ngIf="field.mediaType === 'single' || headerSelected ">
+            <div *ngFor="let item of mediaFiles; let i = index"
+              class="item-close-hover pl-0 mr-2"
+              (dblclick)="!doubleClickDisable && showImagePreview(item, i)"
+              (click)="canSelectItem && selectedImage(item, i);"
+              [class.selected-media]="item === selectedItem">
+             <div class="file1" [ngClass]="{'center': item?.align === 'center', 'left': item?.align === 'left', 'right': item?.align === 'right'}">
+              <div class="file" style="border-radius:5px !important;">
+                <ng-container *ngIf="mediaType !== 'executor'">
+                  <div class="hover ">
+                    <span *ngIf="item.fileType !== 'Audio' && item.fileType !== 'Video' && mediaType !== 'executor'
+                    && item?.resized && !item.isTableDataEntry"
+                      class="btn-green btn btn-icon btn-success mar-rg mar-tp"
+                     (click)="resetImage(item, i);">
+                     <i class="fa fa-undo wt"></i></span>
+                    <span *ngIf="item.fileType !== 'Audio' && item.fileType !== 'Video'"
+                     [hidden]="coverPageViewEnable && !editCoverPage"
+                     class="btn-green btn btn-icon btn-success mar-rg mar-tp" (click)="editImage(item, i);">
+                     <i class="fa fa-pencil wt"></i></span>
+                    <span class="btn-dngr btn btn-icon btn-danger mar-rg mar-tp"
+                    [hidden]="coverPageViewEnable && !editCoverPage"
+                      (click)="deleteListAlert(item, i,field)">
+                      <i class="fa fa-trash wt"></i>
+                    </span>
+                  </div>
+                </ng-container>
+                <ng-container *ngIf="mediaType === 'executor' || mediaType === 'executorUpload'">
+                  <div class="hover">
+                    <span *ngIf="item.fileType !== 'Audio' && item.fileType !== 'Video'
+                    && item?.resized && item?.type === 'executor' && selectedTbl===undefined  && !item.isTableDataEntry"
+                    class="btn-green btn btn-icon btn-success mar-rg mar-tp" (click)="resetImage(item, i);"><i
+                      class="fa fa-undo wt"></i></span>
+                      <span class="btn-green btn btn-icon btn-success mar-rg mar-tp" [hidden]="isBackground"
+                          *ngIf="item.fileType !== 'Audio' && item.fileType !== 'Video' &&
+                          (item.fileType === 'Image' || item.fileName.indexOf('.png') > -1 ||
+                          item.fileName.indexOf('.jpg') > -1 || item.fileName.indexOf('.PNG') > -1 ||
+                          item.fileName.indexOf('.JPG') > -1)"
+                          (click)="editImage(item, i);">
+                          <i class="fa fa-pencil wt"></i>
+                      </span>
+                      <span class="btn-dngr btn btn-icon btn-danger mar-rg mar-tp" *ngIf="item?.type === 'executor'"
+                          (click)="deleteImage(item, stepObject, i)">
+                          <i class="fa fa-trash white-col"></i>
+                      </span>
+                  </div>
+              </ng-container>
+                <ng-container>
+                  <div class="resize-parent"
+                   *ngIf="item.fileType === 'Image' || item.fileName.indexOf('.png') > -1 ||
+                      item.fileName.indexOf('.jpg') > -1 || item.fileName.indexOf('.PNG') > -1 ||
+                      item.fileName.indexOf('.JPG') > -1">
+                    <div ngResizable class="resizable-widget"
+                      #block="ngResizable"
+                      [ngResizable]="(executer && item.type === 'executor') ? true : ( !coverPageViewEnable && builder && item.type === 'builder') ? true : (editCoverPage && coverPageViewEnable && item.type === 'builder') ? true : false"
+                      [rzHandles]="'se'"  (rzStart)="onResizeStart($event,item)"
+                      (rzStop)="onResizeStop($event, item)" (rzResizing)="onResizing($event)">
+                      <img  id="{{item.fileName}}"  [ngClass]="{'ImageSizeControl' :  (item.resolution && !item.resized),'tab-img': isMobile}" *ngIf="item.fileType === 'Image' || item.fileName.indexOf('.png') > -1 ||
+                        item.fileName.indexOf('.jpg') > -1 || item.fileName.indexOf('.PNG') > -1 || item.fileName.indexOf('.JPG') > -1"
+                        [src]="setImage(item)" alt="img"
+                        [style.width.px]="item.width"   [style.height.px]="item.height"
+                        (error)="setLoader($event)">
+                    </div>
+                  </div>
+                  <ng-template [ngTemplateOutlet]="AudioVideo"
+                  [ngTemplateOutletContext]="{'$implicit': item }"></ng-template>
+
+                </ng-container>
+                <ng-container *ngIf="item?.typeImage !== 'header'">
+                <ng-container  *ngIf="mediaType !== 'executor' || item?.type === 'executor'; else otherSingle">
+                  <div class="file-name" *ngIf="!item.captionText"  [hidden]="coverPageViewEnable && !editCoverPage && item.caption ===''" >
+                    <p class="m-b-5 overflow-text text-muted" title="{{item.caption}}">
+                       <span *ngIf="item.fileType !== 'Video'" class="btn-trans btn btn-icon" style="padding: 3px 0px!important;"
+                       (click)="textEdit(item)">{{item.caption | slice:0: 30}}&nbsp;&nbsp;<i       [hidden]="coverPageViewEnable && !editCoverPage"  class="fa fa-pencil"></i>
+                       <span *ngIf="item?.caption?.length>30">...</span>
+                       </span>
+
+                       <span *ngIf="item.fileType == 'Video'" class="btn-trans btn btn-icon" style="padding: 3px 0px!important;"
+                       (click)="textEdit(item)">{{item.caption | slice:0: 28}}&nbsp;&nbsp;<i class="fa fa-pencil"></i>
+
+                       <span *ngIf="item?.caption?.length>28">...</span></span>
+                   </p>
+                 </div>
+                <div *ngIf="item.captionText">
+                  <input class="form-control" #myInput (focusout)="textBox(item,i)"  type="text" [(ngModel)]="item.caption"
+                  (ngModelChange)="item.caption = $event;changeCaption(item.caption,i )">
+                </div>
+                </ng-container>
+                <ng-template #otherSingle>
+                  <div class="file-name">
+                    <p class="m-b-5 overflow-text text-muted" title="{{item.caption}}">
+                      <span *ngIf="item.fileType !== 'Video'">{{item.caption | slice:0: 30}} 
+                        <span *ngIf="item?.caption?.length>30">...</span>
+                      </span>
+                      <span *ngIf="item.fileType === 'Video'">{{item.caption | slice:0: 28}} 
+                        <span *ngIf="item?.caption?.length>28">...</span>
+                      </span>
+                    </p>
+                </div>
+                </ng-template>
+                </ng-container>
+              </div>
+             </div>
+            </div>
+         </div>
+       </div>
+      </div>
+  </div>
+
+  <ng-template #AudioVideo let-item>
+    <video *ngIf="item.fileType === 'Video'" width="100%" controls
+    class="img-fluid" width="200px" style="height:103px;">
+    <source [src]="setImage(item)" type="video/mp4">
+    <source [src]="setImage(item)" type="video/ogg">
+    Your browser does not support HTML video.
+  </video>
+  <audio *ngIf="item.fileType === 'Audio'" controls
+  class="img-fluid" width="200px" style="height:70px;">
+    <source [src]="setImage(item)" type="audio/ogg">
+    <source [src]="setImage(item)" type="audio/mpeg">
+    Your browser does not support the audio tag.
+  </audio>
+  </ng-template>

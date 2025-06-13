@@ -1,0 +1,14 @@
+.leftTabletbutton {
+  background-color: black !important;
+  position: absolute !important;
+  display: flex !important;
+  right: 109px !important;
+}
+.font-we{
+  padding: 3px 8px !important;
+  cursor: pointer;
+}
+.font-we i{
+  font-size: 16px !important;
+  font-weight: 800;
+}

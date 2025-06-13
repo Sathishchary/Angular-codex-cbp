@@ -1,0 +1,117 @@
+<ng-template #TextAreaTemplate>
+  <textarea *ngIf="!stepObject?.innerHtmlView" class="form-control resize"
+    [maxlength]="stepObject.Maxsize ? stepObject.Maxsize : stepObject.MaxSize"
+    [readonly]="(stepObject?.protect) || stepObject?.showLockIcon" autosize
+    [class.dis-coln]="stepObject?.disableField"
+    [class.protect-col]="(stepObject?.protect ) || stepObject?.showLockIcon"
+    id="textArea{{stepObject.dgUniqueID}}"
+    [class.selected]="stepObject.protect && stepObject?.dgUniqueID === executionService.selectedFieldEntry?.dgUniqueID"
+    style="padding-left: 10px !important;min-height: 30px;"
+    [(ngModel)]="stepObject['storeValue']"
+    [class.selectedField]="stepObject?.dgUniqueID === executionService.selectedFieldEntry?.dgUniqueID"
+    [class.notSelectedField]="stepObject?.dgUniqueID !== executionService.selectedFieldEntry?.dgUniqueID"
+    name="textAreaDataEntry{{stepObject.dgUniqueID}}"
+    (click)="setStepObject($event,'');selectElement();"
+    (focusout)="!stepObject?.disableField && coreEventMethod('checkValidation', stepObject, $any($event.target).value);"
+    [minRows]="stepObject?.height ? (stepObject?.height/20).toFixed(1) : 1" cols="150"
+    (resize)="resizeEvent($event)"
+    (focus)="checkElement($event, 'focus')"
+    [style.text-align]="stepObject?.styleSet?.textalign" [style.width.%]="stepObject?.dataEntrySize">
+  </textarea>
+   <ng-container *ngIf="stepObject?.innerHtmlView">
+    <div *ngIf="((!executionService.isPopupOpened && stepObject.editorOpened && 
+    !stepObject.protect &&  !stepObject.isReferenceObject)
+    || (!executionService.isPopupOpened && stepObject.editorOpened && !stepObject.protect &&
+     stepObject.isReferenceObject && stepObject.isEditMode)); else otherview"
+     class="col-md-12 col-lg-12 pl-0 pr-0"
+     id="textarea{{stepObject.dgUniqueID}}" (click)="setStepObject($event, 'normal');"
+     name="TextArea" style="margin-top:-6px" [ngClass]="{'black':stepObject.isTableDataEntry}"
+     [ngStyle]="{'min-height' : stepObject?.height ? (stepObject?.height)+'px' : '34px'}" [class.disabled]="cbpService.isDisabledAllInputEntries">
+      <lib-text-editor [hidePopup]="true" [(stepObject)]="stepObject"
+       [input]="stepObject.storeValue" [foreColor]="stepObject.color"
+       (focusout)=" stepObject.editorOpened = false;
+       !stepObject?.disableField && coreEventMethod('checkValidation', stepObject, $event);"
+       (focusEventCheck)="checkElement($event, 'focus')"
+       [isDisabled]="cbpService.isDisabledAllInputEntries"
+       [config]="config" (updateTitle)="stepObject.storeValue = $event;"
+       (close)="stepObject.storeValue = $event;"
+       (tab)="tabEventCheck($event)">
+       <!--  !stepObject?.disableField && 
+       coreEventMethod('checkValidation', stepObject, $event) -->
+      </lib-text-editor>
+    </div>
+    <ng-template #otherview>
+      <div name="TextArea" class="form-control resizable-dv-div wrdcs pos-rel"
+        id="textarea{{stepObject.dgUniqueID}}"
+        [contentEditable]="(!stepObject?.isParentRepeatStep && !stepObject?.isParentTimedStep) ? ((stepObject?.isReferenceObject || !stepObject?.protect) &&
+        !executionService.tablefreeze && !stepObject?.disableField && !cbpService.isDisabledAllInputEntries ? true: false) : ((stepObject?.isReferenceObject || !stepObject?.protect) &&
+        !executionService.tablefreeze && !stepObject?.disableField && !cbpService.isDisabledAllInputEntries ? true: false) &&  (stepObject?.isContentEditable ? true: false)"
+        (keydown)="stepObject.editorOpened = true;setStepObject($event, 'contenteditable');"
+        [ngStyle]="{'min-height' : stepObject?.height ? (stepObject?.height)+'px' : '34px' }"
+        [class.selected]="stepObject.protect && stepObject?.dgUniqueID === executionService.selectedFieldEntry?.dgUniqueID"
+        [class.protect-col]="stepObject?.protect || stepObject?.showLockIcon"
+        [class.dis-coln]="stepObject?.disableField ||cbpService.isDisabledAllInputEntries"
+        [innerHTML]="stepObject.storeValue | innerhtml"
+        (click)="setStepObject($event, 'normal');selectElement();"
+        (focus)="checkElement($event, 'focus')"
+        [style.text-align]="stepObject?.styleSet?.textalign"
+        [class.isSelectProtectColor]="stepObject?.protect && (stepObject?.isCommentUpdated) &&
+        stepObject.dgUniqueID === executionService.selectedFieldEntry?.dgUniqueID"
+       >
+     </div>
+     <!-- [class.dis-coln]="stepObject?.protect"  -->
+    <div class="feedback__btn" (click)="setRefEditMode()"
+       *ngIf="stepObject.isReferenceObject"><i class="fa fa-edit "></i>
+    </div>
+    </ng-template>
+   </ng-container>
+
+  <span class="required req" *ngIf="stepObject.required">*</span>
+   <i *ngIf="stepObject?.protect && (stepObject?.isCommentUpdated)"
+   (click)="showProtectApproval(stepObject)"
+   [ngStyle]="{'color': stepObject?.protectColor}"
+   class="fa fa-cog protectIcon" aria-hidden="true"></i>
+
+  <ng-container *ngIf="stepObject?.protect && stepObject?.commentsEnabled && stepObject?.comments?.length>0">
+    <div class="popupPos">
+    <lib-track-user [stepObject]="stepObject" (closePopupEvent)="closePopup()"></lib-track-user>
+   </div>
+   </ng-container>
+</ng-template>
+
+<ng-container *ngIf="!stepObject?.isTableDataEntry">
+  <div class="row"
+   id="TextInput{{stepObject.dgUniqueID}}">
+    <div class="col-md-12 pl-0 pt-1 mb-2" style="display: flex;" [ngClass]="{'pl-2': obj?.dualStep}">
+      <lib-track-ui [field]="stepObject" *ngIf="!stepObject.isTableDataEntry"></lib-track-ui>
+       <ng-container *ngTemplateOutlet="TextAreaTemplate;"></ng-container>
+       <lib-lockicon-exe [selectedElement]="stepObject"></lib-lockicon-exe>
+    </div>
+  </div>
+</ng-container>
+<ng-container *ngIf="stepObject?.isTableDataEntry">
+  <div class="col-md-12 col-lg-12 pl-0 pr-0 pb-1" >
+    <div class="row" >
+      <ng-container [ngTemplateOutlet]="sideTemplate" [ngTemplateOutletContext]="{$implicit: 'left'}"></ng-container>
+      <div class="ds-flex" [ngClass]="{'col-xs-12 col-sm-12' :!stepObject?.showLabel, 'col-xs-6 col-sm-6 pl-2' :stepObject?.showLabel }">
+      <ng-container *ngTemplateOutlet="TextAreaTemplate;"></ng-container>
+      <div class="feedback__btn" style="padding-right: 20px;" (click)="pasteData()"
+      *ngIf="executionService?.selectedNewEntry?.dgUniqueID == stepObject?.dgUniqueID && executionService.wordData.length > 0"><i class="fa fa-paste"></i>
+       </div>
+      <lib-lockicon-exe [selectedElement]="stepObject"></lib-lockicon-exe>
+      </div>
+      <ng-container [ngTemplateOutlet]="sideTemplate"
+       [ngTemplateOutletContext]="{$implicit: 'right'}">
+      </ng-container>
+    </div>
+  </div>
+</ng-container>
+<ng-template #sideTemplate let-type>
+  <div *ngIf="stepObject?.showLabel && stepObject?.labelSide === type"
+  [ngClass]="{'pr-0 col-xs-6 col-sm-6' :stepObject?.showLabel }">
+    <p [ngStyle]="styleObject" class="align-text"
+    id="stepAno{{stepObject.dgUniqueID}}"
+    (click)="cbpService.handleSelection( $event, stepObject,  'showLablePrompt' )"
+    [innerHTML]="stepObject.showLablePrompt | innerhtml"></p>
+  </div>
+</ng-template>

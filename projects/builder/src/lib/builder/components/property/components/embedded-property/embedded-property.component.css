@@ -1,0 +1,19 @@
+label {
+    margin-bottom: 2px!important;
+    color: #212529;
+    font-weight: 400;
+}
+.scroll-rs{
+    overflow-x: hidden;
+    overflow-y: auto; 
+    height: 100vh; 
+    padding-bottom: 200px;
+}
+.btn-outline-secondary {
+    color: #555!important;
+    background-image: none!important;
+    background-color: #eaf6ff!important;
+    border-color: #d4d4d4!important;
+    margin-right: 6px;
+    margin-bottom: 5px;
+}

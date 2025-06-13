@@ -1,0 +1,44 @@
+.background-step {
+    padding: 10px;
+    background: #5581c2;
+    color: #fff;
+    border-radius: 2px;
+}
+.heading-column{
+    padding: 10px;
+    font-size: 14px;
+    background: #5480c2;
+    color: #fff !important;
+    margin-bottom: 0px !important;
+}
+.indexColor{
+  background: #5480c2 !important;
+  color: #eaf6ff !important;
+}
+.firstrow{
+  word-wrap:break-word;margin-top: 2px; cursor: pointer;
+}
+
+/* PRODFIX-1192 */
+.leftZero {
+  padding-right: 15px;
+  padding-left: 6px;
+}
+.leftAndrightCu {
+  padding-right: 30px;
+  padding-left: 0px;
+}
+/* PRODFIX-1192 end */
+
+/* PRODFIX-1193 */
+.additionalFlex{
+  display: flex;
+  align-items: center;
+}
+/* PRODFIX-1193 end */
+.pad-b1{
+  overflow-y: auto !important;
+}
+/* PRODFIX-1669 */
+label.flexAlign {display: flex;align-items: center;}
+/* PRODFIX-1669 End*/

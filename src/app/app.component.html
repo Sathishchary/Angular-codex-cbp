@@ -1,0 +1,11 @@
+<!-- Page View Enable-->
+<app-pageview   *ngIf="pageViewEnabled" [userApi]="userAPIInfo"></app-pageview>
+<!-- wrapper View Enable-->
+<app-wrapper-view (cbpEditorOpen)="setCBP($event)" *ngIf="wrapperViewEnabled"></app-wrapper-view>
+<!-- mobile View Enable-->
+<app-mobile-executor *ngIf="mobileViewEnabled"></app-mobile-executor>
+<!-- ewp wrapper View Enable-->
+<router-outlet *ngIf="ewpWrapperViewEnabled"></router-outlet>
+
+<app-cbp-editor *ngIf="cbpEditor" (openexecuter)="setCBP($event)"></app-cbp-editor>
+<!-- <app-table-demo></app-table-demo> -->

@@ -1,0 +1,277 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px', fullScreenBackdrop:false}"> </ngx-loading>
+<div class="modal" id="verification" [class.hide]="signatureEnabled" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <lib-modal-popup [title]="verificationType === dgType.VerificationDataEntry ? 'Verification' :
+          (verificationType === dgType.SkipVerification ? 'Skip Verification' : 'Undo Authorization')"
+          (closeEvent)="close()"
+          [footerList]="footerList"
+          (submitButtons)="$event.type=== 'Save' && saveVerification(); $event.type=== 'Cancel' && close();">
+          <div class="modal-body" style="height:500px;overflow-x:hidden;overflow-y:scroll;">
+              <div class="card p-2">
+                  <div class="col-md-12 col-lg-12">
+                      <div class="row">
+                          <div class="col-lg-4 col-md-4 col-sm-4  pl-0">
+                              <label>Type</label>
+                              <input type="text" disable *ngIf="dgType.VerificationDataEntry === verificationType" class="form-control" value="{{verification?.VerificationType}}">
+                              <input type="text" disable *ngIf="dgType.VerificationDataEntry !== verificationType" class="form-control" value="{{verificationType}}">
+                          </div>
+                          <div class="col-md-8 col-lg-8 col-sm-8 pl-0 pr-0">
+                              <label>Title</label>
+                              <input type="text" disable [value]="verificationForm.title ? verificationForm.title : ''" name="title" class="form-control" placeholder="" required="">
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="card px-2 pt-0 mt-2">
+                  <div class="col-md-12 col-lg-12 pt-2 pb-2 pl-0">
+                      <div class="row">
+                          <div class="col-lg-6 col-md-6 col-sm-6 pt-0 ">
+                              <label>Saved User</label>
+                             <select class="form-control" [(ngModel)]="selectedSavedUser" (change)="getSelectedUserInfo($event, verificationForm.title)" name="users">
+                                  <option value="List of Saved User" disabled>List of Saved User</option>
+                                  <ng-container *ngFor ="let obj of verificationUsers">
+                                    <option *ngIf="obj?.isHtmlText"  [innerHtml]="obj.name | innerhtml" [value]="obj.name"></option>
+                                    <option *ngIf="!obj?.isHtmlText" [value]="obj.name">{{obj?.name}}</option>
+                                  </ng-container>
+                              </select>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
+              <div class="col-md-12 col-lg-12 pl-0 pt-2 pr-0">
+                  <div class="#">
+                      <ul class="nav nav-tabs">
+                          <li class="nav-item"><a (click)="verificationForm.loginType = 'login'; setTabType();"
+                              class="nav-link" [ngClass]="{' active show': verificationForm.loginType === 'login'}"
+                                data-toggle="tab" href="#Home-withicon1"><i class="fa fa-user"></i> Login</a></li>
+                          <li class="nav-item"><a (click)="verificationForm.loginType = 'signature'; setTabType();"
+                                class="nav-link" [ngClass]="{' active show': verificationForm.loginType === 'signature'}"
+                                data-toggle="tab" href="#Profile-withicon1"><i class="fa fa-pencil"></i>&nbsp;Signature</a></li>
+                          <li class="nav-item"><a class="nav-link" (click)="verificationForm.loginType = 'code'; setTabType();"
+                              [ngClass]="{' active show': verificationForm.loginType === 'code'}"
+                                data-toggle="tab" href="#Profile-withicon2"><i class="fa fa-code"></i>&nbsp;Code</a></li>
+                      </ul>
+                      <div class="tab-content tab-bg ">
+                          <div class="tab-pane"
+                          [ngClass]="{' active show': verificationForm.loginType === 'login'}"
+                            id="Home-withicon1">
+                              <div class="col-md-12 col-lg-12 pl-0" *ngIf="verificationForm.loginType === 'login'">
+                                  <div class="row">
+                                      <div class="col-lg-4 col-md-4 col-sm-4 pr-0">
+                                          <label>User Id</label>
+                                          <span class="req"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                          <input type="text" id="userId" [(ngModel)]="verificationForm.userId" autocomplete="new-something"  class="form-control" placeholder="" required="">
+                                      </div>
+                                      <div *ngIf="false" class="col-lg-1 col-md-1 pl-2 pr-0" style="padding-top:30px;">
+                                          <button (click)="triggerScanevent(verificationForm)" *ngIf="isTablet" class="btn btn-outline-secondary btn-sm button-border" style=" padding: 4px !important;" type="button" >
+                                        <i class=" fa fa-camera">&nbsp;Scan</i></button>
+                                      </div>
+                                      <div class="col-lg-2 col-md-2 pl-2 col-sm-2 pr-0" style="padding-top:20px;">
+                                          <button class="btn btn-outline-secondary btn-sm button-border" type="button" >Scan</button>
+                                      </div>
+                                      <!-- <div class="col-lg-4 col-md-4 col-sm-4 pr-0">
+                                          <label>Password</label>
+                                          <input type="password" id="password" [(ngModel)]="verificationForm.password" autocomplete="new-somthing"  name="pwd" class="form-control"
+                                            placeholder="" required="" >
+                                      </div> -->
+                                      <form #formRef="ngForm" novalidate>
+                                        <div class="col-lg-12 col-md-12 col-sm-12 pr-0">
+                                          <label>Password</label>
+                                          <span class="req"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                          <input type="password" id="password" [(ngModel)]="verificationForm.password"
+                                            name="pwd" class="form-control"  placeholder=""
+                                            autocomplete="new-password" required
+                                          />
+                                        </div>
+                                      </form>
+                                      <div class="col-lg-2 col-md-2 pl-2 pr-0 col-sm-2" style="padding-top:20px;">
+                                          <button class="btn btn-outline-secondary btn-sm button-border"
+                                          [disabled]="!verificationForm.password && !verificationForm.userId" type="button"
+                                          (click)="validationCheck(verificationForm.userId,verificationForm.password,false)">Login</button>
+                                      </div>
+                                      <div class="col-md-12 col-lg-5 col-sm-12 pt-2 pr-0">
+                                            <label> Reviewer / Approver Name</label>
+                                            <span class="req"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                            <input [readonly]="true" type="text" [(ngModel)]="verificationForm.verificationproperty.loginName"
+                                                autocomplete="off" name="name" class="form-control" placeholder="" required="true">  
+                                      </div>
+                                      <div class="col-md-12 col-lg-12 pr-0 pt-2">
+                                          <label>Notes</label>
+                                          <textarea name="www.dataglance.com" [(ngModel)]="verificationForm.verificationproperty.loginNotes" name="notes" class="form-control"
+                                          rows="2" cols="30" required=""> </textarea>
+                                      </div>
+                                      <div class="col-md-12 col-lg-12 pt-2">
+                                          <div class="row">
+                                              <div class="col-lg-6 col-md-6 pr-0 dp-flex">
+                                                  <label class="checkbox-inline flexAlign">
+                                              <input  type="checkbox"  [(ngModel)]="verificationForm.verificationproperty.loginSaveInfo" (change)="selectSaveVerificatin($event)"
+                                              name="title" value=""><span class="save-user">&nbsp;&nbsp;Save for next verification</span></label>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="tab-pane"   [ngClass]="{' active show': verificationForm.loginType === 'signature'}"
+                          id="Profile-withicon1">
+                              <div class="col-md-12 col-lg-12  pr-0">
+                                  <div class="row">
+                                      <div class="col-md-12 col-lg-12 pl-0" *ngIf="verificationForm.loginType === 'signature'">
+                                          <div class="col-md-12 col-lg-12 pl-0 pt-0">
+                                              <label>Signature</label>
+                                              <span class="req"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                          </div>
+                                          <div class="col-md-12 col-lg-12">
+                                              <div class="row">
+                                                  <div class="col-md-5 col-lg-5 pl-0 pr-0 pt-2" *ngIf="setSignatureAgain">
+                                                    <fieldset class="fieldSet fieldset_styles" (click)="getSignatureData(verificationForm, 'signature');">
+                                                        <img *ngIf="signatureValue" [src]="signatureValue" style="height: 50px; width:100%;" alt="">
+                                                    </fieldset>
+                                                  </div>
+                                                  <!-- <div class="col-md-2 col-lg-2 pt-2 pr-0">
+                                                      <fieldset class="fieldSet fieldset_styles" (click)="getSignatureData(verificationForm, 'initial');">
+                                                        <img *ngIf="initialValue" 
+                                                        [src]="initialValue"
+                                                        style="height: 50px; width:100%;" alt="">
+                                                      </fieldset>
+                                                  </div> -->
+                                              </div>
+                                             <div class="row">
+                                                <div class="col-lg-5 col-md-5 pr-0 pt-2 pl-0">
+                                                    <label>Reviewer / Approver Name</label>
+                                                    <ng-container *ngTemplateOutlet="dynamicInput; context: { $implicit: reviewerName, update: updateUserInfo.bind(this,'reviewerName'), stepObject: userNameStep, placeholder: 'Enter User Name', isRequired:executionService.authenticatorConfig?.verification?.username_is_required == 1 , isReadOnly:(reviewerName && verificationForm.authenticator && verificationForm.authenticatorreviewerName) || reviewerNameEditable == 0, 
+                                                    editorVar:'userNameEditorOpened',editorOpenedAtr:userNameEditorOpened,modelName:'reviewerName',isNotes:false,isDisable:(reviewerName && verificationForm.authenticator && verificationForm.authenticatorreviewerName) || reviewerNameEditable == 0}"></ng-container>
+                                                  </div>
+                                                  <div class="col-lg-5 col-md-5 pr-0 pt-2">
+                                                    <label>User Id</label>
+                                                    <ng-container *ngTemplateOutlet="dynamicInput; context: { $implicit: reviewerUserId, update: updateUserInfo.bind(this,'reviewerUserId'), stepObject: userIdStep, placeholder: 'Enter User ID',
+                                                     isRequired:executionService.authenticatorConfig?.verification?.username_is_required == 1 ,
+                                                    isReadOnly:(reviewerUserId && verificationForm.authenticator && verificationForm.authenticatoruserId) || reviewerUserIdEditable == 0,
+                                                     editorVar:'userIdEditorOpened',editorOpenedAtr:userIdEditorOpened,modelName:'reviewerUserId',
+                                                     isDisable:(reviewerUserId && verificationForm.authenticator && verificationForm.authenticatoruserId) || reviewerUserIdEditable == 0,isNotes:false}"></ng-container>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <div class="col-md-12 col-lg-12 pl-0 pt-2 pr-0">
+                                              <label>Notes</label>
+                                              <ng-container *ngIf="verificationForm?.verificationproperty">
+                                              <ng-container *ngTemplateOutlet="dynamicInput; context: { $implicit: verificationForm?.verificationproperty?.signatureNotes, update: updateUserInfo.bind(this,'signatureNotes'), stepObject: commentStep, placeholder: 'Enter Notes',
+                                               isRequired:false , isReadOnly:false, editorVar:'userNotesEditorOpened',editorOpenedAtr:userNotesEditorOpened,modelName:'signatureNotes',isNotes:true,isDisable:false}"></ng-container>
+                                              </ng-container>
+                                          </div>
+                                          <div class="col-md-12 col-lg-12 pl-0 pt-2">
+                                              <div class="row">
+                                                  <div class="col-lg-6 col-md-6 pr-0 dp-flex ">
+                                                  <label class="checkbox-inline flexAlign">
+                                                  <input  type="checkbox"  *ngIf="verificationForm?.verificationproperty" [(ngModel)]="verificationForm.verificationproperty.signatureSaveInfo" (change)="selectSaveVerificatin($event)"
+                                                  name="title" value=""><span class="save-user">&nbsp;&nbsp;Save for next verification</span></label>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="tab-pane"   [ngClass]="{' active show': verificationForm.loginType === 'code'}"
+                          id="Profile-withicon2">
+                              <div class="col-md-12 col-lg-12 pl-0" *ngIf="verificationForm.loginType === 'code'">
+                                  <div class="row">
+                                      <div class="col-lg-4 col-md-4 col-sm-4 pr-0">
+                                          <label>Employee Id / User Id</label>
+                                          <span class="req"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                          <input [(ngModel)]="verificationForm.empId" name="title" type="text" class="form-control"
+                                          autocomplete="off" placeholder="" required="">
+                                      </div>
+                                      <div *ngIf="isTablet" class="col-lg-2 col-md-2  pl-2 pr-0" style="padding-top:30px;">
+                                          <button (click)="triggerCodeScanevent(verificationForm)" class="btn btn-outline-secondary btn-sm button-border" style=" padding: 4px !important;" type="button" ><i class=" fa fa-camera">&nbsp;Scan</i></button>
+                                      </div>
+                                      <div class="col-lg-2 col-md-2 col-sm-2 pl-2 pr-0" style="padding-top:20px;">
+                                          <button class="btn btn-outline-secondary btn-sm button-border" type="button" >Scan</button>
+                                      </div>
+                                      <div class="col-lg-4 col-md-4 col-sm-4 pr-0 disable">
+                                          <label> Code</label>
+                                          <span class="req"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                          <input [(ngModel)]="verificationForm.code" name="namet" type="text" class="form-control"
+                                          autocomplete="off" placeholder="" required="">
+                                      </div>
+                                      <div class="col-lg-2 col-md-2 col-sm-2 pl-2 pr-0 " style="padding-top:20px;">
+                                          <button (click)="validationCheck(verificationForm.userId,verificationForm.password,true)" class="btn btn-outline-secondary btn-sm button-border" type="button" >Login</button>
+                                      </div>
+                                      <div class="col-md-12 col-lg-12  pt-2 pr-0">
+                                          <div class="row">
+                                              <div class="col-lg-5 col-md-12 col-sm-12">
+                                                  <label> Reviewer / Approver Name</label>
+                                                  <span class="req"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                                  <input type="text" [(ngModel)]="verificationForm.verificationproperty.codeName"
+                                                  autocomplete="off" name="name" class="form-control" placeholder="" required="true" [readonly]="true">
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="col-md-12 col-lg-12 pt-2 pr-0">
+                                          <label>Notes</label>
+                                          <textarea name="www.dataglance.com" [(ngModel)]="verificationForm.verificationproperty.codeNotes"
+                                           name="notes" class="form-control" rows="2" cols="30" required=""> </textarea>
+                                      </div>
+                                      <div class="col-md-12 col-lg-12 pt-2">
+                                          <div class="row">
+                                              <div class="col-lg-6 col-md-6 pr-0 dp-flex ">
+                                              <label class="checkbox-inline flexAlign">
+                                              <input  type="checkbox"  [(ngModel)]="verificationForm.verificationproperty.codeSaveInfo" (change)="selectSaveVerificatin($event)"
+                                              name="title" value=""><span class="save-user">&nbsp;&nbsp;Save for next verification</span></label>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          </lib-modal-popup>
+        </div>
+    </div>
+</div>
+<notifier-container></notifier-container>
+
+<ng-template #dynamicInput let-modelVariableName="modelVariableName" let-update="update" let-stepObject="stepObject"
+  let-isRequired="isRequired" let-placeholder="placeholder" let-isReadOnly="isReadOnly"
+  let-editorOpenedAtr="editorOpenedAtr" let-modelName="modelName" let-isNotes="isNotes" let-editorVar="editorVar" let-isDisable="isDisable">
+  <span *ngIf="isRequired" class="req"> <i class="fa fa-star"></i></span>
+  <div>
+    <!-- Text Input -->
+    <ng-container *ngIf="isNotes && !stepObject?.isHtmlView">
+      <textarea name="www.dataglance.com" [ngModel]="getValue(modelName)"  [placeholder]="placeholder"
+        (ngModelChange)="update($event,modelVariableName)" name="Comment" class="form-control" rows="2" cols="30"
+        required=""> </textarea>
+    </ng-container>
+  <ng-container *ngIf="!isNotes">
+      <input *ngIf="!stepObject?.isHtmlView" type="text" class="form-control form-control-height"
+        [placeholder]="placeholder" name="textDataEntry{{stepObject?.dgUniqueID}}" [class.dis-cols] ="isDisable"
+        id="{{modelName}}{{stepObject?.dgUniqueID}}" [ngModel]="getValue(modelName)"
+        (ngModelChange)="update($event,modelVariableName);updateSignatureFooterList()" [readonly]="isReadOnly" />
+    </ng-container>
+
+    <!-- Rich Text Area or View Mode -->
+    <ng-container *ngIf="stepObject?.isHtmlView">
+      <div *ngIf="(!executionService.isPopupOpened) && editorOpenedAtr; else textUserView"
+        id="{{modelName}}{{stepObject?.dgUniqueID}}" [ngClass]="{'black': stepObject?.isTableDataEntry}"
+        style="margin-top:-6px">
+        <lib-text-editor [hidePopup]="true" [input]="getValue(modelName)" [stepObject]="stepObject"
+          [foreColor]="cbpService.documentInfo?.color" [config]="isNotes ? notesConfig : userConfig"
+          (updateTitle)="update($event,modelVariableName)" [signatureConfig] ="'verificationStyles'"
+          (close)="update($event,modelVariableName); saveSignatureUserInfo(stepObject, $event, editorVar)"
+          (mouseOutEvent)="openOrCloseEditor(editorVar,false)"
+          (blur)="saveSignatureUserInfo(stepObject, $event,editorVar)"></lib-text-editor>
+      </div>
+     <ng-template #textUserView>
+        <div style="display: flex;">
+          <div [class.dis-cols]="isDisable || isReadOnly" class="form-control hiddens textOverflowControl" (click)="!isReadOnly && openOrCloseEditor(editorVar,true)"
+            [ngClass]="{ 'notes-height': isNotes }" [innerHtml]="getValue(modelName) | innerhtml" id="{{modelName}}{{stepObject?.dgUniqueID}}"></div>
+        </div>
+      </ng-template>
+    </ng-container>
+  </div>
+</ng-template>

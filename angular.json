@@ -1,0 +1,316 @@
+{
+    "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+    "cli": {
+        "analytics": "31841f12-a8a2-4e94-ad86-4b09aa7f0945"
+    },
+    "version": 1,
+    "newProjectRoot": "projects",
+    "projects": {
+        "Dataglance-Executor": {
+            "projectType": "application",
+            "schematics": {
+                "@schematics/angular:application": {
+                    "strict": true
+                }
+            },
+            "root": "",
+            "sourceRoot": "src",
+            "prefix": "app",
+            "architect": {
+                "build": {
+                    "builder": "@angular-devkit/build-angular:browser",
+                    "options": {
+                        "outputPath": "dist/Dataglance-Executor",
+                        "index": "src/index.html",
+                        "main": "src/main.ts",
+                        "polyfills": "src/polyfills.ts",
+                        "tsConfig": "tsconfig.app.json",
+                        "allowedCommonJsDependencies": [
+                            "dist/executer-v2",
+                            "dist/builder",
+                            "dist/validation-routien",
+                            "dist/dg-shared"
+                        ],
+                        "assets": [
+                            "src/data/packages",
+                            "src/data",
+                            "src/favicon.ico",
+                            "src/assets/images",
+                            "src/assets/environment",
+                            "src/assets/cbp/images",
+                            "src/assets/cbp/js",
+                            "src/assets/cbp/json",
+                            "src/assets/cbp/antlr4",
+                            "src/assets/cbp/parser",
+                            "src/assets/external",
+                            "src/data/ework/validation-routiens",
+                            "src/assets/client-config"
+                        ],
+                        "styles": [
+                            "node_modules/bootstrap/dist/css/bootstrap.css",
+                            "src/assets/emedia/vendor/font-awesome/css/font-awesome.scss",
+                            "src/assets/emedia/vendor/parsleyjs/css/parsley.css",
+                            "src/assets/emedia/css/color_skins.css",
+                            "src/assets/emedia/css/sweetalert2.css",
+                            "node_modules/angular-notifier/styles/core.css",
+                            "node_modules/angular-notifier/styles/themes/theme-material.css",
+                            "node_modules/angular-notifier/styles/types/type-default.css",
+                            "node_modules/angular-notifier/styles/types/type-info.css",
+                            "node_modules/angular-notifier/styles/types/type-error.css",
+                            "node_modules/angular-notifier/styles/types/type-success.css",
+                            "node_modules/angular-notifier/styles/types/type-warning.css",
+                            "src/assets/emedia/vendor/morrisjs/morris.css",
+                            "src/assets/cbp/css/jstree.min.css",
+                            "src/assets/cbp/css/flatpicker.css",
+                            "src/assets/cbp/image-editor/css/tui-color-picker.css",
+                            "src/assets/cbp/image-editor/js/tui-image-editor.css",
+                            "node_modules/lightgallery.js/dist/css/lightgallery.css",
+                            "node_modules/lightgallery.js/dist/css/lg-transitions.min.css",
+                            "src/assets/emedia/css/main.min.css",
+                            "src/styles.css",
+                            "src/assets/cbp/css/resizable.scss"
+                        ],
+                        "scripts": [
+                            "node_modules/jquery/dist/jquery.js",
+                            "node_modules/bootstrap/dist/js/bootstrap.js",
+                            "src/assets/emedia/vendor/parsleyjs/js/parsley.min.js",
+                            "node_modules/sweetalert2/dist/sweetalert2.all.min.js",
+                            "src/assets/cbp/js/jstree.min.js",
+                            "src/assets/cbp/js/jszip.js",
+                            "src/assets/cbp/js/require.js",
+                            "src/assets/cbp/image-editor/js/fabric-v4.2.0.js",
+                            "src/assets/cbp/image-editor/js/tui-code-snippet.min.js",
+                            "src/assets/cbp/image-editor/js/tui-color-picker.js",
+                            "src/assets/cbp/image-editor/js/tui-image-editor.js",
+                            "src/assets/cbp/image-editor/js/theme/white-theme.js",
+                            "node_modules/lightgallery.js/dist/js/lightgallery.js"
+                        ]
+                    },
+                    "configurations": {
+                        "production": {
+                            "budgets": [
+                                {
+                                    "type": "initial",
+                                    "maximumWarning": "2mb",
+                                    "maximumError": "10mb"
+                                },
+                                {
+                                    "type": "anyComponentStyle",
+                                    "maximumWarning": "2kb",
+                                    "maximumError": "4kb"
+                                }
+                            ],
+                            "fileReplacements": [
+                                {
+                                    "replace": "src/environments/environment.ts",
+                                    "with": "src/environments/environment.prod.ts"
+                                }
+                            ],
+                            "outputHashing": "all"
+                        },
+                        "development": {
+                            "buildOptimizer": false,
+                            "optimization": false,
+                            "vendorChunk": true,
+                            "extractLicenses": false,
+                            "sourceMap": true,
+                            "namedChunks": true
+                        }
+                    },
+                    "defaultConfiguration": "production"
+                },
+                "serve": {
+                    "builder": "@angular-devkit/build-angular:dev-server",
+                    "configurations": {
+                        "production": {
+                            "browserTarget": "Dataglance-Executor:build:production"
+                        },
+                        "development": {
+                            "browserTarget": "Dataglance-Executor:build:development"
+                        }
+                    },
+                    "defaultConfiguration": "development"
+                },
+                "extract-i18n": {
+                    "builder": "@angular-devkit/build-angular:extract-i18n",
+                    "options": {
+                        "browserTarget": "Dataglance-Executor:build"
+                    }
+                },
+                "test": {
+                    "builder": "@angular-devkit/build-angular:karma",
+                    "options": {
+                        "main": "src/test.ts",
+                        "polyfills": "src/polyfills.ts",
+                        "tsConfig": "tsconfig.spec.json",
+                        "karmaConfig": "karma.conf.js",
+                        "assets": [
+                            "src/favicon.ico",
+                            "src/assets"
+                        ],
+                        "styles": [
+                            "src/styles.css"
+                        ],
+                        "scripts": []
+                    }
+                }
+            }
+        },
+        "builder": {
+            "projectType": "library",
+            "root": "projects/builder",
+            "sourceRoot": "projects/builder/src",
+            "prefix": "lib",
+            "architect": {
+                "build": {
+                    "builder": "@angular-devkit/build-angular:ng-packagr",
+                    "options": {
+                        "project": "projects/builder/ng-package.json"
+                    },
+                    "configurations": {
+                        "production": {
+                            "tsConfig": "projects/builder/tsconfig.lib.prod.json"
+                        },
+                        "development": {
+                            "tsConfig": "projects/builder/tsconfig.lib.json"
+                        }
+                    },
+                    "defaultConfiguration": "production"
+                },
+                "test": {
+                    "builder": "@angular-devkit/build-angular:karma",
+                    "options": {
+                        "main": "projects/builder/src/test.ts",
+                        "tsConfig": "projects/builder/tsconfig.spec.json",
+                        "karmaConfig": "projects/builder/karma.conf.js"
+                    }
+                }
+            }
+        },
+        "executer-v2": {
+            "projectType": "library",
+            "root": "projects/executer-v2",
+            "sourceRoot": "projects/executer-v2/src",
+            "prefix": "lib",
+            "architect": {
+                "build": {
+                    "builder": "@angular-devkit/build-angular:ng-packagr",
+                    "options": {
+                        "project": "projects/executer-v2/ng-package.json"
+                    },
+                    "configurations": {
+                        "production": {
+                            "tsConfig": "projects/executer-v2/tsconfig.lib.prod.json"
+                        },
+                        "development": {
+                            "tsConfig": "projects/executer-v2/tsconfig.lib.json"
+                        }
+                    },
+                    "defaultConfiguration": "production"
+                },
+                "test": {
+                    "builder": "@angular-devkit/build-angular:karma",
+                    "options": {
+                        "main": "projects/executer-v2/src/test.ts",
+                        "tsConfig": "projects/executer-v2/tsconfig.spec.json",
+                        "karmaConfig": "projects/executer-v2/karma.conf.js"
+                    }
+                }
+            }
+        },
+        "defaultProject": "Dataglance-Executor",
+        "validation-routien": {
+            "projectType": "library",
+            "root": "projects/validation-routien",
+            "sourceRoot": "projects/validation-routien/src",
+            "prefix": "lib",
+            "architect": {
+                "build": {
+                    "builder": "@angular-devkit/build-angular:ng-packagr",
+                    "options": {
+                        "project": "projects/validation-routien/ng-package.json"
+                    },
+                    "configurations": {
+                        "production": {
+                            "tsConfig": "projects/validation-routien/tsconfig.lib.prod.json"
+                        },
+                        "development": {
+                            "tsConfig": "projects/validation-routien/tsconfig.lib.json"
+                        }
+                    },
+                    "defaultConfiguration": "production"
+                },
+                "test": {
+                    "builder": "@angular-devkit/build-angular:karma",
+                    "options": {
+                        "main": "projects/validation-routien/src/test.ts",
+                        "tsConfig": "projects/validation-routien/tsconfig.spec.json",
+                        "karmaConfig": "projects/validation-routien/karma.conf.js"
+                    }
+                }
+            }
+        },
+        "cbp-shared": {
+            "projectType": "library",
+            "root": "projects/cbp-shared",
+            "sourceRoot": "projects/cbp-shared/src",
+            "prefix": "lib",
+            "architect": {
+                "build": {
+                    "builder": "@angular-devkit/build-angular:ng-packagr",
+                    "options": {
+                        "project": "projects/cbp-shared/ng-package.json"
+                    },
+                    "configurations": {
+                        "production": {
+                            "tsConfig": "projects/cbp-shared/tsconfig.lib.prod.json"
+                        },
+                        "development": {
+                            "tsConfig": "projects/cbp-shared/tsconfig.lib.json"
+                        }
+                    },
+                    "defaultConfiguration": "production"
+                },
+                "test": {
+                    "builder": "@angular-devkit/build-angular:karma",
+                    "options": {
+                        "main": "projects/cbp-shared/src/test.ts",
+                        "tsConfig": "projects/cbp-shared/tsconfig.spec.json",
+                        "karmaConfig": "projects/cbp-shared/karma.conf.js"
+                    }
+                }
+            }
+        },
+        "dg-shared": {
+            "projectType": "library",
+            "root": "projects/dg-shared",
+            "sourceRoot": "projects/dg-shared/src",
+            "prefix": "lib",
+            "architect": {
+                "build": {
+                    "builder": "@angular-devkit/build-angular:ng-packagr",
+                    "options": {
+                        "project": "projects/dg-shared/ng-package.json"
+                    },
+                    "configurations": {
+                        "production": {
+                            "tsConfig": "projects/dg-shared/tsconfig.lib.prod.json"
+                        },
+                        "development": {
+                            "tsConfig": "projects/dg-shared/tsconfig.lib.json"
+                        }
+                    },
+                    "defaultConfiguration": "production"
+                },
+                "test": {
+                    "builder": "@angular-devkit/build-angular:karma",
+                    "options": {
+                        "main": "projects/dg-shared/src/test.ts",
+                        "tsConfig": "projects/dg-shared/tsconfig.spec.json",
+                        "karmaConfig": "projects/dg-shared/karma.conf.js"
+                    }
+                }
+            }
+        }
+    }
+}
