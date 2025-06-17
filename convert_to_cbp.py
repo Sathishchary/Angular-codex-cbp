@@ -1,5 +1,4 @@
 import argparse
-import datetime
 import json
 import os
 import re
@@ -122,6 +121,26 @@ def _create_step_action(number: str, text: str, uid: int) -> dict:
     }
 
 
+def _create_alert(alert_type: str, text: str, uid: int) -> dict:
+    """Create an alert object based on Alert models."""
+    base = {
+        'number': '',
+        'dgUniqueID': str(uid),
+        'dgType': alert_type,
+        'type': alert_type,
+        'dataType': alert_type.lower(),
+        'isDataEntry': False,
+    }
+
+    if alert_type == 'Warning' or alert_type == 'Caution':
+        base.update({'cause': text, 'effect': ''})
+    elif alert_type == 'Note':
+        base.update({'note': text, 'notes': [text]})
+    elif alert_type == 'Alara':
+        base.update({'note': text, 'alaraNotes': [text]})
+    return base
+
+
 def build_cbp_json(paragraphs):
     """Convert document paragraphs into a structured cbp.json."""
     cbp = {'section': []}
@@ -131,10 +150,14 @@ def build_cbp_json(paragraphs):
 
     section_re = re.compile(r'^(\d+\.0)\s*(.*)')
     step_re = re.compile(r'(?:^\[(\d+(?:\.\d+)+)\]|^(\d+\.\d+(?:\.\d+)*))')
+    alert_re = re.compile(r'^(NOTE[S]?|WARNING|CAUTION|ALARA)[:\s]*(.*)$', re.I)
 
-    for para in paragraphs:
-        para = para.strip()
+    i = 0
+    last_step = None
+    while i < len(paragraphs):
+        para = paragraphs[i].strip()
         if not para:
+            i += 1
             continue
 
         m = section_re.match(para)
@@ -144,6 +167,8 @@ def build_cbp_json(paragraphs):
             uid += 1
             cbp['section'].append(current_section)
             step_lookup = {}
+            last_step = None
+            i += 1
             continue
 
         m = step_re.match(para)
@@ -158,12 +183,44 @@ def build_cbp_json(paragraphs):
                 step_lookup[parent_number]['children'].append(step)
             elif current_section:
                 current_section['children'].append(step)
+            last_step = step
+            i += 1
+            continue
+
+        m = alert_re.match(para)
+        if m:
+            tag, inline_text = m.group(1).upper(), m.group(2).strip()
+            alert_type = {'NOTE': 'Note', 'NOTES': 'Note',
+                          'WARNING': 'Warning', 'CAUTION': 'Caution',
+                          'ALARA': 'Alara'}[tag]
+            text_lines = []
+            if inline_text:
+                text_lines.append(inline_text)
+                i += 1
+            else:
+                i += 1
+                while i < len(paragraphs):
+                    nxt = paragraphs[i].strip()
+                    if (not nxt or section_re.match(nxt) or step_re.match(nxt)
+                            or alert_re.match(nxt)):
+                        break
+                    text_lines.append(nxt)
+                    i += 1
+            alert_text = ' '.join(text_lines).strip()
+            alert = _create_alert(alert_type, alert_text, uid)
+            uid += 1
+            if last_step:
+                last_step['children'].append(alert)
+            elif current_section:
+                current_section['children'].append(alert)
             continue
 
         if current_section:
             step = _create_step_action('', para, uid)
             uid += 1
             current_section['children'].append(step)
+            last_step = step
+        i += 1
 
     return cbp
 
