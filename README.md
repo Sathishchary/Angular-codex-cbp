@@ -25,3 +25,13 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+## Converting documents to cbp.json
+
+The repository provides a small Python script (`convert_to_cbp.py`) that converts DOCX and PDF files into a simplified `cbp.json` format.
+
+```
+python3 convert_to_cbp.py <input.docx|input.pdf> output.json
+```
+
+PDF support requires the optional `pdfminer.six` package.
