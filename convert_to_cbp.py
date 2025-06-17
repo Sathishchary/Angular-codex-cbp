@@ -2,6 +2,7 @@ import argparse
 import datetime
 import json
 import os
+import re
 import zipfile
 import xml.etree.ElementTree as ET
 
@@ -35,34 +36,135 @@ def parse_pdf(path: str):
     return paragraphs
 
 
+def _security() -> dict:
+    """Return default security object used by Section and StepAction."""
+    return {
+        'Role': [],
+        'Qualification': [],
+        'QualificationGroup': []
+    }
+
+
+def _create_section(number: str, title: str, uid: int) -> dict:
+    """Create a section object mirroring Section model defaults."""
+    return {
+        'text': '',
+        'children': [],
+        'id': '',
+        'number': number,
+        'dgSequenceNumber': number,
+        'title': title,
+        'numberedChildren': True,
+        'dgUniqueID': str(uid),
+        'dgType': 'Section',
+        'type': 'Section',
+        'numberedSteps': True,
+        'acknowledgementReqd': None,
+        'applicabilityRule': [],
+        'rule': [],
+        'ctrlKey': False,
+        'usage': 'Continuous',
+        'dependency': 'Default',
+        'configureDependency': [],
+        'dependencyChecked': False,
+        'checkboxNode': True,
+        'Security': _security(),
+        'dynamic_number': 0,
+        'dynamic_section': False,
+        'hide_section': False,
+        'selectedDgType': 'Section'
+    }
+
+
+def _create_step_action(number: str, text: str, uid: int) -> dict:
+    """Create a step action object mirroring StepAction model defaults."""
+    return {
+        'text': '',
+        'children': [],
+        'id': '',
+        'stepType': 'Simple Action',
+        'condition': None,
+        'action': '',
+        'itemType': None,
+        'actionText': text,
+        'additionalInfo': None,
+        'dgUniqueID': str(uid),
+        'criticalLocation': '',
+        'actionVerb': None,
+        'object': None,
+        'criticalSupplementalInformation': None,
+        'requiresIV': False,
+        'requiresCV': False,
+        'requiresQA': False,
+        'requiresPC': False,
+        'holdPointStart': False,
+        'holdPointEnd': False,
+        'isCritical': False,
+        'number': number,
+        'dgSequenceNumber': number,
+        'status': '',
+        'compID': None,
+        'compDescription': None,
+        'building': None,
+        'elevation': None,
+        'room': None,
+        'location': None,
+        'dgType': 'StepAction',
+        'applicabilityRule': [],
+        'rule': [],
+        'numberedChildren': True,
+        'ctrlKey': False,
+        'numberedSubSteps': True,
+        'componentInformation': [],
+        'dependencyChecked': False,
+        'checkboxNode': True,
+        'Security': _security()
+    }
+
+
 def build_cbp_json(paragraphs):
-    """Convert a list of paragraphs into a cbp.json style structure."""
-    section = {'children': []}
-    cbp = {'section': [section]}
-    now = datetime.datetime.utcnow().isoformat() + 'Z'
-    for idx, para in enumerate(paragraphs, start=1):
-        field = {
-            'fieldName': '',
-            'type': 'datapara',
-            'dataType': 'label-paragrah',
-            'multiline': 'true',
-            'text': para,
-            'dgType': 'Para',
-            'isDataEntry': False,
-            'createdBy': 'converter',
-            'createdDate': now,
-            'dgUniqueID': str(idx),
-            'level': 2,
-            'isHtmlText': False
-        }
-        child = {
-            'children': [field],
-            'number': str(idx),
-            'dgSequenceNumber': str(idx),
-            'title': f'Paragraph {idx}',
-            'level': 1
-        }
-        section['children'].append(child)
+    """Convert document paragraphs into a structured cbp.json."""
+    cbp = {'section': []}
+    current_section = None
+    step_lookup = {}
+    uid = 1
+
+    section_re = re.compile(r'^(\d+\.0)\s*(.*)')
+    step_re = re.compile(r'(?:^\[(\d+(?:\.\d+)+)\]|^(\d+\.\d+(?:\.\d+)*))')
+
+    for para in paragraphs:
+        para = para.strip()
+        if not para:
+            continue
+
+        m = section_re.match(para)
+        if m:
+            number, title = m.group(1), m.group(2).strip()
+            current_section = _create_section(number, title, uid)
+            uid += 1
+            cbp['section'].append(current_section)
+            step_lookup = {}
+            continue
+
+        m = step_re.match(para)
+        if m:
+            number = m.group(1) or m.group(2)
+            text = para[m.end(0):].strip()
+            step = _create_step_action(number, text, uid)
+            uid += 1
+            step_lookup[number] = step
+            parent_number = '.'.join(number.split('.')[:-1])
+            if parent_number and parent_number in step_lookup:
+                step_lookup[parent_number]['children'].append(step)
+            elif current_section:
+                current_section['children'].append(step)
+            continue
+
+        if current_section:
+            step = _create_step_action('', para, uid)
+            uid += 1
+            current_section['children'].append(step)
+
     return cbp
 
 
