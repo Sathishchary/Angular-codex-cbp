@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CallbackObject } from 'cbp-shared';
-// Antrl source files
-
-const antlr4 = require('src/assets/cbp/antlr4/index');
+// ANTLR4ts source files
+import { ANTLRInputStream, CommonTokenStream } from 'antlr4ts';
 const CBPLexer = require('src/assets/cbp/parser/Antlr/CBPLexer');
 const CBPParser = require('src/assets/cbp/parser/Antlr/CBPParser');
 const ExpressionVisitor = require('src/assets/cbp/parser/Antlr/ExpressionVisitor');
@@ -19,9 +18,9 @@ export class AntlrService {
   }
 
   createExpression(input:any, fieldName:any, dgUniquId:any) {
-    const chars = new antlr4.InputStream(input);
+    const chars = new ANTLRInputStream(input);
     const lexer = new CBPLexer.CBPLexer(chars);
-    const tokens = new antlr4.CommonTokenStream(lexer);
+    const tokens = new CommonTokenStream(lexer);
     const parser = new CBPParser.CBPParser(tokens);
     parser.buildParseTrees = true;
     if(fieldName && dgUniquId)
@@ -34,9 +33,9 @@ export class AntlrService {
   }
 
   executeExpression(input:any) {
-    const chars = new antlr4.InputStream(input);
+    const chars = new ANTLRInputStream(input);
     const lexer = new CBPLexer.CBPLexer(chars);
-    const tokens = new antlr4.CommonTokenStream(lexer);
+    const tokens = new CommonTokenStream(lexer);
     const parser = new CBPParser.CBPParser(tokens);
     parser.buildParseTrees = true;
     const	valueVisitor = new ValueVisitor.ValueVisitor(this.callBackObject);
