@@ -1,0 +1,8 @@
+# Python dependencies for convert_to_cbp.py script
+# This script converts DOCX and PDF files to CBP.json format for nuclear industry procedures
+
+# Required for PDF processing
+pdfminer.six>=20220524
+
+# Optional: for enhanced DOCX processing (current script uses built-in xml.etree)
+# python-docx>=0.8.11

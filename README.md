@@ -28,10 +28,33 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## Converting documents to cbp.json
 
-The repository provides a small Python script (`convert_to_cbp.py`) that converts DOCX and PDF files into a simplified `cbp.json` format.
+The repository provides a Python script (`convert_to_cbp.py`) that converts DOCX and PDF files into a structured `cbp.json` format suitable for nuclear industry procedures.
 
+### Installation
+
+Install required Python dependencies:
+
+```bash
+pip install -r requirements.txt
 ```
+
+### Usage
+
+```bash
 python3 convert_to_cbp.py <input.docx|input.pdf> output.json
 ```
 
-PDF support requires the optional `pdfminer.six` package.
+### Examples
+
+```bash
+# Convert DOCX to CBP
+python3 convert_to_cbp.py DocxCBP/MCI-0-000-PCK001.docx output.json
+
+# Convert PDF to CBP  
+python3 convert_to_cbp.py sample_nuclear_procedure.pdf output.json
+```
+
+### Dependencies
+
+- **pdfminer.six**: Required for PDF file processing
+- **Python 3.6+**: Minimum Python version required
